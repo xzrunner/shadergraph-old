@@ -8,7 +8,7 @@ extern "C"
 
 void sl_shader_mgr_create();
 void sl_shader_mgr_release();
-//struct render* sl_shader_get_render();
+struct render* sl_shader_get_render();
 
 int  sl_shader_create();
 //void sl_shader_reset();

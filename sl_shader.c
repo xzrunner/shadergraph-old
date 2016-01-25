@@ -101,10 +101,10 @@ sl_shader_mgr_release() {
 	S = NULL;
 }
 
-//struct render* 
-//sl_shader_get_render() {
-//	return S->R;
-//}
+struct render* 
+sl_shader_get_render() {
+	return S->R;
+}
 
 int 
 sl_shader_create() {
