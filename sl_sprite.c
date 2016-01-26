@@ -85,7 +85,7 @@ struct shader_state {
 	uint32_t rmap, gmap, bmap;
 
 	struct vertex* buf;
-	int buf_sz;
+	int quad_sz;
 	
 	int tex;
 	int type;
@@ -231,7 +231,7 @@ sl_sprite_load() {
 	S.bmap = 0x00ff0000;
 
 	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_COMMBINE * 4);
-	S.buf_sz = 0;
+	S.quad_sz = 0;
 	S.tex = 0;
 	S.type = TYPE_PLAIN;
 }
@@ -291,7 +291,7 @@ sl_sprite_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap) {
 
 void 
 sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
-	if (S.buf_sz > MAX_COMMBINE * 4 - 4) {
+	if (S.quad_sz >= MAX_COMMBINE) {
 		sl_sprite_commit();
 		return;
 	}
@@ -314,7 +314,7 @@ sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
 		S.type |= TYPE_MAP;
 	}
 	for (int i = 0; i < 4; ++i) {
-		struct vertex* v = &S.buf[S.buf_sz++];
+		struct vertex* v = &S.buf[S.quad_sz * 4 + i];
 		v->type = type;
 		v->pos.vx = positions[i * 2];
 		v->pos.vy = positions[i * 2 + 1];
@@ -326,52 +326,54 @@ sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
 		v->map.gmap = S.gmap;
 		v->map.bmap = S.bmap;
 	}
+	++S.quad_sz;
 }
 
 void 
 sl_sprite_commit() {
-	if (!S.buf_sz) {
+	if (S.quad_sz == 0) {
 		return;
 	}
 
 	sl_shader_set_texture(S.tex, 0);
 
+	int sz = S.quad_sz * 4;
 	if (S.type == TYPE_PLAIN) {
-		struct vertex_plain vb[S.buf_sz];
-		for (int i = 0; i < S.buf_sz; ++i) {
+		struct vertex_plain vb[sz];
+		for (int i = 0; i < sz; ++i) {
 			memcpy(&vb[i].pos, &S.buf[i].pos, sizeof(struct position));
 		}
 		sl_shader_bind(S.shader[IDX_PLAIN]);
-		sl_shader_draw(S.shader[IDX_PLAIN], vb, 4, 6);
+		sl_shader_draw(S.shader[IDX_PLAIN], vb, sz, S.quad_sz * 6);
 	} else if (S.type == TYPE_COLOR) {
-		struct vertex_color vb[S.buf_sz];
-		for (int i = 0; i < S.buf_sz; ++i) {
+		struct vertex_color vb[sz];
+		for (int i = 0; i < sz; ++i) {
 			memcpy(&vb[i].pos, &S.buf[i].pos, sizeof(struct position));
 			memcpy(&vb[i].col, &S.buf[i].col, sizeof(struct color));
 		}
 		sl_shader_bind(S.shader[IDX_COLOR]);
-		sl_shader_draw(S.shader[IDX_COLOR], vb, 4, 6);
+		sl_shader_draw(S.shader[IDX_COLOR], vb, sz, S.quad_sz * 6);
 	} else if (S.type == TYPE_MAP) {
-		struct vertex_map vb[S.buf_sz];
-		for (int i = 0; i < S.buf_sz; ++i) {
+		struct vertex_map vb[sz];
+		for (int i = 0; i < sz; ++i) {
 			memcpy(&vb[i].pos, &S.buf[i].pos, sizeof(struct position));
 			memcpy(&vb[i].map, &S.buf[i].map, sizeof(struct map));
 		}
 		sl_shader_bind(S.shader[IDX_MAP]);
-		sl_shader_draw(S.shader[IDX_MAP], vb, 4, 6);
+		sl_shader_draw(S.shader[IDX_MAP], vb, sz, S.quad_sz * 6);
 	} else {
 		assert((S.type & TYPE_COLOR) && (S.type & TYPE_MAP));
-		struct vertex_both vb[S.buf_sz];
-		for (int i = 0; i < S.buf_sz; ++i) {
+		struct vertex_both vb[sz];
+		for (int i = 0; i < sz; ++i) {
 			memcpy(&vb[i].pos, &S.buf[i].pos, sizeof(struct position));
 			memcpy(&vb[i].col, &S.buf[i].col, sizeof(struct color));
 			memcpy(&vb[i].map, &S.buf[i].map, sizeof(struct map));
 		}
 		sl_shader_bind(S.shader[IDX_BOTH]);
-		sl_shader_draw(S.shader[IDX_BOTH], vb, 4, 6);
+		sl_shader_draw(S.shader[IDX_BOTH], vb, sz, S.quad_sz * 6);
 	}
 
-	S.buf_sz = 0;
+	S.quad_sz = 0;
 
 	S.tex = 0;
 	S.type = TYPE_PLAIN;	
