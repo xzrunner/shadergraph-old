@@ -1,6 +1,8 @@
 #include "sl_sprite.h"
 #include "sl_matrix.h"
 #include "sl_shader.h"
+#include "sl_typedef.h"
+#include "sl_utility.h"
 
 #include <render/render.h>
 
@@ -16,9 +18,7 @@
 #include "sprite_map.frag"
 #include "sprite_both.frag"
 
-#define MAX_COMMBINE		1024
-
-#define BUFFER_OFFSET(t, f) ((intptr_t)&(((struct t*)NULL)->f))
+#define MAX_COMMBINE 1024
 
 struct position {
 	float vx, vy;
@@ -77,7 +77,7 @@ enum SHADER_IDX {
 struct shader_state {
 	int shader[MAX_SHADER_COUNT];
 	int projection[MAX_SHADER_COUNT];
-	int modeview[MAX_SHADER_COUNT];
+	int modelview[MAX_SHADER_COUNT];
 
 	struct sl_matrix modelview_mat, projection_mat;
 
@@ -115,7 +115,7 @@ _create_plain_shader(int idx_buf) {
 
 	S.shader[IDX_PLAIN] = s;
 	S.projection[IDX_PLAIN] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modeview[IDX_PLAIN] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.modelview[IDX_PLAIN] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -142,7 +142,7 @@ _create_color_shader(int idx_buf) {
 
 	S.shader[IDX_COLOR] = s;
 	S.projection[IDX_COLOR] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modeview[IDX_COLOR] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.modelview[IDX_COLOR] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -170,7 +170,7 @@ _create_map_shader(int idx_buf) {
 
 	S.shader[IDX_MAP] = s;
 	S.projection[IDX_MAP] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modeview[IDX_MAP] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.modelview[IDX_MAP] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -200,21 +200,13 @@ _create_both_shader(int idx_buf) {
 
 	S.shader[IDX_BOTH] = s;
 	S.projection[IDX_BOTH] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modeview[IDX_BOTH] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.modelview[IDX_BOTH] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 void 
 sl_sprite_load() {
 	uint16_t idxs[6 * MAX_COMMBINE];
-	for (int i = 0; i < MAX_COMMBINE; ++i) {
-		idxs[i*6] = i*4;
-		idxs[i*6+1] = i*4+1;
-		idxs[i*6+2] = i*4+2;
-		idxs[i*6+3] = i*4;
-		idxs[i*6+4] = i*4+2;
-		idxs[i*6+5] = i*4+3;
-	}
-
+	sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
 	int idx_buf = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);	
 	_create_plain_shader(idx_buf);
 	_create_color_shader(idx_buf);
@@ -244,8 +236,7 @@ sl_sprite_unload() {
 		sl_shader_release_vertex_buffer(shader);
 		sl_shader_unload(shader);
 	}
-	free(S.buf);
-	memset(&S, 0, sizeof(struct shader_state));
+	free(S.buf); S.buf = NULL;
 }
 
 void 
@@ -272,7 +263,7 @@ sl_sprite_modelview(float x, float y, float sx, float sy) {
 	sl_matrix_set_scale(&S.modelview_mat, sx, sy);
 	sl_matrix_set_translate(&S.modelview_mat, x * sx, y * sy);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
-		sl_shader_set_uniform(S.shader[i], S.modeview[i], UNIFORM_FLOAT44, S.modelview_mat.e);
+		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.e);
 	}
 }
 
@@ -295,11 +286,9 @@ sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
 		sl_sprite_commit();
 		return;
 	}
-
 	if (texid != S.tex && S.tex != 0) {
 		sl_sprite_commit();
 	}
-
 	S.tex = texid;
 
 	bool has_color = (S.color != 0xffffffff) || (S.additive & 0xffffff != 0);
@@ -374,7 +363,6 @@ sl_sprite_commit() {
 	}
 
 	S.quad_sz = 0;
-
 	S.tex = 0;
 	S.type = TYPE_PLAIN;	
 }
