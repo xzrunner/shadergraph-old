@@ -402,9 +402,10 @@ sl_shader_clear(unsigned long argb) {
 
 void 
 sl_shader_flush() {
-	assert(S->curr_shader >= 0 && S->curr_shader < MAX_SHADER);
-	struct shader* s = &S->shader[S->curr_shader];
-	_commit(s);
+	if (S && S->curr_shader >= 0 && S->curr_shader < MAX_SHADER) {
+		struct shader* s = &S->shader[S->curr_shader];
+		_commit(s);
+	}
 }
 
 int 
