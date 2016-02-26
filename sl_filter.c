@@ -37,18 +37,18 @@ static struct shader_state S;
 
 void 
 sl_filter_load() {
-	uint16_t idxs[6 * MAX_COMMBINE];
-	sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
-	int idx_buf = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);
+	//uint16_t idxs[6 * MAX_COMMBINE];
+	//sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
+	//int idx_buf = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);
 
-	int s = sl_shader_create();
-	if (s < 0) {
-		return;
-	}
-	sl_shader_set_index_buffer();
+	//int s = sl_shader_create();
+	//if (s < 0) {
+	//	return;
+	//}
+	//sl_shader_set_index_buffer();
 
-	S.shader[SLFM_EDGE_DETECTION] = s;
-	
+	//S.shader[SLFM_EDGE_DETECTION] = s;
+	//
 }
 
 void 
