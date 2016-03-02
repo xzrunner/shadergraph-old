@@ -18,7 +18,9 @@ void sl_shape_modelview(float x, float y, float sx, float sy);
 void sl_shape_color(int color);
 void sl_shape_type(int type);
 
-void sl_shape_draw(float* positions, int count);
+void sl_shape_draw(const float* positions, int count);
+
+void sl_shape_commit();
 
 #endif // shader_lab_shape_h
 

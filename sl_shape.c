@@ -101,7 +101,7 @@ sl_shape_type(int type) {
 }
 
 void 
-sl_shape_draw(float* positions, int count) {
+sl_shape_draw(const float* positions, int count) {
 	struct vertex vb[count];
 	for (int i = 0; i < count; ++i) {
 		struct vertex* v = &vb[i];
@@ -110,4 +110,9 @@ sl_shape_draw(float* positions, int count) {
 		v->color = S.color;
 	}
 	sl_shader_draw(S.shader, vb, count, 0);
+}
+
+void 
+sl_shape_commit() {
+	sl_shader_flush();
 }
