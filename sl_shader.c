@@ -8,6 +8,9 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#ifdef _DEBUG
+#include <stdio.h>
+#endif // _DEBUG
 
 #define MAX_SHADER 16
 
@@ -164,6 +167,11 @@ _commit(struct shader* s) {
 	if (!vb || vb->n == 0) {
 		return;
 	}
+
+#ifdef _DEBUG
+	printf("_commit %d \n", vb->n);
+#endif // _DEBUG
+
 	render_buffer_update(S->R, s->vertex_buffer, vb->buf, vb->n);
 	if (s->element) {
 		render_draw_elements(S->R, s->draw_mode, 0, vb->element);
