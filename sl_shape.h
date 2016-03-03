@@ -6,6 +6,8 @@ extern "C"
 #ifndef shader_lab_shape_h
 #define shader_lab_shape_h
 
+#include <stdbool.h>
+
 void sl_shape_load();
 void sl_shape_unload();
 
@@ -19,6 +21,7 @@ void sl_shape_color(int color);
 void sl_shape_type(int type);
 
 void sl_shape_draw(const float* positions, int count);
+void sl_shape_draw_node(float x, float y, bool dummy);
 
 void sl_shape_commit();
 

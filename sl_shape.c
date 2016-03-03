@@ -113,6 +113,15 @@ sl_shape_draw(const float* positions, int count) {
 }
 
 void 
+sl_shape_draw_node(float x, float y, bool dummy) {
+	struct vertex v;
+	v.vx = x;
+	v.vy = y;
+	v.color = dummy ? 0 : S.color;
+	sl_shader_draw(S.shader, &v, 1, 0);
+}
+
+void 
 sl_shape_commit() {
 	sl_shader_flush();
 }
