@@ -296,7 +296,7 @@ sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
 	int type = TYPE_PLAIN;
 	if (has_color) {
 		type |= TYPE_COLOR;
-		S.type != TYPE_COLOR;
+		S.type |= TYPE_COLOR;
 	}
 	if (has_map) {
 		type |= TYPE_MAP;
