@@ -6,6 +6,8 @@ extern "C"
 #ifndef shader_lab_shader_h
 #define shader_lab_shader_h
 
+#include <render/render.h>
+
 void sl_shader_mgr_create();
 void sl_shader_mgr_release();
 struct render* sl_shader_get_render();
