@@ -241,6 +241,7 @@ sl_sprite_unload() {
 
 void 
 sl_sprite_bind() {
+	sl_shader_bind(S.shader[IDX_PLAIN]);
 }
 
 void 
