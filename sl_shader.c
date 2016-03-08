@@ -1,7 +1,7 @@
 #include "sl_shader.h"
 #include "sl_vertexbuffer.h"
 
-#include <render/blendmode.h>
+#include <blendmode.h>
 
 #include <stdlib.h>
 #include <string.h>
