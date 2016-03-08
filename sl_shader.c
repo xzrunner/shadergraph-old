@@ -146,12 +146,10 @@ sl_shader_load(int id, const char* vs, const char* fs) {
 	struct shader_init_args args;
 	args.vs = vs;
 	args.fs = fs;
-// 	args.texture = texture;
-// 	args.texture_uniform = texture_uniform_name;
+	args.texture = 0;
 	s->prog = render_shader_create(R, &args);
 	render_shader_bind(R, s->prog);
 	render_shader_bind(R, 0);
-//	p->texture_number = texture;
 	S->curr_shader = -1;
 }
 
