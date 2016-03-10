@@ -7,9 +7,7 @@ varying vec4 v_bmap;
 
 uniform sampler2D texture0;
 
-bool neql(float a, float b) {
-	return abs(a - b) > 0.0001;
-}
+\n#define neql(a, b) (abs((a) - (b)) > 0.0001)\n
 
 void main() {
     vec4 tmp = texture2D(texture0, v_texcoord);

@@ -5,58 +5,58 @@ static const char* blend_frag = STRINGIFY(
 /*
 ** Float blending modes
 */
-#define BlendLinearDodgef 				BlendAddf \n
-#define BlendLinearBurnf 				BlendSubstractf \n
-#define BlendAddf(base, blend) 			min(base + blend, 1.0) \n
-#define BlendSubstractf(base, blend) 	max(base + blend - 1.0, 0.0) \n
-#define BlendLightenf(base, blend) 		max(blend, base) \n
-#define BlendDarkenf(base, blend) 		min(blend, base) \n
-#define BlendLinearLightf(base, blend) 	(blend < 0.5 ? BlendLinearBurnf(base, (2.0 * blend)) : BlendLinearDodgef(base, (2.0 * (blend - 0.5)))) \n
-#define BlendScreenf(base, blend) 		(1.0 - ((1.0 - base) * (1.0 - blend))) \n
-#define BlendOverlayf(base, blend) 		(base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend))) \n
-#define BlendSoftLightf(base, blend) 	((blend < 0.5) ? (2.0 * base * blend + base * base * (1.0 - 2.0 * blend)) : (sqrt(base) * (2.0 * blend - 1.0) + 2.0 * base * (1.0 - blend))) \n
-#define BlendColorDodgef(base, blend) 	((blend == 1.0) ? blend : min(base / (1.0 - blend), 1.0)) \n
-#define BlendColorBurnf(base, blend) 	((blend == 0.0) ? blend : max((1.0 - ((1.0 - base) / blend)), 0.0)) \n
-#define BlendVividLightf(base, blend) 	((blend < 0.5) ? BlendColorBurnf(base, (2.0 * blend)) : BlendColorDodgef(base, (2.0 * (blend - 0.5)))) \n
-#define BlendPinLightf(base, blend) 	((blend < 0.5) ? BlendDarkenf(base, (2.0 * blend)) : BlendLightenf(base, (2.0 *(blend - 0.5)))) \n
-#define BlendHardMixf(base, blend) 		((BlendVividLightf(base, blend) < 0.5) ? 0.0 : 1.0) \n
-#define BlendReflectf(base, blend) 		((blend == 1.0) ? blend : min(base * base / (1.0 - blend), 1.0)) \n
+\n#define BlendLinearDodgef 				BlendAddf \n
+\n#define BlendLinearBurnf 					BlendSubstractf \n
+\n#define BlendAddf(base, blend) 			min(base + blend, 1.0) \n
+\n#define BlendSubstractf(base, blend) 		max(base + blend - 1.0, 0.0) \n
+\n#define BlendLightenf(base, blend) 		max(blend, base) \n
+\n#define BlendDarkenf(base, blend) 		min(blend, base) \n
+\n#define BlendLinearLightf(base, blend) 	(blend < 0.5 ? BlendLinearBurnf(base, (2.0 * blend)) : BlendLinearDodgef(base, (2.0 * (blend - 0.5)))) \n
+\n#define BlendScreenf(base, blend) 		(1.0 - ((1.0 - base) * (1.0 - blend))) \n
+\n#define BlendOverlayf(base, blend) 		(base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend))) \n
+\n#define BlendSoftLightf(base, blend) 		((blend < 0.5) ? (2.0 * base * blend + base * base * (1.0 - 2.0 * blend)) : (sqrt(base) * (2.0 * blend - 1.0) + 2.0 * base * (1.0 - blend))) \n
+\n#define BlendColorDodgef(base, blend) 	((blend == 1.0) ? blend : min(base / (1.0 - blend), 1.0)) \n
+\n#define BlendColorBurnf(base, blend) 		((blend == 0.0) ? blend : max((1.0 - ((1.0 - base) / blend)), 0.0)) \n
+\n#define BlendVividLightf(base, blend) 	((blend < 0.5) ? BlendColorBurnf(base, (2.0 * blend)) : BlendColorDodgef(base, (2.0 * (blend - 0.5)))) \n
+\n#define BlendPinLightf(base, blend) 		((blend < 0.5) ? BlendDarkenf(base, (2.0 * blend)) : BlendLightenf(base, (2.0 *(blend - 0.5)))) \n
+\n#define BlendHardMixf(base, blend) 		((BlendVividLightf(base, blend) < 0.5) ? 0.0 : 1.0) \n
+\n#define BlendReflectf(base, blend) 		((blend == 1.0) ? blend : min(base * base / (1.0 - blend), 1.0)) \n
 
 /*
 ** Vector3 blending modes
 */
 
 // Component wise blending
-#define Blend(base, blend, funcf) 		vec3(funcf(base.r, blend.r), funcf(base.g, blend.g), funcf(base.b, blend.b)) \n
+\n#define Blend(base, blend, funcf) 		vec3(funcf(base.r, blend.r), funcf(base.g, blend.g), funcf(base.b, blend.b)) \n
  
-#define BlendNormal(base, blend) 		(blend) \n
-#define BlendLighten					BlendLightenf \n
-#define BlendDarken						BlendDarkenf \n
-#define BlendMultiply(base, blend) 		(base * blend) \n
-#define BlendAverage(base, blend) 		((base + blend) / 2.0) \n
-#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0)) \n
-#define BlendSubstract(base, blend) 	max(base + blend - vec3(1.0), vec3(0.0)) \n
-#define BlendDifference(base, blend) 	abs(base - blend) \n
-#define BlendNegation(base, blend) 		(vec3(1.0) - abs(vec3(1.0) - base - blend)) \n
-#define BlendExclusion(base, blend) 	(base + blend - 2.0 * base * blend) \n
-#define BlendScreen(base, blend) 		Blend(base, blend, BlendScreenf) \n
-#define BlendOverlay(base, blend) 		Blend(base, blend, BlendOverlayf) \n
-#define BlendSoftLight(base, blend) 	Blend(base, blend, BlendSoftLightf) \n
-#define BlendHardLight(base, blend) 	BlendOverlay(blend, base) \n
-#define BlendColorDodge(base, blend) 	Blend(base, blend, BlendColorDodgef) \n
-#define BlendColorBurn(base, blend) 	Blend(base, blend, BlendColorBurnf) \n
-#define BlendLinearDodge				BlendAdd \n
-#define BlendLinearBurn					BlendSubstract \n
+\n#define BlendNormal(base, blend) 			(blend) \n
+\n#define BlendLighten						BlendLightenf \n
+\n#define BlendDarken						BlendDarkenf \n
+\n#define BlendMultiply(base, blend) 		(base * blend) \n
+\n#define BlendAverage(base, blend) 		((base + blend) / 2.0) \n
+\n#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0)) \n
+\n#define BlendSubstract(base, blend) 		max(base + blend - vec3(1.0), vec3(0.0)) \n
+\n#define BlendDifference(base, blend) 		abs(base - blend) \n
+\n#define BlendNegation(base, blend) 		(vec3(1.0) - abs(vec3(1.0) - base - blend)) \n
+\n#define BlendExclusion(base, blend) 		(base + blend - 2.0 * base * blend) \n
+\n#define BlendScreen(base, blend) 			Blend(base, blend, BlendScreenf) \n
+\n#define BlendOverlay(base, blend) 		Blend(base, blend, BlendOverlayf) \n
+\n#define BlendSoftLight(base, blend) 		Blend(base, blend, BlendSoftLightf) \n
+\n#define BlendHardLight(base, blend) 		BlendOverlay(blend, base) \n
+\n#define BlendColorDodge(base, blend) 		Blend(base, blend, BlendColorDodgef) \n
+\n#define BlendColorBurn(base, blend) 		Blend(base, blend, BlendColorBurnf) \n
+\n#define BlendLinearDodge					BlendAdd \n
+\n#define BlendLinearBurn					BlendSubstract \n
 // Linear Light is another contrast-increasing mode
 // If the blend color is darker than midgray, Linear Light darkens the image by decreasing the brightness. If the blend color is lighter than midgray, the result is a brighter image due to increased brightness.
-#define BlendLinearLight(base, blend) 	Blend(base, blend, BlendLinearLightf) \n
-#define BlendVividLight(base, blend) 	Blend(base, blend, BlendVividLightf) \n
-#define BlendPinLight(base, blend) 		Blend(base, blend, BlendPinLightf) \n
-#define BlendHardMix(base, blend) 		Blend(base, blend, BlendHardMixf) \n
-#define BlendReflect(base, blend) 		Blend(base, blend, BlendReflectf) \n
-#define BlendGlow(base, blend) 			BlendReflect(blend, base) \n
-#define BlendPhoenix(base, blend) 		(min(base, blend) - max(base, blend) + vec3(1.0)) \n
-#define BlendOpacity(base, blend, F, O) (F(base, blend) * O + blend * (1.0 - O)) \n
+\n#define BlendLinearLight(base, blend) 	Blend(base, blend, BlendLinearLightf) \n
+\n#define BlendVividLight(base, blend) 		Blend(base, blend, BlendVividLightf) \n
+\n#define BlendPinLight(base, blend) 		Blend(base, blend, BlendPinLightf) \n
+\n#define BlendHardMix(base, blend) 		Blend(base, blend, BlendHardMixf) \n
+\n#define BlendReflect(base, blend) 		Blend(base, blend, BlendReflectf) \n
+\n#define BlendGlow(base, blend) 			BlendReflect(blend, base) \n
+\n#define BlendPhoenix(base, blend) 		(min(base, blend) - max(base, blend) + vec3(1.0)) \n
+\n#define BlendOpacity(base, blend, F, O)	(F(base, blend) * O + blend * (1.0 - O)) \n
 
 uniform int u_mode;
 
