@@ -85,6 +85,17 @@ sl_blend_load() {
 	S.mode_id = sl_shader_add_uniform(s, "u_mode", UNIFORM_INT1);
 	S.mode = SLBM_NORMAL;
 
+	int tex0 = sl_shader_add_uniform(s, "texture0", UNIFORM_INT1);
+	if (tex0 >= 0) {
+		float sample = 0;
+		sl_shader_set_uniform(s, tex0, UNIFORM_INT1, &sample);
+	}
+	int tex1 = sl_shader_add_uniform(s, "texture1", UNIFORM_INT1);
+	if (tex1 >= 0) {
+		float sample = 1;
+		sl_shader_set_uniform(s, tex1, UNIFORM_INT1, &sample);
+	}
+
 	S.color = 0xffffffff;
 	S.additive = 0x00000000;
 
@@ -137,7 +148,9 @@ sl_blend_set_mode(enum SL_BLEND_MODE mode) {
 		sl_blend_commit();
 	}
 	S.mode = mode;
-	sl_shader_set_uniform(S.shader, S.mode, UNIFORM_FLOAT44, S.modelview_mat.e);	
+
+	float m = mode;
+	sl_shader_set_uniform(S.shader, S.mode_id, UNIFORM_INT1, &m);
 }
 
 void 
@@ -170,6 +183,7 @@ sl_blend_draw(const float* positions, const float* texcoords_blend,
 		v->col.color = S.color;
 		v->col.additive = S.additive;
 	}
+	++S.quad_sz;
 }
 
 void 

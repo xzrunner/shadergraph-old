@@ -387,6 +387,9 @@ sl_shader_uniform_size(enum UNIFORM_FORMAT t) {
 	case UNIFORM_FLOAT44:
 		n = 16;
 		break;
+	case UNIFORM_INT1:
+		n = 1;
+		break;
 	}
 	return n;
 }
