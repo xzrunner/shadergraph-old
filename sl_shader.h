@@ -8,7 +8,7 @@ extern "C"
 
 #include <render/render.h>
 
-void sl_shader_mgr_create();
+void sl_shader_mgr_create(int max_texture);
 void sl_shader_mgr_release();
 struct render* sl_shader_get_render();
 

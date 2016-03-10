@@ -64,7 +64,7 @@ struct shader_mgr {
 static struct shader_mgr* S = NULL;
 
 void 
-sl_shader_mgr_create() {
+sl_shader_mgr_create(int max_texture) {
 	if (S) return;
 
 	struct shader_mgr* sm = (struct shader_mgr*)malloc(sizeof(*sm));
@@ -75,7 +75,7 @@ sl_shader_mgr_create() {
 	RA.max_buffer = 128;
 	RA.max_layout = 8;
 	RA.max_target = 128;
-	RA.max_texture = 256;
+	RA.max_texture = max_texture;
 	RA.max_shader = MAX_SHADER;
 
 	sm->target = render_query_target();
