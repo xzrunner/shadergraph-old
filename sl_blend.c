@@ -12,7 +12,7 @@
 #include "blend.vert"
 #include "blend.frag"
 
-#define MAX_COMMBINE 256
+#define MAX_COMMBINE 1024
 
 struct position {
 	float vx, vy;
