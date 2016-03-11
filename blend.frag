@@ -74,13 +74,14 @@ void main()
 	base.rgb = base.rgb / base.a;
 	
 	vec4 blend = texture2D(texture0, v_texcoord);
-	blend.rgb = blend.rgb / blend.a;
 	
-// 	vec4 tmp = texture2D(texture0, v_texcoord); 
-// 	blend.xyz = tmp.xyz * v_color.xyz; 
-// 	blend.w = tmp.w;   
-// 	blend *= v_color.w; 
-// 	blend.xyz += v_additive.xyz * tmp.w * v_color.w; 
+	vec4 tmp = texture2D(texture0, v_texcoord); 
+	blend.xyz = tmp.xyz * v_color.xyz; 
+	blend.w = tmp.w;   
+	blend *= v_color.w; 
+	blend.xyz += v_additive.xyz * tmp.w * v_color.w; 
+
+	blend.rgb = blend.rgb / blend.a;
 
 	vec3 result;
 	// normal
