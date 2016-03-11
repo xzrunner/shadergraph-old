@@ -71,7 +71,16 @@ varying vec2 v_texcoord_base;
 void main()
 {
 	vec4 base = texture2D(texture1, v_texcoord_base);
+	base.rgb = base.rgb / base.a;
+	
 	vec4 blend = texture2D(texture0, v_texcoord);
+	blend.rgb = blend.rgb / blend.a;
+	
+// 	vec4 tmp = texture2D(texture0, v_texcoord); 
+// 	blend.xyz = tmp.xyz * v_color.xyz; 
+// 	blend.w = tmp.w;   
+// 	blend *= v_color.w; 
+// 	blend.xyz += v_additive.xyz * tmp.w * v_color.w; 
 
 	vec3 result;
 	// normal
@@ -130,11 +139,8 @@ void main()
 	else {
 		result = BlendNormal(base.rgb, blend.rgb);
 	}
-		
-	gl_FragColor.xyz = result * v_color.xyz; 
-	gl_FragColor.w = blend.w;   
-	gl_FragColor *= v_color.w; 
-	gl_FragColor.xyz += v_additive.xyz * blend.w; 
+	
+	gl_FragColor = vec4(result * blend.w, blend.w);
 }
 
 );
