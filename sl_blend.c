@@ -201,3 +201,8 @@ sl_blend_commit() {
 	S.quad_sz = 0;
 	S.tex_blend = S.tex_base = 0;
 }
+
+void 
+sl_blend_on_size(int width, int height) {
+	sl_shader_set_texture(S.tex_base, 1);	
+}

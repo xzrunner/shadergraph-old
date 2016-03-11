@@ -67,6 +67,8 @@ void sl_blend_draw(const float* positions, const float* texcoords_blend,
 
 void sl_blend_commit();
 
+void sl_blend_on_size(int width, int height);
+
 #endif // shader_lab_blend_h
 
 #ifdef __cplusplus
