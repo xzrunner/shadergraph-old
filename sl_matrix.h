@@ -22,6 +22,7 @@ void sl_matrix_set_scale(struct sl_matrix* mat, float sx, float sy);
 void sl_matrix_set_translate(struct sl_matrix* mat, float x, float y);
 
 void sl_matrix_ortho(struct sl_matrix* mat, float left, float right, float bottom, float top, float near, float far);
+void sl_matrix_perspective(struct sl_matrix* mat, float left, float right, float bottom, float top, float near, float far);
 
 #endif // shader_lab_matrix_h
 

@@ -18,8 +18,21 @@ sl_matrix_ortho(struct sl_matrix* mat, float left, float right, float bottom, fl
 	float f = -2 / (far - near);
 	mat->e[0] = a; mat->e[1] = 0; mat->e[2] = 0; mat->e[3] = 0;
 	mat->e[4] = 0; mat->e[5] = b; mat->e[6] = 0; mat->e[7] = 0;
-	mat->e[8] = 0; mat->e[9] = 0; mat->e[10] = f; mat->e[11] = 0;
-	mat->e[12] = c; mat->e[13] = d; mat->e[14] = e; mat->e[15] = 1;
+	mat->e[8] = 0; mat->e[9] = 0; mat->e[10]= f; mat->e[11]= 0;
+	mat->e[12]= c; mat->e[13]= d; mat->e[14]= e; mat->e[15]= 1;
+}
+
+void 
+sl_matrix_perspective(struct sl_matrix* mat, float left, float right, float bottom, float top, float near, float far) {
+	float a = 2 * near / (right - left);
+	float b = 2 * near / (top - bottom);
+	float c = (right + left) / (right - left);
+	float d = (top + bottom) / (top - bottom);
+	float e = -2 * near;
+	mat->e[0] = a; mat->e[1] = 0; mat->e[2] = 0; mat->e[3] = 0;
+	mat->e[4] = 0; mat->e[5] = b; mat->e[6] = 0; mat->e[7] = 0;
+	mat->e[8] = c; mat->e[9] = d; mat->e[10]=-1; mat->e[11]=-1;
+	mat->e[12]= 0; mat->e[13]= 0; mat->e[14]= e; mat->e[15]= 0;
 }
 
 void 
