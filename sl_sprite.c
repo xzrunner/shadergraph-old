@@ -283,11 +283,8 @@ sl_sprite_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap) {
 
 void 
 sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
-	if (S.quad_sz >= MAX_COMMBINE) {
-		sl_sprite_commit();
-		return;
-	}
-	if (texid != S.tex && S.tex != 0) {
+	if (S.quad_sz >= MAX_COMMBINE ||
+		(texid != S.tex && S.tex != 0)) {
 		sl_sprite_commit();
 	}
 	S.tex = texid;

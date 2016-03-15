@@ -22,7 +22,7 @@ sl_vb_release(struct sl_vertexbuffer* vb) {
 
 inline bool 
 sl_vb_add(struct sl_vertexbuffer* vb, void* data, int n, int en) {
-	if (vb->n + n >= vb->cap) {
+	if (vb->n + n > vb->cap) {
 		return true;
 	}
 
