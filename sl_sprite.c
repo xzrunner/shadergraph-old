@@ -366,5 +366,5 @@ sl_sprite_commit() {
 
 	S.quad_sz = 0;
 	S.tex = 0;
-	S.type = TYPE_PLAIN;	
+	S.type = TYPE_PLAIN;
 }
