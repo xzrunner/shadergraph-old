@@ -116,7 +116,8 @@ _create_plain_shader(int index_buf_id) {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_plain, pos.vx) },
 		{ "texcoord", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_plain, pos.tx) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, sprite_vert, sprite_plain_frag);
 
@@ -148,7 +149,8 @@ _create_color_shader(int index_buf_id) {
 		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_color, col.color) },
 		{ "additive", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_color, col.additive) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, sprite_vert, sprite_color_frag);
 
@@ -181,7 +183,8 @@ _create_map_shader(int index_buf_id) {
 		{ "gmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_map, map.gmap) },
 		{ "bmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_map, map.bmap) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, sprite_vert, sprite_map_frag);
 
@@ -216,7 +219,8 @@ _create_both_shader(int index_buf_id) {
 		{ "gmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_both, map.gmap) },
 		{ "bmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex_both, map.bmap) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, sprite_vert, sprite_both_frag);
 

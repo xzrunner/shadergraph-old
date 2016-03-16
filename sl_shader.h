@@ -35,7 +35,8 @@ int  sl_shader_create_index_buffer(int n, int stride, const void* data);
 void sl_shader_set_index_buffer(int id, int buf_id);
 void sl_shader_release_index_buffer(int buf_id);
 
-void sl_shader_create_vertex_layout(int id, int n, struct vertex_attrib* va);
+int sl_shader_create_vertex_layout(int n, struct vertex_attrib* va);
+void sl_shader_set_vertex_layout(int id, int layout_id);
 
 void sl_shader_bind(int id);
 

@@ -44,13 +44,12 @@ sl_shape_load() {
 	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex), MAX_VERTICES);
 	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
-	sl_shader_create_vertex_buffer_old(s, MAX_VERTICES, sizeof(struct vertex));
-
 	struct vertex_attrib va[2] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vx) },
 		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(color) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, shape_vert, shape_frag);
 

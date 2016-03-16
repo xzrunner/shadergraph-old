@@ -281,15 +281,16 @@ sl_shader_release_index_buffer(int buf_id) {
 	render_release(S->R, INDEXBUFFER, buf_id);
 }
 
+int
+sl_shader_create_vertex_layout(int n, struct vertex_attrib* va) {
+	return render_register_vertexlayout(S->R, n, va);
+}
+
 void 
-sl_shader_create_vertex_layout(int id, int n, struct vertex_attrib* va) {
+sl_shader_set_vertex_layout(int id, int layout_id) {
 	assert(id >= 0 && id < MAX_SHADER);
-
-	struct render* R = S->R;
-	RID layout = render_register_vertexlayout(R, n, va);
-	render_set(R, VERTEXLAYOUT, layout, 0);
-
-	S->shader[id].layout = layout;
+	S->shader[id].layout = layout_id;
+	render_set(S->R, VERTEXLAYOUT, layout_id, 0);
 }
 
 static void

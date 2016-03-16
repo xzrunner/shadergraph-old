@@ -52,7 +52,8 @@ sl_model_load() {
 		{ "position", 0, 3, sizeof(float), BUFFER_OFFSET(vx) },
 		{ "texcoord", 0, 2, sizeof(float), BUFFER_OFFSET(tx) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, model_simple_vert, model_simple_frag);
 

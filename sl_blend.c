@@ -75,7 +75,8 @@ sl_blend_load() {
 		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex, col.color) },
 		{ "additive", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(vertex, col.additive) },
 	};
-	sl_shader_create_vertex_layout(s, sizeof(va)/sizeof(va[0]), va);
+	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
+	sl_shader_set_vertex_layout(s, layout_id);
 
 	sl_shader_load(s, blend_vert, blend_frag);
 
@@ -125,6 +126,7 @@ sl_blend_unload() {
 
 void 
 sl_blend_bind() {
+	sl_shader_bind(S.shader);
 }
 
 void 
@@ -172,11 +174,8 @@ sl_blend_set_base(int texid) {
 void 
 sl_blend_draw(const float* positions, const float* texcoords_blend, 
 			  const float* texcoords_base, int tex_blend, int tex_base) {
-	if (S.quad_sz >= MAX_COMMBINE) {
-		sl_blend_commit();
-		return;
-	}
-	if ((tex_blend != S.tex_blend && S.tex_blend != 0) ||
+	if (S.quad_sz >= MAX_COMMBINE ||
+		(tex_blend != S.tex_blend && S.tex_blend != 0) ||
 		(tex_base != S.tex_base && S.tex_base != 0)) {
 		sl_blend_commit();
 	}
@@ -206,7 +205,6 @@ sl_blend_commit() {
 	sl_shader_set_texture(S.tex_blend, 0);
 	sl_shader_set_texture(S.tex_base, 1);
 
-	sl_shader_bind(S.shader);
 	sl_shader_draw(S.shader, S.buf, S.quad_sz * 4, S.quad_sz * 6);
 
 	S.quad_sz = 0;
