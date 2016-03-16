@@ -26,7 +26,7 @@ void sl_filter_unbind();
 void sl_filter_projection(int width, int height);
 void sl_filter_modelview(float x, float y, float sx, float sy);
 
-void sl_filter_set_mode(enum SL_BLEND_MODE mode);
+void sl_filter_set_mode(enum SL_FILTER_MODE mode);
 
 void sl_filter_draw(const float* positions, const float* texcoords, int texid);
 
