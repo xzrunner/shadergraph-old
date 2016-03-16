@@ -2,9 +2,8 @@
 #include "sl_shader.h"
 #include "sl_matrix.h"
 
-#include <gl/glew.h>
-
 #include <string.h>
+#include <stdlib.h>
 
 #define STRINGIFY(A)  #A
 #include "model_simple.vert"
@@ -25,8 +24,10 @@ struct shader_state {
 	int projection_idx, modeview_idx;
 	struct sl_matrix modelview_mat, projection_mat;
 
-	int color;
+	struct vertex* buf;
+	int vertices_sz;
 
+	int color;
 	int tex;
 };
 
@@ -58,6 +59,9 @@ sl_model_load() {
 	sl_matrix_identity(&S.projection_mat);
 	sl_matrix_identity(&S.modelview_mat);
 
+	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_VERTICES);
+	S.vertices_sz = 0;
+
 	S.color = 0xffffffff;
 	S.tex = 0;
 }
@@ -67,22 +71,19 @@ sl_model_unload() {
 	sl_shader_release_vertex_buffer(S.shader);
 	sl_shader_unload(S.shader);
 
+	free(S.buf); S.buf = NULL;
+
 	memset(&S, 0, sizeof(struct shader_state));
 }
 
 void 
 sl_model_bind() {
 	sl_shader_bind(S.shader);
-	glEnable(GL_DEPTH_TEST);
-
- 	 	glClearColor(0.5f, 0.5f, 0.5f, 1);
- 	 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void 
 sl_model_unbind() {
 	sl_model_commit();
-	glDisable(GL_DEPTH_TEST);
 }
 
 void 
@@ -102,25 +103,30 @@ sl_model_modelview(float x, float y, float sx, float sy) {
 
 void 
 sl_model_draw(const float* positions, const float* texcoords, int texid, int vertices_count) {
-	if (texid != S.tex && S.tex != 0) {
+	if (S.vertices_sz + vertices_count > MAX_VERTICES ||
+		(texid != S.tex && S.tex != 0)) {
 		sl_model_commit();
 	}
 	S.tex = texid;
 
-	struct vertex vb[vertices_count];
 	for (int i = 0; i < vertices_count; ++i) {
-		struct vertex* v = &vb[i];
+		struct vertex* v = &S.buf[S.vertices_sz++];
 		v->vx = positions[i * 3];
 		v->vy = positions[i * 3 + 1];
 		v->vz = positions[i * 3 + 2];
 		v->tx = texcoords[i * 2];
 		v->ty = texcoords[i * 2 + 1];
 	}
-	sl_shader_draw(S.shader, vb, vertices_count, 0);
 }
 
 void 
 sl_model_commit() {
+	if (S.vertices_sz == 0) {
+		return;
+	}
+
 	sl_shader_set_texture(S.tex, 0);
-	sl_shader_flush();
+
+	sl_shader_draw(S.shader, S.buf, S.vertices_sz, 0);
+	S.vertices_sz = 0;
 }
