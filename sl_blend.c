@@ -3,6 +3,7 @@
 #include "sl_shader.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
+#include "sl_vertexbuffer.h"
 
 #include <render/render.h>
 
@@ -32,6 +33,9 @@ struct vertex {
 struct shader_state {
 	int shader;
 
+	int index_buf_id, vertex_buf_id;
+	struct sl_vertexbuffer* vertex_buf;
+
 	int projection, modelview;
 	struct sl_matrix modelview_mat, projection_mat;
 
@@ -57,10 +61,12 @@ sl_blend_load() {
 
 	uint16_t idxs[6 * MAX_COMMBINE];
 	sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
-	int idx_buf = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);
-	sl_shader_set_index_buffer(s, idx_buf);
+	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);
+	sl_shader_set_index_buffer(s, index_buf_id);
 
-	sl_shader_create_vertex_buffer(s, 4 * MAX_COMMBINE, sizeof(struct vertex));
+	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex), 4 * MAX_COMMBINE);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[5] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex, pos.vx) },
@@ -76,6 +82,10 @@ sl_blend_load() {
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
 	S.shader = s;
+
+	S.index_buf_id = index_buf_id;
+	S.vertex_buf_id = vertex_buf_id;
+	S.vertex_buf = vertex_buf;
 
 	S.projection = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
@@ -106,8 +116,9 @@ sl_blend_load() {
 
 void 
 sl_blend_unload() {
-	sl_shader_release_index_buffer(S.shader);
-	sl_shader_release_vertex_buffer(S.shader);
+	sl_shader_release_index_buffer(S.index_buf_id);
+	sl_shader_release_vertex_buffer(S.vertex_buf_id);
+	sl_vb_release(S.vertex_buf);
 	sl_shader_unload(S.shader);
 	free(S.buf); S.buf = NULL;
 }

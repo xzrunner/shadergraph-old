@@ -1,6 +1,7 @@
 #include "sl_shape.h"
 #include "sl_shader.h"
 #include "sl_matrix.h"
+#include "sl_vertexbuffer.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -21,6 +22,9 @@ struct vertex {
 struct shader_state {
 	int shader;
 
+	int vertex_buf_id;
+	struct sl_vertexbuffer* vertex_buf;
+
 	int projection_idx, modeview_idx;
 	struct sl_matrix modelview_mat, projection_mat;
 
@@ -36,7 +40,11 @@ sl_shape_load() {
 		return;
 	}
 
-	sl_shader_create_vertex_buffer(s, MAX_VERTICES, sizeof(struct vertex));
+	int vertex_buf_id = sl_shader_create_vertex_buffer(MAX_VERTICES, sizeof(struct vertex));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex), MAX_VERTICES);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
+
+	sl_shader_create_vertex_buffer_old(s, MAX_VERTICES, sizeof(struct vertex));
 
 	struct vertex_attrib va[2] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vx) },
@@ -48,6 +56,9 @@ sl_shape_load() {
 
 	S.shader = s;
 
+	S.vertex_buf_id = vertex_buf_id;
+	S.vertex_buf = vertex_buf;
+
 	S.projection_idx = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modeview_idx = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 	sl_matrix_identity(&S.projection_mat);
@@ -58,7 +69,8 @@ sl_shape_load() {
 
 void 
 sl_shape_unload() {
-	sl_shader_release_vertex_buffer(S.shader);
+	sl_shader_release_vertex_buffer(S.vertex_buf_id);
+	sl_vb_release(S.vertex_buf);
 	sl_shader_unload(S.shader);
 
 	memset(&S, 0, sizeof(struct shader_state));

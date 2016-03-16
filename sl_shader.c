@@ -242,24 +242,24 @@ sl_shader_get_target() {
 	return S->target;
 }
 
-void 
-sl_shader_create_vertex_buffer(int id, int n, int stride) {
-	assert(id >= 0 && id < MAX_SHADER);
-	struct shader* s = &S->shader[id];
-
-	struct render* R = S->R;
-	RID vertex_buffer = render_buffer_create(R, VERTEXBUFFER, NULL, n, stride);
-	render_set(R, VERTEXBUFFER, vertex_buffer, 0);
-
-	s->vertex_buffer = vertex_buffer;
-	s->vb = sl_vb_create(stride, n);
+int 
+sl_shader_create_vertex_buffer(int n, int stride) {
+	return render_buffer_create(S->R, VERTEXBUFFER, NULL, n, stride);
 }
 
 void 
-sl_shader_release_vertex_buffer(int id) {
+sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_vertexbuffer* buf) {
+	render_set(S->R, VERTEXBUFFER, buf_id, 0);
+
 	assert(id >= 0 && id < MAX_SHADER);
 	struct shader* s = &S->shader[id];
-	render_release(S->R, VERTEXBUFFER, s->vertex_buffer);
+	s->vertex_buffer = buf_id;
+	s->vb = buf;
+}
+
+void 
+sl_shader_release_vertex_buffer(int buf_id) {
+	render_release(S->R, VERTEXBUFFER, buf_id);
 }
 
 int 
@@ -277,10 +277,8 @@ sl_shader_set_index_buffer(int id, int buf_id) {
 }
 
 void 
-sl_shader_release_index_buffer(int id) {
-	assert(id >= 0 && id < MAX_SHADER);
-	struct shader* s = &S->shader[id];
-	render_release(S->R, INDEXBUFFER, s->index_buffer);
+sl_shader_release_index_buffer(int buf_id) {
+	render_release(S->R, INDEXBUFFER, buf_id);
 }
 
 void 

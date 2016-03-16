@@ -3,6 +3,7 @@
 #include "sl_shader.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
+#include "sl_vertexbuffer.h"
 
 #include <render/render.h>
 
@@ -76,6 +77,11 @@ enum SHADER_IDX {
 
 struct shader_state {
 	int shader[MAX_SHADER_COUNT];
+
+	int index_buf_id;
+	int vertex_buf_id[MAX_SHADER_COUNT];
+	struct sl_vertexbuffer* vertex_buf[MAX_SHADER_COUNT];
+
 	int projection[MAX_SHADER_COUNT];
 	int modelview[MAX_SHADER_COUNT];
 
@@ -94,14 +100,17 @@ struct shader_state {
 static struct shader_state S;
 
 static void
-_create_plain_shader(int idx_buf) {
+_create_plain_shader(int index_buf_id) {
 	int s = sl_shader_create();
 	if (s < 0) {
 		return;
 	}
 
-	sl_shader_set_index_buffer(s, idx_buf);
-	sl_shader_create_vertex_buffer(s, 4 * MAX_COMMBINE, sizeof(struct vertex_plain));
+	sl_shader_set_index_buffer(s, index_buf_id);
+
+	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex_plain));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex_plain), 4 * MAX_COMMBINE);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[2] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_plain, pos.vx) },
@@ -114,19 +123,24 @@ _create_plain_shader(int idx_buf) {
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
 	S.shader[IDX_PLAIN] = s;
+	S.vertex_buf_id[IDX_PLAIN] = vertex_buf_id;
+	S.vertex_buf[IDX_PLAIN] = vertex_buf;
 	S.projection[IDX_PLAIN] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview[IDX_PLAIN] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
-_create_color_shader(int idx_buf) {
+_create_color_shader(int index_buf_id) {
 	int s = sl_shader_create();
 	if (s < 0) {
 		return;
 	}
 
-	sl_shader_set_index_buffer(s, idx_buf);
-	sl_shader_create_vertex_buffer(s, 4 * MAX_COMMBINE, sizeof(struct vertex_color));
+	sl_shader_set_index_buffer(s, index_buf_id);
+
+	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex_color));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex_color), 4 * MAX_COMMBINE);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[4] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_color, pos.vx) },
@@ -141,19 +155,24 @@ _create_color_shader(int idx_buf) {
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
 	S.shader[IDX_COLOR] = s;
+	S.vertex_buf_id[IDX_COLOR] = vertex_buf_id;
+	S.vertex_buf[IDX_COLOR] = vertex_buf;
 	S.projection[IDX_COLOR] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview[IDX_COLOR] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
-_create_map_shader(int idx_buf) {
+_create_map_shader(int index_buf_id) {
 	int s = sl_shader_create();
 	if (s < 0) {
 		return;
 	}
 
-	sl_shader_set_index_buffer(s, idx_buf);
-	sl_shader_create_vertex_buffer(s, 4 * MAX_COMMBINE, sizeof(struct vertex_map));
+	sl_shader_set_index_buffer(s, index_buf_id);
+
+	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex_map));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex_map), 4 * MAX_COMMBINE);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[5] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_map, pos.vx) },
@@ -169,19 +188,24 @@ _create_map_shader(int idx_buf) {
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
 	S.shader[IDX_MAP] = s;
+	S.vertex_buf_id[IDX_MAP] = vertex_buf_id;
+	S.vertex_buf[IDX_MAP] = vertex_buf;
 	S.projection[IDX_MAP] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview[IDX_MAP] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
-_create_both_shader(int idx_buf) {
+_create_both_shader(int index_buf_id) {
 	int s = sl_shader_create();
 	if (s < 0) {
 		return;
 	}
 
-	sl_shader_set_index_buffer(s, idx_buf);
-	sl_shader_create_vertex_buffer(s, 4 * MAX_COMMBINE, sizeof(struct vertex_both));
+	sl_shader_set_index_buffer(s, index_buf_id);
+
+	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex_both));
+	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex_both), 4 * MAX_COMMBINE);
+	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[7] = {
 		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vertex_both, pos.vx) },
@@ -199,6 +223,8 @@ _create_both_shader(int idx_buf) {
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
 	S.shader[IDX_BOTH] = s;
+	S.vertex_buf_id[IDX_BOTH] = vertex_buf_id;
+	S.vertex_buf[IDX_BOTH] = vertex_buf;
 	S.projection[IDX_BOTH] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview[IDX_BOTH] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
@@ -207,14 +233,16 @@ void
 sl_sprite_load() {
 	uint16_t idxs[6 * MAX_COMMBINE];
 	sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
-	int idx_buf = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);	
-	_create_plain_shader(idx_buf);
-	_create_color_shader(idx_buf);
-	_create_map_shader(idx_buf);
-	_create_both_shader(idx_buf);
+	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);	
+	_create_plain_shader(index_buf_id);
+	_create_color_shader(index_buf_id);
+	_create_map_shader(index_buf_id);
+	_create_both_shader(index_buf_id);
 
 	sl_matrix_identity(&S.projection_mat);
 	sl_matrix_identity(&S.modelview_mat);
+
+	S.index_buf_id = index_buf_id;
 
  	S.color = 0xffffffff;
  	S.additive = 0x00000000;
@@ -230,10 +258,11 @@ sl_sprite_load() {
 
 void 
 sl_sprite_unload() {
-	sl_shader_release_index_buffer(S.shader[0]);
+	sl_shader_release_index_buffer(S.index_buf_id);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
 		int shader = S.shader[i];
-		sl_shader_release_vertex_buffer(shader);
+		sl_shader_release_vertex_buffer(S.vertex_buf_id[i]);
+		sl_vb_release(S.vertex_buf[i]);
 		sl_shader_unload(shader);
 	}
 	free(S.buf); S.buf = NULL;

@@ -27,11 +27,14 @@ int  sl_shader_get_texture();
 void sl_shader_set_target(int id);
 int  sl_shader_get_target();
 
-void sl_shader_create_vertex_buffer(int id, int n, int stride);
-void sl_shader_release_vertex_buffer(int id);
+int sl_shader_create_vertex_buffer(int n, int stride);
+void sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_vertexbuffer* buf);
+void sl_shader_release_vertex_buffer(int buf_id);
+
 int  sl_shader_create_index_buffer(int n, int stride, const void* data);
 void sl_shader_set_index_buffer(int id, int buf_id);
-void sl_shader_release_index_buffer(int id);
+void sl_shader_release_index_buffer(int buf_id);
+
 void sl_shader_create_vertex_layout(int id, int n, struct vertex_attrib* va);
 
 void sl_shader_bind(int id);
