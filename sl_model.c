@@ -86,16 +86,10 @@ sl_model_unbind() {
 }
 
 void 
-sl_model_projection(int width, int height) {
-// 	float hh = 1.0f * height / width;
-// 	sl_matrix_perspective(&S.projection_mat, -1, 1, -hh, hh, 1, 3);
-
+sl_model_projection(int width, int height, float near, float far) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
- 	sl_matrix_perspective(&S.projection_mat, -hw, hw, -hh, hh, 2, -2);
-
-//	sl_matrix_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
-
+ 	sl_matrix_perspective(&S.projection_mat, -hw, hw, -hh, hh, near, far);
 	sl_shader_set_uniform(S.shader, S.projection_idx, UNIFORM_FLOAT44, S.projection_mat.e);
 }
 
