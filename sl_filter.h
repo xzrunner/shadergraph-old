@@ -28,6 +28,9 @@ void sl_filter_modelview(float x, float y, float sx, float sy);
 
 void sl_filter_set_mode(enum SL_FILTER_MODE mode);
 
+void sl_filter_set_edge_detect_val(float val);
+void sl_filter_set_blur_val(float val);
+
 void sl_filter_draw(const float* positions, const float* texcoords, int texid);
 
 void sl_filter_commit();

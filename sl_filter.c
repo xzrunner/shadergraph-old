@@ -38,6 +38,9 @@ struct shader_state {
 
 	int tex;
 	enum SL_FILTER_MODE mode;
+
+	int edge_detect_val;
+	int blur_val;
 };
 
 static struct shader_state S;
@@ -94,6 +97,11 @@ sl_filter_load() {
 	S.quad_sz = 0;
 	S.tex = 0;
 	S.mode = SLFM_MAX_COUNT;
+
+	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
+	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
+	sl_filter_set_edge_detect_val(0.5f);
+	sl_filter_set_blur_val(1);
 }
 
 void 
@@ -144,6 +152,16 @@ sl_filter_set_mode(enum SL_FILTER_MODE mode) {
 		sl_filter_commit();
 	}
 	S.mode = mode;
+}
+
+void 
+sl_filter_set_edge_detect_val(float val) {
+	sl_shader_set_uniform(S.shader[SLFM_EDGE_DETECTION], S.edge_detect_val, UNIFORM_FLOAT1, &val);
+}
+
+void 
+sl_filter_set_blur_val(float val) {
+	sl_shader_set_uniform(S.shader[SLFM_BLUR], S.blur_val, UNIFORM_FLOAT1, &val);
 }
 
 void 
