@@ -1,5 +1,8 @@
 static const char* sprite_both_frag = STRINGIFY(
 
+\n#version 100\n
+precision highp float;
+
 varying vec2 v_texcoord;
 varying vec4 v_color;
 varying vec4 v_additive;

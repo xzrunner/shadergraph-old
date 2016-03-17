@@ -1,6 +1,7 @@
 static const char* blur_frag = STRINGIFY(
 
-//precision highp float;
+\n#version 100\n
+precision highp float;
 
 varying vec2 v_texcoord;  
 uniform sampler2D texture0;  

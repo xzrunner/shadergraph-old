@@ -1,5 +1,8 @@
 static const char* sprite_map_frag = STRINGIFY(
 
+\n#version 100\n
+precision highp float;
+
 varying vec2 v_texcoord;
 varying vec4 v_rmap;
 varying vec4 v_gmap;

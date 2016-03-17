@@ -1,5 +1,8 @@
 static const char* shape_vert = STRINGIFY(
 
+\n#version 100\n
+precision highp float;
+
 attribute vec4 position;
 attribute vec4 color;   
 
