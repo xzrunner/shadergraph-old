@@ -7,8 +7,10 @@ extern "C"
 #define shader_lab_h
 
 #include "sl_shader.h"
-#include "sl_sprite.h"
 #include "sl_shape.h"
+#include "sl_sprite.h"
+#include "sl_blend.h"
+#include "sl_filter.h"
 
 #endif // shader_lab_h
 
