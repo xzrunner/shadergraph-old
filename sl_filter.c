@@ -150,8 +150,9 @@ void
 sl_filter_set_mode(enum SL_FILTER_MODE mode) {
 	if (mode != S.mode) {
 		sl_filter_commit();
+		S.mode = mode;
+		sl_shader_bind(S.shader[S.mode]);
 	}
-	S.mode = mode;
 }
 
 void 
