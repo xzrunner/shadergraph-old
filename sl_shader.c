@@ -318,6 +318,7 @@ sl_shader_bind(int id) {
 		S->curr_shader = id;
 		render_shader_bind(S->R, s->prog);
 		render_set(S->R, VERTEXBUFFER, s->vertex_buffer, 0);
+		render_set(S->R, INDEXBUFFER, s->index_buffer, 0);
 		_apply_uniform(s);
 	} else if (s->reset_uniform) {
 		_apply_uniform(s);
