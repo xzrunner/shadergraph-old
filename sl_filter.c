@@ -167,8 +167,7 @@ sl_filter_set_blur_val(float val) {
 
 void 
 sl_filter_draw(const float* positions, const float* texcoords, int texid) {
-	if (S.quad_sz >= MAX_COMMBINE ||
-		texid != S.tex && S.tex != 0) {
+	if (S.quad_sz >= MAX_COMMBINE || (texid != S.tex && S.tex != 0)) {
 		sl_filter_commit();
 	}
 	S.tex = texid;

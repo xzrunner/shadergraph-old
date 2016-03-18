@@ -19,7 +19,7 @@ lblend(lua_State *L) {
 
 static int
 lclear(lua_State *L) {
-	uint32_t c = luaL_optinteger(L, 1, 0xff000000);
+	uint32_t c = (uint32_t)(luaL_optinteger(L, 1, 0xff000000));
 	sl_shader_clear(c);
 	return 0;
 }
