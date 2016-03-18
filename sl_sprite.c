@@ -396,4 +396,6 @@ sl_sprite_commit() {
 	S.quad_sz = 0;
 	S.tex = 0;
 	S.type = TYPE_PLAIN;
+
+	sl_shader_flush();
 }

@@ -10,6 +10,8 @@ lblend(lua_State *L) {
 	} else {
 		int m1 = (int)luaL_checkinteger(L,1);
 		int m2 = (int)luaL_checkinteger(L,2);
+		// fixme
+		sl_shader_commit();
 		sl_shader_blend(m1, m2);
 	}
 	return 0;

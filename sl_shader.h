@@ -10,7 +10,7 @@ extern "C"
 
 struct sl_vertexbuffer;
 
-void sl_shader_mgr_create(int max_texture);
+void sl_shader_mgr_create(int max_texture, void (*commit_func)());
 void sl_shader_mgr_release();
 struct render* sl_shader_get_render();
 
@@ -49,6 +49,9 @@ int  sl_shader_uniform_size(enum UNIFORM_FORMAT t);
 void sl_shader_draw(int id, void* data, int n, int element);
 
 void sl_shader_clear(unsigned long argb);
+
+// fixme
+void sl_shader_commit();
 
 void sl_shader_flush();
 

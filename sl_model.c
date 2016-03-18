@@ -140,4 +140,6 @@ sl_model_commit() {
 
 	sl_shader_draw(S.shader, S.buf, S.vertices_sz, 0);
 	S.vertices_sz = 0;
+
+	sl_shader_flush();
 }

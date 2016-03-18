@@ -209,6 +209,8 @@ sl_blend_commit() {
 
 	S.quad_sz = 0;
 	S.tex_blend = S.tex_base = 0;
+
+	sl_shader_flush();
 }
 
 void 

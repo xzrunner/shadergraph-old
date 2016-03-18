@@ -195,4 +195,6 @@ sl_filter_commit() {
 
 	S.quad_sz = 0;
 	S.tex = 0;
+
+	sl_shader_flush();
 }

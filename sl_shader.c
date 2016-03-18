@@ -47,6 +47,8 @@ struct shader {
 };
 
 struct shader_mgr {
+	void (*commit_func)();
+
 	struct render* R;
 
 	int curr_shader;
@@ -56,19 +58,18 @@ struct shader_mgr {
  	int tex[MAX_TEXTURE_CHANNEL];
  	int blendchange;
 	RID target;
-
-// 	RID layout;
-// 	struct render_buffer vb;
 };
 
 static struct shader_mgr* S = NULL;
 
 void 
-sl_shader_mgr_create(int max_texture) {
+sl_shader_mgr_create(int max_texture, void (*commit_func)()) {
 	if (S) return;
 
 	struct shader_mgr* sm = (struct shader_mgr*)malloc(sizeof(*sm));
 	memset(sm, 0 , sizeof(*sm));
+
+	sm->commit_func = commit_func;
 
 	struct render_init_args RA;
 	// todo: config these args
@@ -166,7 +167,7 @@ _commit(struct shader* s) {
 	}
 
 #ifdef _DEBUG
-	printf("_commit %d \n", vb->n);
+//	printf("_commit %d \n", vb->n);
 #endif // _DEBUG
 
 	render_buffer_update(S->R, s->vertex_buffer, vb->buf, vb->n);
@@ -219,7 +220,7 @@ void
 sl_shader_set_texture(int id, int channel) {
 	assert(channel < MAX_TEXTURE_CHANNEL);
 	if (S->tex[channel] != id) {
-		sl_shader_flush();
+		_commit(&S->shader[S->curr_shader]);
 		S->tex[channel] = id;
 		render_set(S->R, TEXTURE, id, channel);
 	}
@@ -319,6 +320,7 @@ sl_shader_bind(int id) {
 		render_shader_bind(S->R, s->prog);
 		render_set(S->R, VERTEXBUFFER, s->vertex_buffer, 0);
 		render_set(S->R, INDEXBUFFER, s->index_buffer, 0);
+//		render_set(S->R, VERTEXLAYOUT, s->layout, 0);
 		_apply_uniform(s);
 	} else if (s->reset_uniform) {
 		_apply_uniform(s);
@@ -406,6 +408,11 @@ sl_shader_draw(int id, void* data, int n, int element) {
 void 
 sl_shader_clear(unsigned long argb) {
 	render_clear(S->R, MASKC, argb);
+}
+
+void 
+sl_shader_commit() {
+	S->commit_func();
 }
 
 void 
