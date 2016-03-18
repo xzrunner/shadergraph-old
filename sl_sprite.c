@@ -322,7 +322,7 @@ sl_sprite_draw(const float* positions, const float* texcoords, int texid) {
 	}
 	S.tex = texid;
 
-	bool has_color = (S.color != 0xffffffff) || (S.additive & 0xffffff != 0);
+	bool has_color = (S.color != 0xffffffff) || ((S.additive & 0xffffff) != 0);
 	bool has_map = ((S.rmap & 0x00ffffff) != 0x000000ff) || ((S.gmap & 0x00ffffff) != 0x0000ff00) || ((S.bmap & 0x00ffffff) != 0x00ff0000);
 	int type = TYPE_PLAIN;
 	if (has_color) {
