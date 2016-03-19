@@ -3,7 +3,7 @@
 #include "sl_shader.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
-#include "sl_vertexbuffer.h"
+#include "sl_buffer.h"
 
 #include <render/render.h>
 
@@ -34,7 +34,7 @@ struct shader_state {
 	int shader;
 
 	int index_buf_id, vertex_buf_id;
-	struct sl_vertexbuffer* vertex_buf;
+	struct sl_buffer *index_buf, *vertex_buf;
 
 	int projection, modelview;
 	struct sl_matrix modelview_mat, projection_mat;
@@ -61,11 +61,13 @@ sl_blend_load() {
 
 	uint16_t idxs[6 * MAX_COMMBINE];
 	sl_init_quad_index_buffer(idxs, MAX_COMMBINE);
-	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t), idxs);
-	sl_shader_set_index_buffer(s, index_buf_id);
+	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t));
+	struct sl_buffer* index_buf = sl_buf_create(sizeof(uint16_t), 6 * MAX_COMMBINE);
+	sl_buf_add(index_buf, idxs, 6 * MAX_COMMBINE);
+	sl_shader_set_index_buffer(s, index_buf_id, index_buf);
 
 	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex));
-	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex), 4 * MAX_COMMBINE);
+	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), 4 * MAX_COMMBINE);
 	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[5] = {
@@ -86,6 +88,7 @@ sl_blend_load() {
 
 	S.index_buf_id = index_buf_id;
 	S.vertex_buf_id = vertex_buf_id;
+	S.index_buf = index_buf;
 	S.vertex_buf = vertex_buf;
 
 	S.projection = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
@@ -119,7 +122,8 @@ void
 sl_blend_unload() {
 	sl_shader_release_index_buffer(S.index_buf_id);
 	sl_shader_release_vertex_buffer(S.vertex_buf_id);
-	sl_vb_release(S.vertex_buf);
+	sl_buf_release(S.index_buf);
+	sl_buf_release(S.vertex_buf);
 	sl_shader_unload(S.shader);
 	free(S.buf); S.buf = NULL;
 }

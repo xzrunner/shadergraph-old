@@ -8,7 +8,7 @@ extern "C"
 
 #include <render/render.h>
 
-struct sl_vertexbuffer;
+struct sl_buffer;
 
 void sl_shader_mgr_create(int max_texture, void (*commit_func)());
 void sl_shader_mgr_release();
@@ -29,13 +29,15 @@ int  sl_shader_get_texture();
 void sl_shader_set_target(int id);
 int  sl_shader_get_target();
 
-int sl_shader_create_vertex_buffer(int n, int stride);
-void sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_vertexbuffer* buf);
+int  sl_shader_create_vertex_buffer(int n, int stride);
+void sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_buffer* buf);
 void sl_shader_release_vertex_buffer(int buf_id);
 
-int  sl_shader_create_index_buffer(int n, int stride, const void* data);
-void sl_shader_set_index_buffer(int id, int buf_id);
+int  sl_shader_create_index_buffer(int n, int stride);
+void sl_shader_set_index_buffer(int id, int buf_id, struct sl_buffer* buf);
 void sl_shader_release_index_buffer(int buf_id);
+
+void sl_shader_update_buffer(int buf_id, struct sl_buffer* buf);
 
 int sl_shader_create_vertex_layout(int n, struct vertex_attrib* va);
 void sl_shader_set_vertex_layout(int id, int layout_id);
@@ -46,7 +48,7 @@ int  sl_shader_add_uniform(int id, const char* name, enum UNIFORM_FORMAT t);
 void sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, float* v);
 int  sl_shader_uniform_size(enum UNIFORM_FORMAT t);
 
-void sl_shader_draw(int id, void* data, int n, int element);
+void sl_shader_draw(int id, void* data, int vb_n, int ib_n);
 
 void sl_shader_clear(unsigned long argb);
 

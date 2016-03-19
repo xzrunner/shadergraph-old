@@ -1,5 +1,5 @@
 #include "sl_shader.h"
-#include "sl_vertexbuffer.h"
+#include "sl_buffer.h"
 
 #include <render/blendmode.h>
 
@@ -41,9 +41,8 @@ struct shader {
 	RID layout;
 
 	enum DRAW_MODE draw_mode;
-	struct sl_vertexbuffer* vb;
-
-	bool element;
+	struct sl_buffer* vb;
+	struct sl_buffer* ib;
 };
 
 struct shader_mgr {
@@ -161,23 +160,30 @@ sl_shader_unload(int id) {
 
 static inline void
 _commit(struct shader* s) {
-	struct sl_vertexbuffer* vb = s->vb;
+	struct sl_buffer* vb = s->vb;
 	if (!vb || vb->n == 0) {
 		return;
 	}
-
 #ifdef _DEBUG
 //	printf("_commit %d \n", vb->n);
 #endif // _DEBUG
 
-	render_buffer_update(S->R, s->vertex_buffer, vb->buf, vb->n);
-	if (s->element) {
-		render_draw_elements(S->R, s->draw_mode, 0, vb->element);
+	if (vb->dirty) {
+		render_buffer_update(S->R, s->vertex_buffer, vb->buf, vb->n);
+		vb->dirty = false;
+	}
+	if (s->ib) {
+		struct sl_buffer* ib = s->ib;
+		if (ib->dirty) {
+			render_buffer_update(S->R, s->index_buffer, ib->buf, ib->n);
+			ib->dirty = false;
+		}
+		render_draw_elements(S->R, s->draw_mode, 0, ib->n);
+		ib->n = 0;
 	} else {
 		render_draw_arrays(S->R, s->draw_mode, 0, vb->n);
 	}	
 	vb->n = 0;
-	vb->element = 0;
 }
 
 void 
@@ -249,7 +255,7 @@ sl_shader_create_vertex_buffer(int n, int stride) {
 }
 
 void 
-sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_vertexbuffer* buf) {
+sl_shader_set_vertex_buffer(int id, int buf_id, struct sl_buffer* buf) {
 	render_set(S->R, VERTEXBUFFER, buf_id, 0);
 
 	assert(id >= 0 && id < MAX_SHADER);
@@ -264,22 +270,28 @@ sl_shader_release_vertex_buffer(int buf_id) {
 }
 
 int 
-sl_shader_create_index_buffer(int n, int stride, const void* data) {
-	return render_buffer_create(S->R, INDEXBUFFER, data, n, stride);	
+sl_shader_create_index_buffer(int n, int stride) {
+	return render_buffer_create(S->R, INDEXBUFFER, NULL, n, stride);	
 }
 
 void 
-sl_shader_set_index_buffer(int id, int buf_id) {
+sl_shader_set_index_buffer(int id, int buf_id, struct sl_buffer* buf) {
+	render_set(S->R, INDEXBUFFER, buf_id, 0);
+
 	assert(id >= 0 && id < MAX_SHADER);
 	struct shader* s = &S->shader[id];
 	s->index_buffer = buf_id;
-	s->element = true;
-	render_set(S->R, INDEXBUFFER, buf_id, 0);
+	s->ib = buf;
 }
 
 void 
 sl_shader_release_index_buffer(int buf_id) {
 	render_release(S->R, INDEXBUFFER, buf_id);
+}
+
+void 
+sl_shader_update_buffer(int buf_id, struct sl_buffer* buf) {
+	render_buffer_update(S->R, buf_id, buf->buf, buf->n);
 }
 
 int
@@ -397,10 +409,13 @@ sl_shader_uniform_size(enum UNIFORM_FORMAT t) {
 }
 
 void 
-sl_shader_draw(int id, void* data, int n, int element) {
+sl_shader_draw(int id, void* data, int vb_n, int ib_n) {
 	assert(id >= 0 && id < MAX_SHADER);
 	struct shader* s = &S->shader[id];
-	if (sl_vb_add(s->vb, data, n, element)) {
+	if (s->ib && ib_n && sl_buf_add(s->ib, NULL, ib_n)) {
+		_commit(s);
+	}
+	if (sl_buf_add(s->vb, data, vb_n)) {
 		_commit(s);
 	}
 }

@@ -1,7 +1,7 @@
 #include "sl_shape.h"
 #include "sl_shader.h"
 #include "sl_matrix.h"
-#include "sl_vertexbuffer.h"
+#include "sl_buffer.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -23,7 +23,7 @@ struct shader_state {
 	int shader;
 
 	int vertex_buf_id;
-	struct sl_vertexbuffer* vertex_buf;
+	struct sl_buffer* vertex_buf;
 
 	int projection_idx, modeview_idx;
 	struct sl_matrix modelview_mat, projection_mat;
@@ -41,7 +41,7 @@ sl_shape_load() {
 	}
 
 	int vertex_buf_id = sl_shader_create_vertex_buffer(MAX_VERTICES, sizeof(struct vertex));
-	struct sl_vertexbuffer* vertex_buf = sl_vb_create(sizeof(struct vertex), MAX_VERTICES);
+	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), MAX_VERTICES);
 	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
 	struct vertex_attrib va[2] = {
@@ -69,7 +69,7 @@ sl_shape_load() {
 void 
 sl_shape_unload() {
 	sl_shader_release_vertex_buffer(S.vertex_buf_id);
-	sl_vb_release(S.vertex_buf);
+	sl_buf_release(S.vertex_buf);
 	sl_shader_unload(S.shader);
 
 	memset(&S, 0, sizeof(struct shader_state));
