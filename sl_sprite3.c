@@ -1,4 +1,4 @@
-#include "sl_model.h"
+#include "sl_sprite3.h"
 #include "sl_shader.h"
 #include "sl_matrix.h"
 #include "sl_vertexbuffer.h"
@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 #define STRINGIFY(A)  #A
-#include "model_simple.vert"
-#include "model_simple.frag"
+#include "sprite3.vert"
+#include "sprite3.frag"
 
 #define MAX_VERTICES		4096
 
@@ -38,7 +38,7 @@ struct shader_state {
 static struct shader_state S;
 
 void 
-sl_model_load() {
+sl_sprite3_load() {
 	int s = sl_shader_create();
 	if (s < 0) {
 		return;
@@ -55,7 +55,7 @@ sl_model_load() {
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 	sl_shader_set_vertex_layout(s, layout_id);
 
-	sl_shader_load(s, model_simple_vert, model_simple_frag);
+	sl_shader_load(s, sprite3_vert, sprite3_frag);
 
 	sl_shader_set_draw_mode(s, DRAW_TRIANGLES);
 
@@ -77,7 +77,7 @@ sl_model_load() {
 }
 
 void 
-sl_model_unload() {
+sl_sprite3_unload() {
 	sl_shader_release_vertex_buffer(S.vertex_buf_id);
 	sl_vb_release(S.vertex_buf);
 	sl_shader_unload(S.shader);
@@ -88,17 +88,17 @@ sl_model_unload() {
 }
 
 void 
-sl_model_bind() {
+sl_sprite3_bind() {
 	sl_shader_bind(S.shader);
 }
 
 void 
-sl_model_unbind() {
-	sl_model_commit();
+sl_sprite3_unbind() {
+	sl_sprite3_commit();
 }
 
 void 
-sl_model_projection(int width, int height, float near, float far) {
+sl_sprite3_projection(int width, int height, float near, float far) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
  	sl_matrix_perspective(&S.projection_mat, -hw, hw, -hh, hh, near, far);
@@ -106,17 +106,17 @@ sl_model_projection(int width, int height, float near, float far) {
 }
 
 void 
-sl_model_modelview(float x, float y, float sx, float sy) {
+sl_sprite3_modelview(float x, float y, float sx, float sy) {
 	sl_matrix_set_scale(&S.modelview_mat, sx, sy);
 	sl_matrix_set_translate(&S.modelview_mat, x * sx, y * sy);
 	sl_shader_set_uniform(S.shader, S.modeview_idx, UNIFORM_FLOAT44, S.modelview_mat.e);
 }
 
 void 
-sl_model_draw(const float* positions, const float* texcoords, int texid, int vertices_count) {
+sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int vertices_count) {
 	if (S.vertices_sz + vertices_count > MAX_VERTICES ||
 		(texid != S.tex && S.tex != 0)) {
-		sl_model_commit();
+		sl_sprite3_commit();
 	}
 	S.tex = texid;
 
@@ -131,7 +131,7 @@ sl_model_draw(const float* positions, const float* texcoords, int texid, int ver
 }
 
 void 
-sl_model_commit() {
+sl_sprite3_commit() {
 	if (S.vertices_sz == 0) {
 		return;
 	}

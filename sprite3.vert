@@ -1,4 +1,4 @@
-static const char* model_simple_vert = STRINGIFY(
+static const char* sprite3_vert = STRINGIFY(
 
 \n#version 100\n
 precision highp float;

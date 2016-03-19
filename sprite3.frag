@@ -1,4 +1,4 @@
-static const char* model_simple_frag = STRINGIFY(
+static const char* sprite3_frag = STRINGIFY(
 
 \n#version 100\n
 precision highp float;
