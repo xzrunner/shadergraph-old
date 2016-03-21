@@ -1,8 +1,5 @@
 static const char* relief_frag = STRINGIFY(
 
-\n#version 130\n
-precision highp float;
-
 varying vec2 v_texcoord;  
 uniform sampler2D texture0;  
 

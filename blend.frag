@@ -2,11 +2,6 @@
 
 static const char* blend_frag = STRINGIFY(
 
-#ifdef GL_ES
-\n#version 100\n
-precision highp float;
-#endif
-
 /*
 ** Float blending modes
 */

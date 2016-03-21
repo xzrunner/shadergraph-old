@@ -1,10 +1,5 @@
 static const char* sprite3_frag = STRINGIFY(
 
-#ifdef GL_ES
-\n#version 100\n
-precision highp float;
-#endif
-
 varying vec2 v_texcoord; 
 
 uniform sampler2D texture0; 
