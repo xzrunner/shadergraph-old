@@ -22,7 +22,7 @@ sl_buf_release(struct sl_buffer* vb) {
 }
 
 inline bool 
-sl_buf_add(struct sl_buffer* vb, void* data, int n) {
+sl_buf_add(struct sl_buffer* vb, const void* data, int n) {
 	if (vb->n + n > vb->cap) {
 		return true;
 	} else {

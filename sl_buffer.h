@@ -22,7 +22,7 @@ struct sl_buffer* sl_buf_create(int size, int cap);
 void sl_buf_release(struct sl_buffer*);
 
 extern inline bool 
-sl_buf_add(struct sl_buffer*, void* data, int n);
+sl_buf_add(struct sl_buffer*, const void* data, int n);
 
 #endif // shader_lab_buffer_h
 
