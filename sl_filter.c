@@ -1,5 +1,5 @@
 #include "sl_filter.h"
-#include "sl_matrix.h"
+#include "sl_math.h"
 #include "sl_utility.h"
 #include "sl_shader.h"
 #include "sl_buffer.h"
@@ -31,7 +31,7 @@ struct shader_state {
 	int projection[SLFM_MAX_COUNT];
 	int modelview[SLFM_MAX_COUNT];
 
-	struct sl_matrix modelview_mat, projection_mat;
+	union sl_mat4 modelview_mat, projection_mat;
 
 	struct vertex* buf;
 	int quad_sz;
@@ -90,8 +90,8 @@ sl_filter_load() {
 	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
-	sl_matrix_identity(&S.projection_mat);
-	sl_matrix_identity(&S.modelview_mat);
+	sl_mat4_identity(&S.projection_mat);
+	sl_mat4_identity(&S.modelview_mat);
 
 	S.index_buf_id = index_buf_id;
 	S.vertex_buf_id = vertex_buf_id;
@@ -137,18 +137,18 @@ void
 sl_filter_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_matrix_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	for (int i = 0; i < SLFM_MAX_COUNT; ++i) {
-		sl_shader_set_uniform(S.shader[i], S.projection[i], UNIFORM_FLOAT44, S.projection_mat.e);
+		sl_shader_set_uniform(S.shader[i], S.projection[i], UNIFORM_FLOAT44, S.projection_mat.x);
 	}
 }
 
 void 
 sl_filter_modelview(float x, float y, float sx, float sy) {
-	sl_matrix_set_scale(&S.modelview_mat, sx, sy);
-	sl_matrix_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
+	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
 	for (int i = 0; i < SLFM_MAX_COUNT; ++i) {
-		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.e);
+		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.x);
 	}
 }
 

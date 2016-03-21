@@ -1,5 +1,5 @@
 #include "sl_sprite.h"
-#include "sl_matrix.h"
+#include "sl_math.h"
 #include "sl_shader.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
@@ -83,10 +83,10 @@ struct shader_state {
 	struct sl_buffer* index_buf;
 	struct sl_buffer* vertex_buf[MAX_SHADER_COUNT];
 
-	int projection[MAX_SHADER_COUNT];
-	int modelview[MAX_SHADER_COUNT];
+	int projection_id[MAX_SHADER_COUNT];
+	int modelview_id[MAX_SHADER_COUNT];
 
-	struct sl_matrix modelview_mat, projection_mat;
+	union sl_mat4 modelview_mat, projection_mat;
 
 	uint32_t color, additive;
 	uint32_t rmap, gmap, bmap;
@@ -127,8 +127,8 @@ _create_plain_shader(int index_buf_id, struct sl_buffer* index_buf) {
 	S.shader[IDX_PLAIN] = s;
 	S.vertex_buf_id[IDX_PLAIN] = vertex_buf_id;
 	S.vertex_buf[IDX_PLAIN] = vertex_buf;
-	S.projection[IDX_PLAIN] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modelview[IDX_PLAIN] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.projection_id[IDX_PLAIN] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
+	S.modelview_id[IDX_PLAIN] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -160,8 +160,8 @@ _create_color_shader(int index_buf_id, struct sl_buffer* index_buf) {
 	S.shader[IDX_COLOR] = s;
 	S.vertex_buf_id[IDX_COLOR] = vertex_buf_id;
 	S.vertex_buf[IDX_COLOR] = vertex_buf;
-	S.projection[IDX_COLOR] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modelview[IDX_COLOR] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.projection_id[IDX_COLOR] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
+	S.modelview_id[IDX_COLOR] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -194,8 +194,8 @@ _create_map_shader(int index_buf_id, struct sl_buffer* index_buf) {
 	S.shader[IDX_MAP] = s;
 	S.vertex_buf_id[IDX_MAP] = vertex_buf_id;
 	S.vertex_buf[IDX_MAP] = vertex_buf;
-	S.projection[IDX_MAP] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modelview[IDX_MAP] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.projection_id[IDX_MAP] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
+	S.modelview_id[IDX_MAP] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 static void
@@ -230,8 +230,8 @@ _create_both_shader(int index_buf_id, struct sl_buffer* index_buf) {
 	S.shader[IDX_BOTH] = s;
 	S.vertex_buf_id[IDX_BOTH] = vertex_buf_id;
 	S.vertex_buf[IDX_BOTH] = vertex_buf;
-	S.projection[IDX_BOTH] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
-	S.modelview[IDX_BOTH] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
+	S.projection_id[IDX_BOTH] = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
+	S.modelview_id[IDX_BOTH] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
 void 
@@ -247,8 +247,8 @@ sl_sprite_load() {
 	_create_map_shader(index_buf_id, index_buf);
 	_create_both_shader(index_buf_id, index_buf);
 
-	sl_matrix_identity(&S.projection_mat);
-	sl_matrix_identity(&S.modelview_mat);
+	sl_mat4_identity(&S.projection_mat);
+	sl_mat4_identity(&S.modelview_mat);
 
 	S.index_buf_id = index_buf_id;
 	S.index_buf = index_buf;
@@ -292,18 +292,18 @@ void
 sl_sprite_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_matrix_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
-		sl_shader_set_uniform(S.shader[i], S.projection[i], UNIFORM_FLOAT44, S.projection_mat.e);
+		sl_shader_set_uniform(S.shader[i], S.projection_id[i], UNIFORM_FLOAT44, S.projection_mat.x);
 	}
 }
 
 void 
 sl_sprite_modelview(float x, float y, float sx, float sy) {
-	sl_matrix_set_scale(&S.modelview_mat, sx, sy);
-	sl_matrix_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
+	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
-		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.e);
+		sl_shader_set_uniform(S.shader[i], S.modelview_id[i], UNIFORM_FLOAT44, S.modelview_mat.x);
 	}
 }
 

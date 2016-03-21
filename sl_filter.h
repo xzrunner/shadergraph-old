@@ -6,8 +6,6 @@ extern "C"
 #ifndef shader_lab_filter_h
 #define shader_lab_filter_h
 
-#include "sl_blend.h"
-
 enum SL_FILTER_MODE {
 	SLFM_EDGE_DETECTION = 0,
 	SLFM_RELIEF,
