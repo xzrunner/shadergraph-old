@@ -42,6 +42,7 @@ void sl_shader_update_buffer(int buf_id, struct sl_buffer* buf);
 int sl_shader_create_vertex_layout(int n, struct vertex_attrib* va);
 void sl_shader_set_vertex_layout(int id, int layout_id);
 
+void sl_shader_apply_uniform(int id);
 void sl_shader_bind(int id);
 
 int  sl_shader_add_uniform(int id, const char* name, enum UNIFORM_FORMAT t);

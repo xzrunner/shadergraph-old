@@ -73,7 +73,7 @@ sl_shader_mgr_create(int max_texture, void (*commit_func)()) {
 	struct render_init_args RA;
 	// todo: config these args
 	RA.max_buffer = 128;
-	RA.max_layout = 8;
+	RA.max_layout = 16;
 	RA.max_target = 128;
 	RA.max_texture = max_texture;
 	RA.max_shader = MAX_SHADER;
@@ -319,6 +319,12 @@ _apply_uniform(struct shader* s) {
 		}
 	}
 	s->reset_uniform = true;
+}
+
+void 
+sl_shader_apply_uniform(int id) {
+	struct shader* s = &S->shader[id];
+	_apply_uniform(s);
 }
 
 void 
