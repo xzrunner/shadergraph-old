@@ -1,7 +1,9 @@
 static const char* sprite_color_frag = STRINGIFY(
 
+#ifdef GL_ES
 \n#version 100\n
 precision highp float;
+#endif
 
 varying vec4 v_color;
 varying vec4 v_additive;

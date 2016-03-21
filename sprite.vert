@@ -1,7 +1,9 @@
 static const char* sprite_vert = STRINGIFY(
 
+#ifdef GL_ES
 \n#version 100\n
 precision highp float;
+#endif
 
 attribute vec4 position;
 attribute vec2 texcoord;
