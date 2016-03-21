@@ -8,6 +8,7 @@ extern "C"
 
 struct sl_vec3;
 union sl_mat3;
+struct ds_array;
 
 void sl_lighting_load();
 void sl_lighting_unload();
