@@ -168,6 +168,7 @@ sl_blend_set_mode(enum SL_BLEND_MODE mode) {
 
 	float m = mode;
 	sl_shader_set_uniform(S.shader, S.mode_id, UNIFORM_INT1, &m);
+	sl_shader_apply_uniform(S.shader);
 }
 
 void 
