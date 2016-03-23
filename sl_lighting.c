@@ -48,6 +48,8 @@ sl_lighting_load() {
 	int index_buf_id = sl_shader_create_index_buffer(MAX_INDICES, sizeof(uint16_t));
 	struct sl_buffer* index_buf = sl_buf_create(sizeof(uint16_t), MAX_INDICES);
 	sl_shader_set_index_buffer(s, index_buf_id, index_buf);
+	sl_shader_update_buffer(index_buf_id, index_buf);
+	index_buf->n = 0;
 
 	int vertex_buf_id = sl_shader_create_vertex_buffer(MAX_VERTICES, sizeof(struct vertex));
 	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), MAX_VERTICES);

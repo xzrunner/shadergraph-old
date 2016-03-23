@@ -28,8 +28,8 @@ sl_buf_add(struct sl_buffer* vb, const void* data, int n) {
 	} else {
 		if (data) {
 			memcpy(vb->buf + vb->size * vb->n, data, vb->size * n);
-			vb->dirty = true;
 		}
+		vb->dirty = true;
 		vb->n += n;
 		return false;
 	}

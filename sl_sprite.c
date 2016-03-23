@@ -241,6 +241,8 @@ sl_sprite_load() {
 	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t));	
 	struct sl_buffer* index_buf = sl_buf_create(sizeof(uint16_t), 6 * MAX_COMMBINE);
 	sl_buf_add(index_buf, idxs, 6 * MAX_COMMBINE);
+	sl_shader_update_buffer(index_buf_id, index_buf);
+	index_buf->n = 0;
 
 	_create_plain_shader(index_buf_id, index_buf);
 	_create_color_shader(index_buf_id, index_buf);

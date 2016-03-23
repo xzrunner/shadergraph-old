@@ -75,6 +75,8 @@ sl_filter_load() {
 	int index_buf_id = sl_shader_create_index_buffer(6 * MAX_COMMBINE, sizeof(uint16_t));
 	struct sl_buffer* index_buf = sl_buf_create(sizeof(uint16_t), 6 * MAX_COMMBINE);
 	sl_buf_add(index_buf, idxs, 6 * MAX_COMMBINE);
+	sl_shader_update_buffer(index_buf_id, index_buf);
+	index_buf->n = 0;
 
 	int vertex_buf_id = sl_shader_create_vertex_buffer(4 * MAX_COMMBINE, sizeof(struct vertex));
 	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), 4 * MAX_COMMBINE);
