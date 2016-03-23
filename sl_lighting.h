@@ -8,6 +8,7 @@ extern "C"
 
 struct sl_vec3;
 union sl_mat3;
+union sl_mat4;
 struct ds_array;
 
 void sl_lighting_load();
@@ -17,7 +18,7 @@ void sl_lighting_bind();
 void sl_lighting_unbind();
 
 void sl_lighting_projection(int width, int height, float near, float far);
-void sl_lighting_modelview(float x, float y, float sx, float sy);
+void sl_lighting_modelview(const union sl_mat4* mat);
 
 void sl_lighting_set_material(struct sl_vec3* ambient, struct sl_vec3* diffuse, 
 	                          struct sl_vec3* specular, float shininess);
