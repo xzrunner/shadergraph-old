@@ -14,6 +14,7 @@
 #include "relief.frag"
 #include "outline.frag"
 #include "blur.frag"
+#include "gray.frag"
 
 #define MAX_COMMBINE 256
 
@@ -91,6 +92,7 @@ sl_filter_load() {
 	_create_shader(SLFM_RELIEF, filter_vert, relief_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
