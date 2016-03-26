@@ -15,6 +15,7 @@
 #include "outline.frag"
 #include "blur.frag"
 #include "gray.frag"
+#include "heat_haze.frag"
 
 #define MAX_COMMBINE 256
 
@@ -40,8 +41,13 @@ struct shader_state {
 	int tex;
 	enum SL_FILTER_MODE mode;
 
+	float time;
+
 	int edge_detect_val;
 	int blur_val;
+
+	int heat_haze_time, heat_haze_distortion, heat_haze_rise;
+	int heat_haze_tex;
 };
 
 static struct shader_state S;
@@ -93,6 +99,7 @@ sl_filter_load() {
 	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
@@ -106,11 +113,28 @@ sl_filter_load() {
 	S.quad_sz = 0;
 	S.tex = 0;
 	S.mode = SLFM_MAX_COUNT;
+	S.time = 0;
 
 	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
-	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
 	sl_filter_set_edge_detect_val(0.5f);
+
+	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
 	sl_filter_set_blur_val(1);
+
+	S.heat_haze_time = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_time", UNIFORM_FLOAT1);
+	S.heat_haze_distortion = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_factor", UNIFORM_FLOAT1);
+	S.heat_haze_rise = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_rise_factor", UNIFORM_FLOAT1);
+	sl_filter_set_heat_haze_val(0.1f, 0.5f);
+	int tex0 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_current_tex", UNIFORM_INT1);
+	if (tex0 >= 0) {
+		float sample = 0;
+		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex0, UNIFORM_INT1, &sample);
+	}
+	int tex1 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_map_tex", UNIFORM_INT1);
+	if (tex1 >= 0) {
+		float sample = 1;
+		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex1, UNIFORM_INT1, &sample);
+	}
 }
 
 void 
@@ -176,6 +200,23 @@ sl_filter_set_blur_val(float val) {
 }
 
 void 
+sl_filter_set_heat_haze_val(float distortion, float rise) {
+ 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_distortion, UNIFORM_FLOAT1, &distortion);
+ 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_rise, UNIFORM_FLOAT1, &rise);
+}
+
+void 
+sl_filter_set_heat_haze_tex(int tex) {
+	S.heat_haze_tex = tex;
+}
+
+void 
+sl_filter_update(float dt) {
+	S.time += dt;
+	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_time, UNIFORM_FLOAT1, &S.time);
+}
+
+void 
 sl_filter_draw(const float* positions, const float* texcoords, int texid) {
 	if (S.quad_sz >= MAX_COMMBINE || (texid != S.tex && S.tex != 0)) {
 		sl_filter_commit();
@@ -199,6 +240,9 @@ sl_filter_commit() {
 	}
 
 	sl_shader_set_texture(S.tex, 0);
+	if (S.mode == SLFM_HEAT_HAZE) {
+		sl_shader_set_texture(S.heat_haze_tex, 1);
+	}
 
 	sl_shader_draw(S.shader[S.mode], S.buf, S.quad_sz * 4, S.quad_sz * 6);
 
@@ -206,4 +250,11 @@ sl_filter_commit() {
 	S.tex = 0;
 
 	sl_shader_flush();
+}
+
+void 
+sl_filter_on_size(int width, int height) {
+	if (S.mode == SLFM_HEAT_HAZE) {
+		sl_shader_set_texture(S.heat_haze_tex, 1);
+	}
 }
