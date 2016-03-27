@@ -14,6 +14,7 @@ enum SL_FILTER_MODE {
 	SLFM_GRAY,
 	SLFM_HEAT_HAZE,
 	SLFM_SHOCK_WAVE,
+	SLFM_SWIRL,
 
 	SLFM_MAX_COUNT,
 };
@@ -39,6 +40,8 @@ void sl_filter_set_heat_haze_tex(int tex);
 // shock_wave
 void sl_filter_set_shock_wave_center(float center[2]);
 void sl_filter_set_shock_wave_params(float params[3]);
+// swirl
+void sl_filter_set_swirl_val(float radius, float angle, float center[2]);
 
 void sl_filter_update(float dt);
 void sl_filter_draw(const float* positions, const float* texcoords, int texid);

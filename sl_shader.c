@@ -11,7 +11,7 @@
 #include <stdio.h>
 #endif // _DEBUG
 
-#define MAX_SHADER 16
+#define MAX_SHADER 32
 
 #define MAX_UNIFORM 16
 #define MAX_TEXTURE_CHANNEL 8

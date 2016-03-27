@@ -17,6 +17,7 @@
 #include "gray.frag"
 #include "heat_haze.frag"
 #include "shock_wave.frag"
+#include "swirl.frag"
 
 #define MAX_COMMBINE 256
 
@@ -53,6 +54,8 @@ struct shader_state {
 	int heat_haze_tex;
 	// shock_wave
 	int shock_wave_time, shock_wave_center, shock_wave_params;
+	// swirl
+	int swirl_time, swirl_radius, swirl_angle, swirl_center;
 };
 
 static struct shader_state S;
@@ -122,6 +125,17 @@ _init_shock_wave_uniforms() {
 	sl_filter_set_shock_wave_params(params);
 }
 
+static void
+_init_swirl_uniforms() {
+//	S.swirl_time = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_time", UNIFORM_FLOAT1);
+	S.swirl_radius = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_radius", UNIFORM_FLOAT1);
+	S.swirl_angle = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_angle", UNIFORM_FLOAT1);
+	S.swirl_center = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_center", UNIFORM_FLOAT2);
+
+	float center[2] = { 400, 300 };
+	sl_filter_set_swirl_val(200, 0.8f, center);
+}
+
 void 
 sl_filter_load() {
 	uint16_t idxs[6 * MAX_COMMBINE];
@@ -148,6 +162,7 @@ sl_filter_load() {
 	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	_create_shader(SLFM_SWIRL, filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
@@ -167,6 +182,7 @@ sl_filter_load() {
 	_init_blur_uniforms();
 	_init_heat_haze_uniforms();
 	_init_shock_wave_uniforms();
+	_init_swirl_uniforms();
 }
 
 void 
@@ -253,10 +269,18 @@ sl_filter_set_shock_wave_params(float params[3]) {
 }
 
 void 
+sl_filter_set_swirl_val(float radius, float angle, float center[2]) {
+	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_radius, UNIFORM_FLOAT1, &radius);
+	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_angle, UNIFORM_FLOAT1, &angle);
+	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_center, UNIFORM_FLOAT2, center);
+}
+
+void 
 sl_filter_update(float dt) {
 	S.time += dt;
 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_time, UNIFORM_FLOAT1, &S.time);
 	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_time, UNIFORM_FLOAT1, &S.time);
+//	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_time, UNIFORM_FLOAT1, &S.time);
 }
 
 void 
