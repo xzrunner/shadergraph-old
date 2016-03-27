@@ -16,6 +16,7 @@
 #include "blur.frag"
 #include "gray.frag"
 #include "heat_haze.frag"
+#include "shock_wave.frag"
 
 #define MAX_COMMBINE 256
 
@@ -43,11 +44,15 @@ struct shader_state {
 
 	float time;
 
+	// edge detect
 	int edge_detect_val;
+	// blur
 	int blur_val;
-
+	// heat haze
 	int heat_haze_time, heat_haze_distortion, heat_haze_rise;
 	int heat_haze_tex;
+	// shock_wave
+	int shock_wave_time, shock_wave_center, shock_wave_params;
 };
 
 static struct shader_state S;
@@ -75,6 +80,48 @@ _create_shader(int idx, const char* vs, const char* fs,
 	S.modelview[idx] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
+static void
+_init_edge_detect_uniforms() {
+	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
+	sl_filter_set_edge_detect_val(0.5f);
+}
+
+static void
+_init_blur_uniforms() {
+	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
+	sl_filter_set_blur_val(1);
+}
+
+static void
+_init_heat_haze_uniforms() {
+	S.heat_haze_time = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_time", UNIFORM_FLOAT1);
+	S.heat_haze_distortion = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_factor", UNIFORM_FLOAT1);
+	S.heat_haze_rise = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_rise_factor", UNIFORM_FLOAT1);
+	sl_filter_set_heat_haze_val(0.1f, 0.5f);
+	int tex0 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_current_tex", UNIFORM_INT1);
+	if (tex0 >= 0) {
+		float sample = 0;
+		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex0, UNIFORM_INT1, &sample);
+	}
+	int tex1 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_map_tex", UNIFORM_INT1);
+	if (tex1 >= 0) {
+		float sample = 1;
+		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex1, UNIFORM_INT1, &sample);
+	}
+}
+
+static void
+_init_shock_wave_uniforms() {
+	S.shock_wave_time = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_time", UNIFORM_FLOAT1);
+	S.shock_wave_center = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_center", UNIFORM_FLOAT2);
+	S.shock_wave_params = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_params", UNIFORM_FLOAT3);
+
+	float center[2] = { 0.5f, 0.5f };
+	sl_filter_set_shock_wave_center(center);
+	float params[3] = { 10, 0.8f, 0.1f };
+	sl_filter_set_shock_wave_params(params);
+}
+
 void 
 sl_filter_load() {
 	uint16_t idxs[6 * MAX_COMMBINE];
@@ -100,6 +147,7 @@ sl_filter_load() {
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
@@ -115,26 +163,10 @@ sl_filter_load() {
 	S.mode = SLFM_MAX_COUNT;
 	S.time = 0;
 
-	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
-	sl_filter_set_edge_detect_val(0.5f);
-
-	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
-	sl_filter_set_blur_val(1);
-
-	S.heat_haze_time = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_time", UNIFORM_FLOAT1);
-	S.heat_haze_distortion = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_factor", UNIFORM_FLOAT1);
-	S.heat_haze_rise = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_rise_factor", UNIFORM_FLOAT1);
-	sl_filter_set_heat_haze_val(0.1f, 0.5f);
-	int tex0 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_current_tex", UNIFORM_INT1);
-	if (tex0 >= 0) {
-		float sample = 0;
-		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex0, UNIFORM_INT1, &sample);
-	}
-	int tex1 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_map_tex", UNIFORM_INT1);
-	if (tex1 >= 0) {
-		float sample = 1;
-		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex1, UNIFORM_INT1, &sample);
-	}
+	_init_edge_detect_uniforms();
+	_init_blur_uniforms();
+	_init_heat_haze_uniforms();
+	_init_shock_wave_uniforms();
 }
 
 void 
@@ -211,9 +243,20 @@ sl_filter_set_heat_haze_tex(int tex) {
 }
 
 void 
+sl_filter_set_shock_wave_center(float center[2]) {
+	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_center, UNIFORM_FLOAT2, center);
+}
+
+void 
+sl_filter_set_shock_wave_params(float params[3]) {
+	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_params, UNIFORM_FLOAT3, params);
+}
+
+void 
 sl_filter_update(float dt) {
 	S.time += dt;
 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_time, UNIFORM_FLOAT1, &S.time);
+	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_time, UNIFORM_FLOAT1, &S.time);
 }
 
 void 
