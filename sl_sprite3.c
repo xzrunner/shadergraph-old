@@ -106,9 +106,16 @@ sl_sprite3_projection(int width, int height, float near, float far) {
 }
 
 void 
-sl_sprite3_modelview(float x, float y, float sx, float sy) {
-	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
-	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
+sl_sprite3_modelview(float x, float y, float z, float angle) {
+	union sl_mat4 rmat;
+	sl_mat4_rotate_x(&rmat, angle);
+
+	union sl_mat4 tmat;
+	sl_mat4_identity(&tmat);
+	sl_mat4_set_translate3(&tmat, x, y, z);
+
+	sl_mat4_mul(&S.modelview_mat, &rmat, &tmat);
+	
 	sl_shader_set_uniform(S.shader, S.modelview_id, UNIFORM_FLOAT44, S.modelview_mat.x);
 }
 

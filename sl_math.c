@@ -1,6 +1,7 @@
 #include "sl_math.h"
 
 #include <string.h>
+#include <math.h>
 
 void 
 sl_mat4_identity(union sl_mat4* mat) {
@@ -45,6 +46,55 @@ void
 sl_mat4_set_translate(union sl_mat4* mat, float x, float y) {
 	mat->x[12] = x;
 	mat->x[13] = y;
+}
+
+void 
+sl_mat4_set_translate3(union sl_mat4* mat, float x, float y, float z) {
+	mat->x[12] = x;
+	mat->x[13] = y;
+	mat->x[14] = z;
+}
+
+void 
+sl_mat4_rotate_x(union sl_mat4* mat, float degrees) {
+	float radians = degrees * 3.14159f / 180.0f;
+	float s = sin(radians);
+	float c = cos(radians);
+	mat->c[0][0] = 1; mat->c[0][1] = 0; mat->c[0][2] = 0; mat->c[0][3] = 0;
+	mat->c[1][0] = 0; mat->c[1][1] = c; mat->c[1][2] = s; mat->c[1][3] = 0;
+	mat->c[2][0] = 0; mat->c[2][1] =-s; mat->c[2][2] = c; mat->c[2][3] = 0;
+	mat->c[3][0] = 0; mat->c[3][1] = 0; mat->c[3][2] = 0; mat->c[3][3] = 1;
+}
+
+union sl_mat4* 
+sl_mat4_mul(union sl_mat4* m, union sl_mat4* m1, union sl_mat4* m2) {
+	union sl_mat4 mf;
+	const float *m1x = m1->x;
+	const float *m2x = m2->x;
+
+	mf.x[0] = m1x[0] * m2x[0] + m1x[4] * m2x[1] + m1x[8] * m2x[2] + m1x[12] * m2x[3];
+	mf.x[1] = m1x[1] * m2x[0] + m1x[5] * m2x[1] + m1x[9] * m2x[2] + m1x[13] * m2x[3];
+	mf.x[2] = m1x[2] * m2x[0] + m1x[6] * m2x[1] + m1x[10] * m2x[2] + m1x[14] * m2x[3];
+	mf.x[3] = m1x[3] * m2x[0] + m1x[7] * m2x[1] + m1x[11] * m2x[2] + m1x[15] * m2x[3];
+
+	mf.x[4] = m1x[0] * m2x[4] + m1x[4] * m2x[5] + m1x[8] * m2x[6] + m1x[12] * m2x[7];
+	mf.x[5] = m1x[1] * m2x[4] + m1x[5] * m2x[5] + m1x[9] * m2x[6] + m1x[13] * m2x[7];
+	mf.x[6] = m1x[2] * m2x[4] + m1x[6] * m2x[5] + m1x[10] * m2x[6] + m1x[14] * m2x[7];
+	mf.x[7] = m1x[3] * m2x[4] + m1x[7] * m2x[5] + m1x[11] * m2x[6] + m1x[15] * m2x[7];
+
+	mf.x[8] = m1x[0] * m2x[8] + m1x[4] * m2x[9] + m1x[8] * m2x[10] + m1x[12] * m2x[11];
+	mf.x[9] = m1x[1] * m2x[8] + m1x[5] * m2x[9] + m1x[9] * m2x[10] + m1x[13] * m2x[11];
+	mf.x[10] = m1x[2] * m2x[8] + m1x[6] * m2x[9] + m1x[10] * m2x[10] + m1x[14] * m2x[11];
+	mf.x[11] = m1x[3] * m2x[8] + m1x[7] * m2x[9] + m1x[11] * m2x[10] + m1x[15] * m2x[11];
+
+	mf.x[12] = m1x[0] * m2x[12] + m1x[4] * m2x[13] + m1x[8] * m2x[14] + m1x[12] * m2x[15];
+	mf.x[13] = m1x[1] * m2x[12] + m1x[5] * m2x[13] + m1x[9] * m2x[14] + m1x[13] * m2x[15];
+	mf.x[14] = m1x[2] * m2x[12] + m1x[6] * m2x[13] + m1x[10] * m2x[14] + m1x[14] * m2x[15];
+	mf.x[15] = m1x[3] * m2x[12] + m1x[7] * m2x[13] + m1x[11] * m2x[14] + m1x[15] * m2x[15];
+
+	*m = mf;
+
+	return m;
 }
 
 void 

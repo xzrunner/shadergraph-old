@@ -13,7 +13,7 @@ void sl_sprite3_bind();
 void sl_sprite3_unbind();
 
 void sl_sprite3_projection(int width, int height, float near, float far);
-void sl_sprite3_modelview(float x, float y, float sx, float sy);
+void sl_sprite3_modelview(float x, float y, float z, float angle);
 
 void sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int vertices_count);
 
