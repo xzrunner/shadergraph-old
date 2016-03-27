@@ -18,6 +18,7 @@
 #include "heat_haze.frag"
 #include "shock_wave.frag"
 #include "swirl.frag"
+#include "gaussian_blur.frag"
 
 #define MAX_COMMBINE 256
 
@@ -163,6 +164,7 @@ sl_filter_load() {
 	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_SWIRL, filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	_create_shader(SLFM_GAUSSIAN_BLUR, filter_vert, gaussian_blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
