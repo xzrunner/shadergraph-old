@@ -24,16 +24,16 @@ sl_mat4_ortho(union sl_mat4* mat, float left, float right, float bottom, float t
 }
 
 void 
-sl_mat4_perspective(union sl_mat4* mat, float left, float right, float bottom, float top, float near, float far) {
-	float a = 2 * near / (right - left);
-	float b = 2 * near / (top - bottom);
-	float c = (right + left) / (right - left);
-	float d = (top + bottom) / (top - bottom);
-	float e = -2 * near;
-	mat->x[0] = a; mat->x[1] = 0; mat->x[2] = 0; mat->x[3] = 0;
-	mat->x[4] = 0; mat->x[5] = b; mat->x[6] = 0; mat->x[7] = 0;
-	mat->x[8] = c; mat->x[9] = d; mat->x[10]=-1; mat->x[11]=-1;
-	mat->x[12]= 0; mat->x[13]= 0; mat->x[14]= e; mat->x[15]= 0;
+sl_mat4_perspective(union sl_mat4* mat, float l, float r, float b, float t, float n, float f) {
+	sl_mat4_identity(mat);
+	mat->x[0] = 2 * n / (r - l);
+	mat->x[5] = 2 * n / (t - b);
+	mat->x[8] = (r + l) / (r - l);
+	mat->x[9] = (t + b) / (t - b);
+	mat->x[10] = -(f + n) / (f - n);
+	mat->x[11] = -1;
+	mat->x[14] = -2 * f * n / (f - n);
+	mat->x[15] = 0;
 }
 
 void 
