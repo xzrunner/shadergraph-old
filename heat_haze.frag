@@ -29,8 +29,8 @@ void main()
     // We want negative offsets too, so we subtract 0.5 and multiply by 2
     // We end up with values in the range [-1, 1]
     vec2 distortion_position_offset = distortion_map_value.xy;
-    distortion_position_offset -= vec2(0.5f, 0.5f);
-    distortion_position_offset *= 2.f;
+    distortion_position_offset -= vec2(0.5, 0.5);
+    distortion_position_offset *= 2.0;
 
     // The factor scales the offset and thus controls the severity
     distortion_position_offset *= u_distortion_factor;
@@ -43,7 +43,7 @@ void main()
     // We use the t (a.k.a. y) texture coordinate of the original texture
     // to tell us how "high up" we are and damp accordingly
     // Remember, OpenGL 0 is at the bottom
-    distortion_position_offset *= (1.f - v_texcoord.t);
+    distortion_position_offset *= (1.0 - v_texcoord.t);
 
     vec2 distorted_tex_coord = v_texcoord + distortion_position_offset;
 

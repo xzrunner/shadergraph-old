@@ -8,17 +8,23 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+//#define TEXTURE_SIZE
+
 #define STRINGIFY(A)  #A
 #include "filter.vert"
+#ifdef TEXTURE_SIZE
 #include "edge_detect.frag"
 #include "relief.frag"
 #include "outline.frag"
+#endif // TEXTURE_SIZE
 #include "blur.frag"
 #include "gray.frag"
 #include "heat_haze.frag"
 #include "shock_wave.frag"
+#ifdef TEXTURE_SIZE
 #include "swirl.frag"
 #include "gaussian_blur.frag"
+#endif // TEXTURE_SIZE
 
 #define MAX_COMMBINE 256
 
@@ -156,15 +162,19 @@ sl_filter_load() {
 	};
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 
+#ifdef TEXTURE_SIZE
 	_create_shader(SLFM_EDGE_DETECTION, filter_vert, edge_detect_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_RELIEF, filter_vert, relief_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+#endif // TEXTURE_SIZE
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+#ifdef TEXTURE_SIZE
 	_create_shader(SLFM_SWIRL, filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GAUSSIAN_BLUR, filter_vert, gaussian_blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+#endif // TEXTURE_SIZE
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
@@ -180,11 +190,15 @@ sl_filter_load() {
 	S.mode = SLFM_MAX_COUNT;
 	S.time = 0;
 
+#ifdef TEXTURE_SIZE
 	_init_edge_detect_uniforms();
+#endif // TEXTURE_SIZE
 	_init_blur_uniforms();
 	_init_heat_haze_uniforms();
 	_init_shock_wave_uniforms();
+#ifdef TEXTURE_SIZE
 	_init_swirl_uniforms();
+#endif // TEXTURE_SIZE
 }
 
 void 
