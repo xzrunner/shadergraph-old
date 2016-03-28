@@ -8,23 +8,21 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-//#define TEXTURE_SIZE
-
 #define STRINGIFY(A)  #A
 #include "filter.vert"
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 #include "edge_detect.frag"
 #include "relief.frag"
 #include "outline.frag"
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 #include "blur.frag"
 #include "gray.frag"
 #include "heat_haze.frag"
 #include "shock_wave.frag"
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 #include "swirl.frag"
 #include "gaussian_blur.frag"
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 
 #define MAX_COMMBINE 256
 
@@ -90,11 +88,15 @@ _create_shader(int idx, const char* vs, const char* fs,
 	S.modelview[idx] = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
 }
 
+#ifdef HAS_TEXTURE_SIZE
+
 static void
 _init_edge_detect_uniforms() {
 	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
 	sl_filter_set_edge_detect_val(0.5f);
 }
+
+#endif // HAS_TEXTURE_SIZE
 
 static void
 _init_blur_uniforms() {
@@ -132,6 +134,8 @@ _init_shock_wave_uniforms() {
 	sl_filter_set_shock_wave_params(params);
 }
 
+#ifdef HAS_TEXTURE_SIZE
+
 static void
 _init_swirl_uniforms() {
 //	S.swirl_time = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_time", UNIFORM_FLOAT1);
@@ -142,6 +146,8 @@ _init_swirl_uniforms() {
 	float center[2] = { 400, 300 };
 	sl_filter_set_swirl_val(200, 0.8f, center);
 }
+
+#endif // HAS_TEXTURE_SIZE
 
 void 
 sl_filter_load() {
@@ -162,19 +168,19 @@ sl_filter_load() {
 	};
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 	_create_shader(SLFM_EDGE_DETECTION, filter_vert, edge_detect_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_RELIEF, filter_vert, relief_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 	_create_shader(SLFM_SWIRL, filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 	_create_shader(SLFM_GAUSSIAN_BLUR, filter_vert, gaussian_blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
@@ -190,15 +196,15 @@ sl_filter_load() {
 	S.mode = SLFM_MAX_COUNT;
 	S.time = 0;
 
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 	_init_edge_detect_uniforms();
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 	_init_blur_uniforms();
 	_init_heat_haze_uniforms();
 	_init_shock_wave_uniforms();
-#ifdef TEXTURE_SIZE
+#ifdef HAS_TEXTURE_SIZE
 	_init_swirl_uniforms();
-#endif // TEXTURE_SIZE
+#endif // HAS_TEXTURE_SIZE
 }
 
 void 
@@ -255,7 +261,9 @@ sl_filter_set_mode(enum SL_FILTER_MODE mode) {
 
 void 
 sl_filter_set_edge_detect_val(float val) {
+#ifdef HAS_TEXTURE_SIZE
 	sl_shader_set_uniform(S.shader[SLFM_EDGE_DETECTION], S.edge_detect_val, UNIFORM_FLOAT1, &val);
+#endif // HAS_TEXTURE_SIZE
 }
 
 void 
@@ -286,9 +294,11 @@ sl_filter_set_shock_wave_params(float params[3]) {
 
 void 
 sl_filter_set_swirl_val(float radius, float angle, float center[2]) {
+#ifdef HAS_TEXTURE_SIZE
 	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_radius, UNIFORM_FLOAT1, &radius);
 	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_angle, UNIFORM_FLOAT1, &angle);
 	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_center, UNIFORM_FLOAT2, center);
+#endif // HAS_TEXTURE_SIZE
 }
 
 void 

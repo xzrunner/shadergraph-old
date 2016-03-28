@@ -6,6 +6,9 @@ extern "C"
 #ifndef shader_lab_filter_h
 #define shader_lab_filter_h
 
+//#define HAS_TEXTURE_SIZE
+
+#ifdef HAS_TEXTURE_SIZE
 enum SL_FILTER_MODE {
 	SLFM_EDGE_DETECTION = 0,
 	SLFM_RELIEF,
@@ -19,6 +22,16 @@ enum SL_FILTER_MODE {
 
 	SLFM_MAX_COUNT,
 };
+#else
+enum SL_FILTER_MODE {
+	SLFM_BLUR = 0,
+	SLFM_GRAY,
+	SLFM_HEAT_HAZE,
+	SLFM_SHOCK_WAVE,
+
+	SLFM_MAX_COUNT,
+};
+#endif // HAS_TEXTURE_SIZE
 
 void sl_filter_load();
 void sl_filter_unload();
