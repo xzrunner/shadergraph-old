@@ -99,7 +99,7 @@ sl_blend_load() {
 	sl_mat4_identity(&S.modelview_mat);
 
 	S.mode_id = sl_shader_add_uniform(s, "u_mode", UNIFORM_INT1);
-	S.mode = SLBM_NORMAL;
+	S.mode = SLBM_NULL;
 
 	int tex0 = sl_shader_add_uniform(s, "texture0", UNIFORM_INT1);
 	if (tex0 >= 0) {

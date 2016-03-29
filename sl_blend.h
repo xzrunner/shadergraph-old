@@ -10,8 +10,8 @@ extern "C"
 
 enum SL_BLEND_MODE {
 	// normal
-	SLBM_NORMAL		= 0,
-	SLBM_DISSOLVE,			// todo
+	SLBM_NULL		= 0,
+	SLBM_DISSOLVE	= 1,	// todo
 
 	// darken modes
 	SLBM_DARKEN		= 10,

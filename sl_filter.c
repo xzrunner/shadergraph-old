@@ -7,6 +7,9 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
+
+//#define HAS_TEXTURE_SIZE
 
 #define STRINGIFY(A)  #A
 #include "filter.vert"
@@ -15,13 +18,15 @@
 #include "relief.frag"
 #include "outline.frag"
 #endif // HAS_TEXTURE_SIZE
-#include "blur.frag"
 #include "gray.frag"
+#include "blur.frag"
+#ifdef HAS_TEXTURE_SIZE
+#include "gaussian_blur.frag"
+#endif // HAS_TEXTURE_SIZE
 #include "heat_haze.frag"
 #include "shock_wave.frag"
 #ifdef HAS_TEXTURE_SIZE
 #include "swirl.frag"
-#include "gaussian_blur.frag"
 #endif // HAS_TEXTURE_SIZE
 
 #define MAX_COMMBINE 256
@@ -31,14 +36,40 @@ struct vertex {
 	float tx, ty;
 };
 
+#ifdef HAS_TEXTURE_SIZE
+static const int MAP2IDX[] = {
+	SLFM_EDGE_DETECTION,
+	SLFM_RELIEF,
+	SLFM_OUTLINE,
+
+	SLFM_GRAY,
+	SLFM_BLUR,
+	SLFM_GAUSSIAN_BLUR,
+
+	SLFM_HEAT_HAZE,
+	SLFM_SHOCK_WAVE,
+	SLFM_SWIRL,
+};
+#else
+static const int MAP2IDX[] = {
+	SLFM_GRAY,
+	SLFM_BLUR,
+
+	SLFM_HEAT_HAZE,
+	SLFM_SHOCK_WAVE,
+};
+#endif // HAS_TEXTURE_SIZE
+
+#define SHADER_COUNT (sizeof(MAP2IDX) / sizeof(MAP2IDX[0]))
+
 struct shader_state {
-	int shader[SLFM_MAX_COUNT];
+	int shader[SHADER_COUNT];
 
 	int index_buf_id, vertex_buf_id;
 	struct sl_buffer *index_buf, *vertex_buf;
 
-	int projection[SLFM_MAX_COUNT];
-	int modelview[SLFM_MAX_COUNT];
+	int projection[SHADER_COUNT];
+	int modelview[SHADER_COUNT];
 
 	union sl_mat4 modelview_mat, projection_mat;
 
@@ -46,7 +77,9 @@ struct shader_state {
 	int quad_sz;
 
 	int tex;
+
 	enum SL_FILTER_MODE mode;
+	int mode2idx[100];
 
 	float time;
 
@@ -92,7 +125,8 @@ _create_shader(int idx, const char* vs, const char* fs,
 
 static void
 _init_edge_detect_uniforms() {
-	S.edge_detect_val = sl_shader_add_uniform(S.shader[SLFM_EDGE_DETECTION], "u_blend", UNIFORM_FLOAT1);
+	int shader = S.shader[S.mode2idx[SLFM_EDGE_DETECTION]];
+	S.edge_detect_val = sl_shader_add_uniform(shader, "u_blend", UNIFORM_FLOAT1);
 	sl_filter_set_edge_detect_val(0.5f);
 }
 
@@ -100,33 +134,37 @@ _init_edge_detect_uniforms() {
 
 static void
 _init_blur_uniforms() {
-	S.blur_val = sl_shader_add_uniform(S.shader[SLFM_BLUR], "u_radius", UNIFORM_FLOAT1);
+	int shader = S.shader[S.mode2idx[SLFM_BLUR]];
+	S.blur_val = sl_shader_add_uniform(shader, "u_radius", UNIFORM_FLOAT1);
 	sl_filter_set_blur_val(1);
 }
 
 static void
 _init_heat_haze_uniforms() {
-	S.heat_haze_time = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_time", UNIFORM_FLOAT1);
-	S.heat_haze_distortion = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_factor", UNIFORM_FLOAT1);
-	S.heat_haze_rise = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_rise_factor", UNIFORM_FLOAT1);
+	int shader = S.shader[S.mode2idx[SLFM_HEAT_HAZE]];
+	S.heat_haze_time = sl_shader_add_uniform(shader, "u_time", UNIFORM_FLOAT1);
+	S.heat_haze_distortion = sl_shader_add_uniform(shader, "u_distortion_factor", UNIFORM_FLOAT1);
+	S.heat_haze_rise = sl_shader_add_uniform(shader, "u_rise_factor", UNIFORM_FLOAT1);
 	sl_filter_set_heat_haze_val(0.1f, 0.5f);
-	int tex0 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_current_tex", UNIFORM_INT1);
+	int tex0 = sl_shader_add_uniform(shader, "u_current_tex", UNIFORM_INT1);
 	if (tex0 >= 0) {
 		float sample = 0;
-		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex0, UNIFORM_INT1, &sample);
+		sl_shader_set_uniform(shader, tex0, UNIFORM_INT1, &sample);
 	}
-	int tex1 = sl_shader_add_uniform(S.shader[SLFM_HEAT_HAZE], "u_distortion_map_tex", UNIFORM_INT1);
+	int tex1 = sl_shader_add_uniform(shader, "u_distortion_map_tex", UNIFORM_INT1);
 	if (tex1 >= 0) {
 		float sample = 1;
-		sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], tex1, UNIFORM_INT1, &sample);
+		sl_shader_set_uniform(shader, tex1, UNIFORM_INT1, &sample);
 	}
 }
 
 static void
 _init_shock_wave_uniforms() {
-	S.shock_wave_time = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_time", UNIFORM_FLOAT1);
-	S.shock_wave_center = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_center", UNIFORM_FLOAT2);
-	S.shock_wave_params = sl_shader_add_uniform(S.shader[SLFM_SHOCK_WAVE], "u_params", UNIFORM_FLOAT3);
+	int shader = S.shader[S.mode2idx[SLFM_SHOCK_WAVE]];
+
+	S.shock_wave_time = sl_shader_add_uniform(shader, "u_time", UNIFORM_FLOAT1);
+	S.shock_wave_center = sl_shader_add_uniform(shader, "u_center", UNIFORM_FLOAT2);
+	S.shock_wave_params = sl_shader_add_uniform(shader, "u_params", UNIFORM_FLOAT3);
 
 	float center[2] = { 0.5f, 0.5f };
 	sl_filter_set_shock_wave_center(center);
@@ -137,11 +175,11 @@ _init_shock_wave_uniforms() {
 #ifdef HAS_TEXTURE_SIZE
 
 static void
-_init_swirl_uniforms() {
-//	S.swirl_time = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_time", UNIFORM_FLOAT1);
-	S.swirl_radius = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_radius", UNIFORM_FLOAT1);
-	S.swirl_angle = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_angle", UNIFORM_FLOAT1);
-	S.swirl_center = sl_shader_add_uniform(S.shader[SLFM_SWIRL], "u_center", UNIFORM_FLOAT2);
+_init_swirl_uniforms(int shader) {
+//	S.swirl_time = sl_shader_add_uniform(shader, "u_time", UNIFORM_FLOAT1);
+	S.swirl_radius = sl_shader_add_uniform(shader, "u_radius", UNIFORM_FLOAT1);
+	S.swirl_angle = sl_shader_add_uniform(shader, "u_angle", UNIFORM_FLOAT1);
+	S.swirl_center = sl_shader_add_uniform(shader, "u_center", UNIFORM_FLOAT2);
 
 	float center[2] = { 400, 300 };
 	sl_filter_set_swirl_val(200, 0.8f, center);
@@ -168,18 +206,31 @@ sl_filter_load() {
 	};
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 
+	memset(S.mode2idx, 0, sizeof(S.mode2idx));
+	int idx = 0;
 #ifdef HAS_TEXTURE_SIZE
-	_create_shader(SLFM_EDGE_DETECTION, filter_vert, edge_detect_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_RELIEF, filter_vert, relief_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_OUTLINE, filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_EDGE_DETECTION] = idx++;
+	_create_shader(S.mode2idx[SLFM_EDGE_DETECTION], filter_vert, edge_detect_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_RELIEF] = idx++;
+	_create_shader(S.mode2idx[SLFM_RELIEF], filter_vert, relief_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_OUTLINE] = idx++;
+	_create_shader(S.mode2idx[SLFM_OUTLINE], filter_vert, outline_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 #endif // HAS_TEXTURE_SIZE
-	_create_shader(SLFM_BLUR, filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_GRAY, filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_HEAT_HAZE, filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_SHOCK_WAVE, filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_GRAY] = idx++;
+	_create_shader(S.mode2idx[SLFM_GRAY], filter_vert, gray_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_BLUR] = idx++;
+	_create_shader(S.mode2idx[SLFM_BLUR], filter_vert, blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 #ifdef HAS_TEXTURE_SIZE
-	_create_shader(SLFM_SWIRL, filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
-	_create_shader(SLFM_GAUSSIAN_BLUR, filter_vert, gaussian_blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_GAUSSIAN_BLUR] = idx++;
+	_create_shader(S.mode2idx[SLFM_GAUSSIAN_BLUR], filter_vert, gaussian_blur_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+#endif // HAS_TEXTURE_SIZE
+	S.mode2idx[SLFM_HEAT_HAZE] = idx++;
+	_create_shader(S.mode2idx[SLFM_HEAT_HAZE], filter_vert, heat_haze_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+	S.mode2idx[SLFM_SHOCK_WAVE] = idx++;
+	_create_shader(S.mode2idx[SLFM_SHOCK_WAVE], filter_vert, shock_wave_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
+#ifdef HAS_TEXTURE_SIZE
+	S.mode2idx[SLFM_SWIRL] = idx++;
+	_create_shader(S.mode2idx[SLFM_SWIRL], filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 #endif // HAS_TEXTURE_SIZE
 
 	sl_mat4_identity(&S.projection_mat);
@@ -193,7 +244,7 @@ sl_filter_load() {
 	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_COMMBINE * 4);
 	S.quad_sz = 0;
 	S.tex = 0;
-	S.mode = SLFM_MAX_COUNT;
+	S.mode = 0;
 	S.time = 0;
 
 #ifdef HAS_TEXTURE_SIZE
@@ -213,7 +264,7 @@ sl_filter_unload() {
 	sl_shader_release_vertex_buffer(S.vertex_buf_id);
 	sl_buf_release(S.index_buf);
 	sl_buf_release(S.vertex_buf);
-	for (int i = 0; i < SLFM_MAX_COUNT; ++i) {
+	for (int i = 0; i < SHADER_COUNT; ++i) {
 		sl_shader_unload(S.shader[i]);
 	}
 	free(S.buf); S.buf = NULL;
@@ -221,8 +272,8 @@ sl_filter_unload() {
 
 void 
 sl_filter_bind() {
-	if (S.mode != SLFM_MAX_COUNT) {
-		sl_shader_bind(S.shader[S.mode]);
+	if (S.mode != SLFM_NULL) {
+		sl_shader_bind(S.shader[S.mode2idx[S.mode]]);
 	}
 }
 
@@ -236,7 +287,7 @@ sl_filter_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
 	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
-	for (int i = 0; i < SLFM_MAX_COUNT; ++i) {
+	for (int i = 0; i < SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.projection[i], UNIFORM_FLOAT44, S.projection_mat.x);
 	}
 }
@@ -245,7 +296,7 @@ void
 sl_filter_modelview(float x, float y, float sx, float sy) {
 	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
 	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
-	for (int i = 0; i < SLFM_MAX_COUNT; ++i) {
+	for (int i = 0; i < SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.x);
 	}
 }
@@ -255,26 +306,29 @@ sl_filter_set_mode(enum SL_FILTER_MODE mode) {
 	if (mode != S.mode) {
 		sl_filter_commit();
 		S.mode = mode;
-		sl_shader_bind(S.shader[S.mode]);
+		sl_shader_bind(S.shader[S.mode2idx[S.mode]]);
 	}
 }
 
 void 
 sl_filter_set_edge_detect_val(float val) {
 #ifdef HAS_TEXTURE_SIZE
-	sl_shader_set_uniform(S.shader[SLFM_EDGE_DETECTION], S.edge_detect_val, UNIFORM_FLOAT1, &val);
+	int shader = S.shader[S.mode2idx[SLFM_EDGE_DETECTION]];
+	sl_shader_set_uniform(shader, S.edge_detect_val, UNIFORM_FLOAT1, &val);
 #endif // HAS_TEXTURE_SIZE
 }
 
 void 
 sl_filter_set_blur_val(float val) {
-	sl_shader_set_uniform(S.shader[SLFM_BLUR], S.blur_val, UNIFORM_FLOAT1, &val);
+	int shader = S.shader[S.mode2idx[SLFM_BLUR]];
+	sl_shader_set_uniform(shader, S.blur_val, UNIFORM_FLOAT1, &val);
 }
 
 void 
 sl_filter_set_heat_haze_val(float distortion, float rise) {
- 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_distortion, UNIFORM_FLOAT1, &distortion);
- 	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_rise, UNIFORM_FLOAT1, &rise);
+	int shader = S.shader[S.mode2idx[SLFM_HEAT_HAZE]];
+ 	sl_shader_set_uniform(shader, S.heat_haze_distortion, UNIFORM_FLOAT1, &distortion);
+ 	sl_shader_set_uniform(shader, S.heat_haze_rise, UNIFORM_FLOAT1, &rise);
 }
 
 void 
@@ -284,29 +338,32 @@ sl_filter_set_heat_haze_tex(int tex) {
 
 void 
 sl_filter_set_shock_wave_center(float center[2]) {
-	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_center, UNIFORM_FLOAT2, center);
+	int shader = S.shader[S.mode2idx[SLFM_SHOCK_WAVE]];
+	sl_shader_set_uniform(shader, S.shock_wave_center, UNIFORM_FLOAT2, center);
 }
 
 void 
 sl_filter_set_shock_wave_params(float params[3]) {
-	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_params, UNIFORM_FLOAT3, params);
+	int shader = S.shader[S.mode2idx[SLFM_SHOCK_WAVE]];
+	sl_shader_set_uniform(shader, S.shock_wave_params, UNIFORM_FLOAT3, params);
 }
 
 void 
 sl_filter_set_swirl_val(float radius, float angle, float center[2]) {
 #ifdef HAS_TEXTURE_SIZE
-	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_radius, UNIFORM_FLOAT1, &radius);
-	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_angle, UNIFORM_FLOAT1, &angle);
-	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_center, UNIFORM_FLOAT2, center);
+	int shader = S.shader[S.mode2idx[SLFM_SWIRL]];
+	sl_shader_set_uniform(shader, S.swirl_radius, UNIFORM_FLOAT1, &radius);
+	sl_shader_set_uniform(shader, S.swirl_angle, UNIFORM_FLOAT1, &angle);
+	sl_shader_set_uniform(shader, S.swirl_center, UNIFORM_FLOAT2, center);
 #endif // HAS_TEXTURE_SIZE
 }
 
 void 
 sl_filter_update(float dt) {
 	S.time += dt;
-	sl_shader_set_uniform(S.shader[SLFM_HEAT_HAZE], S.heat_haze_time, UNIFORM_FLOAT1, &S.time);
-	sl_shader_set_uniform(S.shader[SLFM_SHOCK_WAVE], S.shock_wave_time, UNIFORM_FLOAT1, &S.time);
-//	sl_shader_set_uniform(S.shader[SLFM_SWIRL], S.swirl_time, UNIFORM_FLOAT1, &S.time);
+	sl_shader_set_uniform(S.shader[S.mode2idx[SLFM_HEAT_HAZE]], S.heat_haze_time, UNIFORM_FLOAT1, &S.time);
+	sl_shader_set_uniform(S.shader[S.mode2idx[SLFM_SHOCK_WAVE]], S.shock_wave_time, UNIFORM_FLOAT1, &S.time);
+//	sl_shader_set_uniform(S.shader[S.mode2idx[SLFM_SWIRL]], S.swirl_time, UNIFORM_FLOAT1, &S.time);
 }
 
 void 
@@ -337,7 +394,7 @@ sl_filter_commit() {
 		sl_shader_set_texture(S.heat_haze_tex, 1);
 	}
 
-	sl_shader_draw(S.shader[S.mode], S.buf, S.quad_sz * 4, S.quad_sz * 6);
+	sl_shader_draw(S.shader[S.mode2idx[S.mode]], S.buf, S.quad_sz * 4, S.quad_sz * 6);
 
 	S.quad_sz = 0;
 	S.tex = 0;
