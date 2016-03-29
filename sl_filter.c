@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef _MSC_VER
+#ifdef USED_IN_EDITOR
 #define HAS_TEXTURE_SIZE
-#endif // _MSC_VER
+#endif // USED_IN_EDITOR
 
 #define STRINGIFY(A)  #A
 #include "filter.vert"
