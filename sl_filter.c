@@ -9,7 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#define HAS_TEXTURE_SIZE
+#ifdef _WIN32
+#define HAS_TEXTURE_SIZE
+#endif // _WIN32
 
 #define STRINGIFY(A)  #A
 #include "filter.vert"
@@ -175,7 +177,9 @@ _init_shock_wave_uniforms() {
 #ifdef HAS_TEXTURE_SIZE
 
 static void
-_init_swirl_uniforms(int shader) {
+_init_swirl_uniforms() {
+	int shader = S.shader[S.mode2idx[SLFM_SWIRL]];
+
 //	S.swirl_time = sl_shader_add_uniform(shader, "u_time", UNIFORM_FLOAT1);
 	S.swirl_radius = sl_shader_add_uniform(shader, "u_radius", UNIFORM_FLOAT1);
 	S.swirl_angle = sl_shader_add_uniform(shader, "u_angle", UNIFORM_FLOAT1);
