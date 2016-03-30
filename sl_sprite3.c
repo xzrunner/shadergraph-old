@@ -17,6 +17,7 @@
 struct vertex {
 	float vx, vy, vz;
 	float tx, ty;
+	uint32_t color, additive;
 };
 
 struct shader_state {
@@ -28,10 +29,11 @@ struct shader_state {
 	int projection_id, modelview_id;
 	union sl_mat4 modelview_mat, projection_mat;
 
+	uint32_t color, additive;
+
 	struct vertex* buf;
 	int vertices_sz;
 
-	int color;
 	int tex;
 };
 
@@ -48,9 +50,11 @@ sl_sprite3_load() {
 	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), MAX_VERTICES);
 	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
-	struct vertex_attrib va[2] = {
+	struct vertex_attrib va[4] = {
 		{ "position", 0, 3, sizeof(float), BUFFER_OFFSET(vx) },
 		{ "texcoord", 0, 2, sizeof(float), BUFFER_OFFSET(tx) },
+		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(color) },
+		{ "additive", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(additive) },
 	};
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 	sl_shader_set_vertex_layout(s, layout_id);
@@ -69,10 +73,12 @@ sl_sprite3_load() {
 	sl_mat4_identity(&S.projection_mat);
 	sl_mat4_identity(&S.modelview_mat);
 
+	S.color = 0xffffffff;
+	S.additive = 0x00000000;
+
 	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_VERTICES);
 	S.vertices_sz = 0;
 
-	S.color = 0xffffffff;
 	S.tex = 0;
 }
 
@@ -120,6 +126,12 @@ sl_sprite3_modelview(float x, float y, float z, float angle) {
 }
 
 void 
+sl_sprite3_set_color(uint32_t color, uint32_t additive) {
+	S.color = color;
+	S.additive = additive;	
+}
+
+void 
 sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int vertices_count) {
 	if (S.vertices_sz + vertices_count > MAX_VERTICES ||
 		(texid != S.tex && S.tex != 0)) {
@@ -134,6 +146,8 @@ sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int v
 		v->vz = positions[i * 3 + 2];
 		v->tx = texcoords[i * 2];
 		v->ty = texcoords[i * 2 + 1];
+		v->color = S.color;
+		v->additive = S.additive;
 	}
 }
 
