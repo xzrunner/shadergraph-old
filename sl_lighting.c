@@ -1,13 +1,12 @@
 #include "sl_lighting.h"
 #include "sl_shader.h"
-#include "sl_math.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
 #include "sl_buffer.h"
-#include "sl_math.h"
 
-#include <render/render.h>
 #include <ds_array.h>
+#include <sm.h>
+#include <render/render.h>
 
 #include <stdlib.h>
 
@@ -30,7 +29,7 @@ struct shader_state {
 	struct sl_buffer *index_buf, *vertex_buf;
 
 	int projection_id, modelview_id;
-	union sl_mat4 modelview_mat, projection_mat;
+	union sm_mat4 modelview_mat, projection_mat;
 
 	int diffuse_id, ambient_id, specular_id, shininess_id;
 	int normal_matrix_id, light_position_id;
@@ -75,8 +74,8 @@ sl_lighting_load() {
 
 	S.projection_id = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview_id = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
-	sl_mat4_identity(&S.projection_mat);
-	sl_mat4_identity(&S.modelview_mat);
+	sm_mat4_identity(&S.projection_mat);
+	sm_mat4_identity(&S.modelview_mat);
 
 	S.diffuse_id = sl_shader_add_uniform(s, "u_diffuse_material", UNIFORM_FLOAT3);
 	S.ambient_id = sl_shader_add_uniform(s, "u_ambient_material", UNIFORM_FLOAT3);
@@ -110,7 +109,7 @@ void
 sl_lighting_projection(int width, int height, float near, float far) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, 20, 500);
+	sm_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, 20, 500);
 
 // 	float hh = 1.0f * height / width;
 // 	sl_mat4_perspective(&S.projection_mat, -100, 100, -hh*100, hh*100, 100, 300);
@@ -119,37 +118,37 @@ sl_lighting_projection(int width, int height, float near, float far) {
 }
 
 void 
-sl_lighting_modelview(const union sl_mat4* mat) {
-	memcpy(&S.modelview_mat, mat, sizeof(union sl_mat4));
+sl_lighting_modelview(const union sm_mat4* mat) {
+	memcpy(&S.modelview_mat, mat, sizeof(union sm_mat4));
 	sl_shader_set_uniform(S.shader, S.modelview_id, UNIFORM_FLOAT44, S.modelview_mat.x);
 
-	union sl_mat3 mat3;
-	sl_mat4_to_mat3(&S.modelview_mat, &mat3);
+	union sm_mat3 mat3;
+	sm_mat4_to_mat3(&mat3, &S.modelview_mat);
 	sl_lighting_set_normal_matrix(&mat3);
 	sl_shader_apply_uniform(S.shader);
 }
 
 void 
-sl_lighting_set_material(struct sl_vec3* ambient, struct sl_vec3* diffuse, 
-                         struct sl_vec3* specular, float shininess) {
+sl_lighting_set_material(struct sm_vec3* ambient, struct sm_vec3* diffuse, 
+                         struct sm_vec3* specular, float shininess) {
 	sl_shader_set_uniform(S.shader, S.ambient_id, UNIFORM_FLOAT3, &ambient->x);
 	sl_shader_set_uniform(S.shader, S.diffuse_id, UNIFORM_FLOAT3, &diffuse->x);
 	sl_shader_set_uniform(S.shader, S.specular_id, UNIFORM_FLOAT3, &specular->x);
 	sl_shader_set_uniform(S.shader, S.shininess_id, UNIFORM_FLOAT1, &shininess);
 
-	union sl_mat3 mat3;
-	sl_mat4_to_mat3(&S.modelview_mat, &mat3);
+	union sm_mat3 mat3;
+	sm_mat4_to_mat3(&mat3, &S.modelview_mat);
 	sl_lighting_set_normal_matrix(&mat3);
 	sl_shader_apply_uniform(S.shader);
 }
 
 void 
-sl_lighting_set_normal_matrix(union sl_mat3* mat) {
+sl_lighting_set_normal_matrix(union sm_mat3* mat) {
 	sl_shader_set_uniform(S.shader, S.normal_matrix_id, UNIFORM_FLOAT33, mat->x);
 }
 
 void 
-sl_lighting_set_light_position(struct sl_vec3* pos) {
+sl_lighting_set_light_position(struct sm_vec3* pos) {
 	sl_shader_set_uniform(S.shader, S.light_position_id, UNIFORM_FLOAT3, &pos->x);	
 }
 

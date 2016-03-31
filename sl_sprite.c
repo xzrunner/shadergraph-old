@@ -1,10 +1,11 @@
 #include "sl_sprite.h"
-#include "sl_math.h"
 #include "sl_shader.h"
 #include "sl_typedef.h"
 #include "sl_utility.h"
 #include "sl_buffer.h"
 
+#include <sm.h>
+#include <ds_array.h>
 #include <render/render.h>
 
 #include <string.h>
@@ -86,7 +87,7 @@ struct shader_state {
 	int projection_id[MAX_SHADER_COUNT];
 	int modelview_id[MAX_SHADER_COUNT];
 
-	union sl_mat4 modelview_mat, projection_mat;
+	union sm_mat4 modelview_mat, projection_mat;
 
 	uint32_t color, additive;
 	uint32_t rmap, gmap, bmap;
@@ -249,8 +250,8 @@ sl_sprite_load() {
 	_create_map_shader(index_buf_id, index_buf);
 	_create_both_shader(index_buf_id, index_buf);
 
-	sl_mat4_identity(&S.projection_mat);
-	sl_mat4_identity(&S.modelview_mat);
+	sm_mat4_identity(&S.projection_mat);
+	sm_mat4_identity(&S.modelview_mat);
 
 	S.index_buf_id = index_buf_id;
 	S.index_buf = index_buf;
@@ -294,7 +295,7 @@ void
 sl_sprite_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sm_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.projection_id[i], UNIFORM_FLOAT44, S.projection_mat.x);
 	}
@@ -302,8 +303,8 @@ sl_sprite_projection(int width, int height) {
 
 void 
 sl_sprite_modelview(float x, float y, float sx, float sy) {
-	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
-	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sm_mat4_scalemat(&S.modelview_mat, sx, sy, 1);
+	sm_mat4_trans(&S.modelview_mat, x * sx, y * sy, 0);
 	for (int i = 0; i < MAX_SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.modelview_id[i], UNIFORM_FLOAT44, S.modelview_mat.x);
 	}

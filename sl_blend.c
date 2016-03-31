@@ -3,8 +3,8 @@
 #include "sl_typedef.h"
 #include "sl_utility.h"
 #include "sl_buffer.h"
-#include "sl_math.h"
 
+#include <sm.h>
 #include <render/render.h>
 
 #include <stdlib.h>
@@ -37,7 +37,7 @@ struct shader_state {
 	struct sl_buffer *index_buf, *vertex_buf;
 
 	int projection_id, modelview_id;
-	union sl_mat4 modelview_mat, projection_mat;
+	union sm_mat4 modelview_mat, projection_mat;
 
 	uint32_t color, additive;
 
@@ -95,8 +95,8 @@ sl_blend_load() {
 
 	S.projection_id = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview_id = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
-	sl_mat4_identity(&S.projection_mat);
-	sl_mat4_identity(&S.modelview_mat);
+	sm_mat4_identity(&S.projection_mat);
+	sm_mat4_identity(&S.modelview_mat);
 
 	S.mode_id = sl_shader_add_uniform(s, "u_mode", UNIFORM_INT1);
 	S.mode = SLBM_NULL;
@@ -144,14 +144,14 @@ void
 sl_blend_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sm_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	sl_shader_set_uniform(S.shader, S.projection_id, UNIFORM_FLOAT44, S.projection_mat.x);
 }
 
 void 
 sl_blend_modelview(float x, float y, float sx, float sy) {
-	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
-	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sm_mat4_scalemat(&S.modelview_mat, sx, sy, 1);
+	sm_mat4_trans(&S.modelview_mat, x * sx, y * sy, 0);
 	sl_shader_set_uniform(S.shader, S.modelview_id, UNIFORM_FLOAT44, S.modelview_mat.x);
 }
 

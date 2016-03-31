@@ -1,7 +1,9 @@
 #include "sl_shape.h"
 #include "sl_shader.h"
-#include "sl_math.h"
 #include "sl_buffer.h"
+
+#include <sm.h>
+#include <ds_array.h>
 
 #include <stdint.h>
 #include <string.h>
@@ -26,7 +28,7 @@ struct shader_state {
 	struct sl_buffer* vertex_buf;
 
 	int projection_id, modelview_id;
-	union sl_mat4 modelview_mat, projection_mat;
+	union sm_mat4 modelview_mat, projection_mat;
 
 	int color;
 };
@@ -60,8 +62,8 @@ sl_shape_load() {
 
 	S.projection_id = sl_shader_add_uniform(s, "u_projection", UNIFORM_FLOAT44);
 	S.modelview_id = sl_shader_add_uniform(s, "u_modelview", UNIFORM_FLOAT44);
-	sl_mat4_identity(&S.projection_mat);
-	sl_mat4_identity(&S.modelview_mat);
+	sm_mat4_identity(&S.projection_mat);
+	sm_mat4_identity(&S.modelview_mat);
 
 	S.color = 0xffffffff;
 }
@@ -88,14 +90,14 @@ void
 sl_shape_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sm_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	sl_shader_set_uniform(S.shader, S.projection_id, UNIFORM_FLOAT44, S.projection_mat.x);
 }
 
 void 
 sl_shape_modelview(float x, float y, float sx, float sy) {
-	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
-	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sm_mat4_scalemat(&S.modelview_mat, sx, sy, 1);
+	sm_mat4_trans(&S.modelview_mat, x * sx, y * sy, 0);
 	sl_shader_set_uniform(S.shader, S.modelview_id, UNIFORM_FLOAT44, S.modelview_mat.x);
 }
 

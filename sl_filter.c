@@ -1,9 +1,10 @@
 #include "sl_filter.h"
-#include "sl_math.h"
 #include "sl_utility.h"
 #include "sl_shader.h"
 #include "sl_buffer.h"
 #include "sl_typedef.h"
+
+#include <sm.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -73,7 +74,7 @@ struct shader_state {
 	int projection[SHADER_COUNT];
 	int modelview[SHADER_COUNT];
 
-	union sl_mat4 modelview_mat, projection_mat;
+	union sm_mat4 modelview_mat, projection_mat;
 
 	struct vertex* buf;
 	int quad_sz;
@@ -237,8 +238,8 @@ sl_filter_load() {
 	_create_shader(S.mode2idx[SLFM_SWIRL], filter_vert, swirl_frag, index_buf_id, index_buf, vertex_buf_id, vertex_buf, layout_id);
 #endif // HAS_TEXTURE_SIZE
 
-	sl_mat4_identity(&S.projection_mat);
-	sl_mat4_identity(&S.modelview_mat);
+	sm_mat4_identity(&S.projection_mat);
+	sm_mat4_identity(&S.modelview_mat);
 
 	S.index_buf_id = index_buf_id;
 	S.vertex_buf_id = vertex_buf_id;
@@ -290,7 +291,7 @@ void
 sl_filter_projection(int width, int height) {
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
-	sl_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
+	sm_mat4_ortho(&S.projection_mat, -hw, hw, -hh, hh, 1, -1);
 	for (int i = 0; i < SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.projection[i], UNIFORM_FLOAT44, S.projection_mat.x);
 	}
@@ -298,8 +299,8 @@ sl_filter_projection(int width, int height) {
 
 void 
 sl_filter_modelview(float x, float y, float sx, float sy) {
-	sl_mat4_set_scale(&S.modelview_mat, sx, sy);
-	sl_mat4_set_translate(&S.modelview_mat, x * sx, y * sy);
+	sm_mat4_scalemat(&S.modelview_mat, sx, sy, 1);
+	sm_mat4_trans(&S.modelview_mat, x * sx, y * sy, 0);
 	for (int i = 0; i < SHADER_COUNT; ++i) {
 		sl_shader_set_uniform(S.shader[i], S.modelview[i], UNIFORM_FLOAT44, S.modelview_mat.x);
 	}
