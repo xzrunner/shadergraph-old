@@ -107,9 +107,13 @@ sl_sprite3_unbind() {
 
 void 
 sl_sprite3_projection(int width, int height, float near, float far) {
-	float hw = width * 0.5f;
-	float hh = height * 0.5f;
- 	sm_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, near, far);
+// 	float hw = width * 0.5f;
+// 	float hh = height * 0.5f;
+//  sm_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, near, far);
+
+	float hh = (float)(height) / width;
+	sm_mat4_perspective(&S.projection_mat, -1, 1, -hh, hh, 1, 9999);
+
 	sl_shader_set_uniform(S.shader, S.projection_id, UNIFORM_FLOAT44, S.projection_mat.x);
 }
 
