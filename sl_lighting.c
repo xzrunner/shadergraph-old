@@ -9,6 +9,7 @@
 #include <render/render.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 #define STRINGIFY(A)  #A
 #include "lighting.vert"
