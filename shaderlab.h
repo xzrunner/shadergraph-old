@@ -11,6 +11,7 @@ extern "C"
 #include "sl_sprite.h"
 #include "sl_blend.h"
 #include "sl_filter.h"
+#include "sl_sprite3.h"
 
 #endif // shader_lab_h
 
