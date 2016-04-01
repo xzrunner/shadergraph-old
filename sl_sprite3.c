@@ -106,28 +106,14 @@ sl_sprite3_unbind() {
 }
 
 void 
-sl_sprite3_projection(int width, int height, float near, float far) {
-// 	float hw = width * 0.5f;
-// 	float hh = height * 0.5f;
-//  sm_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, near, far);
-
-	float hh = (float)(height) / width;
-	sm_mat4_perspective(&S.projection_mat, -1, 1, -hh, hh, 1, 9999);
-
+sl_sprite3_projection(const union sm_mat4* mat) {
+	memcpy(&S.projection_mat, mat, sizeof(*mat));
 	sl_shader_set_uniform(S.shader, S.projection_id, UNIFORM_FLOAT44, S.projection_mat.x);
 }
 
 void 
-sl_sprite3_modelview(float x, float y, float z, float angle) {
-	union sm_mat4 rmat;
-	sm_mat4_rotxmat(&rmat, angle);
-
-	union sm_mat4 tmat;
-	sm_mat4_identity(&tmat);
-	sm_mat4_trans(&tmat, x, y, z);
-
-	sm_mat4_mul(&S.modelview_mat, &rmat, &tmat);
-	
+sl_sprite3_modelview(const union sm_mat4* mat) {
+	memcpy(&S.modelview_mat, mat, sizeof(*mat));	
 	sl_shader_set_uniform(S.shader, S.modelview_id, UNIFORM_FLOAT44, S.modelview_mat.x);
 }
 

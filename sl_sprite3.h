@@ -8,14 +8,16 @@ extern "C"
 
 #include <stdint.h>
 
+union sm_mat4;
+
 void sl_sprite3_load();
 void sl_sprite3_unload();
 
 void sl_sprite3_bind();
 void sl_sprite3_unbind();
 
-void sl_sprite3_projection(int width, int height, float near, float far);
-void sl_sprite3_modelview(float x, float y, float z, float angle);
+void sl_sprite3_projection(const union sm_mat4* mat);
+void sl_sprite3_modelview(const union sm_mat4* mat);
 
 void sl_sprite3_set_color(uint32_t color, uint32_t additive);
 
