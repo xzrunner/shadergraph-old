@@ -46,7 +46,7 @@ void sl_shader_apply_uniform(int id);
 void sl_shader_bind(int id);
 
 int  sl_shader_add_uniform(int id, const char* name, enum UNIFORM_FORMAT t);
-void sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, float* v);
+void sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, const float* v);
 int  sl_shader_uniform_size(enum UNIFORM_FORMAT t);
 
 void sl_shader_draw(int id, void* data, int vb_n, int ib_n);

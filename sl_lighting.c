@@ -130,8 +130,8 @@ sl_lighting_modelview(const union sm_mat4* mat) {
 }
 
 void 
-sl_lighting_set_material(struct sm_vec3* ambient, struct sm_vec3* diffuse, 
-                         struct sm_vec3* specular, float shininess) {
+sl_lighting_set_material(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
+                         const struct sm_vec3* specular, float shininess) {
 	sl_shader_set_uniform(S.shader, S.ambient_id, UNIFORM_FLOAT3, &ambient->x);
 	sl_shader_set_uniform(S.shader, S.diffuse_id, UNIFORM_FLOAT3, &diffuse->x);
 	sl_shader_set_uniform(S.shader, S.specular_id, UNIFORM_FLOAT3, &specular->x);
@@ -144,12 +144,12 @@ sl_lighting_set_material(struct sm_vec3* ambient, struct sm_vec3* diffuse,
 }
 
 void 
-sl_lighting_set_normal_matrix(union sm_mat3* mat) {
+sl_lighting_set_normal_matrix(const union sm_mat3* mat) {
 	sl_shader_set_uniform(S.shader, S.normal_matrix_id, UNIFORM_FLOAT33, mat->x);
 }
 
 void 
-sl_lighting_set_light_position(struct sm_vec3* pos) {
+sl_lighting_set_light_position(const struct sm_vec3* pos) {
 	sl_shader_set_uniform(S.shader, S.light_position_id, UNIFORM_FLOAT3, &pos->x);	
 }
 

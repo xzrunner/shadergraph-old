@@ -369,7 +369,7 @@ sl_shader_add_uniform(int id, const char* name, enum UNIFORM_FORMAT t) {
 }
 
 void 
-sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, float* v) {
+sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, const float* v) {
 	assert(id >= 0 && id < MAX_SHADER);
 	struct shader* s = &S->shader[id];
 	_commit(s);
