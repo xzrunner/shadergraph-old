@@ -57,6 +57,8 @@ struct shader_mgr {
  	int tex[MAX_TEXTURE_CHANNEL];
  	int blendchange;
 	RID target;
+
+	enum CLEAR_MASK clear_mask;
 };
 
 static struct shader_mgr* S = NULL;
@@ -427,8 +429,13 @@ sl_shader_draw(int id, void* data, int vb_n, int ib_n) {
 }
 
 void 
+sl_shader_set_clear_flag(int flag) {
+	S->clear_mask |= flag;
+}
+
+void 
 sl_shader_clear(unsigned long argb) {
-	render_clear(S->R, MASKC, argb);
+	render_clear(S->R, S->clear_mask, argb);
 }
 
 void 

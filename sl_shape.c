@@ -66,6 +66,8 @@ sl_shape_load() {
 	sm_mat4_identity(&S.modelview_mat);
 
 	S.color = 0xffffffff;
+
+	sl_shader_set_clear_flag(MASKC);
 }
 
 void 

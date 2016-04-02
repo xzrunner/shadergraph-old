@@ -118,6 +118,8 @@ sl_blend_load() {
 	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_COMMBINE * 4);
 	S.quad_sz = 0;
 	S.tex_blend = S.tex_base = 0;
+
+	sl_shader_set_clear_flag(MASKC);
 }
 
 void 

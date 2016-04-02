@@ -51,6 +51,7 @@ int  sl_shader_uniform_size(enum UNIFORM_FORMAT t);
 
 void sl_shader_draw(int id, void* data, int vb_n, int ib_n);
 
+void sl_shader_set_clear_flag(int flag);
 void sl_shader_clear(unsigned long argb);
 
 // fixme

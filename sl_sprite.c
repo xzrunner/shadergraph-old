@@ -266,6 +266,8 @@ sl_sprite_load() {
 	S.quad_sz = 0;
 	S.tex = 0;
 	S.type = TYPE_PLAIN;
+
+	sl_shader_set_clear_flag(MASKC);
 }
 
 void 

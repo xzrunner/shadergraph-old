@@ -82,6 +82,8 @@ sl_sprite3_load() {
 	S.vertices_sz = 0;
 
 	S.tex = 0;
+
+	sl_shader_set_clear_flag(MASKC);
 }
 
 void 

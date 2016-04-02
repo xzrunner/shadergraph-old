@@ -261,6 +261,8 @@ sl_filter_load() {
 #ifdef HAS_TEXTURE_SIZE
 	_init_swirl_uniforms();
 #endif // HAS_TEXTURE_SIZE
+
+	sl_shader_set_clear_flag(MASKC);
 }
 
 void 
