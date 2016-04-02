@@ -85,6 +85,8 @@ sl_lighting_load() {
 	
 	S.normal_matrix_id = sl_shader_add_uniform(s, "u_normal_matrix", UNIFORM_FLOAT33);
 	S.light_position_id = sl_shader_add_uniform(s, "u_light_position", UNIFORM_FLOAT3);	
+
+	sl_shader_set_clear_flag(MASKC | MASKD);
 }
 
 void 
@@ -167,12 +169,8 @@ sl_lighting_commit() {
 	if (S.index_buf->n == 0) {
 		return;
 	}
-
-// 	union sl_mat3 mat3;
-// 	sl_mat4_to_mat3(&S.modelview_mat, &mat3);
-// 	sl_lighting_set_normal_matrix(&mat3);
-// 	sl_shader_apply_uniform(S.shader);
-
-//	sl_shader_draw(S.shader, S.vertex_buf->buf, S.vertex_buf->n, S.index_buf->n);
+	struct render* r = sl_shader_get_render();
+	render_setdepth(r, DEPTH_LESS_EQUAL);
 	sl_shader_flush();
+	render_setdepth(r, DEPTH_DISABLE);
 }
