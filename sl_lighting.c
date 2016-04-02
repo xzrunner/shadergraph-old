@@ -107,14 +107,8 @@ sl_lighting_unbind() {
 }
 
 void 
-sl_lighting_projection(int width, int height, float near, float far) {
-	float hw = width * 0.5f;
-	float hh = height * 0.5f;
-	sm_mat4_perspective(&S.projection_mat, -hw, hw, -hh, hh, 20, 500);
-
-// 	float hh = 1.0f * height / width;
-// 	sl_mat4_perspective(&S.projection_mat, -100, 100, -hh*100, hh*100, 100, 300);
-
+sl_lighting_projection(float aspect) {
+	sm_mat4_perspective(&S.projection_mat, -aspect, aspect, -1, 1, 1, 9999);
 	sl_shader_set_uniform(S.shader, S.projection_id, UNIFORM_FLOAT44, S.projection_mat.x);
 }
 

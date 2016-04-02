@@ -17,7 +17,7 @@ void sl_lighting_unload();
 void sl_lighting_bind();
 void sl_lighting_unbind();
 
-void sl_lighting_projection(int width, int height, float near, float far);
+void sl_lighting_projection(float aspect);
 void sl_lighting_modelview(const union sm_mat4* mat);
 
 void sl_lighting_set_material(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
