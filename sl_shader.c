@@ -374,14 +374,17 @@ void
 sl_shader_set_uniform(int id, int index, enum UNIFORM_FORMAT t, const float* v) {
 	assert(id >= 0 && id < MAX_SHADER);
 	struct shader* s = &S->shader[id];
-	_commit(s);
 	assert(index >= 0 && index < s->uniform_number);
 	struct uniform* u = &s->uniform[index];
 	assert(t == u->type);
 	int n = sl_shader_uniform_size(t);
-	memcpy(s->uniform_value + u->offset, v, n * sizeof(float));
-	s->reset_uniform = true;
-	s->uniform_change[index] = true;
+	int change = memcmp(s->uniform_value + u->offset, v, n * sizeof(float));
+	if (change != 0) {
+		_commit(s);
+		memcpy(s->uniform_value + u->offset, v, n * sizeof(float));
+		s->reset_uniform = true;
+		s->uniform_change[index] = true;
+	}
 }
 
 int 
