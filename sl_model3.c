@@ -157,12 +157,14 @@ sl_model3_draw(struct ds_array* vertices, struct ds_array* indices) {
 		return;
 	}
 
-	// todo: 
-	for (int i = 0, n = ds_array_size(indices); i < n; ++i) {
-		uint16_t idx = *(uint16_t*)ds_array_fetch(indices, i);
-		idx += S.vertex_buf->n;
-		sl_buf_add(S.index_buf, &idx, 1);
+	int isz = ds_array_size(indices);
+	uint16_t ibuf[isz];
+	memcpy(ibuf, ds_array_data(indices), sizeof(ibuf));
+	for (int i = 0; i < isz; ++i) {
+		ibuf[i] += S.vertex_buf->n;
 	}
+	sl_buf_add(S.index_buf, ibuf, isz);
+
 	sl_buf_add(S.vertex_buf, ds_array_data(vertices), ds_array_size(vertices));
 }
 
