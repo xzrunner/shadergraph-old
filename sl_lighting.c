@@ -15,8 +15,8 @@
 #include "lighting.vert"
 #include "lighting.frag"
 
-#define MAX_VERTICES	1024
-#define MAX_INDICES		8192
+#define MAX_VERTICES	10000
+#define MAX_INDICES		20000
 
 struct vertex {
 	float vx, vy, vz;
@@ -132,10 +132,6 @@ sl_lighting_set_material(const struct sm_vec3* ambient, const struct sm_vec3* di
 	sl_shader_set_uniform(S.shader, S.diffuse_id, UNIFORM_FLOAT3, &diffuse->x);
 	sl_shader_set_uniform(S.shader, S.specular_id, UNIFORM_FLOAT3, &specular->x);
 	sl_shader_set_uniform(S.shader, S.shininess_id, UNIFORM_FLOAT1, &shininess);
-
-	union sm_mat3 mat3;
-	sm_mat4_to_mat3(&mat3, &S.modelview_mat);
-	sl_lighting_set_normal_matrix(&mat3);
 	sl_shader_apply_uniform(S.shader);
 }
 
@@ -160,8 +156,14 @@ sl_lighting_draw(struct ds_array* vertices, struct ds_array* indices) {
 	if (vn > S.vertex_buf->cap || in > S.index_buf->cap) {
 		return;
 	}
+
+	// todo: 
+	for (int i = 0, n = ds_array_size(indices); i < n; ++i) {
+		uint16_t idx = *(uint16_t*)ds_array_fetch(indices, i);
+		idx += S.vertex_buf->n;
+		sl_buf_add(S.index_buf, &idx, 1);
+	}
 	sl_buf_add(S.vertex_buf, ds_array_data(vertices), ds_array_size(vertices));
-	sl_buf_add(S.index_buf, ds_array_data(indices), ds_array_size(indices));
 }
 
 void 
