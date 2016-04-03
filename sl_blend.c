@@ -172,7 +172,6 @@ sl_blend_set_mode(enum SL_BLEND_MODE mode) {
 
 	float m = mode;
 	sl_shader_set_uniform(S.shader, S.mode_id, UNIFORM_INT1, &m);
-	sl_shader_apply_uniform(S.shader);
 }
 
 void 
@@ -210,6 +209,8 @@ sl_blend_commit() {
 	if (S.quad_sz == 0) {
 		return;
 	}
+
+	sl_shader_apply_uniform(S.shader);
 	
 	sl_shader_set_texture(S.tex_blend, 0);
 	sl_shader_set_texture(S.tex_base, 1);

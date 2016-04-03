@@ -6,6 +6,8 @@ extern "C"
 #ifndef shader_lab_model3_h
 #define shader_lab_model3_h
 
+#include <stdbool.h>
+
 struct sm_vec3;
 union sm_mat3;
 union sm_mat4;
@@ -21,11 +23,11 @@ void sl_model3_projection(float aspect);
 void sl_model3_modelview(const union sm_mat4* mat);
 
 void sl_model3_set_material(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
-	                          const struct sm_vec3* specular, float shininess);
-void sl_model3_set_normal_matrix(const union sm_mat3* mat);
+							const struct sm_vec3* specular, float shininess, int tex);
 void sl_model3_set_light_position(const struct sm_vec3* pos);
 
-void sl_model3_draw(struct ds_array* vertices, struct ds_array* indices);
+void sl_model3_draw(const struct ds_array* vertices, const struct ds_array* indices, 
+					bool has_normal, bool has_texcoord);
 
 void sl_model3_commit();
 
