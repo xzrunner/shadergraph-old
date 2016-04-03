@@ -1,4 +1,4 @@
-static const char* lighting_frag = STRINGIFY(
+static const char* model3_frag = STRINGIFY(
 
 varying vec4 v_dest_color;
 

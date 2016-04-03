@@ -1,4 +1,4 @@
-static const char* lighting_vert = STRINGIFY(
+static const char* model3_vert = STRINGIFY(
 
 attribute vec4 position;
 attribute vec3 normal;
