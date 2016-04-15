@@ -1,13 +1,9 @@
 #include "ShapeShader.h"
-#include "RenderContext.h"
-#include "Buffer.h"
-#include "RenderBuffer.h"
-#include "RenderShader.h"
-#include "RenderLayout.h"
-
-#define STRINGIFY(A)  #A
-#include "shape.vert"
-#include "shape.frag"
+#include "utility/Buffer.h"
+#include "render/RenderContext.h"
+#include "render/RenderBuffer.h"
+#include "render/RenderShader.h"
+#include "render/RenderLayout.h"
 
 namespace sl
 {
@@ -49,17 +45,54 @@ ShapeShader::~ShapeShader()
 
 void ShapeShader::Bind() const
 {
-
+	m_shader->Bind();
 }
 
 void ShapeShader::UnBind() const
 {
-
 }
 
 void ShapeShader::Commit() const
 {
+	
+}
 
+void ShapeShader::SetProjection(int width, int height)
+{
+
+}
+
+void ShapeShader::SetModelview(float x, float y, float sx, float sy)
+{
+
+}
+
+void ShapeShader::SetColor(int color)
+{
+
+}
+
+void ShapeShader::SetType(int type)
+{
+
+}
+
+void ShapeShader::Draw(const float* positions, int count) const
+{
+
+}
+
+void ShapeShader::Draw(float x, float y, bool dummy) const
+{
+
+}
+
+void ShapeShader::InitParser()
+{
+	parser::Node* vert = new parser::PositionTrans();
+	parser::Node* frag = new parser::ColorOne();
+	frag->Connect(new parser::FragColor());
+	m_parser = new parser::Shader(vert, frag);
 }
 
 }

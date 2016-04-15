@@ -1,8 +1,8 @@
 #ifndef _SHADERLAB_RENDER_BUFFER_H_
 #define _SHADERLAB_RENDER_BUFFER_H_
 
-#include "Object.h"
-#include "Buffer.h"
+#include "utility/Object.h"
+#include "utility/Buffer.h"
 
 #include <render/render.h>
 

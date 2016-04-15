@@ -1,5 +1,5 @@
 #include "RenderBuffer.h"
-#include "Buffer.h"
+#include "utility/Buffer.h"
 
 namespace sl
 {
