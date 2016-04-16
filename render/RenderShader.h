@@ -30,7 +30,7 @@ public:
 
 	void Commit();
 
-	void SetDrawMode(enum DRAW_MODE dm) { m_draw_mode = dm; };
+	void SetDrawMode(enum DRAW_MODE dm);
 
 	void ApplyUniform();
 	bool IsUniformChanged() const { return m_uniform_changed; }

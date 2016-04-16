@@ -95,6 +95,14 @@ void RenderShader::Commit()
 	m_vb->Clear();
 }
 
+void RenderShader::SetDrawMode(enum DRAW_MODE dm) 
+{ 
+	if (m_draw_mode != dm) {
+		Commit();
+		m_draw_mode = dm;
+	}
+}
+
 void RenderShader::ApplyUniform()
 {
 	for (int i = 0; i < m_uniform_number; ++i) {
