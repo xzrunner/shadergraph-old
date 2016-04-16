@@ -13,13 +13,4 @@ StackAllocator* StackAllocator::Instance()
 	return m_instance;
 }
 
-void StackAllocator::Alloc(int sz)
-{
-	if (m_sz < sz) {
-		delete[] m_buf;
-		m_buf = new uint8_t[sz];
-		m_sz = sz;
-	}
-}
-
 }

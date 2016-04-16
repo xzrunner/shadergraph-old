@@ -19,7 +19,7 @@ TextureMap::TextureMap()
 
 std::string& TextureMap::ToStatements(std::string& str) const
 {
-	str += "vec4 src = texture2D(u_texture0, v_texcoord); ";
+	str += "vec4 src = texture2D(u_texture0, v_texcoord);\n";
 	return str;
 }
 

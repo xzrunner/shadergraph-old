@@ -19,6 +19,7 @@ public:
 
 	virtual std::string& ToStatement(std::string& str) const = 0;
 
+	VariableType GetType() const { return m_type; }
 	const std::string& GetName() const { return m_name; }
 
 protected:

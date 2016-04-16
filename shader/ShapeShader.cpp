@@ -1,51 +1,49 @@
 #include "ShapeShader.h"
-#include "utility/Buffer.h"
+#include "SubjectMVP2.h"
+#include "ObserverMVP.h"
 #include "render/RenderContext.h"
 #include "render/RenderBuffer.h"
 #include "render/RenderShader.h"
 #include "render/RenderLayout.h"
+#include "parser/Node.h"
+#include "parser/PositionTrans.h"
+#include "parser/ColorOne.h"
+#include "parser/FragColor.h"
+#include "parser/Shader.h"
+#include "utility/Buffer.h"
+#include "utility/StackAllocator.h"
 
 namespace sl
 {
 
-#define BUFFER_OFFSET(f) ((intptr_t)&(((Vertex*)NULL)->f))
+static const int MAX_VERTICES = 4096;
 
 ShapeShader::ShapeShader(RenderContext* rc)
+	: Shader(rc)
+	, m_parser(NULL)
+	, m_shader(NULL)
+	, m_mvp(NULL)
+	, m_vertex_sz(NULL)
+	, m_color(0xffffffff)
 {
-	m_shader = rc->CreateShader();
+	Init();
 
-	Buffer* buf = new Buffer(sizeof(struct Vertex), MAX_VERTICES);
-	RenderBuffer* vb = new RenderBuffer(rc->GetEJRender(), VERTEXBUFFER, sizeof(struct Vertex), MAX_VERTICES, buf);
-	m_shader->SetVertexBuffer(vb);
-	vb->Release();
-
-	struct vertex_attrib va[2] = {
-		{ "position", 0, 2, sizeof(float), BUFFER_OFFSET(vx) },
-		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(color) },
-	};
-	RenderLayout* lo = new RenderLayout(rc->GetEJRender(), sizeof(va)/sizeof(va[0]), va);
-	m_shader->SetLayout(lo);
-	lo->Release();
-
-	m_shader->Load(shape_vert, shape_frag);
-
-	m_project.id = m_shader->AddUniform("u_projection", UNIFORM_FLOAT44);
-	m_modelview.id = m_shader->AddUniform("u_modelview", UNIFORM_FLOAT44);
-
-	m_color = 0xffffffff;
-
-	rc->SetClearFlag(MASKC);
+	m_rc->SetClearFlag(MASKC);
 }
 
 ShapeShader::~ShapeShader()
 {
+	delete m_parser;
+
 	m_shader->Unload();
 	delete m_shader;
+
+	delete m_mvp;
 }
 
 void ShapeShader::Bind() const
 {
-	m_shader->Bind();
+	m_rc->BindShader(m_shader);
 }
 
 void ShapeShader::UnBind() const
@@ -54,45 +52,86 @@ void ShapeShader::UnBind() const
 
 void ShapeShader::Commit() const
 {
-	
+	m_shader->Commit();
 }
 
-void ShapeShader::SetProjection(int width, int height)
+void ShapeShader::SetColor(uint32_t color)
 {
-
-}
-
-void ShapeShader::SetModelview(float x, float y, float sx, float sy)
-{
-
-}
-
-void ShapeShader::SetColor(int color)
-{
-
+	m_color = color;
 }
 
 void ShapeShader::SetType(int type)
 {
-
+	m_shader->SetDrawMode((DRAW_MODE)type);
 }
 
 void ShapeShader::Draw(const float* positions, int count) const
 {
-
+	StackAllocator* alloc = StackAllocator::Instance();
+	int sz = m_vertex_sz * count;
+	alloc->Reserve(sz);
+	void* buf = alloc->Alloc(sz);
+	uint8_t* ptr = (uint8_t*)buf;
+ 	for (int i = 0; i < count; ++i) 
+ 	{
+ 		memcpy(ptr, &positions[i * 2], sizeof(float));
+ 		ptr += sizeof(float);
+ 		memcpy(ptr, &positions[i * 2 + 1], sizeof(float));
+ 		ptr += sizeof(float);
+ 		memcpy(ptr, &m_color, sizeof(m_color));
+ 		ptr += sizeof(m_color);
+ 	}
+ 	m_shader->Draw(buf, count, 0);
+	alloc->Free(buf);
 }
 
 void ShapeShader::Draw(float x, float y, bool dummy) const
 {
-
+	uint8_t buf[sizeof(float) * 2 + sizeof(int)];
+	uint8_t* ptr = buf;
+	memcpy(ptr, &x, sizeof(float));
+	ptr += sizeof(float);
+	memcpy(ptr, &y, sizeof(float));
+	ptr += sizeof(float);
+	memcpy(ptr, &m_color, sizeof(uint32_t));
+	ptr += sizeof(uint32_t);
+	m_shader->Draw(buf, 1, 0);
 }
 
-void ShapeShader::InitParser()
+void ShapeShader::Init()
 {
+	// shader
 	parser::Node* vert = new parser::PositionTrans();
 	parser::Node* frag = new parser::ColorOne();
 	frag->Connect(new parser::FragColor());
 	m_parser = new parser::Shader(vert, frag);
+
+	m_shader = m_rc->CreateShader();
+
+	// vertex buffer
+	m_vertex_sz = sizeof(float) * 2 + sizeof(uint32_t);
+	Buffer* buf = new Buffer(m_vertex_sz, MAX_VERTICES);
+	RenderBuffer* vb = new RenderBuffer(m_rc->GetEJRender(), VERTEXBUFFER, m_vertex_sz, MAX_VERTICES, buf);
+	m_shader->SetVertexBuffer(vb);
+	vb->Release();
+
+	// vertex layout
+	struct vertex_attrib va[2] = {
+		{ "position", 0, 2, sizeof(float), 0 },
+		{ "color", 0, 4, sizeof(uint8_t), sizeof(float) * 2 },
+	};
+	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), sizeof(va)/sizeof(va[0]), va);
+	m_shader->SetLayout(lo);
+	lo->Release();
+
+	// create
+	m_shader->Load(m_parser->GetVertStr(), m_parser->GetFragStr());
+
+	// uniforms
+	m_mvp = new ObserverMVP(m_shader);
+	m_mvp->InitModelview(m_shader->AddUniform("u_modelview", UNIFORM_FLOAT44));
+	m_mvp->InitProjection(m_shader->AddUniform("u_projection", UNIFORM_FLOAT44));
+	SubjectMVP2::Instance()->Register(m_mvp);
 }
 
 }

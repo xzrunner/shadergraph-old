@@ -2,7 +2,6 @@
 #include "Shader.h"
 #include "render/RenderContext.h"
 
-#include <stddef.h>
 #include <string.h>
 
 namespace sl
@@ -65,7 +64,7 @@ void ShaderMgr::SetShader(ShaderType type)
 		return;
 	}
 
-	if (m_shaders[m_curr_shader]) {
+	if (m_curr_shader != -1 && m_shaders[m_curr_shader]) {
 		m_shaders[m_curr_shader]->Commit();
 		m_shaders[m_curr_shader]->UnBind();
 	}
@@ -73,11 +72,6 @@ void ShaderMgr::SetShader(ShaderType type)
 	if (m_shaders[m_curr_shader]) {
 		m_shaders[m_curr_shader]->Bind();
 	}
-}
-
-ShaderType ShaderMgr::GetShader() const
-{
-	return m_curr_shader == -1 ? MAX_SHADER : (ShaderType)m_curr_shader;
 }
 
 }

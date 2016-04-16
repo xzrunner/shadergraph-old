@@ -11,8 +11,8 @@ namespace sl
 
 namespace parser { class Shader; }
 
-class RenderContext;
 class RenderShader;
+class ObserverMVP;
 
 class ShapeShader : public Shader
 {
@@ -24,36 +24,25 @@ public:
 	virtual void UnBind() const;
 	virtual void Commit() const;
 
-	void SetProjection(int width, int height);
-	void SetModelview(float x, float y, float sx, float sy);
-
-	void SetColor(int color);
+	void SetColor(uint32_t color);
 	void SetType(int type);
 
 	void Draw(const float* positions, int count) const;
 	void Draw(float x, float y, bool dummy) const;
 
 private:
-	void InitParser();
-
-private:
-	static const int MAX_VERTICES = 4096;
-
-private:
-// 	struct Vertex
-// 	{
-// 		float vx, vy;
-// 		uint32_t color;
-// 	}; // Vertex
+	void Init();
 
 private:
 	parser::Shader* m_parser;
 
 	RenderShader* m_shader;
 
-	UniformMat4 m_modelview, m_project;
+	ObserverMVP* m_mvp;
 
-	int m_color;
+	int m_vertex_sz;
+
+	uint32_t m_color;
 
 }; // ShapeShader
 

@@ -2,6 +2,8 @@
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
 
+#include <iostream>
+
 namespace sl
 {
 
@@ -30,13 +32,16 @@ RenderShader::~RenderShader()
 
 void RenderShader::Load(const char* vs, const char* fs)
 {
+	std::cout << vs << std::endl;
+	std::cout << fs << std::endl;
+
 	struct shader_init_args args;
 	args.vs = vs;
 	args.fs = fs;
 	args.texture = 0;
 	m_prog = render_shader_create(m_ej_render, &args);
 	render_shader_bind(m_ej_render, m_prog);
-	render_shader_bind(m_ej_render, 0);	// ??
+//	render_shader_bind(m_ej_render, 0);	// ??
 	//	S->curr_shader = -1;
 }
 
@@ -64,7 +69,9 @@ void RenderShader::Bind()
 {
 	render_shader_bind(m_ej_render, m_prog);
 	m_vb->Bind();
-	m_ib->Bind();
+	if (m_ib) {
+		m_ib->Bind();
+	}
 //	m_layout->Bind();
 }
 

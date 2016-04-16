@@ -22,6 +22,9 @@ public:
 	Shader(const Node* vert, const Node* frag);
 	~Shader();
 
+	const char* GetVertStr() const { return m_vert_str.c_str(); }
+	const char* GetFragStr() const { return m_frag_str.c_str(); }
+
 private:
 	void ParserVert();
 	void ParserFrag();

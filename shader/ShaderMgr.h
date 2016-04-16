@@ -3,6 +3,8 @@
 
 #include "ShaderType.h"
 
+#include <stddef.h>
+
 namespace sl
 {
 
@@ -14,12 +16,20 @@ class ShaderMgr
 public:
 	void CreateContext(int max_texture);
 	void ReleaseContext();
-//	RenderContext* GetContext() { return m_rc; }
+	RenderContext* GetContext() { return m_rc; }
 
 	void CreateShader(ShaderType type, Shader* shader);
 
 	void SetShader(ShaderType type);
-	ShaderType GetShader() const;
+	Shader* GetShader() const {
+		return m_curr_shader == -1 ? NULL : m_shaders[m_curr_shader];
+	}
+	Shader* GetShader(ShaderType type) const {
+		return m_shaders[type];
+	}
+	ShaderType GetShaderType() const {
+		return m_curr_shader == -1 ? MAX_SHADER : (ShaderType)m_curr_shader;
+	}
 	
 	static ShaderMgr* Instance();
 

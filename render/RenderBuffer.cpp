@@ -18,7 +18,9 @@ RenderBuffer::RenderBuffer(render* ej_render, RENDER_OBJ type, int stride, int n
 RenderBuffer::~RenderBuffer()
 {
 	render_release(m_ej_render, m_type, m_id);
-	delete m_buf;
+	if (m_buf) {
+		delete m_buf;
+	}
 }
 
 }

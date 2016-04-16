@@ -50,7 +50,7 @@ std::string& ColorMap::ToStatements(std::string& str) const
 		float cmp_gb = step(_TMP_.g * s, _TMP_.b); \
 		vec3 db = (v_bmap.rgb * k - _TMP_.rgb) * b_valid * cmp_rb * cmp_gb; \
 		\
-		vec4 _col_map_ = vec4(dr + dg + db + _TMP_.rgb, _TMP_.a); \
+		vec4 _col_map_ = vec4(dr + dg + db + _TMP_.rgb, _TMP_.a);\n \
 		";
 	StringHelper::ReplaceAll(s, "_TMP_", m_input->OutputName());
 	str += s;

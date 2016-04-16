@@ -29,24 +29,40 @@ enum VariableType
 struct VariableInfo
 {
 	const char* name;
-	int size;
+//	int size;
 };
 
 static const VariableInfo VAR_INFOS[VT_MAX_COUNT] = 
 {
-	{ "unknown", 0 },
+// 	{ "unknown", 0 },
+// 
+// 	{ "float", 1 },
+// 	{ "vec2", 2 },
+// 	{ "vec3", 3 },
+// 	{ "vec4", 4 },
+// 
+// 	{ "int", 1 },
+// 
+// 	{ "mat3", 9 },
+// 	{ "mat4", 16 },
+// 
+// 	{ "sampler2D", 0 },
 
-	{ "float", 1 },
-	{ "vec2", 2 },
-	{ "vec3", 3 },
-	{ "vec4", 4 },
+	//////////////////////////////////////////////////////////////////////////
 
-	{ "int", 1 },
+	{ "unknown" },
 
-	{ "mat3", 9 },
-	{ "mat3", 16 },
+	{ "float" },
+	{ "vec2" },
+	{ "vec3" },
+	{ "vec4" },
 
-	{ "sampler2D", 0 },
+	{ "int" },
+
+	{ "mat3" },
+	{ "mat4" },
+
+	{ "sampler2D" },
 };
 
 static const int VT_SIZE[VT_MAX_COUNT] = 

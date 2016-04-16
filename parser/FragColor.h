@@ -13,7 +13,7 @@ class FragColor : public Node
 public:
 	virtual std::string& ToStatements(std::string& str) const {
 		if (m_input) {
-			str += "gl_FragColor = " + m_input->OutputName() + ";"
+			str += "gl_FragColor = " + m_input->OutputName() + ";\n";
 		}
 		return str;
 	}
