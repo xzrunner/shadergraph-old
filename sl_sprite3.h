@@ -20,6 +20,7 @@ void sl_sprite3_projection(const union sm_mat4* mat);
 void sl_sprite3_modelview(const union sm_mat4* mat);
 
 void sl_sprite3_set_color(uint32_t color, uint32_t additive);
+void sl_sprite3_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap);
 
 void sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int vertices_count);
 

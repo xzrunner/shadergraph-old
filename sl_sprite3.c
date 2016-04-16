@@ -20,6 +20,7 @@ struct vertex {
 	float vx, vy, vz;
 	float tx, ty;
 	uint32_t color, additive;
+	uint32_t rmap, gmap, bmap;
 };
 
 struct shader_state {
@@ -32,6 +33,7 @@ struct shader_state {
 	union sm_mat4 modelview_mat, projection_mat;
 
 	uint32_t color, additive;
+	uint32_t rmap, gmap, bmap;
 
 	struct vertex* buf;
 	int vertices_sz;
@@ -52,11 +54,14 @@ sl_sprite3_load() {
 	struct sl_buffer* vertex_buf = sl_buf_create(sizeof(struct vertex), MAX_VERTICES);
 	sl_shader_set_vertex_buffer(s, vertex_buf_id, vertex_buf);
 
-	struct vertex_attrib va[4] = {
+	struct vertex_attrib va[7] = {
 		{ "position", 0, 3, sizeof(float), BUFFER_OFFSET(vx) },
 		{ "texcoord", 0, 2, sizeof(float), BUFFER_OFFSET(tx) },
 		{ "color", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(color) },
 		{ "additive", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(additive) },
+		{ "rmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(rmap) },
+		{ "gmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(gmap) },
+		{ "bmap", 0, 4, sizeof(uint8_t), BUFFER_OFFSET(bmap) },
 	};
 	int layout_id = sl_shader_create_vertex_layout(sizeof(va)/sizeof(va[0]), va);
 	sl_shader_set_vertex_layout(s, layout_id);
@@ -77,6 +82,9 @@ sl_sprite3_load() {
 
 	S.color = 0xffffffff;
 	S.additive = 0x00000000;
+	S.rmap = 0x000000ff;
+	S.gmap = 0x0000ff00;
+	S.bmap = 0x00ff0000;
 
 	S.buf = (struct vertex*)malloc(sizeof(struct vertex) * MAX_VERTICES);
 	S.vertices_sz = 0;
@@ -126,6 +134,13 @@ sl_sprite3_set_color(uint32_t color, uint32_t additive) {
 }
 
 void 
+sl_sprite3_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap) {
+	S.rmap = rmap;
+	S.gmap = gmap;
+	S.bmap = bmap;
+}
+
+void 
 sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int vertices_count) {
 	if (S.vertices_sz + vertices_count > MAX_VERTICES ||
 		(texid != S.tex && S.tex != 0)) {
@@ -142,6 +157,9 @@ sl_sprite3_draw(const float* positions, const float* texcoords, int texid, int v
 		v->ty = texcoords[i * 2 + 1];
 		v->color = S.color;
 		v->additive = S.additive;
+		v->rmap = S.rmap;
+		v->gmap = S.gmap;
+		v->bmap = S.bmap;
 	}
 }
 
