@@ -8,6 +8,7 @@ namespace sl
 namespace parser
 {
 
+// attribute vec4 color
 class ColorOne : public Node
 {
 public:
@@ -15,7 +16,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 	
-	virtual std::string OutputName() const { return "col_one"; }
+	virtual std::string OutputName() const;
 
 }; // ColorOne
 

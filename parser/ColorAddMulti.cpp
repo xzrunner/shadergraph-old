@@ -24,14 +24,19 @@ std::string& ColorAddMulti::ToStatements(std::string& str) const
 	}
 
 	std::string s = " \
-		vec4 col_add_multi; \
-		col_add_multi.xyz = _TMP_.xyz * v_color.xyz; \
-		col_add_multi.w = _TMP_.w; \
-		col_add_multi *= v_color.w; \
-		col_add_multi.xyz += v_additive.xyz * _TMP_.w * v_color.w; ";
+		vec4 _col_add_multi_; \
+		_col_add_multi_.xyz = _TMP_.xyz * v_color.xyz; \
+		_col_add_multi_.w = _TMP_.w; \
+		_col_add_multi_ *= v_color.w; \
+		_col_add_multi_.xyz += v_additive.xyz * _TMP_.w * v_color.w; ";
 	StringHelper::ReplaceAll(s, "_TMP_", m_input->OutputName());
 	str += s;
 	return str;
+}
+
+std::string ColorAddMulti::OutputName() const 
+{
+	return "_col_add_multi_";
 }
 
 }

@@ -8,6 +8,8 @@ namespace sl
 namespace parser
 {
 
+// varying vec4 v_color
+// varying vec4 v_additive
 class ColorAddMulti : public Node
 {
 public:
@@ -15,7 +17,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 	
-	virtual std::string OutputName() const { return "col_add_multi"; }
+	virtual std::string OutputName() const;
 
 }; // ColorAddMulti
 

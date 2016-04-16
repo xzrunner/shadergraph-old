@@ -15,8 +15,13 @@ ColorOne::ColorOne()
 
 std::string& ColorOne::ToStatements(std::string& str) const
 {
-	str += "col_one = v_color;";
+	str += "vec4 _col_one_ = v_color;";
 	return str;
+}
+
+std::string ColorOne::OutputName() const 
+{ 
+	return "_col_one_"; 
 }
 
 }

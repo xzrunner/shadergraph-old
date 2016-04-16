@@ -8,6 +8,9 @@ namespace sl
 namespace parser
 {
 
+// varying vec4 v_rmap
+// varying vec4 v_gmap
+// varying vec4 v_bmap
 class ColorMap : public Node
 {
 public:
@@ -16,7 +19,7 @@ public:
 	virtual std::string& GetHeader(std::string& str) const;
 	virtual std::string& ToStatements(std::string& str) const;
 	
-	virtual std::string OutputName() const { return "col_map"; }
+	virtual std::string OutputName() const;
 
 }; // ColorMap
 

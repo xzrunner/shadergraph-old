@@ -8,6 +8,9 @@ namespace sl
 namespace parser
 {
 
+// attribute vec4 position
+// uniform mat4 u_projection
+// uniform mat4 u_modelview
 class PositionTrans : public Node
 {
 public:
