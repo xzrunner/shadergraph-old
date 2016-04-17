@@ -18,7 +18,9 @@ RenderBuffer* Utility::CreateQuadIndexBuffer(RenderContext* rc, int quad_count)
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), 6 * quad_count);
 	index_buf->Add(buf, 6 * quad_count);
 	alloc->Free(buf);
-	return new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
+	RenderBuffer* ret = new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
+	ret->Update();
+	return ret;
 }
 
 void Utility::FillingQuadIndexBuffer(uint16_t* buf, int quad_count)

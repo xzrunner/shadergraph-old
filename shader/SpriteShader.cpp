@@ -24,6 +24,8 @@ SpriteShader::SpriteShader(RenderContext* rc)
 {
 	Init();
 
+	m_rc->SetClearFlag(MASKC);
+
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
 	m_rmap = 0x000000ff;
@@ -106,6 +108,10 @@ void SpriteShader::Commit() const
 	m_rc->BindShader(prog->shader);
 	prog->shader->Draw(buf, vb_count, m_quad_sz * 6);
 	alloc->Free(buf);
+
+	m_quad_sz = 0;
+
+	prog->shader->Commit();
 }
 
 void SpriteShader::SetColor(uint32_t color, uint32_t additive)
@@ -177,14 +183,16 @@ void SpriteShader::InitNoColorProg(RenderBuffer* idx_buf)
 		{ "texcoord", 0, 2, sizeof(float), sizeof(float) * 2 },
 	};
 
-	m_programs[PI_NO_COLOR] = CreateProg(vert, frag, va, sizeof(float) * 4);
+	int va_count = sizeof(va)/sizeof(va[0]);
+	int vertex_sz = sizeof(float) * 4;
+	m_programs[PI_NO_COLOR] = CreateProg(vert, frag, va_count, va, vertex_sz, idx_buf);
 }
 
 void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
-	parser::Node* frag = (
-		new parser::TextureMap())->Connect(
+	parser::Node* frag = new parser::TextureMap();
+	frag->Connect(
 		new parser::ColorAddMulti())->Connect(
 		new parser::FragColor());
 
@@ -195,14 +203,16 @@ void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 		{ "additive", 0, 4, sizeof(uint8_t), sizeof(float) * 4 + sizeof(uint32_t) },
 	};
 
-	m_programs[PI_MULTI_ADD_COLOR] = CreateProg(vert, frag, va, sizeof(float) * 4 + sizeof(uint32_t) * 2);
+	int va_count = sizeof(va)/sizeof(va[0]);
+	int vertex_sz = sizeof(float) * 4 + sizeof(uint32_t) * 2;
+	m_programs[PI_MULTI_ADD_COLOR] = CreateProg(vert, frag, va_count, va, vertex_sz, idx_buf);
 }
 
 void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
-	parser::Node* frag = (
-		new parser::TextureMap())->Connect(
+	parser::Node* frag = new parser::TextureMap();
+	frag->Connect(
 		new parser::ColorMap())->Connect(
 		new parser::FragColor());
 
@@ -214,14 +224,16 @@ void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
 		{ "bmap", 0, 4, sizeof(uint8_t), sizeof(float) * 4 + sizeof(uint32_t) * 2 },
 	};
 
-	m_programs[PI_MAP_COLOR] = CreateProg(vert, frag, va, sizeof(float) * 4 + sizeof(uint32_t) * 3);
+	int va_count = sizeof(va)/sizeof(va[0]);
+	int vertex_sz = sizeof(float) * 4 + sizeof(uint32_t) * 3;
+	m_programs[PI_MAP_COLOR] = CreateProg(vert, frag, va_count, va, vertex_sz, idx_buf);
 }
 
 void SpriteShader::InitFullColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
-	parser::Node* frag = (
-		new parser::TextureMap())->Connect(
+	parser::Node* frag = new parser::TextureMap();
+	frag->Connect(
 		new parser::ColorMap())->Connect(
 		new parser::ColorAddMulti())->Connect(
 		new parser::FragColor());
@@ -236,11 +248,13 @@ void SpriteShader::InitFullColorProg(RenderBuffer* idx_buf)
 		{ "bmap", 0, 4, sizeof(uint8_t), sizeof(float) * 4 + sizeof(uint32_t) * 4 },
 	};
 
-	m_programs[PI_FULL_COLOR] = CreateProg(vert, frag, va, sizeof(float) * 4 + sizeof(uint32_t) * 5);
+	int va_count = sizeof(va)/sizeof(va[0]);
+	int vertex_sz = sizeof(float) * 4 + sizeof(uint32_t) * 5;
+	m_programs[PI_FULL_COLOR] = CreateProg(vert, frag, va_count, va, vertex_sz, idx_buf);
 }
 
-SpriteShader::Program* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
-												vertex_attrib* va, int vertex_sz) const
+SpriteShader::Program* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, int va_count, 
+												vertex_attrib* va, int vertex_sz, RenderBuffer* ib) const
 {
 	// shader
 	parser::Shader* parser = new parser::Shader(vert, frag);
@@ -254,13 +268,19 @@ SpriteShader::Program* SpriteShader::CreateProg(parser::Node* vert, parser::Node
 	shader->SetVertexBuffer(vb);
 	vb->Release();
 
+	// index buffer
+	shader->SetIndexBuffer(ib);
+
+	int zz = sizeof(va);
+
 	// vertex layout
-	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), sizeof(va)/sizeof(va[0]), va);
+	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), va_count, va);
 	shader->SetLayout(lo);
 	lo->Release();
 
 	// create
 	shader->Load(parser->GetVertStr(), parser->GetFragStr());
+	shader->SetDrawMode(DRAW_TRIANGLES);
 
 	// uniforms
 	prog->mvp = new ObserverMVP(shader);

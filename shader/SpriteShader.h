@@ -73,8 +73,8 @@ private:
 			: parser(parser), shader(shader), mvp(NULL), vertex_sz(0) {}
 	};
 
-	Program* CreateProg(parser::Node* vert, parser::Node* frag, 
-		vertex_attrib* va, int vertex_sz) const;
+	Program* CreateProg(parser::Node* vert, parser::Node* frag, int va_count,
+		vertex_attrib* va, int vertex_sz, RenderBuffer* ib) const;
 
 private:
 	Program* m_programs[PROG_SIZE];
