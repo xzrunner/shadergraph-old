@@ -32,23 +32,23 @@ std::string& ColorMap::ToStatements(std::string& str) const
 	}
 
 	std::string s = " \
-		float s = 1.2; \
-		float k = _TMP_.r + _TMP_.g + _TMP_.b; \
+		float s = 1.2;\n \
+		float k = _TMP_.r + _TMP_.g + _TMP_.b;\n \
 		\
-		float r_valid = step(neql(v_rmap.r, 1.0) + neql(v_rmap.g, 0.0) + neql(v_rmap.b, 0.0), 0.5); \
-		float cmp_gr = step(_TMP_.g * s, _TMP_.r); \
-		float cmp_br = step(_TMP_.b * s, _TMP_.r); \
-		vec3 dr = (v_rmap.rgb * k - _TMP_.rgb) * r_valid * cmp_gr * cmp_br; \
+		float r_valid = step(neql(v_rmap.r, 1.0) + neql(v_rmap.g, 0.0) + neql(v_rmap.b, 0.0), 0.5);\n \
+		float cmp_gr = step(_TMP_.g * s, _TMP_.r);\n \
+		float cmp_br = step(_TMP_.b * s, _TMP_.r);\n \
+		vec3 dr = (v_rmap.rgb * k - _TMP_.rgb) * r_valid * cmp_gr * cmp_br;\n \
 		\
-		float g_valid = step(neql(v_gmap.r, 0.0) + neql(v_gmap.g, 1.0) + neql(v_gmap.b, 0.0), 0.5);	\
-		float cmp_rg = step(_TMP_.r * s, _TMP_.g); \
-		float cmp_bg = step(_TMP_.b * s, _TMP_.g); \
-		vec3 dg = (v_gmap.rgb * k - _TMP_.rgb) * g_valid * cmp_rg * cmp_bg; \
+		float g_valid = step(neql(v_gmap.r, 0.0) + neql(v_gmap.g, 1.0) + neql(v_gmap.b, 0.0), 0.5);\n	\
+		float cmp_rg = step(_TMP_.r * s, _TMP_.g);\n \
+		float cmp_bg = step(_TMP_.b * s, _TMP_.g);\n \
+		vec3 dg = (v_gmap.rgb * k - _TMP_.rgb) * g_valid * cmp_rg * cmp_bg;\n \
 		\
-		float b_valid = step(neql(v_bmap.r, 0.0) + neql(v_bmap.g, 0.0) + neql(v_bmap.b, 1.0), 0.5);	\
-		float cmp_rb = step(_TMP_.r * s, _TMP_.b); \
-		float cmp_gb = step(_TMP_.g * s, _TMP_.b); \
-		vec3 db = (v_bmap.rgb * k - _TMP_.rgb) * b_valid * cmp_rb * cmp_gb; \
+		float b_valid = step(neql(v_bmap.r, 0.0) + neql(v_bmap.g, 0.0) + neql(v_bmap.b, 1.0), 0.5);\n	\
+		float cmp_rb = step(_TMP_.r * s, _TMP_.b);\n \
+		float cmp_gb = step(_TMP_.g * s, _TMP_.b);\n \
+		vec3 db = (v_bmap.rgb * k - _TMP_.rgb) * b_valid * cmp_rb * cmp_gb;\n \
 		\
 		vec4 _col_map_ = vec4(dr + dg + db + _TMP_.rgb, _TMP_.a);\n \
 		";
