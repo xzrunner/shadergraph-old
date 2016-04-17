@@ -9,7 +9,7 @@ namespace sl
 struct UniformMat4
 {
 	int id;
-	union sm_mat4 mat;
+	sm_mat4 mat;
 
 	UniformMat4() : id(0) { sm_mat4_identity(&mat); }
 };

@@ -6,7 +6,6 @@ extern "C"
 #ifndef _shaderlab_wrap_c_h_
 #define _shaderlab_wrap_c_h_
 
-#include <stdbool.h>
 #include <stdint.h>
 
 enum SHADER_TYPE {
@@ -31,7 +30,7 @@ void sl_flush();
 void sl_shape_color(uint32_t color);
 void sl_shape_type(int type);
 void sl_shape_draw(const float* positions, int count);
-void sl_shape_draw_node(float x, float y, bool dummy);
+void sl_shape_draw_node(float x, float y, int dummy);
 
 // sprite
 void sl_sprite_set_color(uint32_t color, uint32_t additive);

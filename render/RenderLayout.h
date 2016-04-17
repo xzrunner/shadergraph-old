@@ -1,9 +1,12 @@
 #ifndef _SHADERLAB_RENDER_LAYOUT_H_
 #define _SHADERLAB_RENDER_LAYOUT_H_
 
+#include "VertexAttrib.h"
 #include "utility/Object.h"
 
 #include <render/render.h>
+
+#include <vector>
 
 namespace sl
 {
@@ -11,7 +14,7 @@ namespace sl
 class RenderLayout : public Object
 {
 public:
-	RenderLayout(render* ej_render, int n, struct vertex_attrib* va);
+	RenderLayout(render* ej_render, const std::vector<VertexAttrib>& va_list);
 	virtual ~RenderLayout();
 
 	void Bind();

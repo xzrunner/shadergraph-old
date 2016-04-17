@@ -7,7 +7,7 @@ namespace sl
 enum ShaderType
 {
 	SHAPE = 0,
-	SPRITE,
+	SPRITE2,
 	BLEND,
 	FILTER,
 	SPRITE3,

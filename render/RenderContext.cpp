@@ -1,5 +1,6 @@
 #include "RenderContext.h"
 #include "RenderShader.h"
+#include "RenderConst.h"
 
 #include <render/render.h>
 #include <render/blendmode.h>
@@ -22,7 +23,7 @@ RenderContext::RenderContext(int max_texture)
 	struct render_init_args RA;
 	// todo: config these args
 	RA.max_buffer = 128;
-	RA.max_layout = 16;
+	RA.max_layout = MAX_LAYOUT;
 	RA.max_target = 128;
 	RA.max_texture = max_texture;
 	RA.max_shader = MAX_SHADER;

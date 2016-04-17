@@ -23,7 +23,7 @@ ShapeShader::ShapeShader(RenderContext* rc)
 	, m_parser(NULL)
 	, m_shader(NULL)
 	, m_mvp(NULL)
-	, m_vertex_sz(NULL)
+	, m_vertex_sz(0)
 	, m_color(0xffffffff)
 {
 	Init();
@@ -108,21 +108,23 @@ void ShapeShader::Init()
 
 	m_shader = m_rc->CreateShader();
 
+	// vertex layout
+	std::vector<VertexAttrib> va_list;
+	va_list.push_back(VertexAttrib("position", 2, sizeof(float)));
+	va_list.push_back(VertexAttrib("color", 4, sizeof(uint8_t)));
+	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), va_list);
+	m_shader->SetLayout(lo);
+	lo->Release();
+
 	// vertex buffer
-	m_vertex_sz = sizeof(float) * 2 + sizeof(uint32_t);
+	m_vertex_sz = 0;
+	for (int i = 0, n = va_list.size(); i < n; ++i) {
+		m_vertex_sz += va_list[i].tot_size;
+	}
 	Buffer* buf = new Buffer(m_vertex_sz, MAX_VERTICES);
 	RenderBuffer* vb = new RenderBuffer(m_rc->GetEJRender(), VERTEXBUFFER, m_vertex_sz, MAX_VERTICES, buf);
 	m_shader->SetVertexBuffer(vb);
 	vb->Release();
-
-	// vertex layout
-	struct vertex_attrib va[2] = {
-		{ "position", 0, 2, sizeof(float), 0 },
-		{ "color", 0, 4, sizeof(uint8_t), sizeof(float) * 2 },
-	};
-	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), sizeof(va)/sizeof(va[0]), va);
-	m_shader->SetLayout(lo);
-	lo->Release();
 
 	// create
 	m_shader->Load(m_parser->GetVertStr(), m_parser->GetFragStr());

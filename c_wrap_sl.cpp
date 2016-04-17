@@ -1,7 +1,7 @@
 #include "c_wrap_sl.h"
 #include "shader/ShaderMgr.h"
 #include "shader/ShapeShader.h"
-#include "shader/SpriteShader.h"
+#include "shader/Sprite2Shader.h"
 
 namespace sl
 {
@@ -33,8 +33,8 @@ void sl_create_shader(enum SHADER_TYPE type)
 		shader = new ShapeShader(rc);
 		break;
 	case ST_SPRITE:
-		sl_type = SPRITE;
-		shader = new SpriteShader(rc);
+		sl_type = SPRITE2;
+		shader = new Sprite2Shader(rc);
 		break;
 	}
 	if (shader) {
@@ -52,7 +52,7 @@ void sl_set_shader(enum SHADER_TYPE type)
 		sl_type = SHAPE;
 		break;
 	case ST_SPRITE:
-		sl_type = SPRITE;
+		sl_type = SPRITE2;
 		break;
 	}
 	if (type != MAX_SHADER) {
@@ -100,20 +100,20 @@ void sl_shape_draw(const float* positions, int count)
 }
 
 extern "C"
-void sl_shape_draw_node(float x, float y, bool dummy)
+void sl_shape_draw_node(float x, float y, int dummy)
 {
 	ShapeShader* shader = static_cast<ShapeShader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE));
 	if (shader) {
-		shader->Draw(x, y, dummy);
+		shader->Draw(x, y, dummy != 0);
 	}
 }
 
 extern "C"
 void sl_sprite_set_color(uint32_t color, uint32_t additive)
 {
-	SpriteShader* shader = static_cast<SpriteShader*>(
-		ShaderMgr::Instance()->GetShader(SPRITE));
+	Sprite2Shader* shader = static_cast<Sprite2Shader*>(
+		ShaderMgr::Instance()->GetShader(SPRITE2));
 	if (shader) {
 		shader->SetColor(color, additive);
 	}
@@ -122,8 +122,8 @@ void sl_sprite_set_color(uint32_t color, uint32_t additive)
 extern "C"
 void sl_sprite_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap)
 {
-	SpriteShader* shader = static_cast<SpriteShader*>(
-		ShaderMgr::Instance()->GetShader(SPRITE));
+	Sprite2Shader* shader = static_cast<Sprite2Shader*>(
+		ShaderMgr::Instance()->GetShader(SPRITE2));
 	if (shader) {
 		shader->SetColorMap(rmap, gmap, bmap);
 	}
@@ -132,8 +132,8 @@ void sl_sprite_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap)
 extern "C"
 void sl_sprite_draw(const float* positions, const float* texcoords, int texid)
 {
-	SpriteShader* shader = static_cast<SpriteShader*>(
-		ShaderMgr::Instance()->GetShader(SPRITE));
+	Sprite2Shader* shader = static_cast<Sprite2Shader*>(
+		ShaderMgr::Instance()->GetShader(SPRITE2));
 	if (shader) {
 		shader->Draw(positions, texcoords, texid);
 	}

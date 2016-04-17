@@ -1,5 +1,5 @@
-#ifndef _SHADERLAB_SUBJECT_MVP2_H_
-#define _SHADERLAB_SUBJECT_MVP2_H_
+#ifndef _SHADERLAB_SUBJECT_MVP3_H_
+#define _SHADERLAB_SUBJECT_MVP3_H_
 
 #include <sm.h>
 
@@ -10,19 +10,19 @@ namespace sl
 
 class ObserverMVP;
 
-class SubjectMVP2
+class SubjectMVP3
 {
 public:
 	void Register(ObserverMVP* observer) { m_observers.insert(observer); }
 	void UnRegister(ObserverMVP* observer) { m_observers.erase(observer); }
 
-	void NotifyModelview(float x, float y, float sx, float sy);
-	void NotifyProjection(int width, int height);
+	void NotifyModelview(const sm_mat4* mat);
+	void NotifyProjection(const sm_mat4* mat);
 
-	static SubjectMVP2* Instance();
+	static SubjectMVP3* Instance();
 
 private:
-	SubjectMVP2();
+	SubjectMVP3();
 
 private:
 	std::set<ObserverMVP*> m_observers;
@@ -30,10 +30,10 @@ private:
 	sm_mat4 m_modelview, m_projection;
 
 private:
-	static SubjectMVP2* m_instance;
+	static SubjectMVP3* m_instance;
 
-};	// SubjectMVP2
+};	// SubjectMVP3
 	
 }
 
-#endif // _SHADERLAB_SUBJECT_MVP2_H_
+#endif // _SHADERLAB_SUBJECT_MVP3_H_
