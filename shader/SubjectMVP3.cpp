@@ -22,6 +22,9 @@ SubjectMVP3::SubjectMVP3()
 
 void SubjectMVP3::NotifyModelview(const sm_mat4* mat)
 {
+	if (!mat) {
+		return;
+	}
 	memcpy(&m_modelview, mat, sizeof(*mat));
 	std::set<ObserverMVP*>::iterator itr = m_observers.begin();
 	for ( ; itr != m_observers.end(); ++itr) {
@@ -31,6 +34,9 @@ void SubjectMVP3::NotifyModelview(const sm_mat4* mat)
 
 void SubjectMVP3::NotifyProjection(const sm_mat4* mat)
 {
+	if (!mat) {
+		return;
+	}
 	memcpy(&m_projection, mat, sizeof(*mat));
 	std::set<ObserverMVP*>::iterator itr = m_observers.begin();
 	for ( ; itr != m_observers.end(); ++itr) {

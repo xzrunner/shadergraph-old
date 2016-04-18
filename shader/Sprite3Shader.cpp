@@ -94,7 +94,7 @@ void Sprite3Shader::Draw(const float* positions, const float* texcoords, int tex
 		Vertex* v = &m_vertex_buf[m_quad_sz * 6 + i];
 		v->vx = positions[i * 3];
 		v->vy = positions[i * 3 + 1];
-		v->vy = positions[i * 3 + 2];
+		v->vz = positions[i * 3 + 2];
 		v->tx = texcoords[i * 2];
 		v->ty = texcoords[i * 2 + 1];
 		v->color	= m_color;

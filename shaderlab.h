@@ -3,4 +3,5 @@
 #include "shader/Sprite3Shader.h"
 #include "shader/ShapeShader.h"
 #include "shader/SubjectMVP2.h"
+#include "shader/SubjectMVP3.h"
 #include "render/RenderContext.h"
