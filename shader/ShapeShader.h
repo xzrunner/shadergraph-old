@@ -2,7 +2,7 @@
 #define _SHADERLAB_SHAPE_SHADER_H_
 
 #include "Shader.h"
-#include "Uniform.h"
+// #include "Uniform.h"
 
 #include <stdint.h>
 
@@ -17,7 +17,7 @@ class ObserverMVP;
 class ShapeShader : public Shader
 {
 public:
-	ShapeShader(RenderContext* rc);	
+	ShapeShader(RenderContext* rc);
 	virtual ~ShapeShader();
 
 	virtual void Bind() const;
@@ -27,22 +27,22 @@ public:
 	void SetColor(uint32_t color);
 	void SetType(int type);
 
-	void Draw(const float* positions, int count) const;
-	void Draw(float x, float y, bool dummy) const;
+protected:
+	virtual void InitMVP(ObserverMVP* mvp) const = 0;
 
-private:
-	void Init();
+	void InitProg(int position_sz, int max_vertex);
+
+protected:
+	RenderShader* m_shader;
+
+	int m_vertex_sz;	
+
+	uint32_t m_color;
 
 private:
 	parser::Shader* m_parser;
 
-	RenderShader* m_shader;
-
 	ObserverMVP* m_mvp;
-
-	int m_vertex_sz;
-
-	uint32_t m_color;
 
 }; // ShapeShader
 

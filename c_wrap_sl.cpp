@@ -1,6 +1,6 @@
 #include "c_wrap_sl.h"
 #include "shader/ShaderMgr.h"
-#include "shader/ShapeShader.h"
+#include "shader/Shape2Shader.h"
 #include "shader/Sprite2Shader.h"
 
 namespace sl
@@ -30,7 +30,7 @@ void sl_create_shader(enum SHADER_TYPE type)
 	{
 	case ST_SHAPE:
 		sl_type = SHAPE;
-		shader = new ShapeShader(rc);
+		shader = new Shape2Shader(rc);
 		break;
 	case ST_SPRITE:
 		sl_type = SPRITE2;
@@ -72,7 +72,7 @@ void sl_flush()
 extern "C"
 void sl_shape_color(uint32_t color) 
 {
-	ShapeShader* shader = static_cast<ShapeShader*>(
+	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE));
 	if (shader) {
 		shader->SetColor(color);
@@ -82,7 +82,7 @@ void sl_shape_color(uint32_t color)
 extern "C"
 void sl_shape_type(int type)
 {
-	ShapeShader* shader = static_cast<ShapeShader*>(
+	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE));
 	if (shader) {
 		shader->SetType(type);
@@ -92,7 +92,7 @@ void sl_shape_type(int type)
 extern "C"
 void sl_shape_draw(const float* positions, int count)
 {
-	ShapeShader* shader = static_cast<ShapeShader*>(
+	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE));
 	if (shader) {
 		shader->Draw(positions, count);
@@ -102,7 +102,7 @@ void sl_shape_draw(const float* positions, int count)
 extern "C"
 void sl_shape_draw_node(float x, float y, int dummy)
 {
-	ShapeShader* shader = static_cast<ShapeShader*>(
+	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE));
 	if (shader) {
 		shader->Draw(x, y, dummy != 0);
