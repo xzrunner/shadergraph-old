@@ -29,7 +29,7 @@ void sl_create_shader(enum SHADER_TYPE type)
 	switch (type)
 	{
 	case ST_SHAPE:
-		sl_type = SHAPE;
+		sl_type = SHAPE2;
 		shader = new Shape2Shader(rc);
 		break;
 	case ST_SPRITE:
@@ -49,7 +49,7 @@ void sl_set_shader(enum SHADER_TYPE type)
 	switch (type)
 	{
 	case ST_SHAPE:
-		sl_type = SHAPE;
+		sl_type = SHAPE2;
 		break;
 	case ST_SPRITE:
 		sl_type = SPRITE2;
@@ -73,7 +73,7 @@ extern "C"
 void sl_shape_color(uint32_t color) 
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
-		ShaderMgr::Instance()->GetShader(SHAPE));
+		ShaderMgr::Instance()->GetShader(SHAPE2));
 	if (shader) {
 		shader->SetColor(color);
 	}
@@ -83,7 +83,7 @@ extern "C"
 void sl_shape_type(int type)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
-		ShaderMgr::Instance()->GetShader(SHAPE));
+		ShaderMgr::Instance()->GetShader(SHAPE2));
 	if (shader) {
 		shader->SetType(type);
 	}
@@ -93,7 +93,7 @@ extern "C"
 void sl_shape_draw(const float* positions, int count)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
-		ShaderMgr::Instance()->GetShader(SHAPE));
+		ShaderMgr::Instance()->GetShader(SHAPE2));
 	if (shader) {
 		shader->Draw(positions, count);
 	}
@@ -103,7 +103,7 @@ extern "C"
 void sl_shape_draw_node(float x, float y, int dummy)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
-		ShaderMgr::Instance()->GetShader(SHAPE));
+		ShaderMgr::Instance()->GetShader(SHAPE2));
 	if (shader) {
 		shader->Draw(x, y, dummy != 0);
 	}

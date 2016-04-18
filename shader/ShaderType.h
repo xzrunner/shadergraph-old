@@ -6,12 +6,12 @@ namespace sl
 
 enum ShaderType
 {
-	SHAPE = 0,
+	SHAPE2 = 0,
+	SHAPE3,
 	SPRITE2,
+	SPRITE3,
 	BLEND,
 	FILTER,
-	SPRITE3,
-	SHAPE3,
 
 	MAX_SHADER
 };

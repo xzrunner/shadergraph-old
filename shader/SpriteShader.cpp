@@ -41,7 +41,7 @@ SpriteShader::SpriteShader(RenderContext* rc, int position_sz, int max_vertex,
 
 SpriteShader::~SpriteShader()
 {
-	for (int i = 0; i < PROG_SIZE; ++i) 
+	for (int i = 0; i < PROG_COUNT; ++i) 
 	{
 		Program* proj = m_programs[i];
 		delete proj->parser;

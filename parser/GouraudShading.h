@@ -1,0 +1,33 @@
+#ifndef _SHADERLAB_PARSER_GOURAUD_SHADING_H_
+#define _SHADERLAB_PARSER_GOURAUD_SHADING_H_
+
+#include "Node.h"
+
+namespace sl
+{
+namespace parser
+{
+
+// attribute vec3 normal;
+// uniform vec3 u_diffuse_material;
+// uniform vec3 u_ambient_material;
+// uniform vec3 u_specular_material;
+// uniform float u_shininess;
+// varying vec4 v_gouraud_col;
+class GouraudShading : public Node
+{
+public:
+	GouraudShading();
+
+	virtual std::string& ToStatements(std::string& str) const;
+
+	virtual std::string OutputName() const;
+
+	const char* GetSpecularName() const;
+
+}; // GouraudShading
+
+}
+}
+
+#endif // _SHADERLAB_PARSER_GOURAUD_SHADING_H_

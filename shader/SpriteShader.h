@@ -37,7 +37,7 @@ protected:
 	void InitProgs();
 
 protected:
-	static const int PROG_SIZE = 4;
+	static const int PROG_COUNT = 4;
 
 	enum PROG_IDX {
 		PI_NO_COLOR = 0,
@@ -86,7 +86,7 @@ private:
 	void InitFullColorProg(RenderBuffer* idx_buf);
 
 protected:
-	Program* m_programs[PROG_SIZE];
+	Program* m_programs[PROG_COUNT];
 
 	uint32_t m_color, m_additive;
 	uint32_t m_rmap, m_gmap, m_bmap;
