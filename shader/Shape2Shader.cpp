@@ -1,4 +1,5 @@
 #include "Shape2Shader.h"
+#include "ShaderProgram.h"
 #include "SubjectMVP2.h"
 #include "render/RenderShader.h"
 #include "utility/StackAllocator.h"
@@ -17,7 +18,7 @@ Shape2Shader::Shape2Shader(RenderContext* rc)
 void Shape2Shader::Draw(const float* positions, int count) const
 {
 	StackAllocator* alloc = StackAllocator::Instance();
-	int sz = m_vertex_sz * count;
+	int sz = m_prog->GetVertexSize() * count;
 	alloc->Reserve(sz);
 	void* buf = alloc->Alloc(sz);
 	uint8_t* ptr = (uint8_t*)buf;
@@ -30,7 +31,7 @@ void Shape2Shader::Draw(const float* positions, int count) const
  		memcpy(ptr, &m_color, sizeof(m_color));
  		ptr += sizeof(m_color);
  	}
- 	m_shader->Draw(buf, count, 0);
+ 	m_prog->GetShader()->Draw(buf, count, 0);
 	alloc->Free(buf);
 }
 
@@ -44,7 +45,7 @@ void Shape2Shader::Draw(float x, float y, bool dummy) const
 	ptr += sizeof(float);
 	memcpy(ptr, &m_color, sizeof(uint32_t));
 	ptr += sizeof(uint32_t);
-	m_shader->Draw(buf, 1, 0);
+	m_prog->GetShader()->Draw(buf, 1, 0);
 }
 
 void Shape2Shader::InitMVP(ObserverMVP* mvp) const
