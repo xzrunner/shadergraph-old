@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
+struct sm_vec3;
+
 namespace sl
 {
 
@@ -74,8 +76,22 @@ private:
 	Program* CreateProg(parser::Node* vert, parser::Node* frag, 
 		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
 
+	struct GouraudUniforms
+	{
+		int diffuse, ambient, specular, shininess;
+		int normal_matrix, light_position;
+
+		void Init(RenderShader* shader);
+		void SetMaterial(RenderShader* shader, const sm_vec3* ambient, const sm_vec3* diffuse, 
+			const sm_vec3* specular, float shininess);
+	};
+
 private:
 	VertexAttrib m_va_list[VA_MAX_COUNT];
+
+	Program* m_programs[PROG_COUNT];
+
+	GouraudUniforms m_gouraud_shading, m_gouraud_texture;
 
 }; // Model3Shader
 
