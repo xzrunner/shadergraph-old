@@ -7,6 +7,8 @@ namespace sl
 namespace parser
 {
 
+static const char* OUTPUT_NAME = "_col_static_";
+
 ColorStatic::ColorStatic(float r, float g, float b, float a)
 	: m_r(r)
 	, m_g(g)
@@ -18,14 +20,14 @@ ColorStatic::ColorStatic(float r, float g, float b, float a)
 std::string& ColorStatic::ToStatements(std::string& str) const
 {
 	char buf[256];
-	sprintf(buf, "vec4 _col_static_ = vec4(%f, %f, %f, %f);\n", m_r, m_g, m_b, m_a);
+	sprintf(buf, "vec4 %s = vec4(%f, %f, %f, %f);\n", OUTPUT_NAME, m_r, m_g, m_b, m_a);
 	str += buf;
 	return str;
 }
 
-std::string ColorStatic::OutputName() const 
-{ 
-	return "_col_static_"; 
+Variable ColorStatic::GetOutput() const
+{
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 }

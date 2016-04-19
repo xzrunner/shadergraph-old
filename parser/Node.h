@@ -2,6 +2,7 @@
 #define _SHADERLAB_PARSER_NODE_H_
 
 #include "IOType.h"
+#include "Variable.h"
 
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@ namespace parser
 class Attribute;
 class Varying;
 class Uniform;
-class Variable;
 
 class Node
 {
@@ -25,13 +25,17 @@ public:
 	virtual std::string& GetHeader(std::string& str) const { return str; }
 	virtual std::string& ToStatements(std::string& str) const { return str; }
 
-	virtual std::string OutputName() const = 0;
+	virtual Variable GetOutput() const = 0;
 
 	Node* Connect(Node* next);
 
 	void GetVariables(IOType type, std::vector<const Variable*>& variables) const;
 
 	const Node* Next() const { return m_output; }
+
+protected:
+	static void CheckType(const Variable& left, const Variable& right);
+	static void CheckType(const Variable& var, VariableType type);
 
 protected:
 	Node *m_input, *m_output;

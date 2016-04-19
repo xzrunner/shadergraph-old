@@ -9,6 +9,8 @@ namespace sl
 namespace parser
 {
 
+static const char* OUTPUT_NAME = "_gouraud_col_";
+
 GouraudShading::GouraudShading()
 {
 	m_attributes.push_back(new Attribute(VT_FLOAT3, "normal"));
@@ -37,14 +39,14 @@ std::string& GouraudShading::ToStatements(std::string& str) const
 		float spec = max(0.0, dot(eye_normal, reflection));\n \
 		spec = pow(spec, u_shininess);\n \
 		_TMP_.rgb += spec * u_specular_material;\n ";
-	StringHelper::ReplaceAll(s, "_TMP_", OutputName());
+	StringHelper::ReplaceAll(s, "_TMP_", OUTPUT_NAME);
 	str += s;
 	return str;
 }
 
-std::string GouraudShading::OutputName() const
+Variable GouraudShading::GetOutput() const
 {
-	return "_gouraud_col_";
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 const char* GouraudShading::GetSpecularName() const

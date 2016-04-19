@@ -13,12 +13,14 @@ class FragColor : public Node
 public:
 	virtual std::string& ToStatements(std::string& str) const {
 		if (m_input) {
-			str += "gl_FragColor = " + m_input->OutputName() + ";\n";
+			char buf[128];
+			sprintf(buf, "gl_FragColor = %s;\n", m_input->GetOutput().GetName().c_str());
+			str += buf;
 		}
 		return str;
 	}
 
-	virtual std::string OutputName() const { return "gl_FragColor"; }
+	virtual Variable GetOutput() const { return Variable(VT_FLOAT4, "gl_FragColor"); }
 
 }; // FragColor
 

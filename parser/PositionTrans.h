@@ -18,7 +18,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 	
-	virtual std::string OutputName() const { return "gl_Position"; }
+	virtual Variable GetOutput() const { return Variable(VT_FLOAT4, "gl_Position"); }
 
 }; // PositionTrans
 

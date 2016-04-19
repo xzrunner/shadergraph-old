@@ -8,6 +8,8 @@ namespace sl
 namespace parser
 {
 
+static const char* OUTPUT_NAME = "_tex_map_";
+
 TextureMap::TextureMap()
 {
 	m_attributes.push_back(new Attribute(VT_FLOAT2, "texcoord"));
@@ -19,8 +21,15 @@ TextureMap::TextureMap()
 
 std::string& TextureMap::ToStatements(std::string& str) const
 {
-	str += "vec4 src = texture2D(u_texture0, v_texcoord);\n";
+	char buf[128];
+	sprintf(buf, "vec4 %s = texture2D(u_texture0, v_texcoord);\n", OUTPUT_NAME);
+	str += buf;
 	return str;
+}
+
+Variable TextureMap::GetOutput() const
+{
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 }

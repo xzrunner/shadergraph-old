@@ -21,7 +21,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 
-	virtual std::string OutputName() const;
+	virtual Variable GetOutput() const;
 
 	const char* GetSpecularName() const;
 

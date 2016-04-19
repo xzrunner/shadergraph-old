@@ -10,7 +10,7 @@
 #include "parser/PositionTrans.h"
 #include "parser/TextureMap.h"
 #include "parser/FragColor.h"
-#include "parser/ColorAddMulti.h"
+#include "parser/ColorAddMul.h"
 #include "parser/ColorMap.h"
 #include "utility/Buffer.h"
 
@@ -132,7 +132,7 @@ void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 	parser::Node* vert = new parser::PositionTrans();
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(
-		new parser::ColorAddMulti())->Connect(
+		new parser::ColorAddMul())->Connect(
 		new parser::FragColor());
 
 	std::vector<VA_TYPE> va_types;
@@ -166,7 +166,7 @@ void SpriteShader::InitFullColorProg(RenderBuffer* idx_buf)
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(
 		new parser::ColorMap())->Connect(
-		new parser::ColorAddMulti())->Connect(
+		new parser::ColorAddMul())->Connect(
 		new parser::FragColor());
 
 	std::vector<VA_TYPE> va_types;

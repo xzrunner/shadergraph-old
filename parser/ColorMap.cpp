@@ -8,6 +8,8 @@ namespace sl
 namespace parser
 {
 
+static const char* OUTPUT_NAME = "_col_map_";
+
 ColorMap::ColorMap()
 {
 	m_attributes.push_back(new Attribute(VT_FLOAT4, "rmap"));
@@ -31,6 +33,8 @@ std::string& ColorMap::ToStatements(std::string& str) const
 		return str;
 	}
 
+	CheckType(m_input->GetOutput(), VT_FLOAT4);
+
 	std::string s = " \
 		float s = 1.2;\n \
 		float k = _TMP_.r + _TMP_.g + _TMP_.b;\n \
@@ -52,14 +56,14 @@ std::string& ColorMap::ToStatements(std::string& str) const
 		\
 		vec4 _col_map_ = vec4(dr + dg + db + _TMP_.rgb, _TMP_.a);\n \
 		";
-	StringHelper::ReplaceAll(s, "_TMP_", m_input->OutputName());
+	StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
 	str += s;
 	return str;
 }
 
-std::string ColorMap::OutputName() const 
-{ 
-	return "_col_map_"; 
+Variable ColorMap::GetOutput() const
+{
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 }

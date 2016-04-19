@@ -17,7 +17,7 @@ public:
 		: m_type(type), m_name(name) {}
 	virtual ~Variable() {}
 
-	virtual std::string& ToStatement(std::string& str) const = 0;
+	virtual std::string& ToStatement(std::string& str) const { return str; }
 
 	VariableType GetType() const { return m_type; }
 	const std::string& GetName() const { return m_name; }

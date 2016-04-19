@@ -15,7 +15,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 
-	virtual std::string OutputName() const { return "src"; }
+	virtual Variable GetOutput() const;
 
 };  // TextureMap
 

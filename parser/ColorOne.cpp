@@ -7,6 +7,8 @@ namespace sl
 namespace parser
 {
 
+static const char* OUTPUT_NAME = "_col_one_";
+
 ColorOne::ColorOne()
 {
 	m_attributes.push_back(new Attribute(VT_FLOAT4, "color"));
@@ -15,13 +17,15 @@ ColorOne::ColorOne()
 
 std::string& ColorOne::ToStatements(std::string& str) const
 {
-	str += "vec4 _col_one_ = v_color;\n";
+	char buf[128];
+	sprintf(buf, "vec4 %s = v_color;\n", OUTPUT_NAME);
+	str += buf;
 	return str;
 }
 
-std::string ColorOne::OutputName() const 
-{ 
-	return "_col_one_"; 
+Variable ColorOne::GetOutput() const
+{
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 }

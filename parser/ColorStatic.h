@@ -15,7 +15,7 @@ public:
 
 	virtual std::string& ToStatements(std::string& str) const;
 	
-	virtual std::string OutputName() const;
+	virtual Variable GetOutput() const;
 
 private:
 	float m_r, m_g, m_b, m_a;
