@@ -18,7 +18,7 @@ public:
 		CheckType(m_left, m_right0);
 		CheckType(m_left, m_right1);
 		char buf[128];
-		sprintf(buf, "%s = %s * %s;\n", m_left.GetName(), m_right0.GetName(), m_right1.GetName());
+		sprintf(buf, "%s %s = %s * %s;\n", VAR_INFOS[m_left.GetType()].name, m_left.GetName(), m_right0.GetName(), m_right1.GetName());
 		str += buf;
 		return str;
 	}

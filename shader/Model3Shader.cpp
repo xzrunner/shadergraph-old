@@ -7,11 +7,14 @@
 #include "render/RenderShader.h"
 #include "render/RenderBuffer.h"
 #include "parser/PositionTrans.h"
+#include "parser/AttributeNode.h"
+#include "parser/VaryingNode.h"
 #include "parser/FragColor.h"
 #include "parser/GouraudShading.h"
 #include "parser/VaryingNode.h"
 #include "parser/TextureMap.h"
 #include "parser/Assign.h"
+#include "parser/Mul2.h"
 #include "utility/StackAllocator.h"
 
 #include <render/render.h>
@@ -187,6 +190,9 @@ void Model3Shader::InitGouraudShadingProg(RenderBuffer* idx_buf)
 void Model3Shader::InitTextureMapProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")));
 
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(new parser::FragColor());
@@ -197,17 +203,24 @@ void Model3Shader::InitTextureMapProg(RenderBuffer* idx_buf)
 	m_programs[PI_TEXTURE_MAP] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
+// todo
 void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
 {
-	std::string varying_name = "gouraud_dst";
+	const char* gouraud_dst_name = "gouraud_dst";
 
+	parser::Node* varying = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, gouraud_dst_name));
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
 		new parser::GouraudShading())->Connect(
-		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name)));
+		varying)->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")));
 
-	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name));
-	frag->Connect(new parser::FragColor());
+	parser::Node* tex_map = new parser::TextureMap();
+	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, gouraud_dst_name));
+	frag->Connect(tex_map)->Connect(
+		new parser::Mul2(parser::Variable(parser::VT_FLOAT4, "tmp"), varying->GetOutput(), tex_map->GetOutput()))->Connect(
+		new parser::FragColor());
 
 	std::vector<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
