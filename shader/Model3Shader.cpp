@@ -67,7 +67,7 @@ void Model3Shader::SetMaterial(const struct sm_vec3* ambient, const struct sm_ve
 							   const struct sm_vec3* specular, float shininess, int tex)
 {
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), ambient, diffuse, specular, shininess);
-//	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), ambient, diffuse, specular, shininess);
+	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), ambient, diffuse, specular, shininess);
 	if (tex >= 0) {
 		render_setdepth(m_rc->GetEJRender(), DEPTH_LESS_EQUAL);
 		m_rc->SetTexture(tex, 0);
@@ -77,7 +77,7 @@ void Model3Shader::SetMaterial(const struct sm_vec3* ambient, const struct sm_ve
 void Model3Shader::SetLightPosition(const struct sm_vec3& pos)
 {
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
-//	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
 }
 
 void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
@@ -133,6 +133,7 @@ void Model3Shader::SetModelView(const sm_mat4& mat)
 	union sm_mat3 mat3;
 	sm_mat4_to_mat3(&mat3, &mat);
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
 }
 
 void Model3Shader::InitVAList()
@@ -198,8 +199,23 @@ void Model3Shader::InitTextureMapProg(RenderBuffer* idx_buf)
 
 void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
 {
-	// todo
-	m_programs[PI_GOURAUD_TEXTURE] = NULL;
+	std::string varying_name = "gouraud_dst";
+
+	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::GouraudShading())->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name)));
+
+	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name));
+	frag->Connect(new parser::FragColor());
+
+	std::vector<VA_TYPE> va_types;
+	va_types.push_back(POSITION);
+	va_types.push_back(TEXCOORD);
+	va_types.push_back(NORMAL);
+	m_programs[PI_GOURAUD_TEXTURE] = CreateProg(vert, frag, va_types, idx_buf);
+
+	m_shading_uniforms.Init(m_programs[PI_GOURAUD_TEXTURE]->GetShader());
 }
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
