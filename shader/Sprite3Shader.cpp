@@ -1,5 +1,6 @@
 #include "Sprite3Shader.h"
 #include "SubjectMVP3.h"
+#include "ShaderProgram.h"
 #include "render/RenderShader.h"
 #include "render/RenderBuffer.h"
 #include "render/RenderContext.h"
@@ -27,7 +28,7 @@ void Sprite3Shader::Commit() const
 
 	m_rc->SetTexture(m_texid, 0);
 
-	Program* prog = NULL;
+	ShaderProgram* prog = NULL;
 	switch (m_prog_type)
 	{
 	case PT_NULL:
@@ -44,9 +45,10 @@ void Sprite3Shader::Commit() const
 		prog = m_programs[PI_FULL_COLOR];
 	}
 
+	int vertex_sz = prog->GetVertexSize();
 	int vb_count = m_quad_sz * 6;
+	int buf_sz = vertex_sz * vb_count;
 	StackAllocator* alloc = StackAllocator::Instance();
-	int buf_sz = prog->vertex_sz * vb_count;
 	alloc->Reserve(buf_sz);
 	void* buf = alloc->Alloc(buf_sz);
 	uint8_t* ptr = (uint8_t*)buf;
@@ -59,17 +61,19 @@ void Sprite3Shader::Commit() const
 		}
 	} else {
 		for (int i = 0; i < vb_count; ++i) {
-			memcpy(ptr, &m_vertex_buf[i].vx, prog->vertex_sz);
-			ptr += prog->vertex_sz;
+			memcpy(ptr, &m_vertex_buf[i].vx, vertex_sz);
+			ptr += vertex_sz;
 		}
 	}
-	m_rc->BindShader(prog->shader);
-	prog->shader->Draw(buf, vb_count, 0);
+
+	RenderShader* shader = prog->GetShader();
+	m_rc->BindShader(shader);
+	shader->Draw(buf, vb_count, 0);
 	alloc->Free(buf);
 
 	m_quad_sz = 0;
 
-	prog->shader->Commit();
+	shader->Commit();
 }
 
 void Sprite3Shader::Draw(const float* positions, const float* texcoords, int texid) const

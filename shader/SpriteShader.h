@@ -17,6 +17,7 @@ namespace parser { class Shader; class Node; }
 class RenderShader;
 class RenderBuffer;
 class ObserverMVP;
+class ShaderProgram;
 
 class SpriteShader : public Shader
 {
@@ -52,17 +53,6 @@ protected:
 		PT_MAP_COLOR		= 2,
 	};
 
-	struct Program
-	{
-		parser::Shader* parser;
-		RenderShader* shader;
-		ObserverMVP* mvp;
-		int vertex_sz;
-
-		Program(parser::Shader* parser, RenderShader* shader) 
-			: parser(parser), shader(shader), mvp(NULL), vertex_sz(0) {}
-	};
-
 	enum VA_TYPE {
 		POSITION = 0,
 		TEXCOORD,
@@ -74,7 +64,7 @@ protected:
 		VA_MAX_COUNT
 	};
 
-	Program* CreateProg(parser::Node* vert, parser::Node* frag, 
+	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
 		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
 
 private:
@@ -86,7 +76,7 @@ private:
 	void InitFullColorProg(RenderBuffer* idx_buf);
 
 protected:
-	Program* m_programs[PROG_COUNT];
+	ShaderProgram* m_programs[PROG_COUNT];
 
 	uint32_t m_color, m_additive;
 	uint32_t m_rmap, m_gmap, m_bmap;

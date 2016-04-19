@@ -1,6 +1,7 @@
 #include "SpriteShader.h"
 #include "ObserverMVP.h"
 #include "Utility.h"
+#include "ShaderProgram.h"
 #include "render/RenderContext.h"
 #include "render/RenderBuffer.h"
 #include "render/RenderShader.h"
@@ -41,14 +42,8 @@ SpriteShader::SpriteShader(RenderContext* rc, int position_sz, int max_vertex,
 
 SpriteShader::~SpriteShader()
 {
-	for (int i = 0; i < PROG_COUNT; ++i) 
-	{
-		Program* proj = m_programs[i];
-		delete proj->parser;
-		proj->shader->Unload();
-		delete proj->shader;
-		delete proj->mvp;
-		delete proj;
+	for (int i = 0; i < PROG_COUNT; ++i) {
+		delete m_programs[i];
 	}
 }
 
@@ -101,47 +96,21 @@ void SpriteShader::InitVAList(int position_sz)
 	m_va_list[BMAP].Assign("bmap", 4, sizeof(uint8_t));
 }
 
-SpriteShader::Program* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
-												const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const
+ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
+										const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const
 {
-	// shader
-	parser::Shader* parser = new parser::Shader(vert, frag);
-	RenderShader* shader = m_rc->CreateShader();
-	Program* prog = new Program(parser, shader);
+	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
 
-	// vertex layout
 	std::vector<VertexAttrib> va_list;
-	int vertex_sz = 0;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {
-		const VertexAttrib& va = m_va_list[va_types[i]];
-		va_list.push_back(va);
-		vertex_sz += va.tot_size;
-	}
-	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), va_list);
-	shader->SetLayout(lo);
-	lo->Release();
-
-	// vertex buffer
-	prog->vertex_sz = vertex_sz;
-	Buffer* buf = new Buffer(vertex_sz, m_max_vertex);
-	RenderBuffer* vb = new RenderBuffer(m_rc->GetEJRender(), VERTEXBUFFER, vertex_sz, m_max_vertex, buf);
-	shader->SetVertexBuffer(vb);
-	vb->Release();
-
-	// index buffer
-	if (m_vertex_index) {
-		shader->SetIndexBuffer(ib);
+		va_list.push_back(m_va_list[va_types[i]]);
 	}
 
-	// create
-	shader->Load(parser->GetVertStr(), parser->GetFragStr());
-	shader->SetDrawMode(DRAW_TRIANGLES);
+	prog->Load(vert, frag, va_list, ib, true);
 
-	// uniforms
-	prog->mvp = new ObserverMVP(shader);
-	prog->mvp->InitModelview(shader->AddUniform("u_modelview", UNIFORM_FLOAT44));
-	prog->mvp->InitProjection(shader->AddUniform("u_projection", UNIFORM_FLOAT44));
-	InitMVP(prog->mvp);
+	InitMVP(prog->GetMVP());
+
+	prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
 
 	return prog;
 }

@@ -4,8 +4,6 @@
 #include "Shader.h"
 #include "render/VertexAttrib.h"
 
-//#include <render/render.h>
-
 #include <vector>
 
 #include <stdint.h>
@@ -18,8 +16,8 @@ namespace sl
 namespace parser { class Shader; class Node; }
 
 class RenderShader;
-class RenderBuffer;
 class ObserverMVP;
+class ShaderProgram;
 
 class Model3Shader : public Shader
 {
@@ -55,17 +53,6 @@ private:
 		PI_GOURAUD_TEXTURE,
 	};
 
-	struct Program
-	{
-		parser::Shader* parser;
-		RenderShader* shader;
-		ObserverMVP* mvp;
-		int vertex_sz;
-
-		Program(parser::Shader* parser, RenderShader* shader) 
-			: parser(parser), shader(shader), mvp(NULL), vertex_sz(0) {}
-	};
-
 	enum VA_TYPE {
 		POSITION = 0,
 		TEXCOORD,
@@ -73,8 +60,8 @@ private:
 		VA_MAX_COUNT
 	};
 
-	Program* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
+	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
+		const std::vector<VA_TYPE>& va_types) const;
 
 	struct GouraudUniforms
 	{
@@ -89,9 +76,9 @@ private:
 private:
 	VertexAttrib m_va_list[VA_MAX_COUNT];
 
-	Program* m_programs[PROG_COUNT];
+	ShaderProgram* m_programs[PROG_COUNT];
 
-	GouraudUniforms m_gouraud_shading, m_gouraud_texture;
+	GouraudUniforms m_shading_uniforms, m_texture_uniforms;
 
 }; // Model3Shader
 

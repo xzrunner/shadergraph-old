@@ -1,12 +1,24 @@
 #include "Model3Shader.h"
+#include "SubjectMVP3.h"
+#include "ShaderProgram.h"
 #include "render/RenderContext.h"
 #include "render/RenderShader.h"
+#include "parser/PositionTrans.h"
+#include "parser/ColorStatic.h"
+#include "parser/FragColor.h"
+#include "parser/GouraudShading.h"
+#include "parser/VaryingSender.h"
+#include "parser/VaryingReceiver.h"
+#include "parser/TextureMap.h"
 
 #include <render/render.h>
 #include <sm.h>
 
 namespace sl
 {
+
+static const int MAX_VERTICES = 10000;
+static const int MAX_INDICES = 20000;
 
 Model3Shader::Model3Shader(RenderContext* rc)
 	: Shader(rc)
@@ -61,33 +73,69 @@ void Model3Shader::InitVAList()
 
 void Model3Shader::InitStaticColorProg()
 {
+	parser::Node* vert = new parser::PositionTrans();
+	parser::Node* frag = new parser::ColorStatic(0.5, 0.5, 0, 1);
+	frag->Connect(new parser::FragColor());
 
+	std::vector<VA_TYPE> va_types;
+	va_types.push_back(POSITION);
+	m_programs[PI_STATIC_COLOR] = CreateProg(vert, frag, va_types);
 }
 
 void Model3Shader::InitGouraudShadingProg()
 {
+	std::string varying_name = "gouraud_dst";
 
+	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::GouraudShading())->Connect(
+		new parser::VaryingSender(parser::Variable(parser::VT_FLOAT4, varying_name)));
+
+	parser::Node* frag = new parser::VaryingReceiver(parser::Variable(parser::VT_FLOAT4, varying_name));
+	frag->Connect(new parser::FragColor());
+
+	std::vector<VA_TYPE> va_types;
+	va_types.push_back(POSITION);
+	va_types.push_back(NORMAL);
+	m_programs[PI_GOURAUD_SHADING] = CreateProg(vert, frag, va_types);
 }
 
 void Model3Shader::InitTextureMapProg()
 {
+	parser::Node* vert = new parser::PositionTrans();
 
+	parser::Node* frag = new parser::TextureMap();
+
+	std::vector<VA_TYPE> va_types;
+	va_types.push_back(POSITION);
+	va_types.push_back(TEXCOORD);
+	m_programs[PI_TEXTURE_MAP] = CreateProg(vert, frag, va_types);
 }
 
 void Model3Shader::InitGouraudTextureProg()
 {
+	parser::Node* vert = new parser::PositionTrans();
 
+//	parser::Node* frag = new parser::
 }
 
-Model3Shader::Program* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
-												const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const
+ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
+										const std::vector<VA_TYPE>& va_types) const
 {
-// 	// shader
-// 	parser::Shader* parser = new parser::Shader(vert, frag);
-// 	RenderShader* shader = m_rc->CreateShader();
-// 	Program* prog = new Program(parser, shader);
+	ShaderProgram* prog = new ShaderProgram(m_rc, MAX_VERTICES);
 
-	return NULL;
+	std::vector<VertexAttrib> va_list;
+	for (int i = 0, n = va_types.size(); i < n; ++i) {
+		va_list.push_back(m_va_list[va_types[i]]);
+	}
+
+	prog->Load(vert, frag, va_list, NULL, true);
+
+	SubjectMVP3::Instance()->Register(prog->GetMVP());
+
+	prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
+
+	return prog;
 }
 
 //////////////////////////////////////////////////////////////////////////
