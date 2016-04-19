@@ -32,9 +32,7 @@ void Shader::ParserVert()
 
 	std::vector<const Variable*> varyings;
 	GetVariables(m_vert_head, IOT_ATTRIBUTE, m_attributes);
-	GetVariables(m_frag_head, IOT_ATTRIBUTE, m_attributes);
 	GetVariables(m_vert_head, IOT_VARYING, varyings);
-//	GetVariables(m_frag_head, IOT_VARYING, varyings);
 	GetVariables(m_vert_head, IOT_UNIFORM, m_vert_uniforms);
 
 	for (int i = 0, n = m_attributes.size(); i < n; ++i) {
@@ -61,11 +59,6 @@ void Shader::ParserVert()
 		node->ToStatements(m_vert_str);
 		node = node->Next();
 	}
-
-// 	for (int i = 0, n = varyings.size(); i < n; ++i) {
-// 		std::string name = varyings[i]->GetName();
-// 		m_vert_str += "v_" + name + " = " + name + ";\n";
-// 	}
 
 	m_vert_str += "}\n";
 }

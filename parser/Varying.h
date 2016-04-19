@@ -11,6 +11,7 @@ namespace parser
 class Varying : public Variable
 {
 public:
+	Varying(const Variable& var);
 	Varying(VariableType type, std::string name);
 
 	virtual std::string& ToStatement(std::string& str) const;

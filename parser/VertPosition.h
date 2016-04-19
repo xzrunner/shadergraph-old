@@ -11,7 +11,7 @@ namespace parser
 class VertPosition : public Node
 {
 public:
-	virtual Variable ColorOne::GetOutput() const {
+	virtual Variable GetOutput() const {
 		return Variable(VT_FLOAT4, "gl_Position");
 	}
 

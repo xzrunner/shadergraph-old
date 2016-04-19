@@ -7,11 +7,11 @@
 #include "render/RenderShader.h"
 #include "render/RenderBuffer.h"
 #include "parser/PositionTrans.h"
-#include "parser/ColorStatic.h"
 #include "parser/FragColor.h"
 #include "parser/GouraudShading.h"
-#include "parser/VaryingPass.h"
+#include "parser/VaryingNode.h"
 #include "parser/TextureMap.h"
+#include "parser/Assign.h"
 #include "utility/StackAllocator.h"
 
 #include <render/render.h>
@@ -155,7 +155,7 @@ void Model3Shader::InitProgs()
 void Model3Shader::InitStaticColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
-	parser::Node* frag = new parser::ColorStatic(0.5, 0.5, 0, 1);
+	parser::Node* frag = new parser::Assign(parser::Variable(parser::VT_FLOAT4, "_col_static_"), 0.5, 0.5, 0, 1);
 	frag->Connect(new parser::FragColor());
 
 	std::vector<VA_TYPE> va_types;
@@ -170,9 +170,9 @@ void Model3Shader::InitGouraudShadingProg(RenderBuffer* idx_buf)
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
 		new parser::GouraudShading())->Connect(
-		new parser::VaryingPass(parser::Variable(parser::VT_FLOAT4, varying_name)));
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name)));
 
-	parser::Node* frag = new parser::VaryingPass(parser::Variable(parser::VT_FLOAT4, varying_name));
+	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name));
 	frag->Connect(new parser::FragColor());
 
 	std::vector<VA_TYPE> va_types;

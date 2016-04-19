@@ -1,4 +1,4 @@
-#include "VaryingPass.h"
+#include "VaryingNode.h"
 #include "Varying.h"
 
 namespace sl
@@ -6,13 +6,13 @@ namespace sl
 namespace parser
 {
 
-VaryingPass::VaryingPass(Variable var)
+VaryingNode::VaryingNode(Variable var)
 	: m_var(var)
 {
-	m_varyings.push_back(new Varying(var.GetType(), var.GetName()));
+	m_varyings.push_back(new Varying(var));
 }
 
-std::string& VaryingPass::ToStatements(std::string& str) const
+std::string& VaryingNode::ToStatements(std::string& str) const
 {
 	if (!m_input) {
 		return str;
@@ -26,7 +26,7 @@ std::string& VaryingPass::ToStatements(std::string& str) const
 	return str;
 }
 
-Variable VaryingPass::GetOutput() const
+Variable VaryingNode::GetOutput() const
 {
 	return Variable(m_var.GetType(), std::string("v_") + m_var.GetName());
 }

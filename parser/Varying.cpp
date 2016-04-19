@@ -5,6 +5,11 @@ namespace sl
 namespace parser
 {
 
+Varying::Varying(const Variable& var)
+	: Variable(var)
+{
+}
+
 Varying::Varying(VariableType type, std::string name)
 	: Variable(type, name)
 {

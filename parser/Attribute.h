@@ -11,6 +11,7 @@ namespace parser
 class Attribute : public Variable
 {
 public:
+	Attribute(const Variable& var);
 	Attribute(VariableType type, std::string name);
 
 	virtual std::string& ToStatement(std::string& str) const;

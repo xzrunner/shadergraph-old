@@ -8,6 +8,8 @@
 #include "render/RenderLayout.h"
 #include "parser/Shader.h"
 #include "parser/PositionTrans.h"
+#include "parser/AttributeNode.h"
+#include "parser/VaryingNode.h"
 #include "parser/TextureMap.h"
 #include "parser/FragColor.h"
 #include "parser/ColorAddMul.h"
@@ -118,6 +120,10 @@ ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag,
 void SpriteShader::InitNoColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")));
+
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(new parser::FragColor());
 
@@ -130,6 +136,14 @@ void SpriteShader::InitNoColorProg(RenderBuffer* idx_buf)
 void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "additive")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "additive")));
+
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(
 		new parser::ColorAddMul())->Connect(
@@ -146,6 +160,16 @@ void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "rmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "rmap")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "gmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "gmap")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "bmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "bmap")));
+
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(
 		new parser::ColorMap())->Connect(
@@ -163,6 +187,20 @@ void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
 void SpriteShader::InitFullColorProg(RenderBuffer* idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "additive")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "additive")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "rmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "rmap")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "gmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "gmap")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "bmap")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "bmap")));
+
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(
 		new parser::ColorMap())->Connect(

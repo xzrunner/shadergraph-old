@@ -56,8 +56,8 @@ void Sprite2Shader::Commit() const
 		for (int i = 0; i < vb_count; ++i) {
 			memcpy(ptr, &m_vertex_buf[i].vx, sizeof(float) * 4);
 			ptr += sizeof(float) * 4;
-			memcpy(ptr, &m_vertex_buf[i].color, sizeof(uint32_t) * 2);
-			ptr += sizeof(uint32_t) * 2;
+			memcpy(ptr, &m_vertex_buf[i].rmap, sizeof(uint32_t) * 3);
+			ptr += sizeof(uint32_t) * 3;
 		}
 	} else {
 		for (int i = 0; i < vb_count; ++i) {

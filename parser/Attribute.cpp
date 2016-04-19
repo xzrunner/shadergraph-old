@@ -5,6 +5,11 @@ namespace sl
 namespace parser
 {
 
+Attribute::Attribute(const Variable& var)
+	: Variable(var)
+{
+}
+
 Attribute::Attribute(VariableType type, std::string name)
 	: Variable(type, name)
 {

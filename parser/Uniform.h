@@ -11,6 +11,7 @@ namespace parser
 class Uniform : public Variable
 {
 public:
+	Uniform(const Variable& var);
 	Uniform(VariableType type, std::string name);
 
 	virtual std::string& ToStatement(std::string& str) const;

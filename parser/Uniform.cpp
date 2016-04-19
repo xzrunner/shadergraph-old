@@ -5,6 +5,12 @@ namespace sl
 namespace parser
 {
 
+Uniform::Uniform(const Variable& var)
+	: Variable(var)
+{
+	memset(m_value, 0, sizeof(m_value));
+}
+
 Uniform::Uniform(VariableType type, std::string name)
 	: Variable(type, name)
 {

@@ -3,8 +3,9 @@
 #include "render/RenderContext.h"
 #include "render/RenderShader.h"
 #include "parser/PositionTrans.h"
-#include "parser/ColorOne.h"
+#include "parser/VaryingNode.h"
 #include "parser/FragColor.h"
+#include "parser/AttributeNode.h"
 
 namespace sl
 {
@@ -51,7 +52,11 @@ void ShapeShader::InitProg(int position_sz, int max_vertex)
 	m_prog = new ShaderProgram(m_rc, max_vertex);
 
 	parser::Node* vert = new parser::PositionTrans();
-	parser::Node* frag = new parser::ColorOne();
+	vert->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color")));
+
+	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color"));
 	frag->Connect(new parser::FragColor());
 
 	std::vector<VertexAttrib> va_list;
