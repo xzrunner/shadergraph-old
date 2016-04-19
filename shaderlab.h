@@ -2,6 +2,7 @@
 #include "shader/Sprite2Shader.h"
 #include "shader/Sprite3Shader.h"
 #include "shader/Shape2Shader.h"
+#include "shader/Model3Shader.h"
 #include "shader/SubjectMVP2.h"
 #include "shader/SubjectMVP3.h"
 #include "render/RenderContext.h"

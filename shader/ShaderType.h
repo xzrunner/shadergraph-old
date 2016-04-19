@@ -12,6 +12,7 @@ enum ShaderType
 	SPRITE3,
 	BLEND,
 	FILTER,
+	MODEL3,
 
 	MAX_SHADER
 };

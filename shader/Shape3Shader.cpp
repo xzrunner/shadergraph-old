@@ -33,7 +33,7 @@ void Shape3Shader::Draw(const float* positions, int count) const
  		memcpy(ptr, &m_color, sizeof(m_color));
  		ptr += sizeof(m_color);
  	}
- 	m_prog->GetShader()->Draw(buf, count, 0);
+ 	m_prog->GetShader()->Draw(buf, count);
 	alloc->Free(buf);
 }
 
@@ -49,7 +49,7 @@ void Shape3Shader::Draw(float x, float y, float z, bool dummy) const
 	ptr += sizeof(float);
 	memcpy(ptr, &m_color, sizeof(uint32_t));
 	ptr += sizeof(uint32_t);
-	m_prog->GetShader()->Draw(buf, 1, 0);
+	m_prog->GetShader()->Draw(buf, 1);
 }
 
 void Shape3Shader::InitMVP(ObserverMVP* mvp) const

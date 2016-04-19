@@ -14,7 +14,7 @@ public:
 	virtual std::string& ToStatements(std::string& str) const {
 		if (m_input) {
 			char buf[128];
-			sprintf(buf, "gl_FragColor = %s;\n", m_input->GetOutput().GetName().c_str());
+			sprintf(buf, "gl_FragColor = %s;\n", m_input->GetOutput().GetName());
 			str += buf;
 		}
 		return str;

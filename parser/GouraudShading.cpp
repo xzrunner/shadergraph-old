@@ -14,10 +14,14 @@ static const char* OUTPUT_NAME = "_gouraud_col_";
 GouraudShading::GouraudShading()
 {
 	m_attributes.push_back(new Attribute(VT_FLOAT3, "normal"));
+
 	m_uniforms.push_back(new Uniform(VT_FLOAT3, "diffuse_material"));
 	m_uniforms.push_back(new Uniform(VT_FLOAT3, "ambient_material"));
 	m_uniforms.push_back(new Uniform(VT_FLOAT3, "specular_material"));
 	m_uniforms.push_back(new Uniform(VT_FLOAT1, "shininess"));
+
+	m_uniforms.push_back(new Uniform(VT_MAT3, "normal_matrix"));
+	m_uniforms.push_back(new Uniform(VT_FLOAT3, "light_position"));
 }
 
 std::string& GouraudShading::ToStatements(std::string& str) const
@@ -31,7 +35,7 @@ std::string& GouraudShading::ToStatements(std::string& str) const
 		\
 		float diff = max(0.0, dot(eye_normal, light_dir));\n \
 		\
-		_TMP_ = vec4(diff * u_diffuse_material, 1);\n \
+		vec4 _TMP_ = vec4(diff * u_diffuse_material, 1);\n \
 		\
 		_TMP_.rgb += u_ambient_material;\n \
 		\

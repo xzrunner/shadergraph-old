@@ -9,6 +9,8 @@
 #include <stdint.h>
 
 struct sm_vec3;
+union sm_mat4;
+struct ds_array;
 
 namespace sl
 {
@@ -16,6 +18,7 @@ namespace sl
 namespace parser { class Shader; class Node; }
 
 class RenderShader;
+class RenderBuffer;
 class ObserverMVP;
 class ShaderProgram;
 
@@ -29,19 +32,24 @@ public:
 	virtual void UnBind() const;
 	virtual void Commit() const;
 
-	void SetMaterial();
-	void SetLightPosition();
+	void SetMaterial(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
+		const struct sm_vec3* specular, float shininess, int tex);
+	void SetLightPosition(const struct sm_vec3& pos);
 
-	void Draw(const float* vertices, const uint16_t* indices,
+	void Draw(const ds_array* vertices, const ds_array* indices,
 		bool has_normal, bool has_texcoord) const;
+
+	// todo
+	void SetModelView(const sm_mat4& mat);
 
 private:
 	void InitVAList();
+	void InitProgs();
 
-	void InitStaticColorProg();
-	void InitGouraudShadingProg();
-	void InitTextureMapProg();
-	void InitGouraudTextureProg();
+	void InitStaticColorProg(RenderBuffer* idx_buf);
+	void InitGouraudShadingProg(RenderBuffer* idx_buf);
+	void InitTextureMapProg(RenderBuffer* idx_buf);
+	void InitGouraudTextureProg(RenderBuffer* idx_buf);
 
 private:
 	static const int PROG_COUNT = 4;
@@ -61,7 +69,7 @@ private:
 	};
 
 	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types) const;
+		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
 
 	struct GouraudUniforms
 	{
@@ -79,6 +87,8 @@ private:
 	ShaderProgram* m_programs[PROG_COUNT];
 
 	GouraudUniforms m_shading_uniforms, m_texture_uniforms;
+
+	mutable int m_curr_shader;
 
 }; // Model3Shader
 

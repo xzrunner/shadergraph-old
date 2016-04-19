@@ -1,5 +1,5 @@
-#ifndef _SHADERLAB_PARSER_VARYING_SENDER_H_
-#define _SHADERLAB_PARSER_VARYING_SENDER_H_
+#ifndef _SHADERLAB_PARSER_VARYING_PASS_H_
+#define _SHADERLAB_PARSER_VARYING_PASS_H_
 
 #include "Node.h"
 #include "VariableType.h"
@@ -9,10 +9,10 @@ namespace sl
 namespace parser
 {
 
-class VaryingSender : public Node
+class VaryingPass : public Node
 {
 public:
-	VaryingSender(Variable var);
+	VaryingPass(Variable var);
 
 	virtual std::string& ToStatements(std::string& str) const;
 
@@ -21,9 +21,9 @@ public:
 private:
 	Variable m_var;
 
-}; // VaryingSender
+}; // VaryingPass
 
 }
 }
 
-#endif // _SHADERLAB_PARSER_VARYING_SENDER_H_
+#endif // _SHADERLAB_PARSER_VARYING_PASS_H_

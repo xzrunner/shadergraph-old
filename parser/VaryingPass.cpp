@@ -1,4 +1,4 @@
-#include "VaryingSender.h"
+#include "VaryingPass.h"
 #include "Varying.h"
 
 namespace sl
@@ -6,13 +6,13 @@ namespace sl
 namespace parser
 {
 
-VaryingSender::VaryingSender(Variable var)
+VaryingPass::VaryingPass(Variable var)
 	: m_var(var)
 {
 	m_varyings.push_back(new Varying(var.GetType(), var.GetName()));
 }
 
-std::string& VaryingSender::ToStatements(std::string& str) const
+std::string& VaryingPass::ToStatements(std::string& str) const
 {
 	if (!m_input) {
 		return str;
@@ -26,7 +26,7 @@ std::string& VaryingSender::ToStatements(std::string& str) const
 	return str;
 }
 
-Variable VaryingSender::GetOutput() const
+Variable VaryingPass::GetOutput() const
 {
 	return Variable(m_var.GetType(), std::string("v_") + m_var.GetName());
 }

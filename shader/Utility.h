@@ -12,6 +12,7 @@ class RenderBuffer;
 class Utility
 {
 public:
+	static RenderBuffer* CreateIndexBuffer(RenderContext* rc, int count);
 	static RenderBuffer* CreateQuadIndexBuffer(RenderContext* rc, int quad_count);
 
 private:

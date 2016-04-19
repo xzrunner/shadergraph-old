@@ -30,6 +30,7 @@ public:
 
 	void Clear() { if (m_buf) { m_buf->Clear(); } }
 	int Size() const { return m_buf ? m_buf->Size() : 0; }
+	int Capacity() const { return m_buf ? m_buf->Capacity() : 0; }
 	bool IsEmpty() const { return m_buf->IsEmpty(); }
 	bool Add(const void* data, int n) { return m_buf->Add(data, n); }
 

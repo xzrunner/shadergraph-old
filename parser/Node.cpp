@@ -51,7 +51,7 @@ void Node::CheckType(const Variable& left, const Variable& right)
 {
 	if (left.GetType() != right.GetType()) {
 		char buf[128];
-		sprintf(buf, "assign type fail: %s = %s\n", left.GetName().c_str(), right.GetName().c_str());
+		sprintf(buf, "assign type fail: %s = %s\n", left.GetName(), right.GetName());
 		throw std::exception(buf);
 	}
 }
@@ -60,7 +60,7 @@ void Node::CheckType(const Variable& var, VariableType type)
 {
 	if (var.GetType() != type) {
 		char buf[128];
-		sprintf(buf, "assign type fail: %s\n", var.GetName().c_str());
+		sprintf(buf, "assign type fail: %s\n", var.GetName());
 	}
 }
 

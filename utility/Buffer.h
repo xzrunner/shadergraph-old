@@ -19,6 +19,7 @@ public:
 
 	void Clear() { m_count = 0; }
 	int Size() const { return m_count; }
+	int Capacity() const { return m_capacity; }
 
 	const unsigned char* Data() const { return m_buffer; }
 

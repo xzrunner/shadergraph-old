@@ -32,8 +32,10 @@ RenderShader::~RenderShader()
 
 void RenderShader::Load(const char* vs, const char* fs)
 {
-	std::cout << vs << std::endl;
-	std::cout << fs << std::endl;
+	std::cout << "================================================== \n";
+	std::cout << vs << '\n';
+	std::cout << fs << '\n';
+	std::cout << "================================================== \n";
 
 	struct shader_init_args args;
 	args.vs = vs;
@@ -139,12 +141,12 @@ void RenderShader::SetUniform(int index, enum UNIFORM_FORMAT t, const float* v)
 	}
 }
 
-void RenderShader::Draw(void* data, int vb_n, int ib_n)
+void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 {
-	if (m_ib && ib_n > 0 && m_ib->Add(NULL, ib_n)) {
+	if (m_ib && ib_n > 0 && m_ib->Add(ib, ib_n)) {
 		Commit();
 	}
-	if (m_vb && vb_n > 0 && m_vb->Add(data, vb_n)) {
+	if (m_vb && vb_n > 0 && m_vb->Add(vb, vb_n)) {
 		Commit();
 	}
 }

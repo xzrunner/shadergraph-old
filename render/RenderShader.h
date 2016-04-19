@@ -26,6 +26,9 @@ public:
 	void SetIndexBuffer(RenderBuffer* ib);
 	void SetLayout(RenderLayout* lo);
 
+	const RenderBuffer* GetVertexBuffer() const { return m_vb; }
+	const RenderBuffer* GetIndexBuffer() const { return m_ib; }
+
 	void Bind();
 
 	void Commit();
@@ -38,7 +41,7 @@ public:
 	int AddUniform(const char* name, enum UNIFORM_FORMAT t);
 	void SetUniform(int index, enum UNIFORM_FORMAT t, const float* v);
 
-	void Draw(void* data, int vb_n, int ib_n);
+	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
 
 private:
 	static int GetUniformSize(enum UNIFORM_FORMAT t);

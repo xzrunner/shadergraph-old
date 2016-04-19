@@ -68,7 +68,7 @@ void Sprite3Shader::Commit() const
 
 	RenderShader* shader = prog->GetShader();
 	m_rc->BindShader(shader);
-	shader->Draw(buf, vb_count, 0);
+	shader->Draw(buf, vb_count);
 	alloc->Free(buf);
 
 	m_quad_sz = 0;

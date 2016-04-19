@@ -20,7 +20,7 @@ public:
 	virtual std::string& ToStatement(std::string& str) const { return str; }
 
 	VariableType GetType() const { return m_type; }
-	const std::string& GetName() const { return m_name; }
+	const char* GetName() const { return m_name.c_str(); }
 
 protected:
 	VariableType m_type;
