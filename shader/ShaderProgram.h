@@ -19,7 +19,7 @@ class ShaderProgram
 {
 public:
 	ShaderProgram(RenderContext* rc, int max_vertex);
-	~ShaderProgram();
+	virtual ~ShaderProgram();
 
 	void Load(parser::Node* vert, parser::Node* frag, 
 		const std::vector<VertexAttrib>& va_list, 
@@ -32,12 +32,15 @@ public:
 private:
 	void Release();
 
-private:
+protected:
 	RenderContext* m_rc;
+
+	RenderShader* m_shader;
+
+private:
 	int m_max_vertex;
 
 	parser::Shader* m_parser;
-	RenderShader* m_shader;
 	int m_vertex_sz;
 
 	ObserverMVP* m_mvp;

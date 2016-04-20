@@ -38,13 +38,12 @@ protected:
 	void InitProgs();
 
 protected:
-	static const int PROG_COUNT = 4;
-
 	enum PROG_IDX {
 		PI_NO_COLOR = 0,
 		PI_MULTI_ADD_COLOR,
 		PI_MAP_COLOR,
 		PI_FULL_COLOR,
+		PROG_COUNT
 	};
 
 	enum PROG_TYPE {

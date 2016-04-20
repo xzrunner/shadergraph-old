@@ -52,13 +52,12 @@ private:
 	void InitGouraudTextureProg(RenderBuffer* idx_buf);
 
 private:
-	static const int PROG_COUNT = 4;
-
 	enum PROG_IDX {
 		PI_STATIC_COLOR = 0,
 		PI_GOURAUD_SHADING,
 		PI_TEXTURE_MAP,
 		PI_GOURAUD_TEXTURE,
+		PROG_COUNT,
 	};
 
 	enum VA_TYPE {

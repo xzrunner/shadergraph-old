@@ -14,6 +14,7 @@ public:
 	virtual void Bind() const = 0;
 	virtual void UnBind() const = 0;
 	virtual void Commit() const = 0;
+	virtual void BindTexture() {}
 
 protected:
 	RenderContext* m_rc;
