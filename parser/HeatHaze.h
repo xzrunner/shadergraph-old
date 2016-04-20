@@ -27,7 +27,6 @@ class HeatHaze : public Filter
 {
 public:
 	HeatHaze() : Filter("_col_heat_haze_") {
-		m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "current_tex"));
 		m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "distortion_map_tex"));
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "time"));
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "distortion_factor"));
