@@ -95,16 +95,16 @@ void Sprite2Shader::Draw(const float* positions, const float* texcoords, int tex
 
 	for (int i = 0; i < 4; ++i) 
 	{
-		Vertex* v = &m_vertex_buf[m_quad_sz * 4 + i];
-		v->vx = positions[i * 2];
-		v->vy = positions[i * 2 + 1];
-		v->tx = texcoords[i * 2];
-		v->ty = texcoords[i * 2 + 1];
+		Vertex* v	= &m_vertex_buf[m_quad_sz * 4 + i];
+		v->vx		= positions[i * 2];
+		v->vy		= positions[i * 2 + 1];
+		v->tx		= texcoords[i * 2];
+		v->ty		= texcoords[i * 2 + 1];
 		v->color	= m_color;
 		v->additive = m_additive;
-		v->rmap = m_rmap;
-		v->gmap = m_gmap;
-		v->bmap = m_bmap;
+		v->rmap		= m_rmap;
+		v->gmap		= m_gmap;
+		v->bmap		= m_bmap;
 	}
 	++m_quad_sz;
 }
