@@ -8,9 +8,17 @@ namespace sl
 namespace parser
 {
 
-// varying vec4 v_rmap
-// varying vec4 v_gmap
-// varying vec4 v_bmap
+/**
+ *  @brief
+ *    transform each r, g, b
+ *
+ *  @remarks
+ *    input: varying vec4 v_rmap;
+ *           varying vec4 v_gmap;
+ *           varying vec4 v_bmap;
+ *    
+ *    output: gl_Position
+ */
 class ColorMap : public Node
 {
 public:

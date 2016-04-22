@@ -8,12 +8,20 @@ namespace sl
 namespace parser
 {
 
-// attribute vec3 normal;
-// uniform vec3 u_diffuse_material;
-// uniform vec3 u_ambient_material;
-// uniform vec3 u_specular_material;
-// uniform float u_shininess;
-// varying vec4 v_gouraud_col;
+/**
+ *  @brief
+ *    Gouraud shading
+ *
+ *  @remarks
+ *    input: attribute vec3 normal;
+ *           uniform vec3 u_diffuse_material;
+ *           uniform vec3 u_ambient_material;
+ *           uniform vec3 u_specular_material;
+ *           uniform float u_shininess;
+ *           varying vec4 v_gouraud_col;
+ *    
+ *    output: gl_Position
+ */
 class GouraudShading : public Node
 {
 public:

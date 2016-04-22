@@ -8,8 +8,16 @@ namespace sl
 namespace parser
 {
 
-// varying vec4 v_color
-// varying vec4 v_additive
+/**
+ *  @brief
+ *    add and mul
+ *
+ *  @remarks
+ *    input: varying vec4 v_color;
+ *           varying vec4 v_additive;
+ *    
+ *    output: gl_Position
+ */
 class ColorAddMul : public Node
 {
 public:
