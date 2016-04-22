@@ -2,27 +2,11 @@
 #define _SHADERLAB_FILTER_SHADER_H_
 
 #include "Shader.h"
+#include "FilterMode.h"
 #include "render/VertexAttrib.h"
 
 namespace sl
 {
-
-enum FILTER_MODE
-{
-	FM_NULL				= 0,
-
-	FM_EDGE_DETECTION	= 10,
-	FM_RELIEF,
-	FM_OUTLINE,
-
-	FM_GRAY				= 20,
-	FM_BLUR,
-	FM_GAUSSIAN_BLUR,
-
-	FM_HEAT_HAZE		= 30,
-	FM_SHOCK_WAVE,
-	FM_SWIRL,	
-};
 
 class FilterProgram;
 
