@@ -14,7 +14,7 @@ public:
 
 	virtual void UpdateTime(float time);
 
-	virtual void BindTexture();
+	virtual void SetTexture();
 
 	void SetFactor(float distortion, float rise);
 

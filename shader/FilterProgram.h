@@ -13,8 +13,6 @@ public:
 	
 	virtual void UpdateTime(float time) {}
 
-	virtual void BindTexture() {}
-
 protected:
 	void Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib, 
 		parser::Node* pn);

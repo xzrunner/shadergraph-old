@@ -22,7 +22,6 @@ public:
 	virtual void Bind() const;
 	virtual void UnBind() const;
 	virtual void Commit() const;
-	virtual void BindTexture();
 
 	void SetColor(uint32_t color, uint32_t additive);
 

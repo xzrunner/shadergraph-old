@@ -68,24 +68,12 @@ void FilterShader::Commit() const
 
 	int idx = m_mode2index[m_curr_mode];
 	FilterProgram* prog = m_programs[idx];
-	prog->BindTexture();
-
 	RenderShader* shader = prog->GetShader();
 	m_rc->BindShader(shader);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 
 	shader->Commit();
-}
-
-void FilterShader::BindTexture()
-{
-	for (int i = 0; i < PROG_COUNT; ++i) {
-		FilterProgram* prog = m_programs[i];
-		if (prog) {
-			prog->BindTexture();
-		}
-	}
 }
 
 void FilterShader::UpdateTime(float dt)

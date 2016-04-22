@@ -19,7 +19,6 @@ public:
 	virtual void Bind() const;
 	virtual void UnBind() const;
 	virtual void Commit() const;
-	virtual void BindTexture();
 
 	void UpdateTime(float dt);
 

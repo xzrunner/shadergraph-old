@@ -66,11 +66,6 @@ void BlendShader::Commit() const
 	shader->Commit();
 }
 
-void BlendShader::BindTexture()
-{
-	m_rc->SetTexture(m_tex_base, 1);
-}
-
 void BlendShader::SetColor(uint32_t color, uint32_t additive)
 {
 	m_color = color;
@@ -174,7 +169,11 @@ void BlendShader::Program::Init(const std::vector<VertexAttrib>& va_list, Render
 		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
 		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord")))->Connect(
 		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT2, "texcoord_base")))->Connect(
-		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord_base")));
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord_base")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color")))->Connect(
+		new parser::AttributeNode(parser::Variable(parser::VT_FLOAT4, "additive")))->Connect(
+		new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "additive")));
 
 	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT2, "texcoord_base"));
 	frag->Connect(

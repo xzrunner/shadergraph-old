@@ -36,7 +36,7 @@ void HeatHazeProg::UpdateTime(float time)
 	m_shader->SetUniform(m_time, UNIFORM_FLOAT1, &time);
 }
 
-void HeatHazeProg::BindTexture()
+void HeatHazeProg::SetTexture()
 {
 	m_rc->SetTexture(m_distortion_map_tex, 1);
 }

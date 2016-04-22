@@ -154,4 +154,9 @@ void RenderContext::EnableScissor(int enable)
 	render_enablescissor(m_ej_render, enable);
 }
 
+void RenderContext::ClearTextureCache()
+{
+	render_clear_texture_cache(m_ej_render);
+}
+
 }
