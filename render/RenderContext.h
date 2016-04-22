@@ -46,7 +46,7 @@ public:
 
 private:
 	static const int MAX_TEXTURE_CHANNEL	= 8;
-	static const int MAX_SHADER				= 32;
+	static const int MAX_SHADER				= 64;
 
 private:
 	render* m_ej_render;
