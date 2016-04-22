@@ -84,6 +84,8 @@ void RenderShader::Commit()
 	if (!m_vb || m_vb->IsEmpty()) {
 		return;
 	}
+
+	ApplyUniform();
 //#ifdef _DEBUG
 //	std::cout << "Commit %d" << m_vb->Size() << "\n";
 //#endif // _DEBUG
@@ -104,16 +106,6 @@ void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm)
 	if (m_draw_mode != dm) {
 		Commit();
 		m_draw_mode = dm;
-	}
-}
-
-void RenderShader::ApplyUniform()
-{
-	for (int i = 0; i < m_uniform_number; ++i) {
-		bool changed = m_uniform[i].Apply(m_ej_render);
-		if (changed) {
-			m_uniform_changed = changed;
-		}
 	}
 }
 
@@ -150,6 +142,16 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 	}
 	if (m_vb && vb_n > 0 && m_vb->Add(vb, vb_n)) {
 		Commit();
+	}
+}
+
+void RenderShader::ApplyUniform()
+{
+	for (int i = 0; i < m_uniform_number; ++i) {
+		bool changed = m_uniform[i].Apply(m_ej_render);
+		if (changed) {
+			m_uniform_changed = changed;
+		}
 	}
 }
 

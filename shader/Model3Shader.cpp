@@ -59,7 +59,6 @@ void Model3Shader::Commit() const
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
-	shader->ApplyUniform();
 	struct render* r = m_rc->GetEJRender();
 	render_setdepth(r, DEPTH_LESS_EQUAL);
 	shader->Commit();

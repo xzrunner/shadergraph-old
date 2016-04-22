@@ -132,7 +132,6 @@ void RenderContext::BindShader(RenderShader* shader)
 
 	m_curr = shader;
 	m_curr->Bind();
-	m_curr->ApplyUniform();
 }
 
 void RenderContext::SetClearFlag(int flag)

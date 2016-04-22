@@ -37,7 +37,6 @@ public:
 
 	void SetDrawMode(DRAW_MODE_TYPE dm);
 
-	void ApplyUniform();
 	bool IsUniformChanged() const { return m_uniform_changed; }
 
 	int AddUniform(const char* name, UNIFORM_FORMAT_TYPE t);
@@ -46,6 +45,8 @@ public:
 	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
 
 private:
+	void ApplyUniform();
+
 	static int GetUniformSize(UNIFORM_FORMAT_TYPE t);
 
 private:
