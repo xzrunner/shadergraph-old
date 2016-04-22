@@ -26,11 +26,17 @@ void sl_set_shader(enum SHADER_TYPE type);
 
 void sl_flush();
 
-// shape
-void sl_shape_color(uint32_t color);
-void sl_shape_type(int type);
-void sl_shape_draw(const float* positions, int count);
-void sl_shape_draw_node(float x, float y, int dummy);
+// shape2
+void sl_shape2_color(uint32_t color);
+void sl_shape2_type(int type);
+void sl_shape2_draw(const float* positions, int count);
+void sl_shape2_draw_node(float x, float y, int dummy);
+
+// shape3
+void sl_shape3_color(uint32_t color);
+void sl_shape3_type(int type);
+void sl_shape3_draw(const float* positions, int count);
+void sl_shape3_draw_node(float x, float y, float z, int dummy);
 
 // sprite
 void sl_sprite_set_color(uint32_t color, uint32_t additive);

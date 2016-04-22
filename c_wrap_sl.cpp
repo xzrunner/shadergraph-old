@@ -1,6 +1,7 @@
 #include "c_wrap_sl.h"
 #include "shader/ShaderMgr.h"
 #include "shader/Shape2Shader.h"
+#include "shader/Shape3Shader.h"
 #include "shader/Sprite2Shader.h"
 
 namespace sl
@@ -70,7 +71,7 @@ void sl_flush()
 }
 
 extern "C"
-void sl_shape_color(uint32_t color) 
+void sl_shape2_color(uint32_t color) 
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE2));
@@ -80,7 +81,7 @@ void sl_shape_color(uint32_t color)
 }
 
 extern "C"
-void sl_shape_type(int type)
+void sl_shape2_type(int type)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE2));
@@ -90,7 +91,7 @@ void sl_shape_type(int type)
 }
 
 extern "C"
-void sl_shape_draw(const float* positions, int count)
+void sl_shape2_draw(const float* positions, int count)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE2));
@@ -100,12 +101,52 @@ void sl_shape_draw(const float* positions, int count)
 }
 
 extern "C"
-void sl_shape_draw_node(float x, float y, int dummy)
+void sl_shape2_draw_node(float x, float y, int dummy)
 {
 	Shape2Shader* shader = static_cast<Shape2Shader*>(
 		ShaderMgr::Instance()->GetShader(SHAPE2));
 	if (shader) {
 		shader->Draw(x, y, dummy != 0);
+	}
+}
+
+extern "C"
+void sl_shape3_color(uint32_t color) 
+{
+	Shape3Shader* shader = static_cast<Shape3Shader*>(
+		ShaderMgr::Instance()->GetShader(SHAPE3));
+	if (shader) {
+		shader->SetColor(color);
+	}
+}
+
+extern "C"
+void sl_shape3_type(int type)
+{
+	Shape3Shader* shader = static_cast<Shape3Shader*>(
+		ShaderMgr::Instance()->GetShader(SHAPE3));
+	if (shader) {
+		shader->SetType(type);
+	}
+}
+
+extern "C"
+void sl_shape3_draw(const float* positions, int count)
+{
+	Shape3Shader* shader = static_cast<Shape3Shader*>(
+		ShaderMgr::Instance()->GetShader(SHAPE3));
+	if (shader) {
+		shader->Draw(positions, count);
+	}
+}
+
+extern "C"
+void sl_shape3_draw_node(float x, float y, float z, int dummy)
+{
+	Shape3Shader* shader = static_cast<Shape3Shader*>(
+		ShaderMgr::Instance()->GetShader(SHAPE3));
+	if (shader) {
+		shader->Draw(x, y, z, dummy != 0);
 	}
 }
 
