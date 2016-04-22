@@ -47,7 +47,11 @@ void Shape3Shader::Draw(float x, float y, float z, bool dummy) const
 	ptr += sizeof(float);
 	memcpy(ptr, &z, sizeof(float));
 	ptr += sizeof(float);
-	memcpy(ptr, &m_color, sizeof(uint32_t));
+	if (dummy) {
+		memset(ptr, 0, sizeof(uint32_t));
+	} else {
+		memcpy(ptr, &m_color, sizeof(uint32_t));
+	}
 	ptr += sizeof(uint32_t);
 	m_prog->GetShader()->Draw(buf, 1);
 }
