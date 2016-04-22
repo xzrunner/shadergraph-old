@@ -3,8 +3,9 @@
 
 #include "utility/Object.h"
 #include "utility/Buffer.h"
+#include "utility/typedef.h"
 
-#include <render/render.h>
+struct render;
 
 namespace sl
 {
@@ -14,19 +15,11 @@ class Buffer;
 class RenderBuffer : public Object
 {
 public:
-	RenderBuffer(render* ej_render, RENDER_OBJ type, int stride, int n, Buffer* buf);
+	RenderBuffer(render* ej_render, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
 	virtual ~RenderBuffer();
 
-	void Bind() {
-		render_set(m_ej_render, m_type, m_id, 0);
-	}
-
-	void Update() {
-		if (m_buf->IsDirty()) {
-			render_buffer_update(m_ej_render, m_id, m_buf->Data(), m_buf->Size());
-			m_buf->ResetDirty();
-		}
-	}
+	void Bind();
+	void Update();
 
 	void Clear() { if (m_buf) { m_buf->Clear(); } }
 	int Size() const { return m_buf ? m_buf->Size() : 0; }
@@ -37,7 +30,7 @@ public:
 private:
 	render* m_ej_render;
 
-	RENDER_OBJ m_type;
+	RENDER_OBJ_TYPE m_type;
 
 	RID m_id;
 

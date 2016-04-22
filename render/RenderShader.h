@@ -1,10 +1,12 @@
 #ifndef _SHADERLAB_RENDER_SHADER_H_
 #define _SHADERLAB_RENDER_SHADER_H_
 
-#include <render/render.h>
+#include "utility/typedef.h"
 
 #include <string.h>
 #include <assert.h>
+
+struct render;
 
 namespace sl
 {
@@ -33,18 +35,18 @@ public:
 
 	void Commit();
 
-	void SetDrawMode(enum DRAW_MODE dm);
+	void SetDrawMode(DRAW_MODE_TYPE dm);
 
 	void ApplyUniform();
 	bool IsUniformChanged() const { return m_uniform_changed; }
 
-	int AddUniform(const char* name, enum UNIFORM_FORMAT t);
-	void SetUniform(int index, enum UNIFORM_FORMAT t, const float* v);
+	int AddUniform(const char* name, UNIFORM_FORMAT_TYPE t);
+	void SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v);
 
 	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
 
 private:
-	static int GetUniformSize(enum UNIFORM_FORMAT t);
+	static int GetUniformSize(UNIFORM_FORMAT_TYPE t);
 
 private:
 	static const int MAX_UNIFORM = 16;
@@ -52,40 +54,16 @@ private:
 	class Uniform 
 	{
 	public:
-		Uniform() : m_loc(0), m_type(UNIFORM_INVALID), m_changed(false) {
-			memset(m_value, 0, sizeof(m_value));
-		}
+		Uniform();
 
-		void Assign(int loc, enum UNIFORM_FORMAT type) {
-			this->m_loc = loc;
-			this->m_type = type;
-			m_changed = false;
-			memset(m_value, 0, sizeof(m_value));
-		}
+		void Assign(int loc, UNIFORM_FORMAT_TYPE type);
+		bool Assign(UNIFORM_FORMAT_TYPE t, const float* v);
 
-		bool Assign(enum UNIFORM_FORMAT t, const float* v) {
-			assert(t == m_type);
-			int n = GetUniformSize(t);
-			int change = memcmp(m_value, v, n * sizeof(float));
-			if (change != 0) {
-				memcpy(m_value, v, n * sizeof(float));
-				m_changed = true;
-			}
-			return m_changed != 0;
-		}
-
-		bool Apply(render* ej_render) {
-			if (m_changed && m_loc >= 0) {
-				render_shader_setuniform(ej_render, m_loc, m_type, m_value);
-				return true;
-			} else {
-				return false;
-			}
-		}
+		bool Apply(render* ej_render);
 
 	private:
 		int m_loc;
-		enum UNIFORM_FORMAT m_type;
+		UNIFORM_FORMAT_TYPE m_type;
 
 		bool m_changed;
 		float m_value[16];
@@ -95,7 +73,7 @@ private:
 private:
 	render* m_ej_render;
 
-	RID m_prog;
+	int m_prog;
 
 	int m_texture_number;
 
@@ -106,7 +84,7 @@ private:
 	RenderBuffer *m_vb, *m_ib;
 	RenderLayout* m_layout;
 
-	enum DRAW_MODE m_draw_mode;
+	DRAW_MODE_TYPE m_draw_mode;
 
 }; // RenderShader
 

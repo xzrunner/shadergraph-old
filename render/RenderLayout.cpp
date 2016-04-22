@@ -1,6 +1,8 @@
 #include "RenderLayout.h"
 #include "RenderConst.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

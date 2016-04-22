@@ -1,9 +1,11 @@
 #ifndef _SHADERLAB_RENDER_CONTEXT_H_
 #define _SHADERLAB_RENDER_CONTEXT_H_
 
-#include <render/render.h>
+#include "utility/typedef.h"
 
 #include <vector>
+
+struct render;
 
 namespace sl
 {

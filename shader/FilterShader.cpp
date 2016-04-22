@@ -14,6 +14,8 @@
 #include "render/RenderBuffer.h"
 #include "render/RenderShader.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

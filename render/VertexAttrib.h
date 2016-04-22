@@ -1,8 +1,6 @@
 #ifndef _SHADERLAB_VERTEX_ATTRIB_H_
 #define _SHADERLAB_VERTEX_ATTRIB_H_
 
-#include <render/render.h>
-
 #include <string>
 
 namespace sl

@@ -3,6 +3,8 @@
 #include "render/RenderContext.h"
 #include "parser/HeatHaze.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

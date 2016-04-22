@@ -2,6 +2,8 @@
 #include "render/RenderShader.h"
 #include "parser/ShockWave.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

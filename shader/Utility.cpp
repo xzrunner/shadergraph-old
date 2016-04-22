@@ -4,6 +4,8 @@
 #include "render/RenderBuffer.h"
 #include "render/RenderContext.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

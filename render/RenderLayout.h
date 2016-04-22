@@ -3,10 +3,11 @@
 
 #include "VertexAttrib.h"
 #include "utility/Object.h"
-
-#include <render/render.h>
+#include "utility/typedef.h"
 
 #include <vector>
+
+struct render;
 
 namespace sl
 {

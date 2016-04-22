@@ -2,6 +2,8 @@
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
 
+#include <render/render.h>
+
 #include <iostream>
 
 namespace sl
@@ -89,15 +91,15 @@ void RenderShader::Commit()
 	m_vb->Update();
 	if (m_ib) {
 		m_ib->Update();
-		render_draw_elements(m_ej_render, m_draw_mode, 0, m_ib->Size());
+		render_draw_elements(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_ib->Size());
 		m_ib->Clear();
 	} else {
-		render_draw_arrays(m_ej_render, m_draw_mode, 0, m_vb->Size());
-	}	
+		render_draw_arrays(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_vb->Size());
+	}
 	m_vb->Clear();
 }
 
-void RenderShader::SetDrawMode(enum DRAW_MODE dm) 
+void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
 { 
 	if (m_draw_mode != dm) {
 		Commit();
@@ -115,7 +117,7 @@ void RenderShader::ApplyUniform()
 	}
 }
 
-int RenderShader::AddUniform(const char* name, enum UNIFORM_FORMAT t)
+int RenderShader::AddUniform(const char* name, UNIFORM_FORMAT_TYPE t)
 {
 	// todo RenderContext::Bind()
 
@@ -128,7 +130,7 @@ int RenderShader::AddUniform(const char* name, enum UNIFORM_FORMAT t)
 	return loc < 0 ? -1 : index;
 }
 
-void RenderShader::SetUniform(int index, enum UNIFORM_FORMAT t, const float* v)
+void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 {
 	// todo RenderContext::Bind()
 
@@ -151,7 +153,7 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 	}
 }
 
-int RenderShader::GetUniformSize(enum UNIFORM_FORMAT t)
+int RenderShader::GetUniformSize(UNIFORM_FORMAT_TYPE t)
 {
 	int n = 0;
 	switch(t) {
@@ -181,6 +183,46 @@ int RenderShader::GetUniformSize(enum UNIFORM_FORMAT t)
 		break;
 	}
 	return n;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// RenderShader::Uniform
+//////////////////////////////////////////////////////////////////////////
+
+RenderShader::Uniform::Uniform() 
+	: m_loc(0), m_type(0), m_changed(false) 
+{
+	memset(m_value, 0, sizeof(m_value));
+}
+
+void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type) 
+{
+	this->m_loc = loc;
+	this->m_type = type;
+	m_changed = false;
+	memset(m_value, 0, sizeof(m_value));
+}
+
+bool RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v) 
+{
+	assert(t == m_type);
+	int n = GetUniformSize(t);
+	int change = memcmp(m_value, v, n * sizeof(float));
+	if (change != 0) {
+		memcpy(m_value, v, n * sizeof(float));
+		m_changed = true;
+	}
+	return m_changed != 0;
+}
+
+bool RenderShader::Uniform::Apply(render* ej_render) 
+{
+	if (m_changed && m_loc >= 0) {
+		render_shader_setuniform(ej_render, m_loc, (UNIFORM_FORMAT)m_type, m_value);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 }

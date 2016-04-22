@@ -16,6 +16,8 @@
 #include "parser/ColorMap.h"
 #include "utility/Buffer.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

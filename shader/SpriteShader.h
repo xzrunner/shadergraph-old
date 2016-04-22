@@ -4,10 +4,10 @@
 #include "Shader.h"
 #include "render/VertexAttrib.h"
 
-#include <render/render.h>
-
 #include <string>
 #include <vector>
+
+#include <stdint.h>
 
 namespace sl
 {

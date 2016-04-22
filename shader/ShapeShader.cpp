@@ -7,6 +7,8 @@
 #include "parser/FragColor.h"
 #include "parser/AttributeNode.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

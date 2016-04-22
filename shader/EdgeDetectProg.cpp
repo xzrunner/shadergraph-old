@@ -2,6 +2,8 @@
 #include "render/RenderShader.h"
 #include "parser/EdgeDetect.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 

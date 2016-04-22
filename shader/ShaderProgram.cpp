@@ -7,6 +7,8 @@
 #include "render/RenderBuffer.h"
 #include "utility/Buffer.h"
 
+#include <render/render.h>
+
 namespace sl
 {
 
