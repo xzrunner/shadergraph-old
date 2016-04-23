@@ -36,12 +36,14 @@ ShaderMgr::~ShaderMgr()
 	}
 }
 
-void ShaderMgr::CreateContext(int max_texture)
+bool ShaderMgr::CreateContext(int max_texture)
 {
 	if (m_rc) {
-		delete m_rc;
+		return false;
+	} else {
+		m_rc = new RenderContext(max_texture);
+		return true;
 	}
-	m_rc = new RenderContext(max_texture);
 }
 
 void ShaderMgr::ReleaseContext()

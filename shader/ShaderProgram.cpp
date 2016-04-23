@@ -68,7 +68,6 @@ void ShaderProgram::Release()
 {
 	delete m_parser;
 	m_shader->Unload();
-	delete m_shader;
 	if (m_mvp) {
 		delete m_mvp;
 	}

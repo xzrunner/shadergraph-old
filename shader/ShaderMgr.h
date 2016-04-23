@@ -14,7 +14,7 @@ class Shader;
 class ShaderMgr
 {
 public:
-	void CreateContext(int max_texture);
+	bool CreateContext(int max_texture);
 	void ReleaseContext();
 	RenderContext* GetContext() { return m_rc; }
 

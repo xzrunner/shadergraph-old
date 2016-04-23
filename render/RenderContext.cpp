@@ -45,12 +45,13 @@ RenderContext::RenderContext(int max_texture)
 
 RenderContext::~RenderContext()
 {
+	for (int i = 0, n = m_shaders.size(); i < n; ++i) {
+		if (m_shaders[i]) {
+			delete m_shaders[i];
+		}
+	}
 	render_exit(m_ej_render);
 	free(m_ej_render);
-
-	for (int i = 0, n = m_shaders.size(); i < n; ++i) {
-		delete m_shaders[i];
-	}
 }
 
 RenderShader* RenderContext::CreateShader()
