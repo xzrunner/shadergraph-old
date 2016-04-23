@@ -16,6 +16,10 @@
 
 #include <render/render.h>
 
+#ifdef USED_IN_EDITOR
+#define HAS_TEXTURE_SIZE
+#endif // USED_IN_EDITOR
+
 namespace sl
 {
 
@@ -142,6 +146,7 @@ void FilterShader::InitProgs()
 	int max_vertex = MAX_COMMBINE * 4;
 	RenderBuffer* idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
 
+#ifdef HAS_TEXTURE_SIZE
 	// edge detect
 	EdgeDetectProg* edge_detect		= new EdgeDetectProg(m_rc, max_vertex, va_list, idx_buf);
 	edge_detect->SetBlend(0.5f);
@@ -150,6 +155,7 @@ void FilterShader::InitProgs()
 	m_programs[PI_RELIEF]			= new ReliefProg(m_rc, max_vertex, va_list, idx_buf);
 	// outline
 	m_programs[PI_OUTLINE]			= new OutlineProg(m_rc, max_vertex, va_list, idx_buf);
+#endif // HAS_TEXTURE_SIZE
 
 	// gray
 	m_programs[PI_GRAY]				= new GrayProg(m_rc, max_vertex, va_list, idx_buf);
@@ -157,8 +163,10 @@ void FilterShader::InitProgs()
 	BlurProg* blur					= new BlurProg(m_rc, max_vertex, va_list, idx_buf);
 	blur->SetRadius(1);
 	m_programs[PI_BLUR]				= blur;
+#ifdef HAS_TEXTURE_SIZE
 	// gaussian blur
 	m_programs[PI_GAUSSIAN_BLUR]	= new GaussianBlurProg(m_rc, max_vertex, va_list, idx_buf);
+#endif // HAS_TEXTURE_SIZE
 
 	// heat haze
 	HeatHazeProg* heat_haze			= new HeatHazeProg(m_rc, max_vertex, va_list, idx_buf);
@@ -173,6 +181,7 @@ void FilterShader::InitProgs()
 		shock_wave->SetFactor(params);
 	}
 	m_programs[PI_SHOCK_WAVE]		= shock_wave;
+#ifdef HAS_TEXTURE_SIZE
 	// swirl
 	SwirlProg* swirl				= new SwirlProg(m_rc, max_vertex, va_list, idx_buf);
 	{
@@ -182,6 +191,7 @@ void FilterShader::InitProgs()
 		swirl->SetRadius(200);
 	}	
 	m_programs[PI_SWIRL]			= swirl;
+#endif // HAS_TEXTURE_SIZE
 
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
 	m_mode2index[FM_EDGE_DETECTION]	= PI_EDGE_DETECTION;
