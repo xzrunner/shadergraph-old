@@ -2,7 +2,7 @@
 #define _SHADERLAB_SPRITE_SHADER_H_
 
 #include "Shader.h"
-#include "render/VertexAttrib.h"
+#include "../render/VertexAttrib.h"
 
 #include <string>
 #include <vector>

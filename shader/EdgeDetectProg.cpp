@@ -1,6 +1,6 @@
 #include "EdgeDetectProg.h"
-#include "render/RenderShader.h"
-#include "parser/EdgeDetect.h"
+#include "../render/RenderShader.h"
+#include "../parser/EdgeDetect.h"
 
 #include <render/render.h>
 

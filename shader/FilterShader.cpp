@@ -10,9 +10,9 @@
 #include "HeatHazeProg.h"
 #include "ShockWaveProg.h"
 #include "SwirlProg.h"
-#include "render/RenderContext.h"
-#include "render/RenderBuffer.h"
-#include "render/RenderShader.h"
+#include "../render/RenderContext.h"
+#include "../render/RenderBuffer.h"
+#include "../render/RenderShader.h"
 
 #include <render/render.h>
 

@@ -1,11 +1,11 @@
 #include "ShapeShader.h"
 #include "ShaderProgram.h"
-#include "render/RenderContext.h"
-#include "render/RenderShader.h"
-#include "parser/PositionTrans.h"
-#include "parser/VaryingNode.h"
-#include "parser/FragColor.h"
-#include "parser/AttributeNode.h"
+#include "../render/RenderContext.h"
+#include "../render/RenderShader.h"
+#include "../parser/PositionTrans.h"
+#include "../parser/VaryingNode.h"
+#include "../parser/FragColor.h"
+#include "../parser/AttributeNode.h"
 
 #include <render/render.h>
 

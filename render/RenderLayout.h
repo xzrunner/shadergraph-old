@@ -2,8 +2,8 @@
 #define _SHADERLAB_RENDER_LAYOUT_H_
 
 #include "VertexAttrib.h"
-#include "utility/Object.h"
-#include "utility/typedef.h"
+#include "../utility/Object.h"
+#include "../utility/typedef.h"
 
 #include <vector>
 

@@ -1,6 +1,6 @@
 #include "ShockWaveProg.h"
-#include "render/RenderShader.h"
-#include "parser/ShockWave.h"
+#include "../render/RenderShader.h"
+#include "../parser/ShockWave.h"
 
 #include <render/render.h>
 

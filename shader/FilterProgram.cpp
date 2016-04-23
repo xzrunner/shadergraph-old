@@ -1,9 +1,9 @@
 #include "FilterProgram.h"
-#include "parser/PositionTrans.h"
-#include "parser/AttributeNode.h"
-#include "parser/VaryingNode.h"
-#include "parser/TextureMap.h"
-#include "parser/FragColor.h"
+#include "../parser/PositionTrans.h"
+#include "../parser/AttributeNode.h"
+#include "../parser/VaryingNode.h"
+#include "../parser/TextureMap.h"
+#include "../parser/FragColor.h"
 
 namespace sl
 {

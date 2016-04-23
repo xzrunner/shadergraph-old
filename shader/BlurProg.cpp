@@ -1,6 +1,6 @@
 #include "BlurProg.h"
-#include "render/RenderShader.h"
-#include "parser/Blur.h"
+#include "../render/RenderShader.h"
+#include "../parser/Blur.h"
 
 #include <render/render.h>
 

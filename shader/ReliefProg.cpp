@@ -1,6 +1,6 @@
 #include "ReliefProg.h"
-#include "render/RenderShader.h"
-#include "parser/Relief.h"
+#include "../render/RenderShader.h"
+#include "../parser/Relief.h"
 
 namespace sl
 {

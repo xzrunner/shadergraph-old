@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SHADER_PROGRAM_H_
 #define _SHADERLAB_SHADER_PROGRAM_H_
 
-#include "render/VertexAttrib.h"
+#include "../render/VertexAttrib.h"
 
 #include <vector>
 

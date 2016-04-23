@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "BlendMode.h"
 #include "ShaderProgram.h"
-#include "render/VertexAttrib.h"
+#include "../render/VertexAttrib.h"
 
 #include <stdint.h>
 

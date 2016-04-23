@@ -1,9 +1,9 @@
 #ifndef _SHADERLAB_RENDER_BUFFER_H_
 #define _SHADERLAB_RENDER_BUFFER_H_
 
-#include "utility/Object.h"
-#include "utility/Buffer.h"
-#include "utility/typedef.h"
+#include "../utility/Object.h"
+#include "../utility/Buffer.h"
+#include "../utility/typedef.h"
 
 struct render;
 

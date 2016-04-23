@@ -1,6 +1,6 @@
 #include "GaussianBlurProg.h"
-#include "render/RenderShader.h"
-#include "parser/GaussianBlur.h"
+#include "../render/RenderShader.h"
+#include "../parser/GaussianBlur.h"
 
 namespace sl
 {

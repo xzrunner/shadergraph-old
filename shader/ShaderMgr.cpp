@@ -1,6 +1,6 @@
 #include "ShaderMgr.h"
 #include "Shader.h"
-#include "render/RenderContext.h"
+#include "../render/RenderContext.h"
 
 #include <string.h>
 

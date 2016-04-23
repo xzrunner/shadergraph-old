@@ -1,6 +1,6 @@
 #include "OutlineProg.h"
-#include "render/RenderShader.h"
-#include "parser/Outline.h"
+#include "../render/RenderShader.h"
+#include "../parser/Outline.h"
 
 namespace sl
 {

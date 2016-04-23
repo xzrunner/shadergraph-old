@@ -1,5 +1,5 @@
 #include "ObserverMVP.h"
-#include "render/RenderShader.h"
+#include "../render/RenderShader.h"
 
 #include <render/render.h>
 #include <sm.h>

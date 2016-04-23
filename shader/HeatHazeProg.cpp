@@ -1,7 +1,7 @@
 #include "HeatHazeProg.h"
-#include "render/RenderShader.h"
-#include "render/RenderContext.h"
-#include "parser/HeatHaze.h"
+#include "../render/RenderShader.h"
+#include "../render/RenderContext.h"
+#include "../parser/HeatHaze.h"
 
 #include <render/render.h>
 

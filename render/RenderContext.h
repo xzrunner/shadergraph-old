@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_RENDER_CONTEXT_H_
 #define _SHADERLAB_RENDER_CONTEXT_H_
 
-#include "utility/typedef.h"
+#include "../utility/typedef.h"
 
 #include <vector>
 

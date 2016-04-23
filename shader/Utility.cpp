@@ -1,8 +1,8 @@
 #include "Utility.h"
-#include "utility/StackAllocator.h"
-#include "utility/Buffer.h"
-#include "render/RenderBuffer.h"
-#include "render/RenderContext.h"
+#include "../utility/StackAllocator.h"
+#include "../utility/Buffer.h"
+#include "../render/RenderBuffer.h"
+#include "../render/RenderContext.h"
 
 #include <render/render.h>
 

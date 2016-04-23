@@ -1,6 +1,6 @@
 #include "GrayProg.h"
-#include "render/RenderShader.h"
-#include "parser/Gray.h"
+#include "../render/RenderShader.h"
+#include "../parser/Gray.h"
 
 namespace sl
 {

@@ -1,10 +1,10 @@
 #include "Sprite2Shader.h"
 #include "SubjectMVP2.h"
 #include "ShaderProgram.h"
-#include "render/RenderShader.h"
-#include "render/RenderBuffer.h"
-#include "render/RenderContext.h"
-#include "utility/StackAllocator.h"
+#include "../render/RenderShader.h"
+#include "../render/RenderBuffer.h"
+#include "../render/RenderContext.h"
+#include "../utility/StackAllocator.h"
 
 #include <assert.h>
 

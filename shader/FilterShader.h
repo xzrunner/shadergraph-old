@@ -3,7 +3,7 @@
 
 #include "Shader.h"
 #include "FilterMode.h"
-#include "render/VertexAttrib.h"
+#include "../render/VertexAttrib.h"
 
 namespace sl
 {
