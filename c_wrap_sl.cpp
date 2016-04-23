@@ -21,9 +21,9 @@ namespace sl
  */
 
 extern "C"
-void sl_create(int max_texture)
+bool sl_create(int max_texture)
 {
-	ShaderMgr::Instance()->CreateContext(max_texture);
+	return ShaderMgr::Instance()->CreateContext(max_texture);
 }
 
 extern "C"
