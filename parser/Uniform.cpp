@@ -1,4 +1,5 @@
 #include "Uniform.h"
+#include <string.h>
 
 namespace sl
 {
