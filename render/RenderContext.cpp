@@ -1,6 +1,8 @@
 #include "RenderContext.h"
 #include "RenderShader.h"
 #include "RenderConst.h"
+#include "../shader/ShaderMgr.h"
+#include "../shader/Shader.h"
 
 #include <render/render.h>
 #include <render/blendmode.h>
@@ -71,12 +73,7 @@ void RenderContext::SetBlend(int m1, int m2)
 		return;
 	}
 
-	if (m_curr) {
-#ifdef DC_LOG
-		std::cout << "DC: Blend\n";
-#endif // DC_LOG
-		m_curr->Commit();
-	}
+	ShaderMgr::Instance()->GetShader()->Commit();
 
 	m_blendchange = 1;
 	enum BLEND_FORMAT src = blend_mode(m1);
@@ -90,12 +87,7 @@ void RenderContext::SetDefaultBlend()
 		return;
 	}
 
-	if (m_curr) {
-#ifdef DC_LOG
-		std::cout << "DC: DefaultBlend\n";
-#endif // DC_LOG
-		m_curr->Commit();
-	}
+	ShaderMgr::Instance()->GetShader()->Commit();
 
 	m_blendchange = 0;
 	render_setblend(m_ej_render, BLEND_ONE, BLEND_ONE_MINUS_SRC_ALPHA);
