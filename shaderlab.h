@@ -1,21 +1,11 @@
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-#ifndef shader_lab_h
-#define shader_lab_h
-
-#include "sl_shader.h"
-#include "sl_shape.h"
-#include "sl_shape3.h"
-#include "sl_sprite.h"
-#include "sl_blend.h"
-#include "sl_filter.h"
-#include "sl_sprite3.h"
-
-#endif // shader_lab_h
-
-#ifdef __cplusplus
-}
-#endif
+#include "shader/ShaderMgr.h"
+#include "shader/Sprite2Shader.h"
+#include "shader/Sprite3Shader.h"
+#include "shader/Shape2Shader.h"
+#include "shader/Shape3Shader.h"
+#include "shader/Model3Shader.h"
+#include "shader/FilterShader.h"
+#include "shader/BlendShader.h"
+#include "shader/SubjectMVP2.h"
+#include "shader/SubjectMVP3.h"
+#include "render/RenderContext.h"
