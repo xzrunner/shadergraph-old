@@ -30,6 +30,8 @@ extern "C"
 void sl_release()
 {
 	ShaderMgr::Instance()->ReleaseContext();
+    SubjectMVP2::Instance()->Clear();
+    SubjectMVP3::Instance()->Clear();
 }
 
 extern "C"
