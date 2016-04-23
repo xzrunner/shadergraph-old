@@ -22,6 +22,7 @@ RenderBuffer* Utility::CreateIndexBuffer(RenderContext* rc, int count)
 	alloc->Free(buf);
 	RenderBuffer* ret = new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), count, index_buf);	
 	ret->Update();
+    ret->Clear();
 	return ret;	
 }
 
@@ -38,6 +39,7 @@ RenderBuffer* Utility::CreateQuadIndexBuffer(RenderContext* rc, int quad_count)
 	alloc->Free(buf);
 	RenderBuffer* ret = new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
 	ret->Update();
+    ret->Clear();
 	return ret;
 }
 
