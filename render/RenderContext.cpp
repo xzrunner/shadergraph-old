@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define DC_LOG
+// #define DC_LOG
 
 #ifdef DC_LOG
 #include <iostream>

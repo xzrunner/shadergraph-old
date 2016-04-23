@@ -4,7 +4,11 @@
 
 #include <render/render.h>
 
+// #define SHADER_LOG
+
+#ifdef SHADER_LOG
 #include <iostream>
+#endif // _DEBUG
 
 namespace sl
 {
@@ -34,10 +38,12 @@ RenderShader::~RenderShader()
 
 void RenderShader::Load(const char* vs, const char* fs)
 {
+#ifdef SHADER_LOG
 	std::cout << "================================================== \n";
 	std::cout << vs << '\n';
 	std::cout << fs << '\n';
 	std::cout << "================================================== \n";
+#endif // SHADER_LOG
 
 	struct shader_init_args args;
 	args.vs = vs;
