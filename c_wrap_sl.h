@@ -7,7 +7,6 @@ extern "C"
 #define _shaderlab_wrap_c_h_
 
 #include <stdint.h>
-#include <stdbool.h>
 
 /**
  *  @note
@@ -39,7 +38,7 @@ void sl_create_shader(enum SHADER_TYPE type);
 void sl_release_shader(enum SHADER_TYPE type);
 
 void sl_set_shader(enum SHADER_TYPE type);
-bool sl_is_shader(enum SHADER_TYPE type);
+int  sl_is_shader(enum SHADER_TYPE type);
 
 void sl_on_projection2(int w, int h);
 void sl_on_projection3(const union sm_mat4*);

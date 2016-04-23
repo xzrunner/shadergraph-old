@@ -90,11 +90,11 @@ void sl_set_shader(enum SHADER_TYPE type)
 }
 
 extern "C"
-bool sl_is_shader(enum SHADER_TYPE type) {
+int  sl_is_shader(enum SHADER_TYPE type) {
 	if (type >= 0 && type < ST_MAX_SHADER) {
-		return ShaderMgr::Instance()->GetShaderType() == type;
+		return ShaderMgr::Instance()->GetShaderType() == type ? 1 : 0;
 	} else {
-		return false;
+		return 0;
 	}	
 }
 
