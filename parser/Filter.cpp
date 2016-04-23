@@ -12,7 +12,7 @@ std::string& Filter::ToStatements(std::string& str) const
 		return str;
 	}
 
-	CheckType(m_input->GetOutput(), VT_FLOAT2);
+	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
 	std::string s = GetBody();
 	StringHelper::ReplaceAll(s, "_DST_COL_", m_output);
