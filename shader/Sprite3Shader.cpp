@@ -73,6 +73,8 @@ void Sprite3Shader::Commit() const
 
 	m_quad_sz = 0;
 
+	m_prog_type = 0;
+
 	shader->Commit();
 }
 
@@ -83,7 +85,6 @@ void Sprite3Shader::Draw(const float* positions, const float* texcoords, int tex
 	}
 	m_texid = texid;
 
-	m_prog_type = PT_NULL;
 	bool has_multi_add = (m_color != 0xffffffff) || ((m_additive & 0xffffff) != 0);
 	bool has_map = ((m_rmap & 0x00ffffff) != 0x000000ff) || ((m_gmap & 0x00ffffff) != 0x0000ff00) || ((m_bmap & 0x00ffffff) != 0x00ff0000);
 	if (has_multi_add) {
