@@ -58,6 +58,14 @@ void ShaderMgr::CreateShader(ShaderType type, Shader* shader)
 	m_shaders[type] = shader;
 }
 
+void ShaderMgr::ReleaseShader(ShaderType type)
+{
+	if (m_shaders[type]) {
+		delete m_shaders[type];
+		m_shaders[type] = NULL;
+	}
+}
+
 void ShaderMgr::SetShader(ShaderType type)
 {
 	if (type == m_curr_shader) {

@@ -23,7 +23,7 @@ public:
 	RenderShader* CreateShader();
 
 	void SetBlend(int m1, int m2);
-	void GetShaderDefaultBlend();
+	void SetDefaultBlend();
 
 	void SetTexture(int id, int channel);
 	int  GetTexture() const { return m_textures[0]; }

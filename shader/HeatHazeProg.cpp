@@ -36,11 +36,6 @@ void HeatHazeProg::UpdateTime(float time)
 	m_shader->SetUniform(m_time, UNIFORM_FLOAT1, &time);
 }
 
-void HeatHazeProg::SetTexture()
-{
-	m_rc->SetTexture(m_distortion_map_tex, 1);
-}
-
 void HeatHazeProg::SetFactor(float distortion, float rise)
 {
 	m_shader->SetUniform(m_distortion_factor, UNIFORM_FLOAT1, &distortion);
@@ -50,6 +45,7 @@ void HeatHazeProg::SetFactor(float distortion, float rise)
 void HeatHazeProg::SetDistortionMapTex(int tex)
 {
 	m_distortion_map_tex = tex;
+	m_rc->SetTexture(m_distortion_map_tex, 1);
 }
 
 }

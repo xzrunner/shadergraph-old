@@ -97,6 +97,16 @@ void FilterShader::SetMode(FILTER_MODE mode)
 	}
 }
 
+FilterProgram* FilterShader::GetProgram(FILTER_MODE mode)
+{
+	int idx = m_mode2index[mode];
+	if (idx >= 0 && idx < PROG_COUNT) {
+		return m_programs[idx];
+	} else {
+		return NULL;
+	}
+}
+
 void FilterShader::Draw(const float* positions, const float* texcoords, int texid) const
 {
 	if (m_quad_sz >= MAX_COMMBINE || (m_texid != texid && m_texid != 0)) {

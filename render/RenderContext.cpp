@@ -83,7 +83,7 @@ void RenderContext::SetBlend(int m1, int m2)
 	render_setblend(m_ej_render, src, dst);
 }
 
-void RenderContext::GetShaderDefaultBlend()
+void RenderContext::SetDefaultBlend()
 {
 	if (!m_blendchange) {
 		return;

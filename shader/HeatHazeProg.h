@@ -14,8 +14,6 @@ public:
 
 	virtual void UpdateTime(float time);
 
-	virtual void SetTexture();
-
 	void SetFactor(float distortion, float rise);
 
 	void SetDistortionMapTex(int tex);

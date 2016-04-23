@@ -23,6 +23,7 @@ public:
 	void UpdateTime(float dt);
 
 	void SetMode(FILTER_MODE mode);
+	FilterProgram* GetProgram(FILTER_MODE mode);
 
 	void Draw(const float* positions, const float* texcoords, int texid) const;
 

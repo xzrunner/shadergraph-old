@@ -19,6 +19,7 @@ public:
 	RenderContext* GetContext() { return m_rc; }
 
 	void CreateShader(ShaderType type, Shader* shader);
+	void ReleaseShader(ShaderType type);
 
 	void SetShader(ShaderType type);
 	Shader* GetShader() const {
