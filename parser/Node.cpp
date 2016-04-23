@@ -4,6 +4,7 @@
 #include "Uniform.h"
 
 #include <stddef.h>
+#include <stdio.h>
 
 namespace sl
 {
@@ -50,17 +51,16 @@ void Node::GetVariables(IOType type, std::vector<const Variable*>& variables) co
 void Node::CheckType(const Variable& left, const Variable& right)
 {
 	if (left.GetType() != right.GetType()) {
-		char buf[128];
-		sprintf(buf, "assign type fail: %s = %s\n", left.GetName(), right.GetName());
-		throw std::exception(buf);
+		printf("assign type fail: %s = %s\n", left.GetName(), right.GetName());
+		throw std::exception();
 	}
 }
 
 void Node::CheckType(const Variable& var, VariableType type)
 {
 	if (var.GetType() != type) {
-		char buf[128];
-		sprintf(buf, "assign type fail: %s\n", var.GetName());
+		printf("assign type fail: %s %d, %d\n", var.GetName(), var.GetType(), type);
+		throw std::exception();
 	}
 }
 

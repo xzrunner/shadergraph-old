@@ -2,6 +2,7 @@
 #define _SHADERLAB_STACK_ALLOCATOR_H_
 
 #include <stdint.h>
+#include <stddef.h>
 
 namespace sl
 {

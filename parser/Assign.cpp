@@ -1,6 +1,8 @@
 #include "Assign.h"
 #include "Variable.h"
 
+#include <stdio.h>
+
 namespace sl
 {
 namespace parser

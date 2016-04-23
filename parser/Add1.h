@@ -3,6 +3,8 @@
 
 #include "Node.h"
 
+#include <stdio.h>
+
 namespace sl
 {
 namespace parser

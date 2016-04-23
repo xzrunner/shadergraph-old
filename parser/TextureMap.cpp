@@ -3,6 +3,8 @@
 #include "Varying.h"
 #include "Uniform.h"
 
+#include <stdio.h>
+
 namespace sl
 {
 namespace parser
