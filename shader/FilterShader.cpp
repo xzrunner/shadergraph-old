@@ -54,7 +54,7 @@ void FilterShader::Bind() const
 {
 	if (m_curr_mode != FM_NULL) {
 		int idx = m_mode2index[m_curr_mode];
-		m_programs[idx]->GetShader()->Bind();
+		m_rc->BindShader(m_programs[idx]->GetShader());
 	}
 }
 
@@ -97,7 +97,7 @@ void FilterShader::SetMode(FILTER_MODE mode)
 		Commit();
 		m_curr_mode = mode;
 		int idx = m_mode2index[m_curr_mode];
-		m_programs[idx]->GetShader()->Bind();
+		m_rc->BindShader(m_programs[idx]->GetShader());
 	}
 }
 

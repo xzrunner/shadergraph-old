@@ -93,7 +93,7 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	if (idx != m_curr_shader) {
 		Commit();
 		m_curr_shader = idx;
-		m_programs[idx]->GetShader()->Bind();
+		m_rc->BindShader(m_programs[idx]->GetShader());
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();

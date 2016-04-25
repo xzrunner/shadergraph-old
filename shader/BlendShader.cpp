@@ -46,7 +46,7 @@ BlendShader::~BlendShader()
 
 void BlendShader::Bind() const
 {
-	m_prog->GetShader()->Bind();
+	m_rc->BindShader(m_prog->GetShader());
 }
 
 void BlendShader::UnBind() const
