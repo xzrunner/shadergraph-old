@@ -31,6 +31,10 @@ public:
 	const RenderBuffer* GetVertexBuffer() const { return m_vb; }
 	const RenderBuffer* GetIndexBuffer() const { return m_ib; }
 
+	/**
+	 *  @note
+	 *    Must only called by RenderContext::BindShader()
+	 */
 	void Bind();
 
 	void Commit();
