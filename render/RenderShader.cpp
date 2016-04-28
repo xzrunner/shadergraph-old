@@ -219,8 +219,10 @@ bool RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v)
 	if (change != 0) {
 		memcpy(m_value, v, n * sizeof(float));
 		m_changed = true;
+		return true;
+	} else {
+		return false;
 	}
-	return m_changed != 0;
 }
 
 bool RenderShader::Uniform::Apply(render* ej_render) 
