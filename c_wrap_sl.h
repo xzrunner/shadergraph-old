@@ -104,6 +104,7 @@ void sl_sprite3_draw(const float* positions, const float* texcoords, int texid);
  */
 enum SL_FILTER_MODE {
 	SLFM_NULL				= 0,
+	SLFM_NORMAL				= 1,
 
 	SLFM_EDGE_DETECTION		= 10,
 	SLFM_RELIEF,
