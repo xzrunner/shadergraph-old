@@ -21,4 +21,4 @@ protected:
 
 }
 
-#endif] // _SHADERLAB_FILTER_PROGRAM_H_
+#endif // _SHADERLAB_FILTER_PROGRAM_H_

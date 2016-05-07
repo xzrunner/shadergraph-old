@@ -1,6 +1,8 @@
 #include "SubjectMVP2.h"
 #include "ObserverMVP.h"
 
+#include <stddef.h>
+
 namespace sl
 {
 
