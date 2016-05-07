@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_OBSERVER_MVP_H_
 #define _SHADERLAB_OBSERVER_MVP_H_
 
-union sm_mat4;
+#include <SM_Matrix.h>
 
 namespace sl
 {
@@ -16,8 +16,8 @@ public:
 	void InitModelview(int id) { m_modelview = id; }
 	void InitProjection(int id) { m_projection = id; }
 
-	void SetModelview(const sm_mat4* mat);
-	void SetProjection(const sm_mat4* mat);
+	void SetModelview(const sm::mat4* mat);
+	void SetProjection(const sm::mat4* mat);
 
 private:
 	RenderShader* m_shader;

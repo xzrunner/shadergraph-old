@@ -4,12 +4,13 @@
 #include "Shader.h"
 #include "../render/VertexAttrib.h"
 
+#include <SM_Vector.h>
+#include <SM_Matrix.h>
+
 #include <vector>
 
 #include <stdint.h>
 
-struct sm_vec3;
-union sm_mat4;
 struct ds_array;
 
 namespace sl
@@ -32,15 +33,15 @@ public:
 	virtual void UnBind() const;
 	virtual void Commit() const;
 
-	void SetMaterial(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
-		const struct sm_vec3* specular, float shininess, int tex);
-	void SetLightPosition(const struct sm_vec3& pos);
+	void SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
+		const sm::vec3& specular, float shininess, int tex);
+	void SetLightPosition(const sm::vec3& pos);
 
 	void Draw(const ds_array* vertices, const ds_array* indices,
 		bool has_normal, bool has_texcoord) const;
 
 	// todo
-	void SetModelView(const sm_mat4& mat);
+	void SetModelView(const sm::mat4& mat);
 
 private:
 	void InitVAList();
@@ -76,8 +77,8 @@ private:
 		int normal_matrix, light_position;
 
 		void Init(RenderShader* shader);
-		void SetMaterial(RenderShader* shader, const sm_vec3* ambient, const sm_vec3* diffuse, 
-			const sm_vec3* specular, float shininess);
+		void SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
+			const sm::vec3& specular, float shininess);
 	};
 
 private:

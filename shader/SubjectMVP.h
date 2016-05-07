@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SUBJECT_MVP_H_
 #define _SHADERLAB_SUBJECT_MVP_H_
 
-#include <sm.h>
+#include <SM_Matrix.h>
 
 #include <set>
 
@@ -18,14 +18,14 @@ public:
 
 	void Clear() { 
 		m_observers.clear();
-		sm_mat4_identity(&m_modelview);
-		sm_mat4_identity(&m_projection);
+		m_modelview.Identity();
+		m_projection.Identity();
 	}
 
 protected:
 	std::set<ObserverMVP*> m_observers;
 
-	sm_mat4 m_modelview, m_projection;
+	sm::mat4 m_modelview, m_projection;
 
 };	// SubjectMVP
 

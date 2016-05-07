@@ -18,7 +18,6 @@
 #include "../utility/StackAllocator.h"
 
 #include <render/render.h>
-#include <sm.h>
 #include <ds_array.h>
 
 namespace sl
@@ -65,8 +64,8 @@ void Model3Shader::Commit() const
 	render_setdepth(r, DEPTH_DISABLE);
 }
 
-void Model3Shader::SetMaterial(const struct sm_vec3* ambient, const struct sm_vec3* diffuse, 
-							   const struct sm_vec3* specular, float shininess, int tex)
+void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
+							   const sm::vec3& specular, float shininess, int tex)
 {
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), ambient, diffuse, specular, shininess);
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), ambient, diffuse, specular, shininess);
@@ -76,7 +75,7 @@ void Model3Shader::SetMaterial(const struct sm_vec3* ambient, const struct sm_ve
 	}
 }
 
-void Model3Shader::SetLightPosition(const struct sm_vec3& pos)
+void Model3Shader::SetLightPosition(const sm::vec3& pos)
 {
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
@@ -123,7 +122,7 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	alloc->Free(buf);
 }
 
-void Model3Shader::SetModelView(const sm_mat4& mat)
+void Model3Shader::SetModelView(const sm::mat4& mat)
 {
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		ShaderProgram* prog = m_programs[i];
@@ -132,8 +131,7 @@ void Model3Shader::SetModelView(const sm_mat4& mat)
 		}
 	}
 
-	union sm_mat3 mat3;
-	sm_mat4_to_mat3(&mat3, &mat);
+	sm::mat3 mat3(mat);
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
 }
@@ -267,12 +265,12 @@ Init(RenderShader* shader)
 }
 
 void Model3Shader::GouraudUniforms::
-SetMaterial(RenderShader* shader, const sm_vec3* ambient, const sm_vec3* diffuse, 
-			const sm_vec3* specular, float shininess) 
+SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
+			const sm::vec3& specular, float shininess) 
 {
-	shader->SetUniform(this->ambient, UNIFORM_FLOAT3, &ambient->x);
-	shader->SetUniform(this->diffuse, UNIFORM_FLOAT3, &diffuse->x);
-	shader->SetUniform(this->specular, UNIFORM_FLOAT3, &specular->x);
+	shader->SetUniform(this->ambient, UNIFORM_FLOAT3, &ambient.x);
+	shader->SetUniform(this->diffuse, UNIFORM_FLOAT3, &diffuse.x);
+	shader->SetUniform(this->specular, UNIFORM_FLOAT3, &specular.x);
 	shader->SetUniform(this->shininess, UNIFORM_FLOAT1, &shininess);
 }
 

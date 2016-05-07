@@ -12,6 +12,9 @@
 #include "shader/HeatHazeProg.h"
 #include "render/RenderContext.h"
 
+#include <sm_c_vector.h>
+#include <sm_c_matrix.h>
+
 namespace sl
 {
 
@@ -107,7 +110,7 @@ void sl_on_projection2(int w, int h) {
 
 extern "C"
 void sl_on_projection3(const sm_mat4* mat) {
-	sl::SubjectMVP3::Instance()->NotifyProjection(mat);
+	sl::SubjectMVP3::Instance()->NotifyProjection(sm::mat4(mat->x));
 }
 
 extern "C"
@@ -117,7 +120,7 @@ void sl_on_modelview2(float x, float y, float sx, float sy) {
 
 extern "C"
 void sl_on_modelview3(const sm_mat4* mat) {
-	sl::SubjectMVP3::Instance()->NotifyModelview(mat);
+	sl::SubjectMVP3::Instance()->NotifyModelview(sm::mat4(mat->x));
 }
 
 extern "C"

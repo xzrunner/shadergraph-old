@@ -18,28 +18,22 @@ SubjectMVP3* SubjectMVP3::Instance()
 
 SubjectMVP3::SubjectMVP3()
 {
-	sm_mat4_identity(&m_modelview);
-	sm_mat4_identity(&m_projection);
+	m_modelview.Identity();
+	m_projection.Identity();
 }
 
-void SubjectMVP3::NotifyModelview(const sm_mat4* mat)
+void SubjectMVP3::NotifyModelview(const sm::mat4& mat)
 {
-	if (!mat) {
-		return;
-	}
-	memcpy(&m_modelview, mat, sizeof(*mat));
+	m_modelview = mat;
 	std::set<ObserverMVP*>::iterator itr = m_observers.begin();
 	for ( ; itr != m_observers.end(); ++itr) {
 		(*itr)->SetModelview(&m_modelview);
 	}
 }
 
-void SubjectMVP3::NotifyProjection(const sm_mat4* mat)
+void SubjectMVP3::NotifyProjection(const sm::mat4& mat)
 {
-	if (!mat) {
-		return;
-	}
-	memcpy(&m_projection, mat, sizeof(*mat));
+	m_projection = mat;
 	std::set<ObserverMVP*>::iterator itr = m_observers.begin();
 	for ( ; itr != m_observers.end(); ++itr) {
 		(*itr)->SetProjection(&m_projection);

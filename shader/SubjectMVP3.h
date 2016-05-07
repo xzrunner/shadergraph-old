@@ -9,8 +9,8 @@ namespace sl
 class SubjectMVP3 : public SubjectMVP
 {
 public:
-	void NotifyModelview(const sm_mat4* mat);
-	void NotifyProjection(const sm_mat4* mat);
+	void NotifyModelview(const sm::mat4& mat);
+	void NotifyProjection(const sm::mat4& mat);
 
 	static SubjectMVP3* Instance();
 
