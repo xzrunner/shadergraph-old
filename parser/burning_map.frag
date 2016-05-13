@@ -17,7 +17,7 @@ static const char* burning_map_body = STRINGIFY(
 	
 	float _bm_blend_ = _bm_height_.x;
 
-	float _bm_edge_ = 1 - mod(u_time, u_lifetime) / u_lifetime;
+	float _bm_edge_ = 1.0 - mod(u_time, u_lifetime) / u_lifetime;
 	vec4 _DST_COL_;
 	if (_bm_blend_ < _bm_edge_) {
 		_DST_COL_ = _bm_lower_;
@@ -26,7 +26,7 @@ static const char* burning_map_body = STRINGIFY(
 	}
 	
 	if (_bm_blend_ - _bm_edge_ < 0.5 && _bm_blend_ > _bm_edge_) {
-		vec4 _bm_border_ = texture2D(u_border_gradient_tex, vec2(1 - (_bm_blend_ - _bm_edge_) * 2, 0.5));
+		vec4 _bm_border_ = texture2D(u_border_gradient_tex, vec2(1.0 - (_bm_blend_ - _bm_edge_) * 2.0, 0.5));
 		_DST_COL_ = _DST_COL_ * _bm_border_;
 	}
 	
