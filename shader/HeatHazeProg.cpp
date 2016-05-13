@@ -9,7 +9,8 @@ namespace sl
 {
 
 HeatHazeProg::HeatHazeProg(RenderContext* rc, int max_vertex, 
-						   const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+						   const std::vector<VertexAttrib>& va_list, 
+						   RenderBuffer* ib)
 	: FilterProgram(rc, max_vertex)
 	, m_distortion_map_tex(0)
 {

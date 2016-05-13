@@ -43,7 +43,8 @@ private:
 
 		PI_HEAT_HAZE,
 		PI_SHOCK_WAVE,
-		PI_SWIRL,	
+		PI_SWIRL,
+		PI_BURNING_MAP,
 
 		PROG_COUNT
 	};

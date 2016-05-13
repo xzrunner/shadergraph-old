@@ -10,6 +10,7 @@
 #include "shader/SubjectMVP2.h"
 #include "shader/SubjectMVP3.h"
 #include "shader/HeatHazeProg.h"
+#include "shader/BurningMapProg.h"
 #include "render/RenderContext.h"
 
 #include <sm_c_vector.h>
@@ -402,6 +403,42 @@ void sl_filter_set_heat_haze_texture(int id) {
 		HeatHazeProg* prog = static_cast<HeatHazeProg*>(shader->GetProgram(FM_HEAT_HAZE));
 		if (prog) {
 			prog->SetDistortionMapTex(id);
+		}
+	}
+}
+
+extern "C"
+void sl_filter_set_burning_map_upper_texture(int id) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
+	if (shader) {
+		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
+		if (prog) {
+			prog->SetUpperTex(id);
+		}
+	}
+}
+
+extern "C"
+void sl_filter_set_burning_map_height_texture(int id) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
+	if (shader) {
+		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
+		if (prog) {
+			prog->SetHeightMapTex(id);
+		}
+	}
+}
+
+extern "C"
+void sl_filter_set_burning_map_border_texture(int id) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
+	if (shader) {
+		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
+		if (prog) {
+			prog->SetBorderGradientTex(id);
 		}
 	}
 }

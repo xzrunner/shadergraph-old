@@ -117,10 +117,14 @@ enum SL_FILTER_MODE {
 	SLFM_HEAT_HAZE			= 30,
 	SLFM_SHOCK_WAVE,
 	SLFM_SWIRL,
+	SLFM_BURNING_MAP,
 };
 void sl_filter_set_mode(int mode);
 void sl_filter_set_heat_haze_factor(float distortion, float rise);
 void sl_filter_set_heat_haze_texture(int id);
+void sl_filter_set_burning_map_upper_texture(int id);
+void sl_filter_set_burning_map_height_texture(int id);
+void sl_filter_set_burning_map_border_texture(int id);
 void sl_filter_update(float dt);
 void sl_filter_draw(const float* positions, const float* texcoords, int texid);
 

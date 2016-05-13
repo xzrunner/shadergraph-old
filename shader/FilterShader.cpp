@@ -10,6 +10,7 @@
 #include "HeatHazeProg.h"
 #include "ShockWaveProg.h"
 #include "SwirlProg.h"
+#include "BurningMapProg.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -192,6 +193,10 @@ void FilterShader::InitProgs()
 	}	
 	m_programs[PI_SWIRL]			= swirl;
 #endif // HAS_TEXTURE_SIZE
+	// burning map
+	BurningMapProg* burn_map		= new BurningMapProg(m_rc, max_vertex, va_list, idx_buf);
+	m_programs[PI_BURNING_MAP]		= burn_map;
+	burn_map->SetLifeTime(1);
 
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
 	m_mode2index[FM_EDGE_DETECTION]	= PI_EDGE_DETECTION;
@@ -203,6 +208,7 @@ void FilterShader::InitProgs()
 	m_mode2index[FM_HEAT_HAZE]		= PI_HEAT_HAZE;
 	m_mode2index[FM_SHOCK_WAVE]		= PI_SHOCK_WAVE;
 	m_mode2index[FM_SWIRL]			= PI_SWIRL;
+	m_mode2index[FM_BURNING_MAP]	= PI_BURNING_MAP;
 
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		ShaderProgram* prog = m_programs[i];
