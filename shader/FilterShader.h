@@ -21,7 +21,8 @@ public:
 	virtual void Commit() const;
 
 	void UpdateTime(float dt);
-
+	void ClearTime();
+	
 	void SetMode(FILTER_MODE mode);
 	FilterProgram* GetProgram(FILTER_MODE mode);
 
@@ -30,6 +31,8 @@ public:
 private:
 	void InitVAList();
 	void InitProgs();
+
+	void UpdateTime();
 
 private:
 	enum PROG_IDX {

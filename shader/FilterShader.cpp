@@ -84,12 +84,13 @@ void FilterShader::Commit() const
 void FilterShader::UpdateTime(float dt)
 {
 	m_time += dt;
-	for (int i = 0; i < PROG_COUNT; ++i) {
-		FilterProgram* prog = m_programs[i];
-		if (prog) {
-			prog->UpdateTime(m_time);
-		}
-	}
+	UpdateTime();
+}
+
+void FilterShader::ClearTime()
+{
+	m_time = 0;
+	UpdateTime();
 }
 
 void FilterShader::SetMode(FILTER_MODE mode)
@@ -219,6 +220,16 @@ void FilterShader::InitProgs()
 	}
 
 	idx_buf->Release();
+}
+
+void FilterShader::UpdateTime()
+{
+	for (int i = 0; i < PROG_COUNT; ++i) {
+		FilterProgram* prog = m_programs[i];
+		if (prog) {
+			prog->UpdateTime(m_time);
+		}
+	}
 }
 
 }

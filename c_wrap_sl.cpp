@@ -452,6 +452,14 @@ void sl_filter_update(float dt) {
 }
 
 extern "C"
+void sl_filter_clear_time() {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
+		shader->ClearTime();
+	}
+}
+
+extern "C"
 void sl_filter_draw(const float* positions, const float* texcoords, int texid) {
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
