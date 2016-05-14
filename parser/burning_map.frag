@@ -27,27 +27,28 @@ static const char* burning_map_body = STRINGIFY(
 	
 	float _bm_blend_ = _bm_height_.x;
 
-	float _bm_edge_ = 1.0 - mod(u_time, u_lifetime) / u_lifetime;
+	float _bm_edge_ = 1.0 - min(1.0, u_time / u_lifetime);
+
 	vec4 _DST_COL_;
-	if (_bm_blend_ < _bm_edge_) {
+	if (_bm_blend_ > _bm_edge_) {
 		_DST_COL_ = _bm_lower_;
 	} else {
-		if (_bm_blend_ - _bm_edge_ > 0.25) {
+		if (_bm_edge_ - _bm_blend_ > 0.25) {
 			_DST_COL_ = _bm_upper_;
 		} else {
-			float x = 1.0 - (_bm_blend_ - _bm_edge_) / 0.25;
+			float x = (_bm_edge_ - _bm_blend_) / 0.25;
 			vec4 _bm_border_ = texture2D(u_border_gradient_tex, vec2(x, 0.5));
 
-			const float bound1 = 65.0;
+			const float bound1 = 90.0;
 			if (x < bound1 / 128.0) {
-				vec3 blend1 = BlendLinearDodge(_bm_upper_.rgb, _bm_border_.rgb);
-				vec3 blend2 = BlendLighten(_bm_upper_.rgb, _bm_border_.rgb);
+				vec3 blend1 = BlendLinearDodge(_bm_lower_.rgb, _bm_border_.rgb);
+				vec3 blend2 = BlendLighten(_bm_lower_.rgb, _bm_border_.rgb);
 				float factor = x * 128.0 / bound1;
 				_DST_COL_ = vec4(blend1, 1.0) * (1.0 - factor) + vec4(blend2, 1.0) * factor;
 			} else {
-				_DST_COL_ = _bm_lower_ * (1.0 - _bm_border_.a) + _bm_border_ * (_bm_border_.a);
+				_DST_COL_ = _bm_upper_ * (1.0 - _bm_border_.a) + _bm_border_ * (_bm_border_.a);
 			}
 		}
 	}
-	
+
 );
