@@ -6,7 +6,8 @@
 #include "OutlineProg.h"
 #include "GrayProg.h"
 #include "BlurProg.h"
-#include "GaussianBlurProg.h"
+#include "GaussianBlurHoriProg.h"
+#include "GaussianBlurVertProg.h"
 #include "HeatHazeProg.h"
 #include "ShockWaveProg.h"
 #include "SwirlProg.h"
@@ -167,7 +168,8 @@ void FilterShader::InitProgs()
 	m_programs[PI_BLUR]				= blur;
 #ifdef HAS_TEXTURE_SIZE
 	// gaussian blur
-	m_programs[PI_GAUSSIAN_BLUR]	= new GaussianBlurProg(m_rc, max_vertex, va_list, idx_buf);
+	m_programs[PI_GAUSSIAN_BLUR_HORI] = new GaussianBlurHoriProg(m_rc, max_vertex, va_list, idx_buf);
+	m_programs[PI_GAUSSIAN_BLUR_VERT] = new GaussianBlurVertProg(m_rc, max_vertex, va_list, idx_buf);
 #endif // HAS_TEXTURE_SIZE
 
 	// heat haze
@@ -205,7 +207,8 @@ void FilterShader::InitProgs()
 	m_mode2index[FM_OUTLINE]		= PI_OUTLINE;
 	m_mode2index[FM_GRAY]			= PI_GRAY;
 	m_mode2index[FM_BLUR]			= PI_BLUR;
-	m_mode2index[FM_GAUSSIAN_BLUR]	= PI_GAUSSIAN_BLUR;
+	m_mode2index[FM_GAUSSIAN_BLUR_HORI]	= PI_GAUSSIAN_BLUR_HORI;
+	m_mode2index[FM_GAUSSIAN_BLUR_VERT]	= PI_GAUSSIAN_BLUR_VERT;
 	m_mode2index[FM_HEAT_HAZE]		= PI_HEAT_HAZE;
 	m_mode2index[FM_SHOCK_WAVE]		= PI_SHOCK_WAVE;
 	m_mode2index[FM_SWIRL]			= PI_SWIRL;

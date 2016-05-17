@@ -25,6 +25,7 @@ public:
 	
 	void SetMode(FILTER_MODE mode);
 	FilterProgram* GetProgram(FILTER_MODE mode);
+	FILTER_MODE GetMode() const { return m_curr_mode; }
 
 	void Draw(const float* positions, const float* texcoords, int texid) const;
 
@@ -42,7 +43,8 @@ private:
 
 		PI_GRAY,
 		PI_BLUR,
-		PI_GAUSSIAN_BLUR,
+		PI_GAUSSIAN_BLUR_HORI,
+		PI_GAUSSIAN_BLUR_VERT,
 
 		PI_HEAT_HAZE,
 		PI_SHOCK_WAVE,
