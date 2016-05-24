@@ -127,6 +127,7 @@ void sl_filter_set_burning_map_height_texture(int id);
 void sl_filter_set_burning_map_border_texture(int id);
 void sl_filter_update(float dt);
 void sl_filter_clear_time();
+void sl_filter_set_color(uint32_t color, uint32_t additive);
 void sl_filter_draw(const float* positions, const float* texcoords, int texid);
 
 /**

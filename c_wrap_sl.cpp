@@ -460,6 +460,15 @@ void sl_filter_clear_time() {
 }
 
 extern "C"
+void sl_filter_set_color(uint32_t color, uint32_t additive)
+{
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
+		shader->SetColor(color, additive);
+	}
+}
+
+extern "C"
 void sl_filter_draw(const float* positions, const float* texcoords, int texid) {
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
