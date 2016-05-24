@@ -27,7 +27,7 @@ public:
 	}
 
 protected:
-	virtual const char* GetBody() const {
+	virtual std::string GetBody() const {
 		return edge_detect_body;
 	}
 

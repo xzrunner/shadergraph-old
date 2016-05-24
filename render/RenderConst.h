@@ -4,7 +4,7 @@
 namespace sl
 {
 
-static const int MAX_LAYOUT = 16;
+static const int MAX_LAYOUT = 32;
 
 }
 

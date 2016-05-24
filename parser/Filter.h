@@ -31,7 +31,7 @@ public:
 	}
 
 protected:
-	virtual const char* GetBody() const = 0;
+	virtual std::string GetBody() const = 0;
 
 private:
 	std::string m_output;

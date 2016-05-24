@@ -26,7 +26,7 @@ public:
 	}
 
 protected:
-	virtual const char* GetBody() const {
+	virtual std::string GetBody() const {
 		return gaussian_blur_vert_body;
 	}
 

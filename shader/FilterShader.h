@@ -5,10 +5,13 @@
 #include "FilterMode.h"
 #include "../render/VertexAttrib.h"
 
+#include <stdint.h>
+
 namespace sl
 {
 
 class FilterProgram;
+class RenderBuffer;
 
 class FilterShader : public Shader
 {
@@ -19,6 +22,8 @@ public:
 	virtual void Bind() const;
 	virtual void UnBind() const;
 	virtual void Commit() const;
+
+	void SetColor(uint32_t color, uint32_t additive);
 
 	void UpdateTime(float dt);
 	void ClearTime();
@@ -54,9 +59,16 @@ private:
 		PROG_COUNT
 	};
 
+	enum PROG_TYPE {
+		PT_NULL				= 0,
+		PT_MULTI_ADD_COLOR	= 1,
+	};
+
 	enum VA_TYPE {
 		POSITION = 0,
 		TEXCOORD,
+		COLOR,
+		ADDITIVE,
 		VA_MAX_COUNT
 	};
 
@@ -64,12 +76,17 @@ private:
 	{
 		float vx, vy;
 		float tx, ty;
+		uint32_t color, additive;
 	};
+
+private:
+	FilterProgram* InitProgWithColor(int idx) const;
 
 private:
 	VertexAttrib m_va_list[VA_MAX_COUNT];
 
 	FilterProgram* m_programs[PROG_COUNT];
+	mutable FilterProgram* m_programs_with_color[PROG_COUNT];
 
 	float m_time;
 
@@ -80,6 +97,12 @@ private:
 
 	Vertex* m_vertex_buf;
 	mutable int m_quad_sz;
+
+	RenderBuffer* m_index_buf;
+
+	uint32_t m_color, m_additive;
+
+	mutable int m_prog_type;
 
 }; // FilterShader
 

@@ -6,10 +6,15 @@ namespace sl
 {
 
 GrayProg::GrayProg(RenderContext* rc, int max_vertex, 
-				   const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+				   const std::vector<VertexAttrib>& va_list, 
+				   RenderBuffer* ib, parser::Node* pre)
 	: FilterProgram(rc, max_vertex)
 {
-	Init(va_list, ib, new parser::Gray());
+	if (pre) {
+		Init(va_list, ib, new parser::Gray(), pre);
+	} else {
+		Init(va_list, ib, new parser::Gray());
+	}
 }
 
 }

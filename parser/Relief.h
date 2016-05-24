@@ -21,7 +21,7 @@ public:
 	Relief() : Filter("_col_relief_") {}
 	
 protected:
-	virtual const char* GetBody() const {
+	virtual std::string GetBody() const {
 		return relief_body;
 	}
 

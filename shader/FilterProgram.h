@@ -15,7 +15,7 @@ public:
 
 protected:
 	void Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib, 
-		parser::Node* pn);
+		parser::Node* pn, parser::Node* pre_pn = NULL);
 
 }; // FilterProgram
 

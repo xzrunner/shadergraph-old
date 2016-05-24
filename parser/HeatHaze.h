@@ -34,7 +34,7 @@ public:
 	}
 	
 protected:
-	virtual const char* GetBody() const {
+	virtual std::string GetBody() const {
 		return heat_haze_body;
 	}
 
