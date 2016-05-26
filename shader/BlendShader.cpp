@@ -130,9 +130,9 @@ void BlendShader::InitProg()
 	idx_buf->Release();
 }
 
-//////////////////////////////////////////////////////////////////////////
-// class BlendShader::Program
-//////////////////////////////////////////////////////////////////////////
+/************************************************************************/
+/* class BlendShader::Program                                           */
+/************************************************************************/
 
 BlendShader::Program::Program(RenderContext* rc, const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)

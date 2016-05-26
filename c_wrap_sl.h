@@ -20,6 +20,7 @@ enum SHADER_TYPE {
 	ST_BLEND,
 	ST_FILTER,
 	ST_MODEL3,
+	ST_MASK,
 
 	ST_MAX_SHADER
 };
@@ -138,6 +139,13 @@ void sl_blend_set_mode(int mode);
 void sl_blend_set_color(uint32_t color, uint32_t additive);
 void sl_blend_draw(const float* positions, const float* texcoords_blend, 
 				   const float* texcoords_base, int tex_blend, int tex_base);
+
+/**
+ *  @brief
+ *    mask shader
+ */
+void sl_mask_draw(const float* positions, const float* texcoords, 
+				  const float* texcoords_mask, int tex, int tex_mask);
 
 #endif // _shaderlab_wrap_c_h_
 

@@ -13,6 +13,7 @@ enum ShaderType
 	BLEND,
 	FILTER,
 	MODEL3,
+	MASK,
 
 	MAX_SHADER
 };

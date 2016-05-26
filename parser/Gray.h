@@ -1,5 +1,5 @@
-#ifndef _SHADERLAB_PARSER_EDGE_DETECT_H_
-#define _SHADERLAB_PARSER_EDGE_DETECT_H_
+#ifndef _SHADERLAB_PARSER_GRAY_H_
+#define _SHADERLAB_PARSER_GRAY_H_
 
 #include "Filter.h"
 
@@ -20,9 +20,9 @@ public:
 protected:
 	virtual std::string GetBody() const;
 
-}; // EdgeDetect
+}; // Gray
 
 }
 }
 
-#endif // _SHADERLAB_PARSER_EDGE_DETECT_H_
+#endif // _SHADERLAB_PARSER_GRAY_H_

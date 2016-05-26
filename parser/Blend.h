@@ -11,11 +11,6 @@ namespace parser
 /**
  *  @brief
  *    layer blend
- *
- *  @remarks
- *    input: varying vec4 v_rmap;
- *           varying vec4 v_gmap;
- *           varying vec4 v_bmap;
  */
 class Blend : public Node
 {

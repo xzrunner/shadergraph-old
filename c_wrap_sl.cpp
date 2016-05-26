@@ -7,6 +7,7 @@
 #include "shader/BlendShader.h"
 #include "shader/FilterShader.h"
 #include "shader/Model3Shader.h"
+#include "shader/MaskShader.h"
 #include "shader/SubjectMVP2.h"
 #include "shader/SubjectMVP3.h"
 #include "shader/HeatHazeProg.h"
@@ -75,6 +76,10 @@ void sl_create_shader(enum SHADER_TYPE type)
 	case ST_MODEL3:
 		sl_type = MODEL3;
 		shader = new Model3Shader(rc);
+		break;
+	case ST_MASK:
+		sl_type = MASK;
+		shader = new MaskShader(rc);
 		break;
 	}
 	if (shader) {
@@ -503,6 +508,20 @@ void sl_blend_draw(const float* positions, const float* texcoords_blend,
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr->GetShader(BLEND))) {
 		shader->Draw(positions, texcoords_blend, texcoords_base, tex_blend, tex_base);
+	}
+}
+
+/**
+ *  @brief
+ *    mask shader
+ */
+
+extern "C"
+void sl_mask_draw(const float* positions, const float* texcoords, 
+				  const float* texcoords_mask, int tex, int tex_mask) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	if (MaskShader* shader = static_cast<MaskShader*>(mgr->GetShader(MASK))) {
+		shader->Draw(positions, texcoords, texcoords_mask, tex, tex_mask);
 	}
 }
 

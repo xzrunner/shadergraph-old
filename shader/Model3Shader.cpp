@@ -248,9 +248,9 @@ ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 	return prog;
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Model3Shader::GouraudUniforms
-//////////////////////////////////////////////////////////////////////////
+/************************************************************************/
+/* class Model3Shader::GouraudUniforms                                  */
+/************************************************************************/
 
 void Model3Shader::GouraudUniforms::
 Init(RenderShader* shader)
