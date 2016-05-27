@@ -258,7 +258,7 @@ void FilterShader::InitProgs()
 	// burning map
 	BurningMapProg* burn_map		= new BurningMapProg(m_rc, max_vertex, va_list, m_index_buf);
 	m_programs[PI_BURNING_MAP]		= burn_map;
-	burn_map->SetLifeTime(20);
+	burn_map->SetLifeTime(1);
 
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
 	m_mode2index[FM_EDGE_DETECTION]	= PI_EDGE_DETECTION;
