@@ -61,8 +61,10 @@ private:
 	public:
 		Uniform();
 
+		bool Same(UNIFORM_FORMAT_TYPE t, const float* v);
+
 		void Assign(int loc, UNIFORM_FORMAT_TYPE type);
-		bool Assign(UNIFORM_FORMAT_TYPE t, const float* v);
+		void Assign(UNIFORM_FORMAT_TYPE t, const float* v);
 
 		bool Apply(render* ej_render);
 

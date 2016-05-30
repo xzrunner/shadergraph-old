@@ -1,6 +1,8 @@
 #include "RenderShader.h"
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
+#include "../shader/ShaderMgr.h"
+#include "../shader/Shader.h"
 
 #include <render/render.h>
 
@@ -132,13 +134,20 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 {
 	// todo RenderContext::Bind()
 
-	if (index >= 0 && index < m_uniform_number) {
-		bool changed = m_uniform[index].Assign(t, v);
-		if (changed) {
-			Commit();
-			m_uniform_changed = true;
-		}
+	if (index < 0 || index >= m_uniform_number) {
+		return;
 	}
+
+	bool same = m_uniform[index].Same(t, v);
+	if (same) {
+		return;
+	}
+
+	m_uniform_changed = true;
+	if (Shader* shader = ShaderMgr::Instance()->GetShader()) {
+		shader->Commit();
+	}
+	m_uniform[index].Assign(t, v);
 }
 
 void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
@@ -203,6 +212,18 @@ RenderShader::Uniform::Uniform()
 	memset(m_value, 0, sizeof(m_value));
 }
 
+bool RenderShader::Uniform::Same(UNIFORM_FORMAT_TYPE t, const float* v)
+{
+	assert(t == m_type);
+	int n = GetUniformSize(t);
+	int change = memcmp(m_value, v, n * sizeof(float));
+	if (change != 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type) 
 {
 	this->m_loc = loc;
@@ -211,18 +232,12 @@ void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type)
 	memset(m_value, 0, sizeof(m_value));
 }
 
-bool RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v) 
+void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v) 
 {
 	assert(t == m_type);
 	int n = GetUniformSize(t);
-	int change = memcmp(m_value, v, n * sizeof(float));
-	if (change != 0) {
-		memcpy(m_value, v, n * sizeof(float));
-		m_changed = true;
-		return true;
-	} else {
-		return false;
-	}
+	memcpy(m_value, v, n * sizeof(float));
+	m_changed = true;
 }
 
 bool RenderShader::Uniform::Apply(render* ej_render) 
