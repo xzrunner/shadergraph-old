@@ -210,66 +210,70 @@ void FilterShader::InitProgs()
 
 #ifdef HAS_TEXTURE_SIZE
 	// edge detect
-	EdgeDetectProg* edge_detect		= new EdgeDetectProg(m_rc, max_vertex, va_list, m_index_buf);
+	EdgeDetectProg* edge_detect			= new EdgeDetectProg(m_rc, max_vertex, va_list, m_index_buf);
 	edge_detect->SetBlend(0.5f);
-	m_programs[PI_EDGE_DETECTION]	= edge_detect;
+	m_programs[PI_EDGE_DETECTION]		= edge_detect;
 	// relief
-	m_programs[PI_RELIEF]			= new ReliefProg(m_rc, max_vertex, va_list, m_index_buf);
+	m_programs[PI_RELIEF]				= new ReliefProg(m_rc, max_vertex, va_list, m_index_buf);
 	// outline
-	m_programs[PI_OUTLINE]			= new OutlineProg(m_rc, max_vertex, va_list, m_index_buf);
+	m_programs[PI_OUTLINE]				= new OutlineProg(m_rc, max_vertex, va_list, m_index_buf);
 #endif // HAS_TEXTURE_SIZE
 
 	// gray
-	m_programs[PI_GRAY]				= new GrayProg(m_rc, max_vertex, va_list, m_index_buf);
+	m_programs[PI_GRAY]					= new GrayProg(m_rc, max_vertex, va_list, m_index_buf);
 	// blur
-	BlurProg* blur					= new BlurProg(m_rc, max_vertex, va_list, m_index_buf);
+	BlurProg* blur						= new BlurProg(m_rc, max_vertex, va_list, m_index_buf);
 	blur->SetRadius(1);
-	m_programs[PI_BLUR]				= blur;
+	m_programs[PI_BLUR]					= blur;
 	// gaussian blur
-	m_programs[PI_GAUSSIAN_BLUR_HORI] = new GaussianBlurHoriProg(m_rc, max_vertex, va_list, m_index_buf);
-	m_programs[PI_GAUSSIAN_BLUR_VERT] = new GaussianBlurVertProg(m_rc, max_vertex, va_list, m_index_buf);
+	GaussianBlurHoriProg* gbh			= new GaussianBlurHoriProg(m_rc, max_vertex, va_list, m_index_buf);
+	gbh->SetTexWidth(1024);
+	m_programs[PI_GAUSSIAN_BLUR_HORI]	= gbh;
+	GaussianBlurVertProg* gbv			= new GaussianBlurVertProg(m_rc, max_vertex, va_list, m_index_buf);
+	gbv->SetTexHeight(1024);
+	m_programs[PI_GAUSSIAN_BLUR_VERT]	= gbv;
 
 	// heat haze
-	HeatHazeProg* heat_haze			= new HeatHazeProg(m_rc, max_vertex, va_list, m_index_buf);
+	HeatHazeProg* heat_haze				= new HeatHazeProg(m_rc, max_vertex, va_list, m_index_buf);
 	heat_haze->SetFactor(0.1f, 0.5f);
-	m_programs[PI_HEAT_HAZE]		= heat_haze;
+	m_programs[PI_HEAT_HAZE]			= heat_haze;
 	// shock wave
-	ShockWaveProg* shock_wave		= new ShockWaveProg(m_rc, max_vertex, va_list, m_index_buf);
+	ShockWaveProg* shock_wave			= new ShockWaveProg(m_rc, max_vertex, va_list, m_index_buf);
 	{
 		float center[2] = { 0.5f, 0.5f };
 		shock_wave->SetCenter(center);
 		float params[3] = { 10, 0.8f, 0.1f };
 		shock_wave->SetFactor(params);
 	}
-	m_programs[PI_SHOCK_WAVE]		= shock_wave;
+	m_programs[PI_SHOCK_WAVE]			= shock_wave;
 #ifdef HAS_TEXTURE_SIZE
 	// swirl
-	SwirlProg* swirl				= new SwirlProg(m_rc, max_vertex, va_list, m_index_buf);
+	SwirlProg* swirl					= new SwirlProg(m_rc, max_vertex, va_list, m_index_buf);
 	{
 		float center[2] = { 400, 300 };
 		swirl->SetCenter(center);
 		swirl->SetAngle(0.8f);
 		swirl->SetRadius(200);
 	}	
-	m_programs[PI_SWIRL]			= swirl;
+	m_programs[PI_SWIRL]				= swirl;
 #endif // HAS_TEXTURE_SIZE
 	// burning map
-	BurningMapProg* burn_map		= new BurningMapProg(m_rc, max_vertex, va_list, m_index_buf);
-	m_programs[PI_BURNING_MAP]		= burn_map;
+	BurningMapProg* burn_map			= new BurningMapProg(m_rc, max_vertex, va_list, m_index_buf);
+	m_programs[PI_BURNING_MAP]			= burn_map;
 	burn_map->SetLifeTime(2);
 
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
-	m_mode2index[FM_EDGE_DETECTION]	= PI_EDGE_DETECTION;
-	m_mode2index[FM_RELIEF]			= PI_RELIEF;
-	m_mode2index[FM_OUTLINE]		= PI_OUTLINE;
-	m_mode2index[FM_GRAY]			= PI_GRAY;
-	m_mode2index[FM_BLUR]			= PI_BLUR;
+	m_mode2index[FM_EDGE_DETECTION]		= PI_EDGE_DETECTION;
+	m_mode2index[FM_RELIEF]				= PI_RELIEF;
+	m_mode2index[FM_OUTLINE]			= PI_OUTLINE;
+	m_mode2index[FM_GRAY]				= PI_GRAY;
+	m_mode2index[FM_BLUR]				= PI_BLUR;
 	m_mode2index[FM_GAUSSIAN_BLUR_HORI]	= PI_GAUSSIAN_BLUR_HORI;
 	m_mode2index[FM_GAUSSIAN_BLUR_VERT]	= PI_GAUSSIAN_BLUR_VERT;
-	m_mode2index[FM_HEAT_HAZE]		= PI_HEAT_HAZE;
-	m_mode2index[FM_SHOCK_WAVE]		= PI_SHOCK_WAVE;
-	m_mode2index[FM_SWIRL]			= PI_SWIRL;
-	m_mode2index[FM_BURNING_MAP]	= PI_BURNING_MAP;
+	m_mode2index[FM_HEAT_HAZE]			= PI_HEAT_HAZE;
+	m_mode2index[FM_SHOCK_WAVE]			= PI_SHOCK_WAVE;
+	m_mode2index[FM_SWIRL]				= PI_SWIRL;
+	m_mode2index[FM_BURNING_MAP]		= PI_BURNING_MAP;
 
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		ShaderProgram* prog = m_programs[i];

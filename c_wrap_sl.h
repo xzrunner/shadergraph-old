@@ -104,18 +104,19 @@ void sl_sprite3_draw(const float* positions, const float* texcoords, int texid);
  *    the values should same as sl::FILTER_MODE
  */
 enum SL_FILTER_MODE {
-	SLFM_NULL				= 0,
-	SLFM_NORMAL				= 1,
+	SLFM_NULL					= 0,
+	SLFM_NORMAL					= 1,
 
-	SLFM_EDGE_DETECTION		= 10,
+	SLFM_EDGE_DETECTION			= 10,
 	SLFM_RELIEF,
 	SLFM_OUTLINE,
 
-	SLFM_GRAY				= 20,
+	SLFM_GRAY					= 20,
 	SLFM_BLUR,
-	SLFM_GAUSSIAN_BLUR,
+	SLFM_GAUSSIAN_BLUR_HORI,
+	SLFM_GAUSSIAN_BLUR_VERT,
 
-	SLFM_HEAT_HAZE			= 30,
+	SLFM_HEAT_HAZE				= 30,
 	SLFM_SHOCK_WAVE,
 	SLFM_SWIRL,
 	SLFM_BURNING_MAP,
