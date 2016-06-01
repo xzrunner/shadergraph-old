@@ -225,11 +225,9 @@ void FilterShader::InitProgs()
 	BlurProg* blur					= new BlurProg(m_rc, max_vertex, va_list, m_index_buf);
 	blur->SetRadius(1);
 	m_programs[PI_BLUR]				= blur;
-#ifdef HAS_TEXTURE_SIZE
 	// gaussian blur
 	m_programs[PI_GAUSSIAN_BLUR_HORI] = new GaussianBlurHoriProg(m_rc, max_vertex, va_list, m_index_buf);
 	m_programs[PI_GAUSSIAN_BLUR_VERT] = new GaussianBlurVertProg(m_rc, max_vertex, va_list, m_index_buf);
-#endif // HAS_TEXTURE_SIZE
 
 	// heat haze
 	HeatHazeProg* heat_haze			= new HeatHazeProg(m_rc, max_vertex, va_list, m_index_buf);

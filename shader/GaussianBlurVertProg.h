@@ -12,6 +12,12 @@ public:
 	GaussianBlurVertProg(RenderContext* rc, int max_vertex, 
 		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
 
+	void SetTexHeight(float height);
+
+private:
+	int m_tex_height_id;
+	float m_tex_height_val;
+
 }; // GaussianBlurVertProg
 
 }

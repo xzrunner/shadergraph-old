@@ -13,3 +13,5 @@
 
 // todo
 #include "shader/EdgeDetectProg.h"
+#include "shader/GaussianBlurHoriProg.h"
+#include "shader/GaussianBlurVertProg.h"

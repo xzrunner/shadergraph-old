@@ -12,6 +12,12 @@ public:
 	GaussianBlurHoriProg(RenderContext* rc, int max_vertex, 
 		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
 
+	void SetTexWidth(float width);
+
+private:
+	int m_tex_width_id;
+	float m_tex_width_val;
+
 }; // GaussianBlurHoriProg
 
 }

@@ -2,6 +2,7 @@
 #define _SHADERLAB_PARSER_BLUR_HORI_H_
 
 #include "Filter.h"
+#include "Uniform.h"
 
 #define STRINGIFY(A)  #A
 #include "gaussian_blur_hori.frag"
@@ -18,7 +19,11 @@ namespace parser
 class GaussianBlurHori : public Filter
 {
 public:
-	GaussianBlurHori() : Filter("_col_gaussian_blur_") {}
+	GaussianBlurHori() 
+		: Filter("_col_gaussian_blur_") 
+	{
+		m_uniforms.push_back(new Uniform(VT_FLOAT1, "tex_width"));
+	}
 	
 	virtual std::string& GetHeader(std::string& str) const { 
 		str += gaussian_blur_hori_header;
