@@ -2,12 +2,19 @@
 
 static const char* gaussian_blur_vert_header = STRINGIFY(
 
-	float offset[3] = float[]( 0.0, 1.3846153846, 3.2307692308 );
-	float weight[3] = float[]( 0.2270270270, 0.3162162162, 0.0702702703 );
+	float offset[3];
+	float weight[3];
 	
 );
 
 static const char* gaussian_blur_vert_body = STRINGIFY(
+
+	offset[0] = 0.0;
+	offset[1] = 1.3846153846;
+	offset[2] = 3.2307692308;
+	weight[0] = 0.2270270270;
+	weight[1] = 0.3162162162;
+	weight[2] = 0.0702702703;
 
 	vec4 tmp = texture2D(u_texture0, v_texcoord);
 	vec3 tc = tmp.rgb * weight[0];
