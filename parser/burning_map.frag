@@ -1,9 +1,11 @@
 static const char* burning_map_header = STRINGIFY(
 
-\n#define BlendLinearDodge					BlendAdd \n
-\n#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0)) \n
+\n#define Blend(base, blend, funcf) 		vec3(funcf(base.r, blend.r), funcf(base.g, blend.g), funcf(base.b, blend.b)) \n
 
-\n#define BlendLighten						BlendLightenf \n
+\n#define BlendLinearDodge(base, blend)		BlendAdd(base, blend) \n
+\n#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0, 1.0, 1.0)) \n
+
+\n#define BlendLighten(base, blend)			Blend(base, blend, BlendLightenf) \n
 \n#define BlendLightenf(base, blend) 		max(blend, base) \n
 
 );

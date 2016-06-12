@@ -4,8 +4,8 @@ static const char* blend_header = STRINGIFY(
 /*
 ** Float blending modes
 */
-\n#define BlendLinearDodgef 				BlendAddf \n
-\n#define BlendLinearBurnf 					BlendSubstractf \n
+\n#define BlendLinearDodgef(base, blend) 	BlendAddf(base, blend) \n
+\n#define BlendLinearBurnf(base, blend) 	BlendSubstractf(base, blend) \n
 \n#define BlendAddf(base, blend) 			min(base + blend, 1.0) \n
 \n#define BlendSubstractf(base, blend) 		max(base + blend - 1.0, 0.0) \n
 \n#define BlendLightenf(base, blend) 		max(blend, base) \n
@@ -29,14 +29,14 @@ static const char* blend_header = STRINGIFY(
 \n#define Blend(base, blend, funcf) 		vec3(funcf(base.r, blend.r), funcf(base.g, blend.g), funcf(base.b, blend.b)) \n
  
 \n#define BlendNormal(base, blend) 			(blend) \n
-\n#define BlendLighten						BlendLightenf \n
-\n#define BlendDarken						BlendDarkenf \n
+\n#define BlendLighten(base, blend)			Blend(base, blend, BlendLightenf) \n
+\n#define BlendDarken(base, blend)			Blend(base, blend, BlendDarkenf) \n
 \n#define BlendMultiply(base, blend) 		(base * blend) \n
 \n#define BlendAverage(base, blend) 		((base + blend) / 2.0) \n
-\n#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0)) \n
-\n#define BlendSubstract(base, blend) 		max(base + blend - vec3(1.0), vec3(0.0)) \n
+\n#define BlendAdd(base, blend) 			min(base + blend, vec3(1.0, 1.0, 1.0)) \n
+\n#define BlendSubstract(base, blend) 		Blend(base, blend, BlendSubstractf) \n
 \n#define BlendDifference(base, blend) 		abs(base - blend) \n
-\n#define BlendNegation(base, blend) 		(vec3(1.0) - abs(vec3(1.0) - base - blend)) \n
+\n#define BlendNegation(base, blend) 		(vec3(1.0, 1.0, 1.0) - abs(vec3(1.0, 1.0, 1.0) - base - blend)) \n
 \n#define BlendExclusion(base, blend) 		(base + blend - 2.0 * base * blend) \n
 \n#define BlendScreen(base, blend) 			Blend(base, blend, BlendScreenf) \n
 \n#define BlendOverlay(base, blend) 		Blend(base, blend, BlendOverlayf) \n
@@ -44,8 +44,8 @@ static const char* blend_header = STRINGIFY(
 \n#define BlendHardLight(base, blend) 		BlendOverlay(blend, base) \n
 \n#define BlendColorDodge(base, blend) 		Blend(base, blend, BlendColorDodgef) \n
 \n#define BlendColorBurn(base, blend) 		Blend(base, blend, BlendColorBurnf) \n
-\n#define BlendLinearDodge					BlendAdd \n
-\n#define BlendLinearBurn					BlendSubstract \n
+\n#define BlendLinearDodge(base, blend)		Blend(base, blend, BlendAddf) \n
+\n#define BlendLinearBurn(base, blend)		Blend(base, blend, BlendLinearBurnf) \n
 // Linear Light is another contrast-increasing mode
 // If the blend color is darker than midgray, Linear Light darkens the image by decreasing the brightness. If the blend color is lighter than midgray, the result is a brighter image due to increased brightness.
 \n#define BlendLinearLight(base, blend) 	Blend(base, blend, BlendLinearLightf) \n
@@ -54,7 +54,7 @@ static const char* blend_header = STRINGIFY(
 \n#define BlendHardMix(base, blend) 		Blend(base, blend, BlendHardMixf) \n
 \n#define BlendReflect(base, blend) 		Blend(base, blend, BlendReflectf) \n
 \n#define BlendGlow(base, blend) 			BlendReflect(blend, base) \n
-\n#define BlendPhoenix(base, blend) 		(min(base, blend) - max(base, blend) + vec3(1.0)) \n
+\n#define BlendPhoenix(base, blend) 		(min(base, blend) - max(base, blend) + vec3(1.0, 1.0, 1.0)) \n
 \n#define BlendOpacity(base, blend, F, O)	(F(base, blend) * O + blend * (1.0 - O)) \n
 
 );
@@ -101,9 +101,11 @@ static const char* blend_body = STRINGIFY(
 	} else if (u_mode == 32) {
 		_blend_ = BlendHardLight(base.rgb, _SRC_COL_.rgb);
 	} else if (u_mode == 33) {
-		_blend_ = BlendVividLight(base.rgb, _SRC_COL_.rgb);
+		// todo: for "Too many vertex shader constants"
+		_blend_ = Blend(base.rgb, _SRC_COL_.rgb, BlendVividLightf);
 	} else if (u_mode == 34) {
-		_blend_ = BlendLinearLight(base.rgb, _SRC_COL_.rgb);
+		// todo: for "Too many vertex shader constants"
+		_blend_ = Blend(base.rgb, _SRC_COL_.rgb, BlendLinearLightf);
 	} else if (u_mode == 35) {
 		_blend_ = BlendPinLight(base.rgb, _SRC_COL_.rgb);
 	} else if (u_mode == 36) {
