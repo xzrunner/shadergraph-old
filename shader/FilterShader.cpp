@@ -96,6 +96,8 @@ void FilterShader::Commit() const
 		break;
 	}
 	if (!prog) {
+        m_quad_sz = 0;
+        m_prog_type = 0;
 		return;
 	}
 
