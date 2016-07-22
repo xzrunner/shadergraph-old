@@ -12,6 +12,7 @@ public:
 	Shape2Shader(RenderContext* rc);	
 
 	void Draw(const float* positions, int count) const;
+	void Draw(const float* positions, const uint32_t* colors, int count) const;
 	void Draw(float x, float y, bool dummy) const;
 
 protected:
