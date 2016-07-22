@@ -234,9 +234,9 @@ void sl_flush()
 }
 
 extern "C"
-int sl_dc_count_end()
+void sl_dc_count_end()
 {
-	return RenderShader::DCCountEnd();
+	RenderShader::DCCountEnd();
 }
 
 /**
