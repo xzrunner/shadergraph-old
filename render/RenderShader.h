@@ -48,6 +48,8 @@ public:
 
 	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
 
+	static int DCCountEnd();
+
 private:
 	void ApplyUniform();
 
@@ -92,6 +94,8 @@ private:
 	RenderLayout* m_layout;
 
 	DRAW_MODE_TYPE m_draw_mode;
+
+	static int m_dc_count;
 
 }; // RenderShader
 

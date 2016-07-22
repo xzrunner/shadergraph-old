@@ -10,10 +10,16 @@
 
 #ifdef SHADER_LOG
 #include <iostream>
-#endif // _DEBUG
+#endif // SHADER_LOG
+
+#ifdef SL_DC_STAT
+#include <iostream>
+#endif // SL_DC_STAT
 
 namespace sl
 {
+
+int RenderShader::m_dc_count = 0;
 
 RenderShader::RenderShader(render* ej_render)
 	: m_ej_render(ej_render)
@@ -107,11 +113,18 @@ void RenderShader::Commit()
 		render_draw_arrays(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_vb->Size());
 	}
 	m_vb->Clear();
+
+#ifdef SL_DC_STAT
+	++m_dc_count;
+#endif // SL_DC_STAT
 }
 
 void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
 { 
 	if (m_draw_mode != dm) {
+#ifdef SL_DC_STAT
+		std::cout << "SL DC for set draw mode\n";
+#endif // SL_DC_STAT
 		Commit();
 		m_draw_mode = dm;
 	}
@@ -145,6 +158,9 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 
 	m_uniform_changed = true;
 	if (Shader* shader = ShaderMgr::Instance()->GetShader()) {
+#ifdef SL_DC_STAT
+		std::cout << "SL DC for set uniform\n";
+#endif // SL_DC_STAT
 		shader->Commit();
 	}
 	m_uniform[index].Assign(t, v);
@@ -153,11 +169,25 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 {
 	if (m_ib && ib_n > 0 && m_ib->Add(ib, ib_n)) {
+#ifdef SL_DC_STAT
+		std::cout << "ib over\n";
+#endif // SL_DC_STAT
 		Commit();
 	}
 	if (m_vb && vb_n > 0 && m_vb->Add(vb, vb_n)) {
+#ifdef SL_DC_STAT
+		std::cout << "vb over\n";
+#endif // SL_DC_STAT
 		Commit();
 	}
+}
+
+int RenderShader::DCCountEnd() 
+{
+#ifdef SL_DC_STAT
+	std::cout << "DC count " << m_dc_count << std::endl;
+	m_dc_count = 0;
+#endif // SL_DC_STAT
 }
 
 void RenderShader::ApplyUniform()

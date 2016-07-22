@@ -13,6 +13,7 @@
 #include "shader/HeatHazeProg.h"
 #include "shader/BurningMapProg.h"
 #include "render/RenderContext.h"
+#include "render/RenderShader.h"
 
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
@@ -230,6 +231,12 @@ void sl_flush()
 	if (shader) {
 		shader->Commit();
 	}
+}
+
+extern "C"
+int sl_dc_count_end()
+{
+	return RenderShader::DCCountEnd();
 }
 
 /**

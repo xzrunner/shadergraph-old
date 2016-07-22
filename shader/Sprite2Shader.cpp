@@ -6,6 +6,10 @@
 #include "../render/RenderContext.h"
 #include "../utility/StackAllocator.h"
 
+#ifdef SL_DC_STAT
+#include <iostream>
+#endif // SL_DC_STAT
+
 #include <assert.h>
 
 namespace sl
@@ -81,6 +85,13 @@ void Sprite2Shader::Commit() const
 void Sprite2Shader::Draw(const float* positions, const float* texcoords, int texid) const
 {
 	if (m_quad_sz >= MAX_COMMBINE || (m_texid != texid && m_texid != 0)) {
+#ifdef SL_DC_STAT
+		if (m_quad_sz >= MAX_COMMBINE) {
+			std::cout << "over MAX_COMMBINE\n";
+		} else {
+			std::cout << "tex " << m_texid << " to " << texid << "\n";
+		}
+#endif // SL_DC_STAT
 		Commit();
 	}
 	m_texid = texid;
