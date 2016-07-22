@@ -182,7 +182,7 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 	}
 }
 
-int RenderShader::DCCountEnd() 
+void RenderShader::DCCountEnd() 
 {
 #ifdef SL_DC_STAT
 	std::cout << "DC count " << m_dc_count << std::endl;
