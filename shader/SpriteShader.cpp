@@ -2,6 +2,7 @@
 #include "ObserverMVP.h"
 #include "Utility.h"
 #include "ShaderProgram.h"
+#include "ShaderMgr.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -59,6 +60,9 @@ void SpriteShader::Bind() const
 void SpriteShader::UnBind() const
 {
 //	Commit();
+
+	RenderContext* ctx = ShaderMgr::Instance()->GetContext();
+	ctx->SetDefaultBlend();
 }
 
 void SpriteShader::SetColor(uint32_t color, uint32_t additive)
