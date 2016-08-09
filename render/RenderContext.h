@@ -23,7 +23,6 @@ public:
 	RenderShader* CreateShader();
 
 	void SetBlend(int m1, int m2);
-	void SetBlendEquation(int func);
 	void SetDefaultBlend();
 
 	void SetTexture(int id, int channel);
@@ -58,8 +57,7 @@ private:
 	RenderShader* m_curr;
 
 	int m_textures[MAX_TEXTURE_CHANNEL];
-	int m_blend_src, m_blend_dst;
-	int m_blend_func;
+	int m_blendchange;
 	RID m_target;
 
 	int m_clear_mask;
