@@ -28,10 +28,15 @@ ShapeShader::~ShapeShader()
 void ShapeShader::Bind() const
 {
 	m_rc->BindShader(m_prog->GetShader());
+
+	m_rc->SetBlend(5, 6);		// BLEND_SRC_COLOR, BLEND_ONE_MINUS_SRC_ALPHA
+	m_rc->SetBlendEquation(0);	// BLEND_FUNC_ADD
 }
 
 void ShapeShader::UnBind() const
 {
+	m_rc->SetBlend(2, 6);		// BLEND_ONE, BLEND_ONE_MINUS_SRC_ALPHA
+	m_rc->SetBlendEquation(0);	// BLEND_FUNC_ADD
 }
 
 void ShapeShader::Commit() const
