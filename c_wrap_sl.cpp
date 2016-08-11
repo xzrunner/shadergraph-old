@@ -272,6 +272,14 @@ void sl_shape2_draw(const float* positions, int count)
 }
 
 extern "C"
+void sl_shape2_draw_with_color(const float* positions, const uint32_t* colors, int count) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
+		shader->Draw(positions, colors, count);
+	}	
+}
+
+extern "C"
 void sl_shape2_draw_node(float x, float y, int dummy)
 {
 	ShaderMgr* mgr = ShaderMgr::Instance();
