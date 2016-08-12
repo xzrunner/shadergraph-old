@@ -39,9 +39,9 @@ RenderShader::RenderShader(render* ej_render)
 
 RenderShader::~RenderShader()
 {
-	if (m_vb) m_vb->Release();
-	if (m_ib) m_ib->Release();
-	if (m_layout) m_layout->Release();
+	if (m_vb) m_vb->RemoveReference();
+	if (m_ib) m_ib->RemoveReference();
+	if (m_layout) m_layout->RemoveReference();
 }
 
 void RenderShader::Load(const char* vs, const char* fs)
@@ -70,17 +70,17 @@ void RenderShader::Unload()
 
 void RenderShader::SetVertexBuffer(RenderBuffer* vb) 
 { 
-	OBJ_ASSIGN(m_vb, vb) 
+	RefCountObjAssign(m_vb, vb);
 }
 
 void RenderShader::SetIndexBuffer(RenderBuffer* ib) 
 { 
-	OBJ_ASSIGN(m_ib, ib) 
+	RefCountObjAssign(m_ib, ib);
 }
 
 void RenderShader::SetLayout(RenderLayout* lo) 
 { 
-	OBJ_ASSIGN(m_layout, lo) 
+	RefCountObjAssign(m_layout, lo);
 }
 
 void RenderShader::Bind()

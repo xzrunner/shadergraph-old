@@ -1,9 +1,10 @@
 #ifndef _SHADERLAB_RENDER_BUFFER_H_
 #define _SHADERLAB_RENDER_BUFFER_H_
 
-#include "../utility/Object.h"
 #include "../utility/Buffer.h"
 #include "../utility/typedef.h"
+
+#include <CU_RefCountObj.h>
 
 struct render;
 
@@ -12,7 +13,7 @@ namespace sl
 
 class Buffer;
 
-class RenderBuffer : public Object
+class RenderBuffer : public cu::RefCountObj
 {
 public:
 	RenderBuffer(render* ej_render, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);

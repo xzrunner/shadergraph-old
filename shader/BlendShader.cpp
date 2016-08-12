@@ -127,7 +127,7 @@ void BlendShader::InitProg()
 
 	RenderBuffer* idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
 	m_prog = new Program(m_rc, va_list, idx_buf);
-	idx_buf->Release();
+	idx_buf->RemoveReference();
 }
 
 /************************************************************************/

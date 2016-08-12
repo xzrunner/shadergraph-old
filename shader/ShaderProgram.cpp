@@ -38,7 +38,7 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 	// vertex layout
 	RenderLayout* lo = new RenderLayout(m_rc->GetEJRender(), va_list);
 	m_shader->SetLayout(lo);
-	lo->Release();
+	lo->RemoveReference();
 
 	// vertex buffer
 	m_vertex_sz = 0;
@@ -48,7 +48,7 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 	Buffer* buf = new Buffer(m_vertex_sz, m_max_vertex);
 	RenderBuffer* vb = new RenderBuffer(m_rc->GetEJRender(), VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
 	m_shader->SetVertexBuffer(vb);
-	vb->Release();
+	vb->RemoveReference();
 
 	// index buffer
 	if (ib) {

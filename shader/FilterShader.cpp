@@ -52,7 +52,7 @@ FilterShader::FilterShader(RenderContext* rc)
 FilterShader::~FilterShader()
 {
 	if (m_index_buf) {
-		m_index_buf->Release();
+		m_index_buf->RemoveReference();
 	}
 
 	for (int i = 0; i < PROG_COUNT; ++i) {

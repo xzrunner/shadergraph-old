@@ -89,7 +89,7 @@ void SpriteShader::InitProgs()
 	InitMapColorProg(idx_buf);
 	InitFullColorProg(idx_buf);
 	if (m_vertex_index) {
-		idx_buf->Release();
+		idx_buf->RemoveReference();
 	}
 }
 

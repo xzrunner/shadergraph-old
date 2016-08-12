@@ -150,7 +150,7 @@ void Model3Shader::InitProgs()
 	InitGouraudShadingProg(idx_buf);
  	InitTextureMapProg(idx_buf);
  	InitGouraudTextureProg(idx_buf);
-	idx_buf->Release();
+	idx_buf->RemoveReference();
 }
 
 void Model3Shader::InitStaticColorProg(RenderBuffer* idx_buf)
