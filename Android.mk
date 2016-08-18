@@ -11,6 +11,7 @@ LOCAL_C_INCLUDES := \
 	${SM_SRC_PATH} \
 	${EJOY2D_SRC_PATH} \
 	${DS_SRC_PATH} \
+	${CU_SRC_PATH} \
 
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,,$(shell find $(LOCAL_PATH) -name "*.cpp" -print)) \
