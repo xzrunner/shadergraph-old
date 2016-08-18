@@ -187,6 +187,15 @@ void sl_set_default_blend() {
 }
 
 extern "C"
+void sl_set_blend_equation(int func) {
+	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
+		if (sl::RenderContext* rc = mgr->GetContext()) {
+			rc->SetBlendEquation(func);
+		}
+	}
+}
+
+extern "C"
 void sl_render_clear(unsigned long argb) {
 	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
 		if (sl::RenderContext* rc = mgr->GetContext()) {

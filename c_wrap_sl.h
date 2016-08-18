@@ -53,6 +53,7 @@ int  sl_get_target();
 
 void sl_set_blend(int m1, int m2);
 void sl_set_default_blend();
+void sl_set_blend_equation(int func);
 
 void sl_render_clear(unsigned long argb);
 int  sl_render_version();
