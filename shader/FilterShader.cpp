@@ -20,9 +20,9 @@
 
 #include <render/render.h>
 
-#ifdef USED_IN_EDITOR
+#ifdef EASY_EDITOR
 #define HAS_TEXTURE_SIZE
-#endif // USED_IN_EDITOR
+#endif // EASY_EDITOR
 
 namespace sl
 {
