@@ -47,6 +47,8 @@ public:
 
 	void ClearTextureCache();
 
+	void SetViewport(int x, int y, int width, int height);
+
 private:
 	static const int MAX_TEXTURE_CHANNEL	= 8;
 	static const int MAX_SHADER				= 64;
