@@ -150,11 +150,6 @@ int RenderContext::GetShaderVersion() const
 	return render_version(m_ej_render);
 }
 
-void RenderContext::EnableScissor(int enable)
-{
-	render_enablescissor(m_ej_render, enable);
-}
-
 void RenderContext::ClearTextureCache()
 {
 	render_clear_texture_cache(m_ej_render);
@@ -163,6 +158,16 @@ void RenderContext::ClearTextureCache()
 void RenderContext::SetViewport(int x, int y, int width, int height)
 {
 	render_setviewport(m_ej_render, x, y, width, height);
+}
+
+void RenderContext::EnableScissor(int enable)
+{
+	render_enablescissor(m_ej_render, enable);
+}
+
+void RenderContext::SetScissor(int x, int y, int width, int height)
+{
+	render_setscissor(m_ej_render, x, y, width, height);
 }
 
 }

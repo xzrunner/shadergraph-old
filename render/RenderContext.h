@@ -43,11 +43,13 @@ public:
 	void Clear(unsigned long argb);
 
 	int GetShaderVersion() const;
-	void EnableScissor(int enable);
 
 	void ClearTextureCache();
 
 	void SetViewport(int x, int y, int width, int height);
+
+	void EnableScissor(int enable);
+	void SetScissor(int x, int y, int width, int height);
 
 private:
 	static const int MAX_TEXTURE_CHANNEL	= 8;
