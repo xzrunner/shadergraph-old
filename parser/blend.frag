@@ -109,7 +109,11 @@ static const char* blend_body = STRINGIFY(
 	} else if (u_mode == 35) {
 		_blend_ = BlendPinLight(base.rgb, _SRC_COL_.rgb);
 	} else if (u_mode == 36) {
-		_blend_ = BlendHardMix(base.rgb, _SRC_COL_.rgb);
+		// fixed for shader link err on sumsung note3
+//		_blend_ = BlendHardMix(base.rgb, _SRC_COL_.rgb);
+		_blend_.r = (BlendVividLightf(base.r, blend.r) < 0.5) ? 0.0 : 1.0;
+		_blend_.g = (BlendVividLightf(base.g, blend.g) < 0.5) ? 0.0 : 1.0;
+		_blend_.b = (BlendVividLightf(base.b, blend.b) < 0.5) ? 0.0 : 1.0;
 	}
 	// substraction modes
 	else if (u_mode == 40) {
