@@ -237,7 +237,7 @@ void FilterShader::InitProgs()
 
 	// heat haze
 	HeatHazeProg* heat_haze				= new HeatHazeProg(m_rc, max_vertex, va_list, m_index_buf);
-	heat_haze->SetFactor(0.1f, 0.5f);
+	heat_haze->SetFactor(0.02f, 0.2f);
 	m_programs[PI_HEAT_HAZE]			= heat_haze;
 	// shock wave
 	ShockWaveProg* shock_wave			= new ShockWaveProg(m_rc, max_vertex, va_list, m_index_buf);
