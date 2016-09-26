@@ -12,6 +12,7 @@
 #include "shader/SubjectMVP3.h"
 #include "shader/HeatHazeProg.h"
 #include "shader/BurningMapProg.h"
+#include "shader/ColGradingProg.h"
 #include "render/RenderContext.h"
 #include "render/RenderShader.h"
 
@@ -468,6 +469,18 @@ void sl_filter_set_burning_map_border_texture(int id) {
 		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
 		if (prog) {
 			prog->SetBorderGradientTex(id);
+		}
+	}
+}
+
+extern "C"
+void sl_filter_set_col_grading_texture(int id) {
+	ShaderMgr* mgr = ShaderMgr::Instance();
+	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
+	if (shader) {
+		ColGradingProg* prog = static_cast<ColGradingProg*>(shader->GetProgram(FM_COL_GRADING));
+		if (prog) {
+			prog->SetLUTTex(id);
 		}
 	}
 }

@@ -56,6 +56,8 @@ private:
 		PI_SWIRL,
 		PI_BURNING_MAP,
 
+		PI_COL_GRADING,
+
 		PROG_COUNT
 	};
 

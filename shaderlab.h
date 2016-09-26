@@ -16,3 +16,4 @@
 #include "shader/GaussianBlurHoriProg.h"
 #include "shader/GaussianBlurVertProg.h"
 #include "shader/HeatHazeProg.h"
+#include "shader/ColGradingProg.h"

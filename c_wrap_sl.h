@@ -125,6 +125,9 @@ enum SL_FILTER_MODE {
 	SLFM_SHOCK_WAVE,
 	SLFM_SWIRL,
 	SLFM_BURNING_MAP,
+
+	SLFM_COL_GRADING			= 40,
+
 };
 void sl_filter_set_mode(int mode);
 void sl_filter_set_heat_haze_factor(float distortion, float rise);
@@ -132,6 +135,7 @@ void sl_filter_set_heat_haze_texture(int id);
 void sl_filter_set_burning_map_upper_texture(int id);
 void sl_filter_set_burning_map_height_texture(int id);
 void sl_filter_set_burning_map_border_texture(int id);
+void sl_filter_set_col_grading_texture(int id);
 void sl_filter_update(float dt);
 void sl_filter_clear_time();
 void sl_filter_set_color(uint32_t color, uint32_t additive);

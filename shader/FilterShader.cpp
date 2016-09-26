@@ -12,6 +12,7 @@
 #include "ShockWaveProg.h"
 #include "SwirlProg.h"
 #include "BurningMapProg.h"
+#include "ColGradingProg.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -264,6 +265,10 @@ void FilterShader::InitProgs()
 	m_programs[PI_BURNING_MAP]			= burn_map;
 	burn_map->SetLifeTime(2);
 
+	// color grading
+	ColGradingProg* col_grading			= new ColGradingProg(m_rc, max_vertex, va_list, m_index_buf);
+	m_programs[PI_COL_GRADING]			= col_grading;
+
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
 	m_mode2index[FM_EDGE_DETECTION]		= PI_EDGE_DETECTION;
 	m_mode2index[FM_RELIEF]				= PI_RELIEF;
@@ -276,6 +281,7 @@ void FilterShader::InitProgs()
 	m_mode2index[FM_SHOCK_WAVE]			= PI_SHOCK_WAVE;
 	m_mode2index[FM_SWIRL]				= PI_SWIRL;
 	m_mode2index[FM_BURNING_MAP]		= PI_BURNING_MAP;
+	m_mode2index[FM_COL_GRADING]		= PI_COL_GRADING;
 
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		ShaderProgram* prog = m_programs[i];
