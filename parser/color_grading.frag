@@ -21,8 +21,8 @@ static const char* color_grading_body = STRINGIFY(
 	color.r *= INV16;
 	color.b *= 16.0;
 	
-	color.r = INV288 + (1.0 - INV18 * 2) * color.r;
-	color.g = INV18 + (1.0 - INV18 * 2) * color.g;
+	color.r = INV288 + (1.0 - INV18 * 2.0) * color.r;
+	color.g = INV18 + (1.0 - INV18 * 2.0) * color.g;
 		     
 	float shift = floor(color.b);
 	float start = shift * INV16;
