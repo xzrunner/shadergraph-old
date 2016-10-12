@@ -30,7 +30,9 @@ std::string& ColorAddMul::ToStatements(std::string& str) const
 		_col_add_multi_.xyz = _TMP_.xyz * v_color.xyz;\n \
 		_col_add_multi_.w = _TMP_.w;\n \
 		_col_add_multi_ *= v_color.w;\n \
-		_col_add_multi_.xyz += v_additive.xyz * _TMP_.w * v_color.w;\n ";
+		_col_add_multi_.xyz += v_additive.xyz * _TMP_.w * v_color.w;\n \
+		_col_add_multi_.xyzw += v_additive.w * 10 * _col_add_multi_.xyzw;\n ";
+
 	StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
 	str += s;
 	return str;
