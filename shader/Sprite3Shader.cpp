@@ -1,6 +1,7 @@
 #include "Sprite3Shader.h"
 #include "SubjectMVP3.h"
 #include "ShaderProgram.h"
+#include "ShaderType.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderContext.h"
@@ -67,7 +68,7 @@ void Sprite3Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader);
+	m_rc->BindShader(shader, SPRITE3);
 	shader->Draw(buf, vb_count);
 	alloc->Free(buf);
 

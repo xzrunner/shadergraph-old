@@ -1,6 +1,7 @@
 #include "BlendShader.h"
 #include "SubjectMVP2.h"
 #include "Utility.h"
+#include "ShaderType.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -46,7 +47,7 @@ BlendShader::~BlendShader()
 
 void BlendShader::Bind() const
 {
-	m_rc->BindShader(m_prog->GetShader());
+	m_rc->BindShader(m_prog->GetShader(), BLEND);
 }
 
 void BlendShader::UnBind() const

@@ -11,11 +11,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-// #define DC_LOG
+//#define SL_DC_STAT
 
-#ifdef DC_LOG
+#ifdef SL_DC_STAT
 #include <iostream>
-#endif // _DEBUG
+#endif // SL_DC_STAT
 
 namespace sl
 {
@@ -108,9 +108,9 @@ void RenderContext::SetTexture(int id, int channel)
 	}
 
 	if (m_curr) {
-#ifdef DC_LOG
-		std::cout << "DC: SetTexture\n";
-#endif // DC_LOG
+#ifdef SL_DC_STAT
+		std::cout << "SL DC for SetTexture " << id << '\n';
+#endif // SL_DC_STAT
 		m_curr->Commit();
 	}
 
@@ -118,16 +118,16 @@ void RenderContext::SetTexture(int id, int channel)
 	render_set(m_ej_render, TEXTURE, id, channel);
 }
 
-void RenderContext::BindShader(RenderShader* shader)
+void RenderContext::BindShader(RenderShader* shader, int type)
 {
 	if (m_curr == shader) {
 		return;
 	}
 
 	if (m_curr && m_curr->IsUniformChanged()) {
-#ifdef DC_LOG
-		std::cout << "DC: ShaderBind\n";
-#endif // DC_LOG
+#ifdef SL_DC_STAT
+		std::cout << "SL DC for change shader: " << type << '\n';
+#endif // SL_DC_STAT
 		m_curr->Commit();
 	}
 

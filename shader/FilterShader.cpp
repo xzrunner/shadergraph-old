@@ -13,6 +13,7 @@
 #include "SwirlProg.h"
 #include "BurningMapProg.h"
 #include "ColGradingProg.h"
+#include "ShaderType.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -68,7 +69,7 @@ void FilterShader::Bind() const
 {
 	if (m_curr_mode != FM_NULL) {
 		int idx = m_mode2index[m_curr_mode];
-		m_rc->BindShader(m_programs[idx]->GetShader());
+		m_rc->BindShader(m_programs[idx]->GetShader(), FILTER);
 	}
 }
 
@@ -104,7 +105,7 @@ void FilterShader::Commit() const
 
 	m_rc->SetTexture(m_texid, 0);
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader);
+	m_rc->BindShader(shader, FILTER);
 
 	int vertex_sz = prog->GetVertexSize();
 	int vb_count = m_quad_sz * 4;
@@ -152,7 +153,7 @@ void FilterShader::SetMode(FILTER_MODE mode)
 		Commit();
 		m_curr_mode = mode;
 		int idx = m_mode2index[m_curr_mode];
-		m_rc->BindShader(m_programs[idx]->GetShader());
+		m_rc->BindShader(m_programs[idx]->GetShader(), FILTER);
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "ObserverMVP.h"
 #include "ShaderProgram.h"
 #include "Utility.h"
+#include "ShaderType.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
@@ -92,7 +93,7 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	if (idx != m_curr_shader) {
 		Commit();
 		m_curr_shader = idx;
-		m_rc->BindShader(m_programs[idx]->GetShader());
+		m_rc->BindShader(m_programs[idx]->GetShader(), MODEL3);
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();

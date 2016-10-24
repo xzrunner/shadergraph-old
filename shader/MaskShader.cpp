@@ -1,6 +1,7 @@
 #include "MaskShader.h"
 #include "SubjectMVP2.h"
 #include "Utility.h"
+#include "ShaderType.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
@@ -40,7 +41,7 @@ MaskShader::~MaskShader()
 
 void MaskShader::Bind() const
 {
-	m_rc->BindShader(m_prog->GetShader());
+	m_rc->BindShader(m_prog->GetShader(), MASK);
 }
 
 void MaskShader::UnBind() const
@@ -53,7 +54,7 @@ void MaskShader::Commit() const
 	m_rc->SetTexture(m_tex_mask, 1);
 
 	RenderShader* shader = m_prog->GetShader();
-	m_rc->BindShader(shader);
+	m_rc->BindShader(shader, MASK);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 

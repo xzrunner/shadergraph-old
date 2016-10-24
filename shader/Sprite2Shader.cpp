@@ -1,6 +1,7 @@
 #include "Sprite2Shader.h"
 #include "SubjectMVP2.h"
 #include "ShaderProgram.h"
+#include "ShaderType.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderContext.h"
@@ -71,7 +72,7 @@ void Sprite2Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader);
+	m_rc->BindShader(shader, SPRITE2);
 	shader->Draw(buf, vb_count, NULL, m_quad_sz * 6);
 	alloc->Free(buf);
 

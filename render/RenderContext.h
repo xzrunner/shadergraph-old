@@ -37,7 +37,7 @@ public:
 		return m_target;
 	}
 
-	void BindShader(RenderShader* shader);
+	void BindShader(RenderShader* shader, int type = -1);
 
 	void SetClearFlag(int flag);
 	void Clear(unsigned long argb);

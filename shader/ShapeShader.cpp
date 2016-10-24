@@ -1,5 +1,6 @@
 #include "ShapeShader.h"
 #include "ShaderProgram.h"
+#include "ShaderType.h"
 #include "../render/RenderContext.h"
 #include "../render/RenderShader.h"
 #include "../parser/PositionTrans.h"
@@ -27,7 +28,7 @@ ShapeShader::~ShapeShader()
 
 void ShapeShader::Bind() const
 {
-	m_rc->BindShader(m_prog->GetShader());
+	m_rc->BindShader(m_prog->GetShader(), SHAPE2);
 }
 
 void ShapeShader::UnBind() const

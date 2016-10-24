@@ -7,6 +7,8 @@
 #include <render/render.h>
 
 // #define SHADER_LOG
+// #define SL_DC_COUNT
+// #define SL_DC_STAT
 
 #ifdef SHADER_LOG
 #include <iostream>
@@ -15,6 +17,10 @@
 #ifdef SL_DC_STAT
 #include <iostream>
 #endif // SL_DC_STAT
+
+#ifdef SL_DC_COUNT
+#include <iostream>
+#endif // SL_DC_COUNT
 
 namespace sl
 {
@@ -114,9 +120,9 @@ void RenderShader::Commit()
 	}
 	m_vb->Clear();
 
-#ifdef SL_DC_STAT
+#ifdef SL_DC_COUNT
 	++m_dc_count;
-#endif // SL_DC_STAT
+#endif // SL_DC_COUNT
 }
 
 void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
@@ -184,10 +190,10 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 
 void RenderShader::DCCountEnd() 
 {
-#ifdef SL_DC_STAT
+#ifdef SL_DC_COUNT
 	std::cout << "DC count " << m_dc_count << std::endl;
 	m_dc_count = 0;
-#endif // SL_DC_STAT
+#endif // SL_DC_COUNT
 }
 
 void RenderShader::ApplyUniform()
