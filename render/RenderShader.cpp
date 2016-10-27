@@ -6,9 +6,9 @@
 
 #include <render/render.h>
 
-// #define SHADER_LOG
-// #define SL_DC_COUNT
-// #define SL_DC_STAT
+//#define SHADER_LOG
+#define SL_DC_COUNT
+//#define SL_DC_STAT
 
 #ifdef SHADER_LOG
 #include <iostream>
@@ -188,12 +188,15 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 	}
 }
 
-void RenderShader::DCCountEnd() 
+int RenderShader::DCCountEnd() 
 {
+	int ret = 0;
 #ifdef SL_DC_COUNT
-	std::cout << "DC count " << m_dc_count << std::endl;
+//	std::cout << "DC count " << m_dc_count << std::endl;
+	ret = m_dc_count;
 	m_dc_count = 0;
 #endif // SL_DC_COUNT
+	return ret;
 }
 
 void RenderShader::ApplyUniform()

@@ -63,7 +63,7 @@ struct render* sl_get_ej_render();
 
 void sl_flush();
 
-void sl_dc_count_end();
+int sl_dc_count_end();
 
 /**
  *  @brief

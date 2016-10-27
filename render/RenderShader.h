@@ -48,7 +48,7 @@ public:
 
 	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
 
-	static void DCCountEnd();
+	static int DCCountEnd();
 
 private:
 	void ApplyUniform();
