@@ -1,9 +1,9 @@
 #include "RenderShader.h"
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
-#include "shader/ShaderMgr.h"
-#include "shader/Shader.h"
-#include "utility/Statistics.h"
+#include "../shader/ShaderMgr.h"
+#include "../shader/Shader.h"
+#include "../utility/Statistics.h"
 
 #include <render/render.h>
 
