@@ -63,7 +63,10 @@ struct render* sl_get_ej_render();
 
 void sl_flush();
 
-int sl_dc_count_end();
+// statistics
+int  sl_get_drawcall();
+int  sl_get_vertices_count();
+void sl_reset_statistics();
 
 /**
  *  @brief

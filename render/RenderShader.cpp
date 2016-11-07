@@ -1,13 +1,13 @@
 #include "RenderShader.h"
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
-#include "../shader/ShaderMgr.h"
-#include "../shader/Shader.h"
+#include "shader/ShaderMgr.h"
+#include "shader/Shader.h"
+#include "utility/Statistics.h"
 
 #include <render/render.h>
 
 //#define SHADER_LOG
-#define SL_DC_COUNT
 //#define SL_DC_STAT
 
 #ifdef SHADER_LOG
@@ -18,14 +18,8 @@
 #include <iostream>
 #endif // SL_DC_STAT
 
-#ifdef SL_DC_COUNT
-#include <iostream>
-#endif // SL_DC_COUNT
-
 namespace sl
 {
-
-int RenderShader::m_dc_count = 0;
 
 RenderShader::RenderShader(render* ej_render)
 	: m_ej_render(ej_render)
@@ -106,23 +100,22 @@ void RenderShader::Commit()
 	}
 
 	ApplyUniform();
-//#ifdef _DEBUG
-//	std::cout << "Commit %d" << m_vb->Size() << "\n";
-//#endif // _DEBUG
+
+	Statistics* stat = Statistics::Instance();
 
 	m_vb->Update();
 	if (m_ib) {
 		m_ib->Update();
 		render_draw_elements(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_ib->Size());
+		stat->AddVertices(m_ib->Size());
 		m_ib->Clear();
 	} else {
 		render_draw_arrays(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_vb->Size());
+		stat->AddVertices(m_vb->Size());
 	}
 	m_vb->Clear();
 
-#ifdef SL_DC_COUNT
-	++m_dc_count;
-#endif // SL_DC_COUNT
+	stat->AddDrawCall();
 }
 
 void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
@@ -186,17 +179,6 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 #endif // SL_DC_STAT
 		Commit();
 	}
-}
-
-int RenderShader::DCCountEnd() 
-{
-	int ret = 0;
-#ifdef SL_DC_COUNT
-//	std::cout << "DC count " << m_dc_count << std::endl;
-	ret = m_dc_count;
-	m_dc_count = 0;
-#endif // SL_DC_COUNT
-	return ret;
 }
 
 void RenderShader::ApplyUniform()

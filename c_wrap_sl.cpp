@@ -15,6 +15,7 @@
 #include "shader/ColGradingProg.h"
 #include "render/RenderContext.h"
 #include "render/RenderShader.h"
+#include "utility/Statistics.h"
 
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
@@ -244,9 +245,21 @@ void sl_flush()
 }
 
 extern "C"
-int sl_dc_count_end()
+int sl_get_drawcall()
 {
-	return RenderShader::DCCountEnd();
+	return Statistics::Instance()->GetDrawCall();
+}
+
+extern "C"
+int sl_get_vertices_count()
+{
+	return Statistics::Instance()->GetVertices();
+}
+
+extern "C"
+void sl_reset_statistics()
+{
+	return Statistics::Instance()->Reset();
 }
 
 /**
