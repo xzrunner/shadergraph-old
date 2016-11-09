@@ -46,8 +46,6 @@ public:
 
 	void ClearTextureCache();
 
-	void SetViewport(int x, int y, int width, int height);
-
 	void EnableScissor(int enable);
 	void SetScissor(int x, int y, int width, int height);
 

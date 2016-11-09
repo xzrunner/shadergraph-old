@@ -9,6 +9,7 @@
 #include "shader/MaskShader.h"
 #include "shader/SubjectMVP2.h"
 #include "shader/SubjectMVP3.h"
+#include "shader/ShaderMgr.h"
 #include "render/RenderContext.h"
 
 // todo
