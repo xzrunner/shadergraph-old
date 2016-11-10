@@ -14,6 +14,8 @@ public:
 
 	void SetLUTTex(int tex);
 
+	bool IsTexValid() const { return m_lut_tex != 0; }
+
 private:
 	int m_lut_tex;
 
