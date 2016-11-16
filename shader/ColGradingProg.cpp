@@ -28,6 +28,11 @@ ColGradingProg::ColGradingProg(RenderContext* rc, int max_vertex,
 	}
 }
 
+void ColGradingProg::Bind()
+{
+	m_rc->SetTexture(m_lut_tex, 1);
+}
+
 void ColGradingProg::SetLUTTex(int tex)
 {
 	m_lut_tex = tex;

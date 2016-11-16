@@ -70,6 +70,8 @@ void FilterShader::Bind() const
 	if (m_curr_mode != FM_NULL) {
 		int idx = m_mode2index[m_curr_mode];
 		m_rc->BindShader(m_programs[idx]->GetShader(), FILTER);
+
+		m_programs[idx]->Bind();
 	}
 }
 

@@ -21,6 +21,8 @@ public:
 	ShaderProgram(RenderContext* rc, int max_vertex);
 	virtual ~ShaderProgram();
 
+	virtual void Bind() {}
+
 	void Load(parser::Node* vert, parser::Node* frag, 
 		const std::vector<VertexAttrib>& va_list, 
 		RenderBuffer* ib, bool has_mvp);

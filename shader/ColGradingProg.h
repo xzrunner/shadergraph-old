@@ -12,6 +12,8 @@ public:
 	ColGradingProg(RenderContext* rc, int max_vertex, 
 		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
 
+	virtual void Bind();
+
 	void SetLUTTex(int tex);
 
 	bool IsTexValid() const { return m_lut_tex != 0; }
