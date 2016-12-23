@@ -58,6 +58,7 @@ void sl_set_blend_equation(int func);
 void sl_render_clear(unsigned long argb);
 int  sl_render_version();
 void sl_enable_scissor(int enable);
+void sl_set_viewport(int x, int y, int w, int h);
 
 struct render* sl_get_ej_render();
 

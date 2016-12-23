@@ -49,9 +49,24 @@ public:
 	void EnableScissor(int enable);
 	void SetScissor(int x, int y, int width, int height);
 
+	void ViewportPush(int x, int y, int w, int h);
+	void ViewportPop();
+
 private:
 	static const int MAX_TEXTURE_CHANNEL	= 8;
 	static const int MAX_SHADER				= 64;
+
+private:
+	class Viewport
+	{
+	public:
+		Viewport(int x, int y, int w, int h);
+		bool operator == (const Viewport& vp) const;
+		void Do();
+	private:
+		int m_x, m_y;
+		int m_w, m_h;
+	}; // Viewport
 
 private:
 	render* m_ej_render;
@@ -66,6 +81,8 @@ private:
 
 	int m_clear_mask;
 
+	std::vector<Viewport> m_viewports;
+	
 }; // RenderContext
 
 }

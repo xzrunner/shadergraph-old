@@ -162,7 +162,61 @@ void RenderContext::EnableScissor(int enable)
 
 void RenderContext::SetScissor(int x, int y, int width, int height)
 {
-	render_setscissor(m_ej_render, x, y, width, height);
+	render_setscissor(x, y, width, height);
+}
+
+void RenderContext::ViewportPush(int x, int y, int w, int h)
+{
+	Viewport vp(x, y, w, h);
+
+	if (!m_viewports.empty()) {
+		if (m_viewports.back() == vp) {
+			return;
+		}
+	}
+
+	vp.Do();
+
+	m_viewports.push_back(vp);
+}
+
+void RenderContext::ViewportPop()
+{
+	if (m_viewports.empty()) {
+		return;
+	}
+
+	Viewport last = m_viewports.back();
+	m_viewports.pop_back();
+
+	if (m_viewports.empty()) {
+		return;
+	}
+
+	if (m_viewports.back() == last) {
+		return;
+	}
+
+	m_viewports.back().Do();
+}
+
+/************************************************************************/
+/* class RenderContext::Viewport                                        */
+/************************************************************************/
+
+RenderContext::Viewport::Viewport(int x, int y, int w, int h)
+	: m_x(x), m_y(y), m_w(w), m_h(h) 
+{}
+
+bool RenderContext::Viewport::operator == (const Viewport& vp) const 
+{
+	return m_x == vp.m_x && m_y == vp.m_y
+		&& m_w == vp.m_w && m_h == vp.m_h;
+}
+
+void RenderContext::Viewport::Do()
+{
+	render_setviewport(m_x, m_y, m_w, m_h);
 }
 
 }

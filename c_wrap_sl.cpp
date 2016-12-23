@@ -226,6 +226,15 @@ void sl_enable_scissor(int enable) {
 }
 
 extern "C"
+void sl_set_viewport(int x, int y, int w, int h) {
+	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
+		if (sl::RenderContext* rc = mgr->GetContext()) {
+			rc->ViewportPush(x, y, w, h);
+		}
+	}
+}
+
+extern "C"
 struct render* sl_get_ej_render() {
 	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
 		if (sl::RenderContext* rc = mgr->GetContext()) {
