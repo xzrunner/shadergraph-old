@@ -1,6 +1,5 @@
 #include "BurningMapProg.h"
 #include "../render/RenderShader.h"
-#include "../render/RenderContext.h"
 #include "../parser/BurningMap.h"
 
 #include <render/render.h>

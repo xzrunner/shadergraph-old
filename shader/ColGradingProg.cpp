@@ -1,6 +1,5 @@
 #include "ColGradingProg.h"
 #include "../render/RenderShader.h"
-#include "../render/RenderContext.h"
 #include "../parser/ColorGrading.h"
 
 #include <render/render.h>

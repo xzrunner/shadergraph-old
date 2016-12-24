@@ -4,7 +4,6 @@
 #include "ShaderProgram.h"
 #include "Utility.h"
 #include "ShaderType.h"
-#include "../render/RenderContext.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../parser/PositionTrans.h"

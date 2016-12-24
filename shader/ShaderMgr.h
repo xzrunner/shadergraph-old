@@ -1,22 +1,26 @@
 #ifndef _SHADERLAB_SHADER_MGR_H_
 #define _SHADERLAB_SHADER_MGR_H_
 
+#include <CU_Singleton.h>
+
 #include "ShaderType.h"
 
+#include <vector>
+
 #include <stddef.h>
+
+namespace unirender { class IRenderContext; }
 
 namespace sl
 {
 
-class RenderContext;
 class Shader;
+class RenderShader;
 
 class ShaderMgr
 {
 public:
-	int  CreateContext(int max_texture);
-	void ReleaseContext();
-	RenderContext* GetContext() { return m_rc; }
+	void SetContext(unirender::IRenderContext* context) { m_context = context; }
 
 	void CreateShader(ShaderType type, Shader* shader);
 	void ReleaseShader(ShaderType type);
@@ -31,21 +35,20 @@ public:
 	ShaderType GetShaderType() const {
 		return m_curr_shader == -1 ? MAX_SHADER : (ShaderType)m_curr_shader;
 	}
+
+	RenderShader* CreateRenderShader();
+	void BindRenderShader(RenderShader* shader, int type = -1);
 	
-	static ShaderMgr* Instance();
-
 private:
-	ShaderMgr();
-	~ShaderMgr();
-
-private:
-	RenderContext* m_rc;
+	unirender::IRenderContext* m_context;
 
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;
 
-private:
-	static ShaderMgr* m_instance;
+	std::vector<RenderShader*> m_render_shaders;
+	RenderShader* m_curr_render_shader;
+
+	SINGLETON_DECLARATION(ShaderMgr);
 
 }; // ShaderMgr
 

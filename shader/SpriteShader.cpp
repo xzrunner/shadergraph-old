@@ -3,7 +3,6 @@
 #include "Utility.h"
 #include "ShaderProgram.h"
 #include "ShaderMgr.h"
-#include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderLayout.h"

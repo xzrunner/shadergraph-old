@@ -13,7 +13,6 @@
 #include "shader/HeatHazeProg.h"
 #include "shader/BurningMapProg.h"
 #include "shader/ColGradingProg.h"
-#include "render/RenderContext.h"
 #include "render/RenderShader.h"
 #include "utility/Statistics.h"
 

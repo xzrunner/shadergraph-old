@@ -53,6 +53,8 @@ void RenderShader::Load(const char* vs, const char* fs)
 	std::cout << "================================================== \n";
 #endif // SHADER_LOG
 
+	
+
 	struct shader_init_args args;
 	args.vs = vs;
 	args.fs = fs;

@@ -2,7 +2,6 @@
 #include "SubjectMVP2.h"
 #include "Utility.h"
 #include "ShaderType.h"
-#include "../render/RenderContext.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
 #include "../parser/Mask.h"
