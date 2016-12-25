@@ -1,22 +1,22 @@
 #ifndef _SHADERLAB_SHADER_H_
 #define _SHADERLAB_SHADER_H_
 
+namespace ur { class IRenderContext; }
+
 namespace sl
 {
-
-class RenderContext;
 
 class Shader
 {
 public:
-	Shader(RenderContext* rc) : m_rc(rc) {}
+	Shader(ur::IRenderContext* rc) : m_rc(rc) {}
 	virtual ~Shader() {}
 	virtual void Bind() const = 0;
 	virtual void UnBind() const = 0;
 	virtual void Commit() const = 0;
 
 protected:
-	RenderContext* m_rc;
+	ur::IRenderContext* m_rc;
 
 }; // Shader
 

@@ -5,8 +5,8 @@
 namespace sl
 {
 
-GrayProg::GrayProg(RenderContext* rc, int max_vertex, 
-				   const std::vector<VertexAttrib>& va_list, 
+GrayProg::GrayProg(ur::IRenderContext* rc, int max_vertex, 
+				   const std::vector<ur::VertexAttrib>& va_list, 
 				   RenderBuffer* ib, parser::Node* pre)
 	: FilterProgram(rc, max_vertex)
 {

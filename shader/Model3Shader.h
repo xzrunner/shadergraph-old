@@ -2,10 +2,10 @@
 #define _SHADERLAB_MODEL3_SHADER_H_
 
 #include "Shader.h"
-#include "../render/VertexAttrib.h"
 
 #include <SM_Vector.h>
 #include <SM_Matrix.h>
+#include <unirender/VertexAttrib.h>
 
 #include <vector>
 
@@ -26,7 +26,7 @@ class ShaderProgram;
 class Model3Shader : public Shader
 {
 public:
-	Model3Shader(RenderContext* rc);
+	Model3Shader(ur::IRenderContext* rc);
 	virtual ~Model3Shader();
 
 	virtual void Bind() const;
@@ -82,7 +82,7 @@ private:
 	};
 
 private:
-	VertexAttrib m_va_list[VA_MAX_COUNT];
+	ur::VertexAttrib m_va_list[VA_MAX_COUNT];
 
 	ShaderProgram* m_programs[PROG_COUNT];
 

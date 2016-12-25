@@ -2,9 +2,12 @@
 #include "SubjectMVP3.h"
 #include "ShaderProgram.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../utility/StackAllocator.h"
+
+#include <unirender/IRenderContext.h>
 
 #include <assert.h>
 
@@ -13,7 +16,7 @@ namespace sl
 
 static const int MAX_VERTICES = 4096;
 
-Sprite3Shader::Sprite3Shader(RenderContext* rc)
+Sprite3Shader::Sprite3Shader(ur::IRenderContext* rc)
 	: SpriteShader(rc, 3, MAX_VERTICES, false)
 {
 	InitProgs();
@@ -26,7 +29,7 @@ void Sprite3Shader::Commit() const
 		return;
 	}
 
-	m_rc->SetTexture(m_texid, 0);
+	m_rc->BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = NULL;
 	switch (m_prog_type)
@@ -67,7 +70,7 @@ void Sprite3Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader, SPRITE3);
+	ShaderMgr::Instance()->BindRenderShader(shader, SPRITE3);
 	shader->Draw(buf, vb_count);
 	alloc->Free(buf);
 

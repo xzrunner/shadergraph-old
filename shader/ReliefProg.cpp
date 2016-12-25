@@ -5,8 +5,8 @@
 namespace sl
 {
 
-ReliefProg::ReliefProg(RenderContext* rc, int max_vertex, 
-					   const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+ReliefProg::ReliefProg(ur::IRenderContext* rc, int max_vertex, 
+					   const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 	: FilterProgram(rc, max_vertex)
 {
 	Init(va_list, ib, new parser::Relief());

@@ -9,8 +9,8 @@ namespace sl
 class ShockWaveProg : public FilterProgram
 {
 public:
-	ShockWaveProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	ShockWaveProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	virtual void UpdateTime(float time);
 

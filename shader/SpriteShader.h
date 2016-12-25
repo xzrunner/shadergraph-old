@@ -2,7 +2,8 @@
 #define _SHADERLAB_SPRITE_SHADER_H_
 
 #include "Shader.h"
-#include "../render/VertexAttrib.h"
+
+#include <unirender/VertexAttrib.h>
 
 #include <string>
 #include <vector>
@@ -22,7 +23,7 @@ class ShaderProgram;
 class SpriteShader : public Shader
 {
 public:
-	SpriteShader(RenderContext* rc, int position_sz, int max_vertex, 
+	SpriteShader(ur::IRenderContext* rc, int position_sz, int max_vertex, 
 		bool vertex_index);	
 	virtual ~SpriteShader();
 
@@ -90,7 +91,7 @@ private:
 	int m_max_vertex;
 	bool m_vertex_index;
 
-	VertexAttrib m_va_list[VA_MAX_COUNT];
+	ur::VertexAttrib m_va_list[VA_MAX_COUNT];
 
 }; // SpriteShader
 

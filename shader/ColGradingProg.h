@@ -9,8 +9,8 @@ namespace sl
 class ColGradingProg : public FilterProgram
 {
 public:
-	ColGradingProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	ColGradingProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	virtual void Bind();
 

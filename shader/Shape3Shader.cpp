@@ -9,7 +9,7 @@ namespace sl
 
 static const int MAX_VERTICES = 4096;
 
-Shape3Shader::Shape3Shader(RenderContext* rc)
+Shape3Shader::Shape3Shader(ur::IRenderContext* rc)
 	: ShapeShader(rc)
 {
 	InitProg(3, MAX_VERTICES);

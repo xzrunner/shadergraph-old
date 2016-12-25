@@ -3,29 +3,28 @@
 #include "../utility/Buffer.h"
 #include "../render/RenderBuffer.h"
 
-#include <render/render.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {
 
-RenderBuffer* Utility::CreateIndexBuffer(RenderContext* rc, int count)
+RenderBuffer* Utility::CreateIndexBuffer(ur::IRenderContext* rc, int count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * count;
 	alloc->Reserve(sz);
 	void* buf = alloc->Alloc(sz);
-	uint16_t* ptr = (uint16_t*)buf;
 	memset(buf, 0, sz);
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), count);
 	index_buf->Add(buf, count);
 	alloc->Free(buf);
-	RenderBuffer* ret = new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), count, index_buf);	
+	RenderBuffer* ret = new RenderBuffer(rc, ur::INDEXBUFFER, sizeof(uint16_t), count, index_buf);	
 	ret->Update();
     ret->Clear();
 	return ret;	
 }
 
-RenderBuffer* Utility::CreateQuadIndexBuffer(RenderContext* rc, int quad_count)
+RenderBuffer* Utility::CreateQuadIndexBuffer(ur::IRenderContext* rc, int quad_count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * 6 * quad_count;
@@ -36,7 +35,7 @@ RenderBuffer* Utility::CreateQuadIndexBuffer(RenderContext* rc, int quad_count)
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), 6 * quad_count);
 	index_buf->Add(buf, 6 * quad_count);
 	alloc->Free(buf);
-	RenderBuffer* ret = new RenderBuffer(rc->GetEJRender(), INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
+	RenderBuffer* ret = new RenderBuffer(rc, ur::INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
 	ret->Update();
     ret->Clear();
 	return ret;

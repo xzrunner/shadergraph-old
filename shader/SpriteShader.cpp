@@ -16,18 +16,18 @@
 #include "../parser/ColorMap.h"
 #include "../utility/Buffer.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 namespace sl
 {
 
-SpriteShader::SpriteShader(RenderContext* rc, int position_sz, int max_vertex,
+SpriteShader::SpriteShader(ur::IRenderContext* rc, int position_sz, int max_vertex,
 						   bool vertex_index)
 	: Shader(rc)
 	, m_max_vertex(max_vertex)
 	, m_vertex_index(vertex_index)
 {
-	m_rc->SetClearFlag(MASKC);
+	m_rc->SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -60,7 +60,7 @@ void SpriteShader::UnBind() const
 {
 //	Commit();
 
-// 	RenderContext* ctx = ShaderMgr::Instance()->GetContext();
+// 	ur::IRenderContext* ctx = ShaderMgr::Instance()->GetContext();
 // 	ctx->SetDefaultBlend();
 }
 
@@ -108,7 +108,7 @@ ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag,
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
 
-	std::vector<VertexAttrib> va_list;
+	std::vector<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {
 		va_list.push_back(m_va_list[va_types[i]]);
 	}
@@ -117,7 +117,7 @@ ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag,
 
 	InitMVP(prog->GetMVP());
 
-	prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
+	prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 
 	return prog;
 }

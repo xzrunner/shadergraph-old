@@ -3,17 +3,18 @@
 
 #include <stdint.h>
 
+namespace ur { class IRenderContext; }
+
 namespace sl
 {
 
-class RenderContext;
 class RenderBuffer;
 
 class Utility
 {
 public:
-	static RenderBuffer* CreateIndexBuffer(RenderContext* rc, int count);
-	static RenderBuffer* CreateQuadIndexBuffer(RenderContext* rc, int quad_count);
+	static RenderBuffer* CreateIndexBuffer(ur::IRenderContext* rc, int count);
+	static RenderBuffer* CreateQuadIndexBuffer(ur::IRenderContext* rc, int quad_count);
 
 private:
 	static void FillingQuadIndexBuffer(uint16_t* buf, int quad_count);

@@ -1,39 +1,24 @@
 #include "RenderLayout.h"
-#include "RenderConst.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 namespace sl
 {
 
-RenderLayout::RenderLayout(render* ej_render, const std::vector<VertexAttrib>& va_list)
-	: m_ej_render(ej_render)
+RenderLayout::RenderLayout(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list)
+	: m_rc(rc)
 {
-	struct vertex_attrib va[MAX_LAYOUT];
-	int offset = 0;
-	for (int i = 0, n = va_list.size(); i < n; ++i) 
-	{
-		const VertexAttrib& src = va_list[i];
-		vertex_attrib& dst = va[i];
-		dst.name = src.name.c_str();
-		dst.vbslot = 0;	// todo
-		dst.n = src.n;
-		dst.size = src.size;
-		dst.offset = offset;
-		offset += src.tot_size;
-	}
-
-	m_id = render_register_vertexlayout(ej_render, va_list.size(), va);
+	m_id = m_rc->CreateVertexLayout(va_list);
 }
 
 RenderLayout::~RenderLayout()
 {
-	render_release(m_ej_render, VERTEXLAYOUT, m_id);
+	m_rc->ReleaseVertexLayout(m_id);
 }
 
 void RenderLayout::Bind()
 {
-	render_set(m_ej_render, VERTEXLAYOUT, m_id, 0);
+	m_rc->BindVertexLayout(m_id);
 }
 
 }

@@ -1,9 +1,11 @@
 #ifndef _SHADERLAB_SHADER_PROGRAM_H_
 #define _SHADERLAB_SHADER_PROGRAM_H_
 
-#include "../render/VertexAttrib.h"
+#include <unirender/VertexAttrib.h>
 
 #include <vector>
+
+namespace ur { class IRenderContext; }
 
 namespace sl
 {
@@ -11,20 +13,19 @@ namespace sl
 namespace parser { class Shader; class Node; }
 
 class RenderShader;
-class RenderContext;
 class RenderBuffer;
 class ObserverMVP;
 
 class ShaderProgram
 {
 public:
-	ShaderProgram(RenderContext* rc, int max_vertex);
+	ShaderProgram(ur::IRenderContext* rc, int max_vertex);
 	virtual ~ShaderProgram();
 
 	virtual void Bind() {}
 
 	void Load(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VertexAttrib>& va_list, 
+		const std::vector<ur::VertexAttrib>& va_list, 
 		RenderBuffer* ib, bool has_mvp);
 
 	RenderShader* GetShader() { return m_shader; }
@@ -35,7 +36,7 @@ private:
 	void Release();
 
 protected:
-	RenderContext* m_rc;
+	ur::IRenderContext* m_rc;
 
 	RenderShader* m_shader;
 

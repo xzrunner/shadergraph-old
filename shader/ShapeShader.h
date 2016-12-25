@@ -14,7 +14,7 @@ class ShaderProgram;
 class ShapeShader : public Shader
 {
 public:
-	ShapeShader(RenderContext* rc);
+	ShapeShader(ur::IRenderContext* rc);
 	virtual ~ShapeShader();
 
 	virtual void Bind() const;

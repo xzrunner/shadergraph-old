@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "Utility.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../parser/PositionTrans.h"
@@ -17,7 +18,8 @@
 #include "../parser/Mul2.h"
 #include "../utility/StackAllocator.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
+
 #include <ds_array.h>
 
 namespace sl
@@ -26,11 +28,11 @@ namespace sl
 static const int MAX_VERTICES = 10000;
 static const int MAX_INDICES = 20000;
 
-Model3Shader::Model3Shader(RenderContext* rc)
+Model3Shader::Model3Shader(ur::IRenderContext* rc)
 	: Shader(rc)
 	, m_curr_shader(-1)
 {
-	m_rc->SetClearFlag(MASKC | MASKD);
+	m_rc->SetClearFlag(ur::MASKC | ur::MASKD);
 
 	InitVAList();
 	InitProgs();
@@ -58,10 +60,9 @@ void Model3Shader::Commit() const
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
-	struct render* r = m_rc->GetEJRender();
-	render_setdepth(r, DEPTH_LESS_EQUAL);
+	m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
 	shader->Commit();
-	render_setdepth(r, DEPTH_DISABLE);
+	m_rc->SetDepth(ur::DEPTH_DISABLE);
 }
 
 void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
@@ -70,15 +71,15 @@ void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse,
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), ambient, diffuse, specular, shininess);
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), ambient, diffuse, specular, shininess);
 	if (tex >= 0) {
-		render_setdepth(m_rc->GetEJRender(), DEPTH_LESS_EQUAL);
-		m_rc->SetTexture(tex, 0);
+		m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
+		m_rc->BindTexture(tex, 0);
 	}
 }
 
 void Model3Shader::SetLightPosition(const sm::vec3& pos)
 {
-	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
-	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, UNIFORM_FLOAT3, &pos.x);
+	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 }
 
 void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
@@ -92,7 +93,7 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	if (idx != m_curr_shader) {
 		Commit();
 		m_curr_shader = idx;
-		m_rc->BindShader(m_programs[idx]->GetShader(), MODEL3);
+		ShaderMgr::Instance()->BindRenderShader(m_programs[idx]->GetShader(), MODEL3);
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
@@ -132,8 +133,8 @@ void Model3Shader::SetModelView(const sm::mat4& mat)
 	}
 
 	sm::mat3 mat3(mat);
-	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
-	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, UNIFORM_FLOAT33, mat3.x);
+	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 }
 
 void Model3Shader::InitVAList()
@@ -234,7 +235,7 @@ ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, MAX_VERTICES);
 
-	std::vector<VertexAttrib> va_list;
+	std::vector<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {
 		va_list.push_back(m_va_list[va_types[i]]);
 	}
@@ -243,7 +244,7 @@ ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 
 	SubjectMVP3::Instance()->Register(prog->GetMVP());
 
-	prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
+	prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 
 	return prog;
 }
@@ -255,23 +256,23 @@ ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 void Model3Shader::GouraudUniforms::
 Init(RenderShader* shader)
 {
-	diffuse = shader->AddUniform("u_diffuse_material", UNIFORM_FLOAT3);
-	ambient = shader->AddUniform("u_ambient_material", UNIFORM_FLOAT3);
-	specular = shader->AddUniform("u_specular_material", UNIFORM_FLOAT3);
-	shininess = shader->AddUniform("u_shininess", UNIFORM_FLOAT1);
+	diffuse = shader->AddUniform("u_diffuse_material", ur::UNIFORM_FLOAT3);
+	ambient = shader->AddUniform("u_ambient_material", ur::UNIFORM_FLOAT3);
+	specular = shader->AddUniform("u_specular_material", ur::UNIFORM_FLOAT3);
+	shininess = shader->AddUniform("u_shininess", ur::UNIFORM_FLOAT1);
 
-	normal_matrix = shader->AddUniform("u_normal_matrix", UNIFORM_FLOAT33);
-	light_position = shader->AddUniform("u_light_position", UNIFORM_FLOAT3);
+	normal_matrix = shader->AddUniform("u_normal_matrix", ur::UNIFORM_FLOAT33);
+	light_position = shader->AddUniform("u_light_position", ur::UNIFORM_FLOAT3);
 }
 
 void Model3Shader::GouraudUniforms::
 SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
 			const sm::vec3& specular, float shininess) 
 {
-	shader->SetUniform(this->ambient, UNIFORM_FLOAT3, &ambient.x);
-	shader->SetUniform(this->diffuse, UNIFORM_FLOAT3, &diffuse.x);
-	shader->SetUniform(this->specular, UNIFORM_FLOAT3, &specular.x);
-	shader->SetUniform(this->shininess, UNIFORM_FLOAT1, &shininess);
+	shader->SetUniform(this->ambient, ur::UNIFORM_FLOAT3, &ambient.x);
+	shader->SetUniform(this->diffuse, ur::UNIFORM_FLOAT3, &diffuse.x);
+	shader->SetUniform(this->specular, ur::UNIFORM_FLOAT3, &specular.x);
+	shader->SetUniform(this->shininess, ur::UNIFORM_FLOAT1, &shininess);
 }
 
 }

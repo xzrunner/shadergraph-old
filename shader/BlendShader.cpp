@@ -2,6 +2,7 @@
 #include "SubjectMVP2.h"
 #include "Utility.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
 #include "../parser/AttributeNode.h"
@@ -12,17 +13,17 @@
 #include "../parser/Blend.h"
 #include "../parser/FragColor.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 namespace sl
 {
 
 static const int MAX_COMMBINE = 1024;
 
-BlendShader::BlendShader(RenderContext* rc)
+BlendShader::BlendShader(ur::IRenderContext* rc)
 	: Shader(rc)
 {
-	m_rc->SetClearFlag(MASKC);
+	m_rc->SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -46,7 +47,7 @@ BlendShader::~BlendShader()
 
 void BlendShader::Bind() const
 {
-	m_rc->BindShader(m_prog->GetShader(), BLEND);
+	ShaderMgr::Instance()->BindRenderShader(m_prog->GetShader(), BLEND);
 }
 
 void BlendShader::UnBind() const
@@ -55,11 +56,11 @@ void BlendShader::UnBind() const
 
 void BlendShader::Commit() const
 {
-	m_rc->SetTexture(m_tex_blend, 0);
-	m_rc->SetTexture(m_tex_base, 1);
+	m_rc->BindTexture(m_tex_blend, 0);
+	m_rc->BindTexture(m_tex_base, 1);
 	
 	RenderShader* shader = m_prog->GetShader();
-	m_rc->BindShader(shader);
+	ShaderMgr::Instance()->BindRenderShader(shader);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -118,7 +119,7 @@ void BlendShader::InitVAList()
 
 void BlendShader::InitProg()
 {
- 	std::vector<VertexAttrib> va_list;
+ 	std::vector<ur::VertexAttrib> va_list;
  	va_list.push_back(m_va_list[POSITION]);
  	va_list.push_back(m_va_list[TEXCOORD]);
  	va_list.push_back(m_va_list[TEXCOORD_BASE]);
@@ -134,35 +135,35 @@ void BlendShader::InitProg()
 /* class BlendShader::Program                                           */
 /************************************************************************/
 
-BlendShader::Program::Program(RenderContext* rc, const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+BlendShader::Program::Program(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 
 	SubjectMVP2::Instance()->Register(GetMVP());
 
-	m_shader->SetDrawMode(DRAW_TRIANGLES);
+	m_shader->SetDrawMode(ur::DRAW_TRIANGLES);
 
-	m_mode = m_shader->AddUniform("u_mode", UNIFORM_INT1);
-	int tex0 = m_shader->AddUniform("u_texture0", UNIFORM_INT1);
+	m_mode = m_shader->AddUniform("u_mode", ur::UNIFORM_INT1);
+	int tex0 = m_shader->AddUniform("u_texture0", ur::UNIFORM_INT1);
 	if (tex0 >= 0) {
 		float sample = 0;
-		m_shader->SetUniform(tex0, UNIFORM_INT1, &sample);
+		m_shader->SetUniform(tex0, ur::UNIFORM_INT1, &sample);
 	}
-	int tex1 = m_shader->AddUniform("u_texture1", UNIFORM_INT1);
+	int tex1 = m_shader->AddUniform("u_texture1", ur::UNIFORM_INT1);
 	if (tex1 >= 0) {
 		float sample = 1;
-		m_shader->SetUniform(tex1, UNIFORM_INT1, &sample);
+		m_shader->SetUniform(tex1, ur::UNIFORM_INT1, &sample);
 	}
 }
 
 void BlendShader::Program::SetMode(int mode)
 {
 	float m = mode;
-	m_shader->SetUniform(m_mode, UNIFORM_INT1, &m);
+	m_shader->SetUniform(m_mode, ur::UNIFORM_INT1, &m);
 }
 
-void BlendShader::Program::Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+void BlendShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

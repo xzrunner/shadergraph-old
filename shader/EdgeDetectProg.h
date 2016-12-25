@@ -9,8 +9,8 @@ namespace sl
 class EdgeDetectProg : public FilterProgram
 {
 public:
-	EdgeDetectProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	EdgeDetectProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	void SetBlend(float blend);
 

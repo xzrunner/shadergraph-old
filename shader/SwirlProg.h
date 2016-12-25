@@ -9,8 +9,8 @@ namespace sl
 class SwirlProg : public FilterProgram
 {
 public:
-	SwirlProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	SwirlProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	void SetRadius(float radius);
 	void SetAngle(float angle);

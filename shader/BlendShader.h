@@ -4,7 +4,6 @@
 #include "Shader.h"
 #include "BlendMode.h"
 #include "ShaderProgram.h"
-#include "../render/VertexAttrib.h"
 
 #include <stdint.h>
 
@@ -16,7 +15,7 @@ class ShaderProgram;
 class BlendShader : public Shader
 {
 public:
-	BlendShader(RenderContext* rc);
+	BlendShader(ur::IRenderContext* rc);
 	virtual ~BlendShader();
 
 	virtual void Bind() const;
@@ -55,13 +54,13 @@ private:
 	class Program : public ShaderProgram
 	{
 	public:
-		Program(RenderContext* rc, const std::vector<VertexAttrib>& va_list, 
+		Program(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, 
 			RenderBuffer* ib);
 		
 		void SetMode(int mode);
 
 	private:
-		void Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+		void Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	private:
 		int m_mode;
@@ -69,7 +68,7 @@ private:
 	}; // Program
 
 private:
-	VertexAttrib m_va_list[VA_MAX_COUNT];
+	ur::VertexAttrib m_va_list[VA_MAX_COUNT];
 
 	Program* m_prog;
 

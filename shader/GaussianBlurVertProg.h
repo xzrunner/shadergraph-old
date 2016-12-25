@@ -9,8 +9,8 @@ namespace sl
 class GaussianBlurVertProg : public FilterProgram
 {
 public:
-	GaussianBlurVertProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	GaussianBlurVertProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	void SetTexHeight(float height);
 

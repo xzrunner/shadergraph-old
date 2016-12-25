@@ -10,7 +10,7 @@ extern "C"
 
 /**
  *  @note
- *    the values should same as sl::ShaderType
+ *    the values should same as ShaderType
  */
 enum SHADER_TYPE {
 	ST_SHAPE2 = 0,
@@ -32,7 +32,7 @@ union sm_mat4;
  *    common
  */
 
-int  sl_create(int max_texture);
+void sl_create(void* render_context);
 void sl_release();
 
 void sl_create_shader(enum SHADER_TYPE type);
@@ -59,8 +59,6 @@ void sl_render_clear(unsigned long argb);
 int  sl_render_version();
 void sl_enable_scissor(int enable);
 void sl_set_viewport(int x, int y, int w, int h);
-
-struct render* sl_get_ej_render();
 
 void sl_flush();
 
@@ -109,7 +107,7 @@ void sl_sprite3_draw(const float* positions, const float* texcoords, int texid);
  *    filter shader
  *
  *  @note
- *    the values should same as sl::FILTER_MODE
+ *    the values should same as FILTER_MODE
  */
 enum SL_FILTER_MODE {
 	SLFM_NULL					= 0,

@@ -9,7 +9,7 @@ namespace sl
 class Sprite3Shader : public SpriteShader
 {
 public:
-	Sprite3Shader(RenderContext* rc);	
+	Sprite3Shader(ur::IRenderContext* rc);	
 
 	virtual void Commit() const;
 

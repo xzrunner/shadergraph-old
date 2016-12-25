@@ -67,7 +67,7 @@ void ShaderMgr::SetShader(ShaderType type)
 RenderShader* ShaderMgr::CreateRenderShader()
 {
 	if (m_render_shaders.size() < MAX_SHADER) {
-		RenderShader* shader = new RenderShader(m_ej_render);
+		RenderShader* shader = new RenderShader(m_context);
 		m_render_shaders.push_back(shader);
 		return shader;
 	} else {

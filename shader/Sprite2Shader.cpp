@@ -2,9 +2,12 @@
 #include "SubjectMVP2.h"
 #include "ShaderProgram.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderShader.h"
 #include "../render/RenderBuffer.h"
 #include "../utility/StackAllocator.h"
+
+#include <unirender/IRenderContext.h>
 
 #ifdef SL_DC_STAT
 #include <iostream>
@@ -17,7 +20,7 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-Sprite2Shader::Sprite2Shader(RenderContext* rc)
+Sprite2Shader::Sprite2Shader(ur::IRenderContext* rc)
 	: SpriteShader(rc, 2, MAX_COMMBINE * 4, true)
 {
 	InitProgs();
@@ -30,7 +33,7 @@ void Sprite2Shader::Commit() const
 		return;
 	}
 
-	m_rc->SetTexture(m_texid, 0);
+	m_rc->BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = NULL;
 	switch (m_prog_type)
@@ -71,7 +74,7 @@ void Sprite2Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader, SPRITE2);
+	ShaderMgr::Instance()->BindRenderShader(shader, SPRITE2);
 	shader->Draw(buf, vb_count, NULL, m_quad_sz * 6);
 	alloc->Free(buf);
 

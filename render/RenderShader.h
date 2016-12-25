@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 
-struct render;
+namespace ur { class IRenderContext; }
 
 namespace sl
 {
@@ -18,7 +18,7 @@ class RenderLayout;
 class RenderShader
 {
 public:
-	RenderShader(render* ej_render);
+	RenderShader(ur::IRenderContext* rc);
 	~RenderShader();
 
 	void Load(const char* vs, const char* fs);
@@ -33,7 +33,7 @@ public:
 
 	/**
 	 *  @note
-	 *    Must only called by RenderContext::BindShader()
+	 *    Must only called by ur::IRenderContext::BindShader()
 	 */
 	void Bind();
 
@@ -66,7 +66,7 @@ private:
 		void Assign(int loc, UNIFORM_FORMAT_TYPE type);
 		void Assign(UNIFORM_FORMAT_TYPE t, const float* v);
 
-		bool Apply(render* ej_render);
+		bool Apply(ur::IRenderContext* rc);
 
 	private:
 		int m_loc;
@@ -78,7 +78,7 @@ private:
 	}; // Uniform
 
 private:
-	render* m_ej_render;
+	ur::IRenderContext* m_rc;
 
 	int m_prog;
 

@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-namespace unirender { class IRenderContext; }
+namespace ur { class IRenderContext; }
 
 namespace sl
 {
@@ -20,7 +20,8 @@ class RenderShader;
 class ShaderMgr
 {
 public:
-	void SetContext(unirender::IRenderContext* context) { m_context = context; }
+	void SetContext(ur::IRenderContext* context) { m_context = context; }
+	ur::IRenderContext* GetContext() { return m_context; }
 
 	void CreateShader(ShaderType type, Shader* shader);
 	void ReleaseShader(ShaderType type);
@@ -40,7 +41,7 @@ public:
 	void BindRenderShader(RenderShader* shader, int type = -1);
 	
 private:
-	unirender::IRenderContext* m_context;
+	ur::IRenderContext* m_context;
 
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;

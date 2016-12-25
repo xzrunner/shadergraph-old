@@ -9,8 +9,8 @@ namespace sl
 class BurningMapProg : public FilterProgram
 {
 public:
-	BurningMapProg(RenderContext* rc, int max_vertex, 
-		const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+	BurningMapProg(ur::IRenderContext* rc, int max_vertex, 
+		const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 
 	virtual void UpdateTime(float time);
 

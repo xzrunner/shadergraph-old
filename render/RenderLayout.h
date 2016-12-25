@@ -1,14 +1,14 @@
 #ifndef _SHADERLAB_RENDER_LAYOUT_H_
 #define _SHADERLAB_RENDER_LAYOUT_H_
 
-#include "VertexAttrib.h"
 #include "../utility/typedef.h"
 
 #include <CU_RefCountObj.h>
+#include <unirender/VertexAttrib.h>
 
 #include <vector>
 
-struct render;
+namespace ur { class IRenderContext; }
 
 namespace sl
 {
@@ -16,13 +16,13 @@ namespace sl
 class RenderLayout : public cu::RefCountObj
 {
 public:
-	RenderLayout(render* ej_render, const std::vector<VertexAttrib>& va_list);
+	RenderLayout(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list);
 	virtual ~RenderLayout();
 
 	void Bind();
 
 private:
-	render* m_ej_render;
+	ur::IRenderContext* m_rc;
 
 	RID m_id;
 

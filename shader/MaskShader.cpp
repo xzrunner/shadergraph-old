@@ -2,6 +2,7 @@
 #include "SubjectMVP2.h"
 #include "Utility.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
 #include "../parser/Mask.h"
@@ -11,17 +12,17 @@
 #include "../parser/TextureMap.h"
 #include "../parser/FragColor.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 namespace sl
 {
 
 static const int MAX_COMMBINE = 128;
 
-MaskShader::MaskShader(RenderContext* rc)
+MaskShader::MaskShader(ur::IRenderContext* rc)
 	: Shader(rc)
 {
-	m_rc->SetClearFlag(MASKC);
+	m_rc->SetClearFlag(ur::MASKC);
 
 	m_tex = m_tex_mask = 0;
 
@@ -40,7 +41,7 @@ MaskShader::~MaskShader()
 
 void MaskShader::Bind() const
 {
-	m_rc->BindShader(m_prog->GetShader(), MASK);
+	ShaderMgr::Instance()->BindRenderShader(m_prog->GetShader(), MASK);
 }
 
 void MaskShader::UnBind() const
@@ -49,11 +50,11 @@ void MaskShader::UnBind() const
 
 void MaskShader::Commit() const
 {
-	m_rc->SetTexture(m_tex, 0);
-	m_rc->SetTexture(m_tex_mask, 1);
+	m_rc->BindTexture(m_tex, 0);
+	m_rc->BindTexture(m_tex_mask, 1);
 
 	RenderShader* shader = m_prog->GetShader();
-	m_rc->BindShader(shader, MASK);
+	ShaderMgr::Instance()->BindRenderShader(shader, MASK);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -93,7 +94,7 @@ void MaskShader::InitVAList()
 
 void MaskShader::InitProg()
 {
-	std::vector<VertexAttrib> va_list;
+	std::vector<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
@@ -107,28 +108,28 @@ void MaskShader::InitProg()
 /* class MaskShader::Program                                            */
 /************************************************************************/
 
-MaskShader::Program::Program(RenderContext* rc, const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+MaskShader::Program::Program(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 
 	SubjectMVP2::Instance()->Register(GetMVP());
 
-	m_shader->SetDrawMode(DRAW_TRIANGLES);
+	m_shader->SetDrawMode(ur::DRAW_TRIANGLES);
 
-	int tex0 = m_shader->AddUniform("u_texture0", UNIFORM_INT1);
+	int tex0 = m_shader->AddUniform("u_texture0", ur::UNIFORM_INT1);
 	if (tex0 >= 0) {
 		float sample = 0;
-		m_shader->SetUniform(tex0, UNIFORM_INT1, &sample);
+		m_shader->SetUniform(tex0, ur::UNIFORM_INT1, &sample);
 	}
-	int tex1 = m_shader->AddUniform("u_texture1", UNIFORM_INT1);
+	int tex1 = m_shader->AddUniform("u_texture1", ur::UNIFORM_INT1);
 	if (tex1 >= 0) {
 		float sample = 1;
-		m_shader->SetUniform(tex1, UNIFORM_INT1, &sample);
+		m_shader->SetUniform(tex1, ur::UNIFORM_INT1, &sample);
 	}
 }
 
-void MaskShader::Program::Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+void MaskShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

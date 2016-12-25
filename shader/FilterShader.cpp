@@ -14,12 +14,13 @@
 #include "BurningMapProg.h"
 #include "ColGradingProg.h"
 #include "ShaderType.h"
+#include "ShaderMgr.h"
 #include "../render/RenderBuffer.h"
 #include "../render/RenderShader.h"
 #include "../parser/ColorAddMul.h"
 #include "../utility/StackAllocator.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 #ifdef EASY_EDITOR
 #define HAS_TEXTURE_SIZE
@@ -30,7 +31,7 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-FilterShader::FilterShader(RenderContext* rc)
+FilterShader::FilterShader(ur::IRenderContext* rc)
 	: Shader(rc)
 	, m_time(0)
 	, m_curr_mode(FM_NULL)
@@ -41,7 +42,7 @@ FilterShader::FilterShader(RenderContext* rc)
 {
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
 
-	m_rc->SetClearFlag(MASKC);
+	m_rc->SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -68,7 +69,7 @@ void FilterShader::Bind() const
 {
 	if (m_curr_mode != FM_NULL) {
 		int idx = m_mode2index[m_curr_mode];
-		m_rc->BindShader(m_programs[idx]->GetShader(), FILTER);
+		ShaderMgr::Instance()->BindRenderShader(m_programs[idx]->GetShader(), FILTER);
 
 		m_programs[idx]->Bind();
 	}
@@ -104,9 +105,9 @@ void FilterShader::Commit() const
 		return;
 	}
 
-	m_rc->SetTexture(m_texid, 0);
+	m_rc->BindTexture(m_texid, 0);
 	RenderShader* shader = prog->GetShader();
-	m_rc->BindShader(shader, FILTER);
+	ShaderMgr::Instance()->BindRenderShader(shader, FILTER);
 
 	int vertex_sz = prog->GetVertexSize();
 	int vb_count = m_quad_sz * 4;
@@ -154,7 +155,7 @@ void FilterShader::SetMode(FILTER_MODE mode)
 		Commit();
 		m_curr_mode = mode;
 		int idx = m_mode2index[m_curr_mode];
-		m_rc->BindShader(m_programs[idx]->GetShader(), FILTER);
+		ShaderMgr::Instance()->BindRenderShader(m_programs[idx]->GetShader(), FILTER);
 	}
 }
 
@@ -206,7 +207,7 @@ void FilterShader::InitProgs()
 	memset(m_programs, 0, sizeof(m_programs));
 	memset(m_programs_with_color, 0, sizeof(m_programs_with_color));
 
-	std::vector<VertexAttrib> va_list;
+	std::vector<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 
@@ -289,14 +290,14 @@ void FilterShader::InitProgs()
 		ShaderProgram* prog = m_programs[i];
 		if (prog) {
 			SubjectMVP2::Instance()->Register(prog->GetMVP());
-			prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
+			prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 		}
 	}
 }
 
 FilterProgram* FilterShader::InitProgWithColor(int idx) const
 {
-	std::vector<VertexAttrib> va_list;
+	std::vector<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[COLOR]);
@@ -315,7 +316,7 @@ FilterProgram* FilterShader::InitProgWithColor(int idx) const
 
 	if (prog) {
 		SubjectMVP2::Instance()->Register(prog->GetMVP());
-		prog->GetShader()->SetDrawMode(DRAW_TRIANGLES);
+		prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 	}
 
 	return prog;

@@ -8,12 +8,12 @@
 namespace sl
 {
 
-FilterProgram::FilterProgram(RenderContext* rc, int max_vertex)
+FilterProgram::FilterProgram(ur::IRenderContext* rc, int max_vertex)
 	: ShaderProgram(rc, max_vertex)
 {
 }
 
-void FilterProgram::Init(const std::vector<VertexAttrib>& va_list, 
+void FilterProgram::Init(const std::vector<ur::VertexAttrib>& va_list, 
 						 RenderBuffer* ib, parser::Node* pn, parser::Node* pre_pn/* = NULL*/)
 {
 	parser::Node* vert = new parser::PositionTrans();

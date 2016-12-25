@@ -3,7 +3,6 @@
 
 #include "Shader.h"
 #include "ShaderProgram.h"
-#include "../render/VertexAttrib.h"
 
 #include <vector>
 
@@ -13,7 +12,7 @@ namespace sl
 class MaskShader : public Shader
 {
 public:
-	MaskShader(RenderContext* rc);
+	MaskShader(ur::IRenderContext* rc);
 	virtual ~MaskShader();
 
 	virtual void Bind() const;
@@ -45,14 +44,14 @@ private:
 	class Program : public ShaderProgram
 	{
 	public:
-		Program(RenderContext* rc, const std::vector<VertexAttrib>& va_list, 
+		Program(ur::IRenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, 
 			RenderBuffer* ib);
 	private:
-		void Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib);
+		void Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
 	}; // Program
 
 private:
-	VertexAttrib m_va_list[VA_MAX_COUNT];
+	ur::VertexAttrib m_va_list[VA_MAX_COUNT];
 
 	ShaderProgram* m_prog;
 

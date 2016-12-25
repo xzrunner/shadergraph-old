@@ -9,12 +9,12 @@ namespace sl
 class FilterProgram : public ShaderProgram
 {
 public:
-	FilterProgram(RenderContext* rc, int max_vertex);
+	FilterProgram(ur::IRenderContext* rc, int max_vertex);
 	
 	virtual void UpdateTime(float time) {}
 
 protected:
-	void Init(const std::vector<VertexAttrib>& va_list, RenderBuffer* ib, 
+	void Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib, 
 		parser::Node* pn, parser::Node* pre_pn = NULL);
 
 }; // FilterProgram

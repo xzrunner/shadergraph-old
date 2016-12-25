@@ -5,7 +5,7 @@
 #include "../shader/Shader.h"
 #include "../utility/Statistics.h"
 
-#include <render/render.h>
+#include <unirender/IRenderContext.h>
 
 //#define SHADER_LOG
 //#define SL_DC_STAT
@@ -21,8 +21,8 @@
 namespace sl
 {
 
-RenderShader::RenderShader(render* ej_render)
-	: m_ej_render(ej_render)
+RenderShader::RenderShader(ur::IRenderContext* rc)
+	: m_rc(rc)
 {
 	m_prog = 0;
 
@@ -34,7 +34,7 @@ RenderShader::RenderShader(render* ej_render)
 	m_vb = m_ib = NULL;
 	m_layout = NULL;
 
-	m_draw_mode = DRAW_POINTS;
+	m_draw_mode = ur::DRAW_POINTS;
 }
 
 RenderShader::~RenderShader()
@@ -53,21 +53,15 @@ void RenderShader::Load(const char* vs, const char* fs)
 	std::cout << "================================================== \n";
 #endif // SHADER_LOG
 
-	
-
-	struct shader_init_args args;
-	args.vs = vs;
-	args.fs = fs;
-	args.texture = 0;
-	m_prog = render_shader_create(m_ej_render, &args);
-	render_shader_bind(m_ej_render, m_prog);
+	m_prog = m_rc->CreateShader(vs, fs);
+	m_rc->BindShader(m_prog);
 //	render_shader_bind(m_ej_render, 0);	// ??
 	//	S->curr_shader = -1;
 }
 
 void RenderShader::Unload()
 {
-	render_release(m_ej_render, SHADER, m_prog);
+	m_rc->ReleaseShader(m_prog);
 }
 
 void RenderShader::SetVertexBuffer(RenderBuffer* vb) 
@@ -87,7 +81,7 @@ void RenderShader::SetLayout(RenderLayout* lo)
 
 void RenderShader::Bind()
 {
-	render_shader_bind(m_ej_render, m_prog);
+	m_rc->BindShader(m_prog);
 	m_vb->Bind();
 	if (m_ib) {
 		m_ib->Bind();
@@ -108,11 +102,11 @@ void RenderShader::Commit()
 	m_vb->Update();
 	if (m_ib) {
 		m_ib->Update();
-		render_draw_elements(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_ib->Size());
+		m_rc->DrawElements((ur::DRAW_MODE)m_draw_mode, 0, m_ib->Size());
 		stat->AddVertices(m_ib->Size());
 		m_ib->Clear();
 	} else {
-		render_draw_arrays(m_ej_render, (DRAW_MODE)m_draw_mode, 0, m_vb->Size());
+		m_rc->DrawArrays((ur::DRAW_MODE)m_draw_mode, 0, m_vb->Size());
 		stat->AddVertices(m_vb->Size());
 	}
 	m_vb->Clear();
@@ -133,12 +127,12 @@ void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm)
 
 int RenderShader::AddUniform(const char* name, UNIFORM_FORMAT_TYPE t)
 {
-	// todo RenderContext::Bind()
+	// todo ur::IRenderContext::Bind()
 
 	if (m_uniform_number >= MAX_UNIFORM) {
 		return -1;
 	}
-	int loc = render_shader_locuniform(m_ej_render, name);
+	int loc = m_rc->GetShaderUniform(name);
 	int index = m_uniform_number++;
 	m_uniform[index].Assign(loc, t);
 	return loc < 0 ? -1 : index;
@@ -146,7 +140,7 @@ int RenderShader::AddUniform(const char* name, UNIFORM_FORMAT_TYPE t)
 
 void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 {
-	// todo RenderContext::Bind()
+	// todo ur::IRenderContext::Bind()
 
 	if (index < 0 || index >= m_uniform_number) {
 		return;
@@ -186,7 +180,7 @@ void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
 void RenderShader::ApplyUniform()
 {
 	for (int i = 0; i < m_uniform_number; ++i) {
-		bool changed = m_uniform[i].Apply(m_ej_render);
+		bool changed = m_uniform[i].Apply(m_rc);
 		if (changed) {
 			m_uniform_changed = changed;
 		}
@@ -197,28 +191,28 @@ int RenderShader::GetUniformSize(UNIFORM_FORMAT_TYPE t)
 {
 	int n = 0;
 	switch(t) {
-	case UNIFORM_INVALID:
+	case ur::UNIFORM_INVALID:
 		n = 0;
 		break;
-	case UNIFORM_FLOAT1:
+	case ur::UNIFORM_FLOAT1:
 		n = 1;
 		break;
-	case UNIFORM_FLOAT2:
+	case ur::UNIFORM_FLOAT2:
 		n = 2;
 		break;
-	case UNIFORM_FLOAT3:
+	case ur::UNIFORM_FLOAT3:
 		n = 3;
 		break;
-	case UNIFORM_FLOAT4:
+	case ur::UNIFORM_FLOAT4:
 		n = 4;
 		break;
-	case UNIFORM_FLOAT33:
+	case ur::UNIFORM_FLOAT33:
 		n = 9;
 		break;
-	case UNIFORM_FLOAT44:
+	case ur::UNIFORM_FLOAT44:
 		n = 16;
 		break;
-	case UNIFORM_INT1:
+	case ur::UNIFORM_INT1:
 		n = 1;
 		break;
 	}
@@ -263,10 +257,10 @@ void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v)
 	m_changed = true;
 }
 
-bool RenderShader::Uniform::Apply(render* ej_render) 
+bool RenderShader::Uniform::Apply(ur::IRenderContext* rc) 
 {
 	if (m_changed && m_loc >= 0) {
-		render_shader_setuniform(ej_render, m_loc, (UNIFORM_FORMAT)m_type, m_value);
+		rc->SetShaderUniform(m_loc, (ur::UNIFORM_FORMAT)m_type, m_value);
 		return true;
 	} else {
 		return false;

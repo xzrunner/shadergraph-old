@@ -6,7 +6,7 @@
 
 #include <CU_RefCountObj.h>
 
-struct render;
+namespace ur { class IRenderContext; }
 
 namespace sl
 {
@@ -16,7 +16,7 @@ class Buffer;
 class RenderBuffer : public cu::RefCountObj
 {
 public:
-	RenderBuffer(render* ej_render, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
+	RenderBuffer(ur::IRenderContext* rc, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
 	virtual ~RenderBuffer();
 
 	void Bind();
@@ -29,7 +29,7 @@ public:
 	bool Add(const void* data, int n) { return m_buf->Add(data, n); }
 
 private:
-	render* m_ej_render;
+	ur::IRenderContext* m_rc;
 
 	RENDER_OBJ_TYPE m_type;
 

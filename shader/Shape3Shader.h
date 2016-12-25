@@ -9,7 +9,7 @@ namespace sl
 class Shape3Shader : public ShapeShader
 {
 public:
-	Shape3Shader(RenderContext* rc);	
+	Shape3Shader(ur::IRenderContext* rc);	
 
 	void Draw(const float* positions, int count) const;
 	void Draw(float x, float y, float z, bool dummy) const;

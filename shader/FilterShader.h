@@ -3,7 +3,8 @@
 
 #include "Shader.h"
 #include "FilterMode.h"
-#include "../render/VertexAttrib.h"
+
+#include <unirender/VertexAttrib.h>
 
 #include <stdint.h>
 
@@ -16,7 +17,7 @@ class RenderBuffer;
 class FilterShader : public Shader
 {
 public:
-	FilterShader(RenderContext* rc);
+	FilterShader(ur::IRenderContext* rc);
 	virtual ~FilterShader();
 	
 	virtual void Bind() const;
@@ -85,7 +86,7 @@ private:
 	FilterProgram* InitProgWithColor(int idx) const;
 
 private:
-	VertexAttrib m_va_list[VA_MAX_COUNT];
+	ur::VertexAttrib m_va_list[VA_MAX_COUNT];
 
 	FilterProgram* m_programs[PROG_COUNT];
 	mutable FilterProgram* m_programs_with_color[PROG_COUNT];

@@ -2,22 +2,22 @@
 #include "../render/RenderShader.h"
 #include "../parser/Blur.h"
 
-#include <render/render.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {
 
-BlurProg::BlurProg(RenderContext* rc, int max_vertex, 
-				   const std::vector<VertexAttrib>& va_list, RenderBuffer* ib)
+BlurProg::BlurProg(ur::IRenderContext* rc, int max_vertex, 
+				   const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
 	: FilterProgram(rc, max_vertex)
 {
 	Init(va_list, ib, new parser::Blur());
-	m_radius = m_shader->AddUniform("u_radius", UNIFORM_FLOAT1);
+	m_radius = m_shader->AddUniform("u_radius", ur::UNIFORM_FLOAT1);
 }
 
 void BlurProg::SetRadius(float r)
 {
-	m_shader->SetUniform(m_radius, UNIFORM_FLOAT1, &r);
+	m_shader->SetUniform(m_radius, ur::UNIFORM_FLOAT1, &r);
 }
 
 }

@@ -16,6 +16,7 @@
 #include "render/RenderShader.h"
 #include "utility/Statistics.h"
 
+#include <unirender/IRenderContext.h>
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
 
@@ -28,15 +29,14 @@ namespace sl
  */
 
 extern "C"
-int sl_create(int max_texture)
+void sl_create(void* render_context)
 {
-	return ShaderMgr::Instance()->CreateContext(max_texture);
+	ShaderMgr::Instance()->SetContext(static_cast<ur::IRenderContext*>(render_context));
 }
 
 extern "C"
 void sl_release()
 {
-	ShaderMgr::Instance()->ReleaseContext();
     SubjectMVP2::Instance()->Clear();
     SubjectMVP3::Instance()->Clear();
 }
@@ -45,7 +45,7 @@ extern "C"
 void sl_create_shader(enum SHADER_TYPE type)
 {
 	ShaderMgr* mgr = ShaderMgr::Instance();
-	RenderContext* rc = mgr->GetContext();
+	ur::IRenderContext* rc = mgr->GetContext();
 
 	ShaderType sl_type = MAX_SHADER;
 	Shader* shader = NULL;
@@ -113,134 +113,77 @@ int  sl_is_shader(enum SHADER_TYPE type) {
 
 extern "C"
 void sl_on_projection2(int w, int h) {
-	sl::SubjectMVP2::Instance()->NotifyProjection(w, h);
+	SubjectMVP2::Instance()->NotifyProjection(w, h);
 }
 
 extern "C"
 void sl_on_projection3(const sm_mat4* mat) {
-	sl::SubjectMVP3::Instance()->NotifyProjection(sm::mat4(mat->x));
+	SubjectMVP3::Instance()->NotifyProjection(sm::mat4(mat->x));
 }
 
 extern "C"
 void sl_on_modelview2(float x, float y, float sx, float sy) {
-	sl::SubjectMVP2::Instance()->NotifyModelview(x, y, sx, sy);
+	SubjectMVP2::Instance()->NotifyModelview(x, y, sx, sy);
 }
 
 extern "C"
 void sl_on_modelview3(const sm_mat4* mat) {
-	sl::SubjectMVP3::Instance()->NotifyModelview(sm::mat4(mat->x));
+	SubjectMVP3::Instance()->NotifyModelview(sm::mat4(mat->x));
 }
 
 extern "C"
 void sl_set_texture(int id) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->SetTexture(id, 0);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->BindTexture(id, 0);
 }
 
 extern "C"
 int  sl_get_texture() {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			return rc->GetTexture();
-		}
-	}
-	return 0;
+	return ShaderMgr::Instance()->GetContext()->GetCurrTexture();
 }
 
 extern "C"
 void sl_set_target(int id) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->SetTarget(id);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->BindRT(id);
 }
 
 extern "C"
 int  sl_get_target() {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			return rc->GetTarget();
-		}
-	}
-	return 0;
+	return ShaderMgr::Instance()->GetContext()->GetCurrRT();
 }
 
 extern "C"
 void sl_set_blend(int m1, int m2) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->SetBlend(m1, m2);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->SetBlend(m1, m2);
 }
 
 extern "C"
 void sl_set_default_blend() {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->SetDefaultBlend();
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->SetDefaultBlend();
 }
 
 extern "C"
 void sl_set_blend_equation(int func) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->SetBlendEquation(func);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->SetBlendEquation(func);
 }
 
 extern "C"
 void sl_render_clear(unsigned long argb) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->Clear(argb);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->Clear(argb);
 }
 
 extern "C"
 int  sl_render_version() {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			return rc->GetShaderVersion();
-		}
-	}
-	return -1;
+	return ShaderMgr::Instance()->GetContext()->RenderVersion();
 }
 
 extern "C"
 void sl_enable_scissor(int enable) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->EnableScissor(enable);
-		}
-	}
+	ShaderMgr::Instance()->GetContext()->EnableScissor(enable);
 }
 
 extern "C"
 void sl_set_viewport(int x, int y, int w, int h) {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			rc->ViewportPush(x, y, w, h);
-		}
-	}
-}
-
-extern "C"
-struct render* sl_get_ej_render() {
-	if (sl::ShaderMgr* mgr = sl::ShaderMgr::Instance()) {
-		if (sl::RenderContext* rc = mgr->GetContext()) {
-			return rc->GetEJRender();
-		}
-	}
-	return NULL;	
+	ShaderMgr::Instance()->GetContext()->SetViewport(x, y, w, h);
 }
 
 extern "C"
