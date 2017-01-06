@@ -33,6 +33,8 @@ public:
 	void SetColor(uint32_t color, uint32_t additive);
 	void SetColorMap(uint32_t rmap, uint32_t gmap, uint32_t bmap);
 
+	int GetQuadCount() const { return m_quad_sz; }
+
 protected:
 	virtual void InitMVP(ObserverMVP* mvp) const = 0;
 
