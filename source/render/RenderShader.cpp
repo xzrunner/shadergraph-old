@@ -161,7 +161,7 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 	m_uniform[index].Assign(t, v);
 }
 
-void RenderShader::Draw(void* vb, int vb_n, void* ib, int ib_n)
+void RenderShader::Draw(const void* vb, int vb_n, const void* ib, int ib_n)
 {
 	if (m_ib && ib_n > 0 && m_ib->Add(ib, ib_n)) {
 #ifdef SL_DC_STAT

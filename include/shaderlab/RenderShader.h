@@ -46,7 +46,7 @@ public:
 	int AddUniform(const char* name, UNIFORM_FORMAT_TYPE t);
 	void SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v);
 
-	void Draw(void* vb, int vb_n, void* ib = NULL, int ib_n = 0);
+	void Draw(const void* vb, int vb_n, const void* ib = NULL, int ib_n = 0);
 
 private:
 	void ApplyUniform();
