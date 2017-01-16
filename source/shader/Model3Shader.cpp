@@ -20,8 +20,6 @@
 
 #include <unirender/RenderContext.h>
 
-#include <ds_array.h>
-
 namespace sl
 {
 
@@ -82,9 +80,19 @@ void Model3Shader::SetLightPosition(const sm::vec3& pos)
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 }
 
-void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
+void Model3Shader::Draw(const std::vector<float>& vertices, 
+						const std::vector<uint16_t>& indices,
 						bool has_normal, bool has_texcoord) const
 {
+	int stride = 3;
+	if (has_normal) {
+		stride += 3;
+	}
+	if (has_texcoord) {
+		stride += 2;
+	}
+	assert(vertices.size() % stride == 0);
+	
 	PROG_IDX idx = PI_STATIC_COLOR;
 	if (!has_normal && !has_texcoord) idx = PI_STATIC_COLOR;
 	if ( has_normal && !has_texcoord) idx = PI_GOURAUD_SHADING;
@@ -99,8 +107,8 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
 	const RenderBuffer *vb = shader->GetVertexBuffer(),
 		               *ib = shader->GetIndexBuffer();
-	int vn = ds_array_size(vertices),
-		in = ds_array_size(indices);
+	int vn = vertices.size() / stride,
+		in = indices.size();
 	if (vb->Size() + vn > vb->Capacity() || 
 		ib->Size() + in > ib->Capacity()) {
 		Commit();
@@ -108,19 +116,8 @@ void Model3Shader::Draw(const ds_array* vertices, const ds_array* indices,
 	if (vn > vb->Capacity() || in > ib->Capacity()) {
 		return;
 	}
-	
-	int ioffset = vb->Size();
-	int isz = ds_array_size(indices);
-	StackAllocator* alloc = StackAllocator::Instance();
-	alloc->Reserve(sizeof(uint16_t) * isz);
-	void* buf = alloc->Alloc(sizeof(uint16_t) * isz);
-	uint16_t* array = (uint16_t*)buf;
-	memcpy(buf, ds_array_data(indices), sizeof(uint16_t) * isz);
-	for (int i = 0; i < isz; ++i) {
-		array[i] += ioffset;
-	}
-	shader->Draw((void*)ds_array_data(vertices), vn, buf, in);
-	alloc->Free(buf);
+
+	shader->Draw(&vertices[0], vn, &indices[0], in);
 }
 
 void Model3Shader::SetModelView(const sm::mat4& mat)

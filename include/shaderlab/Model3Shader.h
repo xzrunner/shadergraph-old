@@ -11,8 +11,6 @@
 
 #include <stdint.h>
 
-struct ds_array;
-
 namespace sl
 {
 
@@ -37,7 +35,7 @@ public:
 		const sm::vec3& specular, float shininess, int tex);
 	void SetLightPosition(const sm::vec3& pos);
 
-	void Draw(const ds_array* vertices, const ds_array* indices,
+	void Draw(const std::vector<float>& vertices, const std::vector<uint16_t>& indices,
 		bool has_normal, bool has_texcoord) const;
 
 	// todo
