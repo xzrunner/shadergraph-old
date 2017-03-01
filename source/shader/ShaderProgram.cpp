@@ -3,11 +3,11 @@
 #include "ObserverMVP.h"
 #include "ParserShader.h"
 #include "RenderLayout.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "RenderBuffer.h"
 #include "Buffer.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 namespace sl
 {

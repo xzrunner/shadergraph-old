@@ -1,5 +1,5 @@
 #include "GaussianBlurVertProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "GaussianBlurVert.h"
 
 #include <unirender/ur_typedef.h>

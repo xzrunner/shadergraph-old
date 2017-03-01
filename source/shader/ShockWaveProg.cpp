@@ -1,5 +1,5 @@
 #include "ShockWaveProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "ShockWave.h"
 
 #include <unirender/ur_typedef.h>

@@ -1,4 +1,4 @@
-#include "StringHelper.h"
+#include "SL_StringHelper.h"
 
 namespace sl
 {

@@ -1,5 +1,5 @@
 #include "OutlineProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Outline.h"
 
 namespace sl

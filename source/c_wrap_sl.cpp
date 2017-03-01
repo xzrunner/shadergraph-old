@@ -13,10 +13,10 @@
 #include "HeatHazeProg.h"
 #include "BurningMapProg.h"
 #include "ColGradingProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Statistics.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
 

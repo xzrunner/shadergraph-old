@@ -1,5 +1,5 @@
 #include "BlurProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Blur.h"
 
 #include <unirender/ur_typedef.h>

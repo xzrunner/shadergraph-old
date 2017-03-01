@@ -2,7 +2,7 @@
 #include "Attribute.h"
 #include "ParserUniform.h"
 #include "Varying.h"
-#include "StringHelper.h"
+#include "SL_StringHelper.h"
 
 namespace sl
 {

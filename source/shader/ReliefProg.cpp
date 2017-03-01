@@ -1,5 +1,5 @@
 #include "ReliefProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Relief.h"
 
 namespace sl

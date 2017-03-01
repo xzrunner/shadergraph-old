@@ -1,7 +1,7 @@
 #include "ColorMap.h"
 #include "Attribute.h"
 #include "Varying.h"
-#include "StringHelper.h"
+#include "SL_StringHelper.h"
 
 namespace sl
 {

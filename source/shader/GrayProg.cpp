@@ -1,5 +1,5 @@
 #include "GrayProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Gray.h"
 
 namespace sl

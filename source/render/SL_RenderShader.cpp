@@ -1,11 +1,11 @@
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "RenderBuffer.h"
 #include "RenderLayout.h"
 #include "ShaderMgr.h"
 #include "Shader.h"
 #include "Statistics.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 //#define SHADER_LOG
 //#define SL_DC_STAT

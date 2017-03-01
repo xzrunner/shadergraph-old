@@ -4,7 +4,7 @@
 #include "ShaderType.h"
 #include "ShaderMgr.h"
 #include "RenderBuffer.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "AttributeNode.h"
 #include "VaryingNode.h"
 #include "PositionTrans.h"
@@ -13,7 +13,7 @@
 #include "Blend.h"
 #include "FragColor.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 namespace sl
 {

@@ -1,5 +1,5 @@
 #include "Mask.h"
-#include "StringHelper.h"
+#include "SL_StringHelper.h"
 #include "ParserUniform.h"
 
 #define STRINGIFY(A)  #A

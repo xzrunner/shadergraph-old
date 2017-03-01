@@ -2,13 +2,13 @@
 #include "ShaderProgram.h"
 #include "ShaderType.h"
 #include "ShaderMgr.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "PositionTrans.h"
 #include "VaryingNode.h"
 #include "FragColor.h"
 #include "AttributeNode.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 namespace sl
 {

@@ -1,5 +1,5 @@
 #include "SwirlProg.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "Swirl.h"
 
 #include <unirender/ur_typedef.h>

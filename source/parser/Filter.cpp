@@ -1,5 +1,5 @@
 #include "Filter.h"
-#include "StringHelper.h"
+#include "SL_StringHelper.h"
 
 namespace sl
 {

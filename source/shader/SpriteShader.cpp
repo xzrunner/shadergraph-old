@@ -4,7 +4,7 @@
 #include "ShaderProgram.h"
 #include "ShaderMgr.h"
 #include "RenderBuffer.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "RenderLayout.h"
 #include "Shader.h"
 #include "PositionTrans.h"
@@ -16,7 +16,7 @@
 #include "ColorMap.h"
 #include "Buffer.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 namespace sl
 {

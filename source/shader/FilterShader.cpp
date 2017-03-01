@@ -16,11 +16,11 @@
 #include "ShaderType.h"
 #include "ShaderMgr.h"
 #include "RenderBuffer.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "ColorAddMul.h"
 #include "StackAllocator.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 #ifdef EASY_EDITOR
 #define HAS_TEXTURE_SIZE

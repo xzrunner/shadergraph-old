@@ -3,11 +3,11 @@
 #include "ShaderProgram.h"
 #include "ShaderType.h"
 #include "ShaderMgr.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "RenderBuffer.h"
 #include "StackAllocator.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 #include <assert.h>
 

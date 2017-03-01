@@ -5,7 +5,7 @@
 #include "Utility.h"
 #include "ShaderType.h"
 #include "ShaderMgr.h"
-#include "RenderShader.h"
+#include "SL_RenderShader.h"
 #include "RenderBuffer.h"
 #include "PositionTrans.h"
 #include "AttributeNode.h"
@@ -18,7 +18,7 @@
 #include "Mul2.h"
 #include "StackAllocator.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender/UR_RenderContext.h>
 
 namespace sl
 {
