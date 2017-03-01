@@ -2,7 +2,7 @@
 #include "RenderShader.h"
 #include "GaussianBlurVert.h"
 
-#include <unirender/typedef.h>
+#include <unirender/ur_typedef.h>
 
 namespace sl
 {

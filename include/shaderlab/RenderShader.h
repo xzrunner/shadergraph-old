@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_RENDER_SHADER_H_
 #define _SHADERLAB_RENDER_SHADER_H_
 
-#include "typedef.h"
+#include "sl_typedef.h"
 
 #include <string.h>
 #include <assert.h>

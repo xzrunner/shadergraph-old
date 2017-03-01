@@ -2,7 +2,7 @@
 #define _SHADERLAB_RENDER_BUFFER_H_
 
 #include "Buffer.h"
-#include "typedef.h"
+#include "sl_typedef.h"
 
 #include <CU_RefCountObj.h>
 

@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_RENDER_LAYOUT_H_
 #define _SHADERLAB_RENDER_LAYOUT_H_
 
-#include "typedef.h"
+#include "sl_typedef.h"
 
 #include <CU_RefCountObj.h>
 #include <unirender/VertexAttrib.h>
