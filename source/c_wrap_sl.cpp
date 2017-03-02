@@ -83,6 +83,8 @@ void sl_create_shader(enum SHADER_TYPE type)
 		sl_type = MASK;
 		shader = new MaskShader(rc);
 		break;
+	default:
+		break;
 	}
 	if (shader) {
 		mgr->CreateShader(sl_type, shader);
@@ -105,7 +107,7 @@ void sl_set_shader(enum SHADER_TYPE type)
 extern "C"
 int  sl_is_shader(enum SHADER_TYPE type) {
 	if (type >= 0 && type < ST_MAX_SHADER) {
-		return ShaderMgr::Instance()->GetShaderType() == type ? 1 : 0;
+		return SHADER_TYPE(ShaderMgr::Instance()->GetShaderType()) == type ? 1 : 0;
 	} else {
 		return 0;
 	}	
