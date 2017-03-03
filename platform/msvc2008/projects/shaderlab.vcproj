@@ -557,11 +557,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\source\render\RenderShader.cpp"
+				RelativePath="..\..\..\source\render\SL_RenderShader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\shaderlab\RenderShader.h"
+				RelativePath="..\..\..\include\shaderlab\SL_RenderShader.h"
 				>
 			</File>
 		</Filter>
@@ -580,11 +580,11 @@
 				Name="utility"
 				>
 				<File
-					RelativePath="..\..\..\source\parser\StringHelper.cpp"
+					RelativePath="..\..\..\source\parser\SL_StringHelper.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\shaderlab\StringHelper.h"
+					RelativePath="..\..\..\include\shaderlab\SL_StringHelper.h"
 					>
 				</File>
 			</Filter>
