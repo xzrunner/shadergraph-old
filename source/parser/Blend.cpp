@@ -3,7 +3,7 @@
 #include "ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "blend.frag"
+#include <shaderlab/blend.frag>
 
 namespace sl
 {
