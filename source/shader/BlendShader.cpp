@@ -56,6 +56,10 @@ void BlendShader::UnBind() const
 
 void BlendShader::Commit() const
 {
+	if (m_tex_blend == 0 || m_tex_base == 0) {
+		return;
+	}
+
 	m_rc->BindTexture(m_tex_blend, 0);
 	m_rc->BindTexture(m_tex_base, 1);
 	
