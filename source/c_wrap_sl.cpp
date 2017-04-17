@@ -334,7 +334,7 @@ void sl_sprite2_draw(const float* positions, const float* texcoords, int texid)
 {
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	if (Sprite2Shader* shader = static_cast<Sprite2Shader*>(mgr->GetShader(SPRITE2))) {
-		shader->Draw(positions, texcoords, texid);
+		shader->DrawQuad(positions, texcoords, texid);
 	}
 }
 

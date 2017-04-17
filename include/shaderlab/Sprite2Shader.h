@@ -13,7 +13,7 @@ public:
 
 	virtual void Commit() const;
 
-	void Draw(const float* positions, const float* texcoords, int texid) const;
+	void DrawQuad(const float* positions, const float* texcoords, int texid) const;
 
 protected:
 	virtual void InitMVP(ObserverMVP* mvp) const;

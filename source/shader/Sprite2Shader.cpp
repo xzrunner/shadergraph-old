@@ -85,7 +85,7 @@ void Sprite2Shader::Commit() const
 	shader->Commit();
 }
 
-void Sprite2Shader::Draw(const float* positions, const float* texcoords, int texid) const
+void Sprite2Shader::DrawQuad(const float* positions, const float* texcoords, int texid) const
 {
 	if (m_quad_sz >= MAX_COMMBINE || (m_texid != texid && m_texid != 0)) {
 #ifdef SL_DC_STAT
