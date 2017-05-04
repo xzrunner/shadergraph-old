@@ -38,9 +38,6 @@ public:
 	void Draw(const std::vector<float>& vertices, const std::vector<uint16_t>& indices,
 		bool has_normal, bool has_texcoord) const;
 
-	// todo
-	void SetModelView(const sm::mat4& mat);
-
 private:
 	void InitVAList();
 	void InitProgs();
@@ -49,6 +46,8 @@ private:
 	void InitGouraudShadingProg(RenderBuffer* idx_buf);
 	void InitTextureMapProg(RenderBuffer* idx_buf);
 	void InitGouraudTextureProg(RenderBuffer* idx_buf);
+
+	void SetNormalMatrix(const sm::mat4& mat);
 
 private:
 	enum PROG_IDX {

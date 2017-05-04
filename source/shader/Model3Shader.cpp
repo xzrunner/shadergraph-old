@@ -34,6 +34,8 @@ Model3Shader::Model3Shader(ur::RenderContext* rc)
 
 	InitVAList();
 	InitProgs();
+
+	SetNormalMatrix(sm::mat4());
 }
 
 Model3Shader::~Model3Shader()
@@ -45,10 +47,12 @@ Model3Shader::~Model3Shader()
 
 void Model3Shader::Bind() const
 {
+	m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
+	m_rc->SetDepth(ur::DEPTH_DISABLE);
 }
 
 void Model3Shader::Commit() const
@@ -58,9 +62,8 @@ void Model3Shader::Commit() const
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
-	m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
+	ShaderMgr::Instance()->BindRenderShader(shader, MODEL3);
 	shader->Commit();
-	m_rc->SetDepth(ur::DEPTH_DISABLE);
 }
 
 void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
@@ -118,20 +121,6 @@ void Model3Shader::Draw(const std::vector<float>& vertices,
 	}
 
 	shader->Draw(&vertices[0], vn, &indices[0], in);
-}
-
-void Model3Shader::SetModelView(const sm::mat4& mat)
-{
-	for (int i = 0; i < PROG_COUNT; ++i) {
-		ShaderProgram* prog = m_programs[i];
-		if (prog) {
-			prog->GetMVP()->SetModelview(&mat);
-		}
-	}
-
-	sm::mat3 mat3(mat);
-	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
-	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 }
 
 void Model3Shader::InitVAList()
@@ -224,6 +213,13 @@ void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
 	m_programs[PI_GOURAUD_TEXTURE] = CreateProg(vert, frag, va_types, idx_buf);
 
 	m_shading_uniforms.Init(m_programs[PI_GOURAUD_TEXTURE]->GetShader());
+}
+
+void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
+{
+	sm::mat3 mat3(mat);
+	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 }
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
