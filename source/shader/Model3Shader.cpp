@@ -1,6 +1,6 @@
 #include "Model3Shader.h"
 #include "SubjectMVP3.h"
-#include "ObserverMVP.h"
+//#include "ObserverMVP.h"
 #include "ShaderProgram.h"
 #include "Utility.h"
 #include "ShaderType.h"
@@ -34,8 +34,6 @@ Model3Shader::Model3Shader(ur::RenderContext* rc)
 
 	InitVAList();
 	InitProgs();
-
-	SetNormalMatrix(sm::mat4());
 }
 
 Model3Shader::~Model3Shader()
@@ -81,6 +79,13 @@ void Model3Shader::SetLightPosition(const sm::vec3& pos)
 {
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
+}
+
+void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
+{
+	sm::mat3 mat3(mat);
+	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
+	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 }
 
 void Model3Shader::Draw(const std::vector<float>& vertices, 
@@ -213,13 +218,6 @@ void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
 	m_programs[PI_GOURAUD_TEXTURE] = CreateProg(vert, frag, va_types, idx_buf);
 
 	m_shading_uniforms.Init(m_programs[PI_GOURAUD_TEXTURE]->GetShader());
-}
-
-void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
-{
-	sm::mat3 mat3(mat);
-	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
-	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 }
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
