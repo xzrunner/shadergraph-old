@@ -134,7 +134,9 @@ void sl_on_modelview3(const sm_mat4* mat) {
 
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	Model3Shader* shader = static_cast<Model3Shader*>(mgr->GetShader(MODEL3));
-	shader->SetNormalMatrix(sm::mat4(mat->x));
+	if (shader) {
+		shader->SetNormalMatrix(sm::mat4(mat->x));
+	}
 }
 
 extern "C"
