@@ -3,7 +3,7 @@
 #include "RenderLayout.h"
 #include "ShaderMgr.h"
 #include "Shader.h"
-#include "Statistics.h"
+#include "shaderlab/Statistics.h"
 
 #include <unirender/UR_RenderContext.h>
 

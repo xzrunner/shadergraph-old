@@ -1,5 +1,5 @@
 #include "SL_Facade.h"
-#include "Statistics.h"
+#include "shaderlab/Statistics.h"
 
 namespace sl
 {

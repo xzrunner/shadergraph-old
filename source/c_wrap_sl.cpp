@@ -14,7 +14,7 @@
 #include "BurningMapProg.h"
 #include "ColGradingProg.h"
 #include "SL_RenderShader.h"
-#include "Statistics.h"
+#include "shaderlab/Statistics.h"
 
 #include <unirender/UR_RenderContext.h>
 #include <sm_c_vector.h>
