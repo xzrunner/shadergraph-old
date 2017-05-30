@@ -1,5 +1,5 @@
 #include "FilterShader.h"
-#include "Utility.h"
+#include "shaderlab/Utility.h"
 #include "SubjectMVP2.h"
 #include "EdgeDetectProg.h"
 #include "ReliefProg.h"

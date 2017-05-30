@@ -1,6 +1,6 @@
 #include "SpriteShader.h"
 #include "ObserverMVP.h"
-#include "Utility.h"
+#include "shaderlab/Utility.h"
 #include "ShaderProgram.h"
 #include "ShaderMgr.h"
 #include "RenderBuffer.h"

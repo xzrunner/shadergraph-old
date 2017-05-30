@@ -1,6 +1,6 @@
 #include "BlendShader.h"
 #include "SubjectMVP2.h"
-#include "Utility.h"
+#include "shaderlab/Utility.h"
 #include "ShaderType.h"
 #include "ShaderMgr.h"
 #include "RenderBuffer.h"

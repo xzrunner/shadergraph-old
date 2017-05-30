@@ -2,7 +2,7 @@
 #include "SubjectMVP3.h"
 //#include "ObserverMVP.h"
 #include "ShaderProgram.h"
-#include "Utility.h"
+#include "shaderlab/Utility.h"
 #include "ShaderType.h"
 #include "ShaderMgr.h"
 #include "SL_RenderShader.h"
