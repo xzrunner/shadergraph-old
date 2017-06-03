@@ -5,6 +5,10 @@
 #include "Shader.h"
 #include "shaderlab/Statistics.h"
 
+extern "C" {
+	#include "adapter/ej_statistics.h"
+}
+
 #include <unirender/UR_RenderContext.h>
 
 //#define SHADER_LOG
@@ -94,9 +98,20 @@ void RenderShader::Commit()
 	if (!m_vb || m_vb->IsEmpty()) {
 		return;
 	}
+	
+	#ifdef DEBUG_RENDER
+		// 关闭渲染
+		bool b = stat_get_render();
+		if(m_ib) {
+			m_ib->clear();
+		}
+		m_vb->Clear();
+		if(!b){
+			return;
+		}
+	#endif
 
 	ApplyUniform();
-
 	Statistics* stat = Statistics::Instance();
 
 	m_vb->Update();
