@@ -102,10 +102,6 @@ void RenderShader::Commit()
 	#ifdef DEBUG_RENDER
 		// 关闭渲染
 		bool b = stat_get_render();
-		if(m_ib) {
-			m_ib->clear();
-		}
-		m_vb->Clear();
 		if(!b){
 			return;
 		}
