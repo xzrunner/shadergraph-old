@@ -5,9 +5,9 @@
 #include "Shader.h"
 #include "shaderlab/Statistics.h"
 
-extern "C" {
-	#include "adapter/ej_statistics.h"
-}
+// extern "C" {
+// 	#include "adapter/ej_statistics.h"
+// }
 
 #include <unirender/UR_RenderContext.h>
 
@@ -99,13 +99,13 @@ void RenderShader::Commit()
 		return;
 	}
 	
-	#ifdef DEBUG_RENDER
-		// 关闭渲染
-		bool b = stat_get_render();
-		if(!b){
-			return;
-		}
-	#endif
+// 	#ifdef DEBUG_RENDER
+// 		// 关闭渲染
+// 		bool b = stat_get_render();
+// 		if(!b){
+// 			return;
+// 		}
+// 	#endif
 
 	ApplyUniform();
 	Statistics* stat = Statistics::Instance();
