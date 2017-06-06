@@ -3,6 +3,8 @@
 
 #include <CU_Singleton.h>
 
+#include <string>
+
 namespace sl
 {
 
@@ -14,6 +16,8 @@ public:
 
 	int GetDrawCall() const { return m_drawcall; }
 	int GetVertices() const { return m_vertices; }
+
+	void Print(std::string& str) const;
 
 	void Reset();
 

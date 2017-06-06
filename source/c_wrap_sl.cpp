@@ -204,24 +204,6 @@ void* sl_get_render_context()
 	return ShaderMgr::Instance()->GetContext();	
 }
 
-extern "C"
-int sl_get_drawcall()
-{
-	return Statistics::Instance()->GetDrawCall();
-}
-
-extern "C"
-int sl_get_vertices_count()
-{
-	return Statistics::Instance()->GetVertices();
-}
-
-extern "C"
-void sl_reset_statistics()
-{
-	return Statistics::Instance()->Reset();
-}
-
 /**
  *  @brief
  *    shape2 shader

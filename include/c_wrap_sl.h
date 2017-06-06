@@ -63,11 +63,6 @@ void sl_flush();
 
 void* sl_get_render_context();
 
-// statistics
-int  sl_get_drawcall();
-int  sl_get_vertices_count();
-void sl_reset_statistics();
-
 /**
  *  @brief
  *    shape2 shader
