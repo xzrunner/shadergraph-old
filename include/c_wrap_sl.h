@@ -155,6 +155,13 @@ void sl_blend_draw(const float* positions, const float* texcoords_blend,
 void sl_mask_draw(const float* positions, const float* texcoords, 
 				  const float* texcoords_mask, int tex, int tex_mask);
 
+/**
+ *  @brief
+ *    stat
+ */
+int  sl_stat_get_drawcall();
+int  sl_stat_get_vertices();
+
 #endif // _shaderlab_wrap_c_h_
 
 #ifdef __cplusplus

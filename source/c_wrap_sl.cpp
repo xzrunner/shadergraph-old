@@ -517,4 +517,19 @@ void sl_mask_draw(const float* positions, const float* texcoords,
 	}
 }
 
+/**
+ *  @brief
+ *    stat
+ */
+
+extern "C"
+int sl_stat_get_drawcall() {
+	return Statistics::Instance()->GetDrawCall();
+}
+
+extern "C"
+int sl_stat_get_vertices() {
+	return Statistics::Instance()->GetVertices();
+}
+
 }
