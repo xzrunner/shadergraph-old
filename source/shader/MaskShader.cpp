@@ -48,7 +48,7 @@ void MaskShader::UnBind() const
 {
 }
 
-void MaskShader::Commit() const
+bool MaskShader::Commit() const
 {
 	m_rc->BindTexture(m_tex, 0);
 	m_rc->BindTexture(m_tex_mask, 1);
@@ -58,7 +58,7 @@ void MaskShader::Commit() const
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 
-	shader->Commit();
+	return shader->Commit();
 }
 
 void MaskShader::Draw(const float* positions, const float* texcoords, 

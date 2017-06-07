@@ -11,7 +11,7 @@ class Sprite3Shader : public SpriteShader
 public:
 	Sprite3Shader(ur::RenderContext* rc);	
 
-	virtual void Commit() const;
+	virtual bool Commit() const;
 
 	void Draw(const float* positions, const float* texcoords, int texid) const;
 

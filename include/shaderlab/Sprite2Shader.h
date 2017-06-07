@@ -11,7 +11,7 @@ class Sprite2Shader : public SpriteShader
 public:
 	Sprite2Shader(ur::RenderContext* rc);	
 
-	virtual void Commit() const;
+	virtual bool Commit() const;
 
 	void DrawQuad(const float* positions, const float* texcoords, int texid) const;
 

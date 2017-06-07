@@ -4,6 +4,10 @@
 #include "ShaderMgr.h"
 #include "Shader.h"
 #include "shaderlab/Statistics.h"
+#include "sl_config.h"
+#ifndef SL_DISABLE_STATISTICS
+#include "shaderlab/StatDrawCall.h"
+#endif // SL_DISABLE_STATISTICS
 
 // extern "C" {
 // 	#include "adapter/ej_statistics.h"
@@ -12,15 +16,10 @@
 #include <unirender/UR_RenderContext.h>
 
 //#define SHADER_LOG
-//#define SL_DC_STAT
 
 #ifdef SHADER_LOG
 #include <iostream>
 #endif // SHADER_LOG
-
-#ifdef SL_DC_STAT
-#include <iostream>
-#endif // SL_DC_STAT
 
 namespace sl
 {
@@ -93,10 +92,10 @@ void RenderShader::Bind()
 //	m_layout->Bind();
 }
 
-void RenderShader::Commit()
+bool RenderShader::Commit()
 {
 	if (!m_vb || m_vb->IsEmpty()) {
-		return;
+		return false;
 	}
 	
 // 	#ifdef DEBUG_RENDER
@@ -123,15 +122,19 @@ void RenderShader::Commit()
 	m_vb->Clear();
 
 	stat->AddDrawCall();
+
+	return true;
 }
 
 void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
 { 
 	if (m_draw_mode != dm) {
-#ifdef SL_DC_STAT
-		std::cout << "SL DC for set draw mode\n";
-#endif // SL_DC_STAT
-		Commit();
+		bool changed = Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			StatDrawCall::Instance()->AddDrawMode();
+		}
+#endif // SL_DISABLE_STATISTICS
 		m_draw_mode = dm;
 	}
 }
@@ -164,10 +167,12 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 
 	m_uniform_changed = true;
 	if (Shader* shader = ShaderMgr::Instance()->GetShader()) {
-#ifdef SL_DC_STAT
-		std::cout << "SL DC for set uniform\n";
-#endif // SL_DC_STAT
-		shader->Commit();
+		bool changed = shader->Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			StatDrawCall::Instance()->AddUniform();
+		}
+#endif // SL_DISABLE_STATISTICS
 	}
 	m_uniform[index].Assign(t, v);
 }
@@ -175,16 +180,20 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 void RenderShader::Draw(const void* vb, int vb_n, const void* ib, int ib_n)
 {
 	if (m_ib && ib_n > 0 && m_ib->Add(ib, ib_n)) {
-#ifdef SL_DC_STAT
-		std::cout << "ib over\n";
-#endif // SL_DC_STAT
-		Commit();
+		bool changed = Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			StatDrawCall::Instance()->AddIndexBuf();
+		}
+#endif // SL_DISABLE_STATISTICS
 	}
 	if (m_vb && vb_n > 0 && m_vb->Add(vb, vb_n)) {
-#ifdef SL_DC_STAT
-		std::cout << "vb over\n";
-#endif // SL_DC_STAT
-		Commit();
+		bool changed = Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			StatDrawCall::Instance()->AddVertexBuf();
+		}
+#endif // SL_DISABLE_STATISTICS
 	}
 }
 

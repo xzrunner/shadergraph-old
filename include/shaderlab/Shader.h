@@ -13,7 +13,7 @@ public:
 	virtual ~Shader() {}
 	virtual void Bind() const = 0;
 	virtual void UnBind() const = 0;
-	virtual void Commit() const = 0;
+	virtual bool Commit() const = 0;
 
 protected:
 	ur::RenderContext* m_rc;

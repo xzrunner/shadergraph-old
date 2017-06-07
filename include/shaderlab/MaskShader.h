@@ -17,7 +17,7 @@ public:
 
 	virtual void Bind() const;
 	virtual void UnBind() const;
-	virtual void Commit() const;
+	virtual bool Commit() const;
 
 	void Draw(const float* positions, const float* texcoords, 
 		const float* texcoords_mask, int tex, int tex_mask) const;

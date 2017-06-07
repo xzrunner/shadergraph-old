@@ -29,7 +29,7 @@ public:
 
 	virtual void Bind() const;
 	virtual void UnBind() const;
-	virtual void Commit() const;
+	virtual bool Commit() const;
 
 	void SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
 		const sm::vec3& specular, float shininess, int tex);

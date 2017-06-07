@@ -6,12 +6,12 @@
 #include "SL_RenderShader.h"
 #include "RenderBuffer.h"
 #include "StackAllocator.h"
+#include "sl_config.h"
+#ifndef SL_DISABLE_STATISTICS
+#include "shaderlab/StatDrawCall.h"
+#endif // SL_DISABLE_STATISTICS
 
 #include <unirender/UR_RenderContext.h>
-
-#ifdef SL_DC_STAT
-#include <iostream>
-#endif // SL_DC_STAT
 
 #include <assert.h>
 
@@ -27,10 +27,10 @@ Sprite2Shader::Sprite2Shader(ur::RenderContext* rc)
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
 }
 
-void Sprite2Shader::Commit() const
+bool Sprite2Shader::Commit() const
 {
 	if (m_quad_sz == 0) {
-		return;
+		return false;
 	}
 
 	m_rc->BindTexture(m_texid, 0);
@@ -82,20 +82,22 @@ void Sprite2Shader::Commit() const
 
 	m_prog_type = 0;
 
-	shader->Commit();
+	return shader->Commit();
 }
 
 void Sprite2Shader::DrawQuad(const float* positions, const float* texcoords, int texid) const
 {
 	if (m_quad_sz >= MAX_COMMBINE || (m_texid != texid && m_texid != 0)) {
-#ifdef SL_DC_STAT
-		if (m_quad_sz >= MAX_COMMBINE) {
-			std::cout << "over MAX_COMMBINE\n";
-		} else {
-			std::cout << "tex " << m_texid << " to " << texid << "\n";
+		bool changed = Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			if (m_quad_sz >= MAX_COMMBINE) {
+				StatDrawCall::Instance()->AddFull();
+			} else {
+				StatDrawCall::Instance()->AddTex();
+			}
 		}
-#endif // SL_DC_STAT
-		Commit();
+#endif // SL_DISABLE_STATISTICS
 	}
 	m_texid = texid;
 

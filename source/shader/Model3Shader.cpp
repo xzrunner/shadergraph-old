@@ -53,15 +53,15 @@ void Model3Shader::UnBind() const
 	m_rc->SetDepth(ur::DEPTH_DISABLE);
 }
 
-void Model3Shader::Commit() const
+bool Model3Shader::Commit() const
 {
 	if (m_curr_shader < 0) {
-		return;
+		return false;
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
 	ShaderMgr::Instance()->BindRenderShader(shader, MODEL3);
-	shader->Commit();
+	return shader->Commit();
 }
 
 void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 

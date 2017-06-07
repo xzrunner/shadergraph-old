@@ -23,10 +23,10 @@ Sprite3Shader::Sprite3Shader(ur::RenderContext* rc)
 	m_vertex_buf = new Vertex[MAX_VERTICES];
 }
 
-void Sprite3Shader::Commit() const
+bool Sprite3Shader::Commit() const
 {
 	if (m_quad_sz == 0) {
-		return;
+		return false;
 	}
 
 	m_rc->BindTexture(m_texid, 0);
@@ -78,7 +78,7 @@ void Sprite3Shader::Commit() const
 
 	m_prog_type = 0;
 
-	shader->Commit();
+	return shader->Commit();
 }
 
 void Sprite3Shader::Draw(const float* positions, const float* texcoords, int texid) const

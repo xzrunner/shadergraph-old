@@ -54,10 +54,10 @@ void BlendShader::UnBind() const
 {
 }
 
-void BlendShader::Commit() const
+bool BlendShader::Commit() const
 {
 	if (m_tex_blend == 0 || m_tex_base == 0) {
-		return;
+		return false;
 	}
 
 	m_rc->BindTexture(m_tex_blend, 0);
@@ -68,7 +68,7 @@ void BlendShader::Commit() const
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
 	m_quad_sz = 0;
 
-	shader->Commit();
+	return shader->Commit();
 }
 
 void BlendShader::SetColor(uint32_t color, uint32_t additive)

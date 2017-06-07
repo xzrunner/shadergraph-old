@@ -79,10 +79,10 @@ void FilterShader::UnBind() const
 {
 }
 
-void FilterShader::Commit() const
+bool FilterShader::Commit() const
 {
 	if (m_quad_sz == 0 || m_curr_mode == FM_NULL) {
-		return;
+		return false;
 	}
 
 	int idx = m_mode2index[m_curr_mode];
@@ -102,7 +102,7 @@ void FilterShader::Commit() const
 	if (!prog) {
         m_quad_sz = 0;
         m_prog_type = 0;
-		return;
+		return false;
 	}
 
 	m_rc->BindTexture(m_texid, 0);
@@ -128,7 +128,7 @@ void FilterShader::Commit() const
 
 	m_prog_type = 0;
 
-	shader->Commit();
+	return shader->Commit();
 }
 
 void FilterShader::SetColor(uint32_t color, uint32_t additive)

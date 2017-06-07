@@ -37,7 +37,7 @@ public:
 	 */
 	void Bind();
 
-	void Commit();
+	bool Commit();
 
 	void SetDrawMode(DRAW_MODE_TYPE dm);
 

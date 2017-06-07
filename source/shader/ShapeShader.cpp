@@ -35,9 +35,9 @@ void ShapeShader::UnBind() const
 {
 }
 
-void ShapeShader::Commit() const
+bool ShapeShader::Commit() const
 {
-	m_prog->GetShader()->Commit();
+	return m_prog->GetShader()->Commit();
 }
 
 void ShapeShader::SetColor(uint32_t color)

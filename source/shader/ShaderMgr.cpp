@@ -1,6 +1,10 @@
 #include "ShaderMgr.h"
 #include "Shader.h"
 #include "SL_RenderShader.h"
+#include "sl_config.h"
+#ifndef SL_DISABLE_STATISTICS
+#include "shaderlab/StatDrawCall.h"
+#endif // SL_DISABLE_STATISTICS
 
 #include <string.h>
 
@@ -78,10 +82,12 @@ void ShaderMgr::BindRenderShader(RenderShader* shader, int type)
 	}
 
 	if (m_curr_render_shader && m_curr_render_shader->IsUniformChanged()) {
-#ifdef SL_DC_STAT
-		std::cout << "SL DC for change shader: " << type << '\n';
-#endif // SL_DC_STAT
-		m_curr_render_shader->Commit();
+		bool changed = m_curr_render_shader->Commit();
+#ifndef SL_DISABLE_STATISTICS
+		if (changed) {
+			StatDrawCall::Instance()->AddShader();
+		}
+#endif // SL_DISABLE_STATISTICS
 	}
 
 	m_curr_render_shader = shader;

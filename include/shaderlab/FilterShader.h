@@ -22,7 +22,7 @@ public:
 	
 	virtual void Bind() const;
 	virtual void UnBind() const;
-	virtual void Commit() const;
+	virtual bool Commit() const;
 
 	void SetColor(uint32_t color, uint32_t additive);
 
