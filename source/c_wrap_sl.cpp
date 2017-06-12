@@ -432,8 +432,17 @@ extern "C"
 void sl_filter_set_col_grading_texture(int id) {
 	ShaderMgr* mgr = ShaderMgr::Instance();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
-	if (shader) {
+	if (!shader) {
+		return;
+	}
+	{
 		ColGradingProg* prog = static_cast<ColGradingProg*>(shader->GetProgram(FM_COL_GRADING));
+		if (prog) {
+			prog->SetLUTTex(id);
+		}
+	}
+	{
+		ColGradingProg* prog = static_cast<ColGradingProg*>(shader->GetProgramWithColor(FM_COL_GRADING));
 		if (prog) {
 			prog->SetLUTTex(id);
 		}

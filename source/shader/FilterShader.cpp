@@ -169,6 +169,16 @@ FilterProgram* FilterShader::GetProgram(FILTER_MODE mode)
 	}
 }
 
+FilterProgram* FilterShader::GetProgramWithColor(FILTER_MODE mode)
+{
+	int idx = m_mode2index[mode];
+	if (idx >= 0 && idx < PROG_COUNT) {
+		return m_programs_with_color[idx];
+	} else {
+		return NULL;
+	}
+}
+
 void FilterShader::Draw(const float* positions, const float* texcoords, int texid) const
 {
 	if (m_quad_sz >= MAX_COMMBINE || (m_texid != texid && m_texid != 0)) {
@@ -293,6 +303,9 @@ void FilterShader::InitProgs()
 			prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 		}
 	}
+
+	InitProgWithColor(PI_GRAY);
+	InitProgWithColor(PI_COL_GRADING);
 }
 
 FilterProgram* FilterShader::InitProgWithColor(int idx) const
@@ -311,6 +324,10 @@ FilterProgram* FilterShader::InitProgWithColor(int idx) const
 	case PI_GRAY:
 		prog = new GrayProg(m_rc, max_vertex, va_list, m_index_buf, new parser::ColorAddMul());
 		m_programs_with_color[PI_GRAY] = prog;
+		break;
+	case PI_COL_GRADING:
+		prog = new ColGradingProg(m_rc, max_vertex, va_list, m_index_buf);
+		m_programs_with_color[PI_COL_GRADING] = prog;
 		break;
 	}
 

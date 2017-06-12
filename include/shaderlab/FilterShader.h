@@ -31,6 +31,7 @@ public:
 	
 	void SetMode(FILTER_MODE mode);
 	FilterProgram* GetProgram(FILTER_MODE mode);
+	FilterProgram* GetProgramWithColor(FILTER_MODE mode);
 	FILTER_MODE GetMode() const { return m_curr_mode; }
 
 	void Draw(const float* positions, const float* texcoords, int texid) const;
