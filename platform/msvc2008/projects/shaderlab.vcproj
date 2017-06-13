@@ -525,17 +525,29 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\source\utility\Statistics.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\include\shaderlab\Statistics.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\include\shaderlab\typedef.h"
 				>
 			</File>
+			<Filter
+				Name="stat"
+				>
+				<File
+					RelativePath="..\..\..\source\utility\StatDrawCall.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\shaderlab\StatDrawCall.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\utility\Statistics.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\shaderlab\Statistics.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="render"
