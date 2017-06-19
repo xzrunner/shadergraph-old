@@ -1,5 +1,7 @@
 #include "shaderlab/StatDrawCall.h"
 
+
+#include <stdio.h>
 #include <string.h>
 
 namespace sl

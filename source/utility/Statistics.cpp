@@ -1,5 +1,8 @@
 #include "shaderlab/Statistics.h"
 
+
+#include <stdio.h>
+
 namespace sl
 {
 
