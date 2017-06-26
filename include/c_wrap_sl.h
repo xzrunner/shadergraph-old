@@ -7,7 +7,9 @@ extern "C"
 #define _shaderlab_wrap_c_h_
 
 #include <stdint.h>
+#ifndef __cplusplus
 #include <stdbool.h>
+#endif // __cplusplus
 
 /**
  *  @note
