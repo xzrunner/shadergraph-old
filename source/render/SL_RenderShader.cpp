@@ -98,13 +98,13 @@ bool RenderShader::Commit()
 		return false;
 	}
 	
-// 	#ifdef DEBUG_RENDER
-// 		// 关闭渲染
-// 		bool b = stat_get_render();
-// 		if(!b){
-// 			return;
-// 		}
-// 	#endif
+	#ifdef DEBUG_RENDER
+		// 关闭渲染
+		bool b = Statistics::Instance()->GetRender();
+		if(!b){
+			return false;
+		}
+	#endif
 
 	ApplyUniform();
 	Statistics* stat = Statistics::Instance();

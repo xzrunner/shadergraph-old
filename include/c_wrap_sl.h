@@ -7,6 +7,7 @@ extern "C"
 #define _shaderlab_wrap_c_h_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /**
  *  @note
@@ -161,6 +162,7 @@ void sl_mask_draw(const float* positions, const float* texcoords,
  */
 int  sl_stat_get_drawcall();
 int  sl_stat_get_vertices();
+void sl_stat_set_render(bool b);
 
 #endif // _shaderlab_wrap_c_h_
 

@@ -532,6 +532,11 @@ void sl_mask_draw(const float* positions, const float* texcoords,
  */
 
 extern "C"
+void sl_stat_set_render(bool b) {
+	Statistics::Instance()->SetRender(b);
+}
+
+extern "C"
 int sl_stat_get_drawcall() {
 	return Statistics::Instance()->GetDrawCall();
 }
