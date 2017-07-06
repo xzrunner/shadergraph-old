@@ -23,8 +23,8 @@ public:
 	void Reset();
 
 private:
-	int m_drawcall;
-	int m_vertices;
+	int m_drawcall, m_max_drawcall;
+	int m_vertices, m_max_vertices;
     bool m_disable_render;
 
 	SINGLETON_DECLARATION(Statistics);
