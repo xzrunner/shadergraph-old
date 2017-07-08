@@ -17,6 +17,7 @@
 #include "Assign.h"
 #include "Mul2.h"
 #include "StackAllocator.h"
+#include "ObserverMVP.h"
 
 #include <unirender/UR_RenderContext.h>
 
@@ -86,6 +87,14 @@ void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
 	sm::mat3 mat3(mat);
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
+}
+
+void Model3Shader::SetModelview(const sm::mat4& mat)
+{
+	for (int i = 0; i < PROG_COUNT; ++i) {
+		m_programs[i]->GetMVP()->SetModelview(&mat);
+	}
+//	SetNormalMatrix(mat);
 }
 
 void Model3Shader::Draw(const std::vector<float>& vertices, 

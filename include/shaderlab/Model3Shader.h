@@ -35,6 +35,7 @@ public:
 		const sm::vec3& specular, float shininess, int tex);
 	void SetLightPosition(const sm::vec3& pos);
 	void SetNormalMatrix(const sm::mat4& mat);
+	void SetModelview(const sm::mat4& mat);
 
 	void Draw(const std::vector<float>& vertices, const std::vector<uint16_t>& indices,
 		bool has_normal, bool has_texcoord) const;
