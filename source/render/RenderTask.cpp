@@ -46,7 +46,7 @@ RenderTask* RenderTask::Create(cooking::RecordedOp* op)
 	return tt;
 }
 
-void RenderTask::Clear()
+void RenderTask::FlushShared()
 {
 	m_dlist.Clear();
 }

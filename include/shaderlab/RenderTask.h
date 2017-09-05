@@ -19,7 +19,7 @@ public:
 
 	static cooking::DisplayList& GetDisplayList() { return m_dlist; }
 
-	static void Clear();
+	static void FlushShared();
 
 private:
 	RenderTask(cooking::RecordedOp* op);
