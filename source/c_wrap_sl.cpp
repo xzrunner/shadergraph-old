@@ -15,12 +15,8 @@
 #include "ColGradingProg.h"
 #include "SL_RenderShader.h"
 #include "shaderlab/Statistics.h"
-#include "shaderlab/RenderTask.h"
-#include "shaderlab/Callback.h"
 
 #include <unirender/UR_RenderContext.h>
-#include <cooking.h>
-#include <cooking/RecordedOp.h>
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
 
@@ -175,12 +171,7 @@ void sl_set_blend_equation(int func) {
 
 extern "C"
 void sl_render_clear(unsigned long argb) {
-	// defer
-//	ShaderMgr::Instance()->GetContext()->Clear(argb);
-
-	cooking::RecordedOp* op = new (RenderTask::GetDisplayList().GetAlloc()) cooking::RenderClearOp(argb);
-	RenderTask* task = RenderTask::Create(op);
-	Callback::SubmitTask(task);
+	ShaderMgr::Instance()->GetContext()->Clear(argb);
 }
 
 extern "C"
