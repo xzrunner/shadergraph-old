@@ -15,6 +15,8 @@ LOCAL_C_INCLUDES := \
 	${SHADERLAB_SRC_PATH}/include \
 	${SHADERLAB_SRC_PATH}/include/shaderlab \
 	${UNIRENDER_SRC_PATH}/include \
+	${COOKING_SRC_PATH}/include \
+	${MULTITASK_SRC_PATH}/include \
 
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,,$(shell find $(LOCAL_PATH)/source/ -name "*.cpp" -print)) \
