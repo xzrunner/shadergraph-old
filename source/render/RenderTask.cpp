@@ -1,13 +1,13 @@
 #include "shaderlab/RenderTask.h"
 
-#include <cooking/RecordedOp.h>
+//#include <cooking/RecordedOp.h>
 
 #include <assert.h>
 
 namespace sl
 {
 
-cooking::DisplayList RenderTask::m_dlist;
+//cooking::DisplayList RenderTask::m_dlist;
 mt::TaskQueue RenderTask::m_freelist;
 
 RenderTask::RenderTask(cooking::RecordedOp* op)
@@ -26,7 +26,7 @@ void RenderTask::Flush()
 		return;
 	}
 
-	m_op->Replay();
+//	m_op->Replay();
 	m_op = NULL;
 }
 
@@ -48,7 +48,7 @@ RenderTask* RenderTask::Create(cooking::RecordedOp* op)
 
 void RenderTask::FlushShared()
 {
-	m_dlist.Clear();
+//	m_dlist.Clear();
 }
 
 }
