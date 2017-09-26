@@ -15,6 +15,7 @@ public:
     void SetRender(bool b) {m_disable_render = !b;}
 
 	int GetDrawCall() const { return m_drawcall; }
+	int GetLastDrawCall() const { return m_last_drawcall; }
 	int GetVertices() const { return m_vertices; }
     bool GetRender() const {return !m_disable_render; }
 
@@ -23,7 +24,7 @@ public:
 	void Reset();
 
 private:
-	int m_drawcall, m_max_drawcall;
+	int m_drawcall, m_max_drawcall, m_last_drawcall;
 	int m_vertices, m_max_vertices;
     bool m_disable_render;
 
