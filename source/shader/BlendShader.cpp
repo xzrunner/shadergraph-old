@@ -163,7 +163,7 @@ BlendShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::Verte
 
 void BlendShader::Program::SetMode(int mode)
 {
-	float m = mode;
+	float m = static_cast<float>(mode);
 	m_shader->SetUniform(m_mode, ur::UNIFORM_INT1, &m);
 }
 
