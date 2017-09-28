@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>1.shaderlab</ProjectName>
+    <ProjectGuid>{5C357759-CA95-42E1-B907-DFB87A995F6C}</ProjectGuid>
+    <RootNamespace>shaderlab</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\shaderlab\x86\Debug\</OutDir>
+    <IntDir>..\shaderlab\x86\Debug\obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\shaderlab\x86\Release\</OutDir>
+    <IntDir>..\shaderlab\x86\Release\obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\cu\src\cu;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\cu\src\cu;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\c_wrap_sl.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Add1.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Add2.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Assign.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Attribute.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\AttributeNode.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Blend.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\BlendMode.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\BlendShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Blur.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\BlurProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Buffer.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\BurningMap.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\BurningMapProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ColGradingProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ColorAddMul.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ColorGrading.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ColorMap.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\EdgeDetect.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\EdgeDetectProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Filter.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\FilterMode.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\FilterProgram.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\FilterShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\FragColor.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GaussianBlurHori.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GaussianBlurHoriProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GaussianBlurVert.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GaussianBlurVertProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GouraudShading.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Gray.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\GrayProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\HeatHaze.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\HeatHazeProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\IOType.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Mask.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\MaskShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Model3Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Mul1.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Mul2.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Node.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ObserverMVP.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Outline.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\OutlineProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ParserShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ParserUniform.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\PositionTrans.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Relief.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ReliefProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderBuffer.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderLayout.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShaderMgr.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShaderType.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Shape2Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Shape3Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShapeShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShockWave.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\ShockWaveProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SL_RenderShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SL_StringHelper.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Sprite2Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Sprite3Shader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SpriteShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\StackAllocator.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\StatDrawCall.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Statistics.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SubjectMVP.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SubjectMVP2.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SubjectMVP3.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Swirl.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\SwirlProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\TextureMap.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\typedef.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Uniform.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Utility.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Variable.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\VariableType.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Varying.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\VaryingNode.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\VertPosition.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\c_wrap_sl.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Assign.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Attribute.cpp" />
+    <ClCompile Include="..\..\..\source\parser\AttributeNode.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Blend.cpp" />
+    <ClCompile Include="..\..\..\source\parser\ColorAddMul.cpp" />
+    <ClCompile Include="..\..\..\source\parser\ColorMap.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Filter.cpp" />
+    <ClCompile Include="..\..\..\source\parser\GouraudShading.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Gray.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Mask.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Node.cpp" />
+    <ClCompile Include="..\..\..\source\parser\ParserShader.cpp" />
+    <ClCompile Include="..\..\..\source\parser\ParserUniform.cpp" />
+    <ClCompile Include="..\..\..\source\parser\PositionTrans.cpp" />
+    <ClCompile Include="..\..\..\source\parser\SL_StringHelper.cpp" />
+    <ClCompile Include="..\..\..\source\parser\TextureMap.cpp" />
+    <ClCompile Include="..\..\..\source\parser\Varying.cpp" />
+    <ClCompile Include="..\..\..\source\parser\VaryingNode.cpp" />
+    <ClCompile Include="..\..\..\source\render\RenderBuffer.cpp" />
+    <ClCompile Include="..\..\..\source\render\RenderLayout.cpp" />
+    <ClCompile Include="..\..\..\source\render\SL_RenderShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\BlendShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\BlurProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\BurningMapProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ColGradingProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\EdgeDetectProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\FilterProgram.cpp" />
+    <ClCompile Include="..\..\..\source\shader\FilterShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\GaussianBlurHoriProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\GaussianBlurVertProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\GrayProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\HeatHazeProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\MaskShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Model3Shader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ObserverMVP.cpp" />
+    <ClCompile Include="..\..\..\source\shader\OutlineProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ReliefProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ShaderMgr.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Shape2Shader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Shape3Shader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ShapeShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\ShockWaveProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Sprite2Shader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Sprite3Shader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\SpriteShader.cpp" />
+    <ClCompile Include="..\..\..\source\shader\SubjectMVP2.cpp" />
+    <ClCompile Include="..\..\..\source\shader\SubjectMVP3.cpp" />
+    <ClCompile Include="..\..\..\source\shader\SwirlProg.cpp" />
+    <ClCompile Include="..\..\..\source\shader\Utility.cpp" />
+    <ClCompile Include="..\..\..\source\utility\Buffer.cpp" />
+    <ClCompile Include="..\..\..\source\utility\StackAllocator.cpp" />
+    <ClCompile Include="..\..\..\source\utility\StatDrawCall.cpp" />
+    <ClCompile Include="..\..\..\source\utility\Statistics.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\shaderlab\blend.frag" />
+    <None Include="..\..\..\include\shaderlab\blur.frag" />
+    <None Include="..\..\..\include\shaderlab\burning_map.frag" />
+    <None Include="..\..\..\include\shaderlab\color_grading.frag" />
+    <None Include="..\..\..\include\shaderlab\edge_detect.frag" />
+    <None Include="..\..\..\include\shaderlab\gaussian_blur_hori.frag" />
+    <None Include="..\..\..\include\shaderlab\gaussian_blur_vert.frag" />
+    <None Include="..\..\..\include\shaderlab\heat_haze.frag" />
+    <None Include="..\..\..\include\shaderlab\Mask.frag" />
+    <None Include="..\..\..\include\shaderlab\outline.frag" />
+    <None Include="..\..\..\include\shaderlab\relief.frag" />
+    <None Include="..\..\..\include\shaderlab\shock_wave.frag" />
+    <None Include="..\..\..\include\shaderlab\swirl.frag" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
