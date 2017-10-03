@@ -3,7 +3,7 @@
 namespace sl
 {
 
-StackAllocator* StackAllocator::m_instance = NULL;
+StackAllocator* StackAllocator::m_instance = nullptr;
 
 StackAllocator* StackAllocator::Instance()
 {

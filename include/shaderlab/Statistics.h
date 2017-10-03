@@ -1,7 +1,8 @@
 #ifndef _SHADERLAB_STATISTICS_H_
 #define _SHADERLAB_STATISTICS_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
+
 #include <string>
 
 namespace sl
@@ -28,7 +29,7 @@ private:
 	int m_vertices, m_max_vertices;
     bool m_disable_render;
 
-	SINGLETON_DECLARATION(Statistics);
+	CU_SINGLETON_DECLARATION(Statistics);
 
 }; // Statistics
 

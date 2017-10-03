@@ -15,7 +15,7 @@ namespace sl
 
 ShapeShader::ShapeShader(ur::RenderContext* rc)
 	: Shader(rc)
-	, m_prog(NULL)
+	, m_prog(nullptr)
 	, m_color(0xffffffff)
 {
 	m_rc->SetClearFlag(ur::MASKC);	
@@ -66,7 +66,7 @@ void ShapeShader::InitProg(int position_sz, int max_vertex)
 	va_list.push_back(ur::VertexAttrib("position", position_sz, sizeof(float)));
 	va_list.push_back(ur::VertexAttrib("color", 4, sizeof(uint8_t)));
 
-	m_prog->Load(vert, frag, va_list, NULL, true);
+	m_prog->Load(vert, frag, va_list, nullptr, true);
 
 	InitMVP(m_prog->GetMVP());
 }

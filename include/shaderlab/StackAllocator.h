@@ -26,7 +26,7 @@ public:
 			m_sz += sz;
 			return ret;
 		} else {
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -39,7 +39,7 @@ public:
 	static StackAllocator* Instance();
 
 private:
-	StackAllocator() : m_buf(NULL), m_cap(0), m_sz(0) {}
+	StackAllocator() : m_buf(nullptr), m_cap(0), m_sz(0) {}
 
 private:
 	uint8_t* m_buf;

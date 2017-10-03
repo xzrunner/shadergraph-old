@@ -48,7 +48,7 @@ void sl_create_shader(enum SHADER_TYPE type)
 	ur::RenderContext* rc = mgr->GetContext();
 
 	ShaderType sl_type = MAX_SHADER;
-	Shader* shader = NULL;
+	Shader* shader = nullptr;
 	switch (type)
 	{
 	case ST_SHAPE2:

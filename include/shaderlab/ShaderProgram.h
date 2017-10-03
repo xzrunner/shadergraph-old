@@ -4,6 +4,7 @@
 #include <unirender/VertexAttrib.h>
 
 #include <vector>
+#include <memory>
 
 namespace ur { class RenderContext; }
 
@@ -26,7 +27,7 @@ public:
 
 	void Load(parser::Node* vert, parser::Node* frag, 
 		const std::vector<ur::VertexAttrib>& va_list, 
-		RenderBuffer* ib, bool has_mvp);
+		const std::shared_ptr<RenderBuffer>& ib, bool has_mvp);
 
 	RenderShader* GetShader() { return m_shader; }
 	int GetVertexSize() const { return m_vertex_sz; }

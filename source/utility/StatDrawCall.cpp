@@ -7,7 +7,7 @@
 namespace sl
 {
 
-SINGLETON_DEFINITION(StatDrawCall);
+CU_SINGLETON_DEFINITION(StatDrawCall);
 
 StatDrawCall::StatDrawCall()
 {

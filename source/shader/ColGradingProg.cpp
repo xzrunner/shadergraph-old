@@ -9,7 +9,7 @@ namespace sl
 
 ColGradingProg::ColGradingProg(ur::RenderContext* rc, int max_vertex, 
 						   const std::vector<ur::VertexAttrib>& va_list, 
-						   RenderBuffer* ib)
+						   const std::shared_ptr<RenderBuffer>& ib)
 	: FilterProgram(rc, max_vertex)
 	, m_lut_tex(0)
 {

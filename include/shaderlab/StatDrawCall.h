@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_STAT_DRAWCALL_H_
 #define _SHADERLAB_STAT_DRAWCALL_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 
 #include <string>
 
@@ -31,7 +31,7 @@ private:
 	int m_tex;
 	int m_shader;
 
-	SINGLETON_DECLARATION(StatDrawCall);
+	CU_SINGLETON_DECLARATION(StatDrawCall);
 
 }; // StatDrawCall
 

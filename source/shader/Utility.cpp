@@ -8,7 +8,7 @@
 namespace sl
 {
 
-RenderBuffer* Utility::CreateIndexBuffer(ur::RenderContext* rc, int count)
+std::shared_ptr<RenderBuffer> Utility::CreateIndexBuffer(ur::RenderContext* rc, int count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * count;
@@ -18,13 +18,13 @@ RenderBuffer* Utility::CreateIndexBuffer(ur::RenderContext* rc, int count)
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), count);
 	index_buf->Add(buf, count);
 	alloc->Free(buf);
-	RenderBuffer* ret = new RenderBuffer(rc, ur::INDEXBUFFER, sizeof(uint16_t), count, index_buf);	
+	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t), count, index_buf);
 	ret->Update();
     ret->Clear();
 	return ret;	
 }
 
-RenderBuffer* Utility::CreateQuadIndexBuffer(ur::RenderContext* rc, int quad_count)
+std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext* rc, int quad_count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * 6 * quad_count;
@@ -35,7 +35,7 @@ RenderBuffer* Utility::CreateQuadIndexBuffer(ur::RenderContext* rc, int quad_cou
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), 6 * quad_count);
 	index_buf->Add(buf, 6 * quad_count);
 	alloc->Free(buf);
-	RenderBuffer* ret = new RenderBuffer(rc, ur::INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);	
+	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);
 	ret->Update();
     ret->Clear();
 	return ret;

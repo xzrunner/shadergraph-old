@@ -6,6 +6,8 @@
 
 #include <unirender/VertexAttrib.h>
 
+#include <memory>
+
 #include <stdint.h>
 
 namespace sl
@@ -102,7 +104,7 @@ private:
 	Vertex* m_vertex_buf;
 	mutable int m_quad_sz;
 
-	RenderBuffer* m_index_buf;
+	std::shared_ptr<RenderBuffer> m_index_buf;
 
 	uint32_t m_color, m_additive;
 

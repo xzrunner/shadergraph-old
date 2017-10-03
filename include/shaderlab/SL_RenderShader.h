@@ -3,6 +3,8 @@
 
 #include "sl_typedef.h"
 
+#include <memory>
+
 #include <string.h>
 #include <assert.h>
 
@@ -19,17 +21,16 @@ class RenderShader
 {
 public:
 	RenderShader(ur::RenderContext* rc);
-	~RenderShader();
 
 	void Load(const char* vs, const char* fs);
 	void Unload();
 
-	void SetVertexBuffer(RenderBuffer* vb);
-	void SetIndexBuffer(RenderBuffer* ib);
-	void SetLayout(RenderLayout* lo);
+	void SetVertexBuffer(const std::shared_ptr<RenderBuffer>& vb) { m_vb = vb; }
+	void SetIndexBuffer(const std::shared_ptr<RenderBuffer>& ib) { m_ib = ib; }
+	void SetLayout(const std::shared_ptr<RenderLayout>& lo) { m_layout = lo; }
 
-	const RenderBuffer* GetVertexBuffer() const { return m_vb; }
-	const RenderBuffer* GetIndexBuffer() const { return m_ib; }
+	const std::shared_ptr<RenderBuffer>& GetVertexBuffer() const { return m_vb; }
+	const std::shared_ptr<RenderBuffer>& GetIndexBuffer() const { return m_ib; }
 
 	/**
 	 *  @note
@@ -46,7 +47,7 @@ public:
 	int AddUniform(const char* name, UNIFORM_FORMAT_TYPE t);
 	void SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v);
 
-	void Draw(const void* vb, int vb_n, const void* ib = NULL, int ib_n = 0);
+	void Draw(const void* vb, int vb_n, const void* ib = nullptr, int ib_n = 0);
 
 private:
 	void ApplyUniform();
@@ -88,8 +89,8 @@ private:
 	Uniform m_uniform[MAX_UNIFORM];
 	bool m_uniform_changed;
 
-	RenderBuffer *m_vb, *m_ib;
-	RenderLayout* m_layout;
+	std::shared_ptr<RenderBuffer> m_vb, m_ib;
+	std::shared_ptr<RenderLayout> m_layout;
 
 	DRAW_MODE_TYPE m_draw_mode;
 

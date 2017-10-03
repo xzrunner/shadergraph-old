@@ -11,7 +11,7 @@
 namespace sl
 {
 
-SINGLETON_DEFINITION(ShaderMgr);
+CU_SINGLETON_DEFINITION(ShaderMgr);
 
 ShaderMgr::ShaderMgr()
 	: m_curr_shader(-1)
@@ -19,7 +19,7 @@ ShaderMgr::ShaderMgr()
 	memset(m_shaders, 0, sizeof(m_shaders));
 
 	m_render_shaders.reserve(MAX_SHADER);
-	m_curr_render_shader = NULL;
+	m_curr_render_shader = nullptr;
 }
 
 ShaderMgr::~ShaderMgr()
@@ -48,7 +48,7 @@ void ShaderMgr::ReleaseShader(ShaderType type)
 {
 	if (m_shaders[type]) {
 		delete m_shaders[type];
-		m_shaders[type] = NULL;
+		m_shaders[type] = nullptr;
 	}
 }
 

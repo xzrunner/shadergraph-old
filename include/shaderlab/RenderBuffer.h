@@ -4,8 +4,6 @@
 #include "Buffer.h"
 #include "sl_typedef.h"
 
-#include <CU_RefCountObj.h>
-
 namespace ur { class RenderContext; }
 
 namespace sl
@@ -13,7 +11,7 @@ namespace sl
 
 class Buffer;
 
-class RenderBuffer : public cu::RefCountObj
+class RenderBuffer
 {
 public:
 	RenderBuffer(ur::RenderContext* rc, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);

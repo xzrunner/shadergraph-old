@@ -6,7 +6,7 @@
 namespace sl
 {
 
-SubjectMVP3* SubjectMVP3::m_instance = NULL;
+SubjectMVP3* SubjectMVP3::m_instance = nullptr;
 
 SubjectMVP3* SubjectMVP3::Instance()
 {

@@ -55,7 +55,7 @@ bool MaskShader::Commit() const
 
 	RenderShader* shader = m_prog->GetShader();
 	ShaderMgr::Instance()->BindRenderShader(shader, MASK);
-	shader->Draw(m_vertex_buf, m_quad_sz * 4, NULL, m_quad_sz * 6);
+	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
 	m_quad_sz = 0;
 
 	return shader->Commit();
@@ -99,16 +99,15 @@ void MaskShader::InitProg()
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
 
-	RenderBuffer* idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
+	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
 	m_prog = new Program(m_rc, va_list, idx_buf);
-	idx_buf->RemoveReference();
 }
 
 /************************************************************************/
 /* class MaskShader::Program                                            */
 /************************************************************************/
 
-MaskShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
+MaskShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
@@ -129,7 +128,7 @@ MaskShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::Vertex
 	}
 }
 
-void MaskShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib)
+void MaskShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

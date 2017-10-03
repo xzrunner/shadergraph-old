@@ -3,7 +3,6 @@
 
 #include "sl_typedef.h"
 
-#include <CU_RefCountObj.h>
 #include <unirender/VertexAttrib.h>
 
 #include <vector>
@@ -13,7 +12,7 @@ namespace ur { class RenderContext; }
 namespace sl
 {
 
-class RenderLayout : public cu::RefCountObj
+class RenderLayout
 {
 public:
 	RenderLayout(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list);

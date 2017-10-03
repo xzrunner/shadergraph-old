@@ -1,9 +1,9 @@
 #ifndef _SHADERLAB_SHADER_MGR_H_
 #define _SHADERLAB_SHADER_MGR_H_
 
-#include <CU_Singleton.h>
-
 #include "ShaderType.h"
+
+#include <cu/cu_macro.h>
 
 #include <vector>
 
@@ -28,7 +28,7 @@ public:
 
 	void SetShader(ShaderType type);
 	Shader* GetShader() const {
-		return m_curr_shader == -1 ? NULL : m_shaders[m_curr_shader];
+		return m_curr_shader == -1 ? nullptr : m_shaders[m_curr_shader];
 	}
 	Shader* GetShader(ShaderType type) const {
 		return m_shaders[type];
@@ -52,7 +52,7 @@ private:
 	std::vector<RenderShader*> m_render_shaders;
 	RenderShader* m_curr_render_shader;
 
-	SINGLETON_DECLARATION(ShaderMgr);
+	CU_SINGLETON_DECLARATION(ShaderMgr);
 
 }; // ShaderMgr
 

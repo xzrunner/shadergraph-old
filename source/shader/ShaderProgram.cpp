@@ -15,8 +15,8 @@ namespace sl
 ShaderProgram::ShaderProgram(ur::RenderContext* rc, int max_vertex)
 	: m_rc(rc)
 	, m_max_vertex(max_vertex)
-	, m_parser(NULL)
-	, m_shader(NULL)
+	, m_parser(nullptr)
+	, m_shader(nullptr)
 	, m_vertex_sz(0)
 	, m_mvp(0)
 {
@@ -29,16 +29,15 @@ ShaderProgram::~ShaderProgram()
 
 void ShaderProgram::Load(parser::Node* vert, parser::Node* frag, 
 						 const std::vector<ur::VertexAttrib>& va_list,
-						 RenderBuffer* ib, bool has_mvp)
+	                     const std::shared_ptr<RenderBuffer>& ib, bool has_mvp)
 {
 	// shader
 	m_parser = new parser::Shader(vert, frag);
 	m_shader = ShaderMgr::Instance()->CreateRenderShader();
 	
 	// vertex layout
-	RenderLayout* lo = new RenderLayout(m_rc, va_list);
+	auto lo = std::make_shared<RenderLayout>(m_rc, va_list);
 	m_shader->SetLayout(lo);
-	lo->RemoveReference();
 
 	// vertex buffer
 	m_vertex_sz = 0;
@@ -46,9 +45,8 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 		m_vertex_sz += va_list[i].tot_size;
 	}
 	Buffer* buf = new Buffer(m_vertex_sz, m_max_vertex);
-	RenderBuffer* vb = new RenderBuffer(m_rc, ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
+	auto vb = std::make_shared<RenderBuffer>(m_rc, ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
 	m_shader->SetVertexBuffer(vb);
-	vb->RemoveReference();
 
 	// index buffer
 	if (ib) {

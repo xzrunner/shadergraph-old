@@ -45,9 +45,9 @@ private:
 	{
 	public:
 		Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, 
-			RenderBuffer* ib);
+			const std::shared_ptr<RenderBuffer>& ib);
 	private:
-		void Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
+		void Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 	}; // Program
 
 private:

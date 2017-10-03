@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <stdint.h>
 
@@ -67,15 +68,15 @@ protected:
 	};
 
 	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
+		const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 private:
 	void InitVAList(int position_sz);
 
-	void InitNoColorProg(RenderBuffer* idx_buf);
-	void InitMultiAddColorProg(RenderBuffer* idx_buf);
-	void InitMapColorProg(RenderBuffer* idx_buf);
-	void InitFullColorProg(RenderBuffer* idx_buf);
+	void InitNoColorProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitMultiAddColorProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitMapColorProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitFullColorProg(const std::shared_ptr<RenderBuffer>& idx_buf);
 
 protected:
 	ShaderProgram* m_programs[PROG_COUNT];

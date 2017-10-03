@@ -8,6 +8,7 @@
 #include <unirender/VertexAttrib.h>
 
 #include <vector>
+#include <memory>
 
 #include <stdint.h>
 
@@ -44,10 +45,10 @@ private:
 	void InitVAList();
 	void InitProgs();
 
-	void InitStaticColorProg(RenderBuffer* idx_buf);
-	void InitGouraudShadingProg(RenderBuffer* idx_buf);
-	void InitTextureMapProg(RenderBuffer* idx_buf);
-	void InitGouraudTextureProg(RenderBuffer* idx_buf);
+	void InitStaticColorProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitGouraudShadingProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitTextureMapProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+	void InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& idx_buf);
 
 private:
 	enum PROG_IDX {
@@ -66,7 +67,7 @@ private:
 	};
 
 	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const;
+		const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 	struct GouraudUniforms
 	{

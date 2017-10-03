@@ -18,6 +18,8 @@
 
 #include <unirender/UR_RenderContext.h>
 
+#include <memory>
+
 namespace sl
 {
 
@@ -79,7 +81,7 @@ void SpriteShader::SetColorMap(uint32_t rmap, uint32_t gmap, uint32_t bmap)
 
 void SpriteShader::InitProgs()
 {
-	RenderBuffer* idx_buf = NULL;
+	std::shared_ptr<RenderBuffer> idx_buf;
 	if (m_vertex_index) {
 		idx_buf = Utility::CreateQuadIndexBuffer(m_rc, m_max_vertex / 4);
 	}
@@ -87,9 +89,6 @@ void SpriteShader::InitProgs()
 	InitMultiAddColorProg(idx_buf);
 	InitMapColorProg(idx_buf);
 	InitFullColorProg(idx_buf);
-	if (m_vertex_index) {
-		idx_buf->RemoveReference();
-	}
 }
 
 void SpriteShader::InitVAList(int position_sz)
@@ -104,7 +103,7 @@ void SpriteShader::InitVAList(int position_sz)
 }
 
 ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
-										const std::vector<VA_TYPE>& va_types, RenderBuffer* ib) const
+										const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
 
@@ -122,7 +121,7 @@ ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag,
 	return prog;
 }
 
-void SpriteShader::InitNoColorProg(RenderBuffer* idx_buf)
+void SpriteShader::InitNoColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
@@ -138,7 +137,7 @@ void SpriteShader::InitNoColorProg(RenderBuffer* idx_buf)
 	m_programs[PI_NO_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
-void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
+void SpriteShader::InitMultiAddColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
@@ -162,7 +161,7 @@ void SpriteShader::InitMultiAddColorProg(RenderBuffer* idx_buf)
 	m_programs[PI_MULTI_ADD_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
-void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
+void SpriteShader::InitMapColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
@@ -189,7 +188,7 @@ void SpriteShader::InitMapColorProg(RenderBuffer* idx_buf)
 	m_programs[PI_MAP_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
-void SpriteShader::InitFullColorProg(RenderBuffer* idx_buf)
+void SpriteShader::InitFullColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

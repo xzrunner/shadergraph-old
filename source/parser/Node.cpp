@@ -12,8 +12,8 @@ namespace parser
 {
 
 Node::Node()
-	: m_input(NULL)
-	, m_output(NULL)
+	: m_input(nullptr)
+	, m_output(nullptr)
 {
 }
 

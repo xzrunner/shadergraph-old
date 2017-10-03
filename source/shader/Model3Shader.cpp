@@ -122,8 +122,8 @@ void Model3Shader::Draw(const std::vector<float>& vertices,
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
-	const RenderBuffer *vb = shader->GetVertexBuffer(),
-		               *ib = shader->GetIndexBuffer();
+	auto& vb = shader->GetVertexBuffer();
+	auto& ib = shader->GetIndexBuffer();
 	int vn = vertices.size() / stride,
 		in = indices.size();
 	if (vb->Size() + vn > vb->Capacity() || 
@@ -146,15 +146,14 @@ void Model3Shader::InitVAList()
 
 void Model3Shader::InitProgs()
 {
-	RenderBuffer* idx_buf = Utility::CreateIndexBuffer(m_rc, MAX_INDICES);
+	auto idx_buf = Utility::CreateIndexBuffer(m_rc, MAX_INDICES);
 	InitStaticColorProg(idx_buf);
 	InitGouraudShadingProg(idx_buf);
  	InitTextureMapProg(idx_buf);
  	InitGouraudTextureProg(idx_buf);
-	idx_buf->RemoveReference();
 }
 
-void Model3Shader::InitStaticColorProg(RenderBuffer* idx_buf)
+void Model3Shader::InitStaticColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	parser::Node* frag = new parser::Assign(parser::Variable(parser::VT_FLOAT4, "_col_static_"), 0.5, 0.5, 0, 1);
@@ -165,7 +164,7 @@ void Model3Shader::InitStaticColorProg(RenderBuffer* idx_buf)
 	m_programs[PI_STATIC_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
-void Model3Shader::InitGouraudShadingProg(RenderBuffer* idx_buf)
+void Model3Shader::InitGouraudShadingProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	std::string varying_name = "gouraud_dst";
 
@@ -185,7 +184,7 @@ void Model3Shader::InitGouraudShadingProg(RenderBuffer* idx_buf)
 	m_shading_uniforms.Init(m_programs[PI_GOURAUD_SHADING]->GetShader());
 }
 
-void Model3Shader::InitTextureMapProg(RenderBuffer* idx_buf)
+void Model3Shader::InitTextureMapProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
@@ -202,7 +201,7 @@ void Model3Shader::InitTextureMapProg(RenderBuffer* idx_buf)
 }
 
 // todo
-void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
+void Model3Shader::InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
 	const char* gouraud_dst_name = "gouraud_dst";
 
@@ -231,7 +230,7 @@ void Model3Shader::InitGouraudTextureProg(RenderBuffer* idx_buf)
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
 										const std::vector<VA_TYPE>& va_types,
-										RenderBuffer* ib) const
+										const std::shared_ptr<RenderBuffer>& ib) const
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, MAX_VERTICES);
 

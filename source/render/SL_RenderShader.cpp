@@ -34,17 +34,11 @@ RenderShader::RenderShader(ur::RenderContext* rc)
 	m_uniform_number = 0;
 	m_uniform_changed = false;
 
-	m_vb = m_ib = NULL;
-	m_layout = NULL;
+	m_vb = nullptr;
+	m_ib = nullptr;
+	m_layout = nullptr;
 
 	m_draw_mode = ur::DRAW_POINTS;
-}
-
-RenderShader::~RenderShader()
-{
-	if (m_vb) m_vb->RemoveReference();
-	if (m_ib) m_ib->RemoveReference();
-	if (m_layout) m_layout->RemoveReference();
 }
 
 void RenderShader::Load(const char* vs, const char* fs)
@@ -65,21 +59,6 @@ void RenderShader::Load(const char* vs, const char* fs)
 void RenderShader::Unload()
 {
 	m_rc->ReleaseShader(m_prog);
-}
-
-void RenderShader::SetVertexBuffer(RenderBuffer* vb) 
-{ 
-	RefCountObjAssign(m_vb, vb);
-}
-
-void RenderShader::SetIndexBuffer(RenderBuffer* ib) 
-{ 
-	RefCountObjAssign(m_ib, ib);
-}
-
-void RenderShader::SetLayout(RenderLayout* lo) 
-{ 
-	RefCountObjAssign(m_layout, lo);
 }
 
 void RenderShader::Bind()

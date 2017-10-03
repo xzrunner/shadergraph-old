@@ -6,7 +6,7 @@
 namespace sl
 {
 
-SINGLETON_DEFINITION(Statistics);
+CU_SINGLETON_DEFINITION(Statistics);
 
 Statistics::Statistics() 
 	: m_drawcall(0)

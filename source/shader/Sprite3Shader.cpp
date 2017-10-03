@@ -31,7 +31,7 @@ bool Sprite3Shader::Commit() const
 
 	m_rc->BindTexture(m_texid, 0);
 
-	ShaderProgram* prog = NULL;
+	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)
 	{
 	case PT_NULL:

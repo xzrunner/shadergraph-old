@@ -35,7 +35,7 @@ bool Sprite2Shader::Commit() const
 
 	m_rc->BindTexture(m_texid, 0);
 
-	ShaderProgram* prog = NULL;
+	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)
 	{
 	case PT_NULL:
@@ -75,7 +75,7 @@ bool Sprite2Shader::Commit() const
 
 	RenderShader* shader = prog->GetShader();
 	ShaderMgr::Instance()->BindRenderShader(shader, SPRITE2);
-	shader->Draw(buf, vb_count, NULL, m_quad_sz * 6);
+	shader->Draw(buf, vb_count, nullptr, m_quad_sz * 6);
 	alloc->Free(buf);
 
 	m_quad_sz = 0;

@@ -37,7 +37,7 @@ FilterShader::FilterShader(ur::RenderContext* rc)
 	, m_curr_mode(FM_NULL)
 	, m_texid(0)
 	, m_quad_sz(0)
-	, m_index_buf(NULL)
+	, m_index_buf(nullptr)
 	, m_prog_type(0)
 {
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
@@ -53,10 +53,6 @@ FilterShader::FilterShader(ur::RenderContext* rc)
 
 FilterShader::~FilterShader()
 {
-	if (m_index_buf) {
-		m_index_buf->RemoveReference();
-	}
-
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		FilterProgram* prog = m_programs[i];
 		if (prog) {
@@ -86,7 +82,7 @@ bool FilterShader::Commit() const
 	}
 
 	int idx = m_mode2index[m_curr_mode];
-	FilterProgram* prog = NULL;
+	FilterProgram* prog = nullptr;
 	switch (m_prog_type)
 	{
 	case PT_NULL:
@@ -121,7 +117,7 @@ bool FilterShader::Commit() const
 		ptr += vertex_sz;
 	}
 
-	shader->Draw(buf, vb_count, NULL, m_quad_sz * 6);
+	shader->Draw(buf, vb_count, nullptr, m_quad_sz * 6);
 	alloc->Free(buf);
 
 	m_quad_sz = 0;
@@ -165,7 +161,7 @@ FilterProgram* FilterShader::GetProgram(FILTER_MODE mode)
 	if (idx >= 0 && idx < PROG_COUNT) {
 		return m_programs[idx];
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -175,7 +171,7 @@ FilterProgram* FilterShader::GetProgramWithColor(FILTER_MODE mode)
 	if (idx >= 0 && idx < PROG_COUNT) {
 		return m_programs_with_color[idx];
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -316,7 +312,7 @@ FilterProgram* FilterShader::InitProgWithColor(int idx) const
 	va_list.push_back(m_va_list[COLOR]);
 	va_list.push_back(m_va_list[ADDITIVE]);
 
-	FilterProgram* prog = NULL;
+	FilterProgram* prog = nullptr;
 
 	int max_vertex = MAX_COMMBINE * 4;
 	switch (idx)

@@ -55,12 +55,12 @@ private:
 	{
 	public:
 		Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, 
-			RenderBuffer* ib);
+			const std::shared_ptr<RenderBuffer>& ib);
 		
 		void SetMode(int mode);
 
 	private:
-		void Init(const std::vector<ur::VertexAttrib>& va_list, RenderBuffer* ib);
+		void Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
 	private:
 		int m_mode;

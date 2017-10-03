@@ -11,7 +11,7 @@ class GrayProg : public FilterProgram
 public:
 	GrayProg(ur::RenderContext* rc, int max_vertex, 
 		const std::vector<ur::VertexAttrib>& va_list, 
-		RenderBuffer* ib, parser::Node* pre = NULL);
+		const std::shared_ptr<RenderBuffer>& ib, parser::Node* pre = nullptr);
 
 }; // GrayProg
 

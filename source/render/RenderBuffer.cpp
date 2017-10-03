@@ -11,7 +11,7 @@ RenderBuffer::RenderBuffer(ur::RenderContext* rc, RENDER_OBJ_TYPE type, int stri
 	, m_type(type)
 	, m_buf(buf)
 {
-	m_id = m_rc->CreateBuffer((ur::RENDER_OBJ)type, NULL, n, stride);
+	m_id = m_rc->CreateBuffer((ur::RENDER_OBJ)type, nullptr, n, stride);
 
 	// todo
 //	render_set(m_ej_render, m_type, m_id, 0);
