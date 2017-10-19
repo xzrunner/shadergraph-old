@@ -16,7 +16,7 @@ public:
 	Mul1(Variable left, Variable right) 
 		: m_left(left), m_right(right) {}
 
-	virtual std::string& ToStatements(std::string& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const {
 		CheckType(m_left, m_right);
 		char buf[128];
 		sprintf(buf, "%s *= %s;\n", m_left.GetName(), m_right.GetName());

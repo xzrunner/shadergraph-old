@@ -27,13 +27,13 @@ public:
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "time"));
 	}
 
-	virtual std::string& GetHeader(std::string& str) const {
+	virtual CU_STR& GetHeader(CU_STR& str) const {
 		str += burning_map_header;
 		return str;
 	}
 
 protected:
-	virtual std::string GetBody() const {
+	virtual CU_STR GetBody() const {
 		return burning_map_body;
 	}
 

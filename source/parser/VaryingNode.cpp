@@ -14,7 +14,7 @@ VaryingNode::VaryingNode(Variable var)
 	m_varyings.push_back(new Varying(var));
 }
 
-std::string& VaryingNode::ToStatements(std::string& str) const
+CU_STR& VaryingNode::ToStatements(CU_STR& str) const
 {
 	if (!m_input) {
 		return str;
@@ -30,7 +30,7 @@ std::string& VaryingNode::ToStatements(std::string& str) const
 
 Variable VaryingNode::GetOutput() const
 {
-	return Variable(m_var.GetType(), std::string("v_") + m_var.GetName());
+	return Variable(m_var.GetType(), CU_STR("v_") + m_var.GetName());
 }
 
 }

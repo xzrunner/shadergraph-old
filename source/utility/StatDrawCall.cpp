@@ -14,7 +14,7 @@ StatDrawCall::StatDrawCall()
 	Reset();
 }
 
-void StatDrawCall::Print(std::string& str) const
+void StatDrawCall::Print(CU_STR& str) const
 {
 	static char buf[512];
 	sprintf(buf, "DC: mode %d, uni %d, ib %d, vb %d, full %d, tex %d, sd %d", 

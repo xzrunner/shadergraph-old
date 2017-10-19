@@ -12,9 +12,9 @@ class Attribute : public Variable
 {
 public:
 	Attribute(const Variable& var);
-	Attribute(VariableType type, std::string name);
+	Attribute(VariableType type, CU_STR name);
 
-	virtual std::string& ToStatement(std::string& str) const;
+	virtual CU_STR& ToStatement(CU_STR& str) const;
 
 }; // Attribute
 

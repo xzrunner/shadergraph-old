@@ -28,7 +28,7 @@ ShaderProgram::~ShaderProgram()
 }
 
 void ShaderProgram::Load(parser::Node* vert, parser::Node* frag, 
-						 const std::vector<ur::VertexAttrib>& va_list,
+						 const CU_VEC<ur::VertexAttrib>& va_list,
 	                     const std::shared_ptr<RenderBuffer>& ib, bool has_mvp)
 {
 	// shader

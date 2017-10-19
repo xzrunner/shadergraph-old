@@ -21,7 +21,7 @@ public:
 	Outline() : Filter("_col_outline_") {}
 	
 protected:
-	virtual std::string GetBody() const {
+	virtual CU_STR GetBody() const {
 		return outline_body;
 	}
 

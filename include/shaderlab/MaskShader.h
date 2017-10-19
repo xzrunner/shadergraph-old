@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 
-#include <vector>
+#include <cu/cu_stl.h>
 
 namespace sl
 {
@@ -44,10 +44,10 @@ private:
 	class Program : public ShaderProgram
 	{
 	public:
-		Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, 
+		Program(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list, 
 			const std::shared_ptr<RenderBuffer>& ib);
 	private:
-		void Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
+		void Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 	}; // Program
 
 private:

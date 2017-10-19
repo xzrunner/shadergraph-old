@@ -26,13 +26,13 @@ public:
 		m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "col_lut"));
 	}
 	
-	virtual std::string& GetHeader(std::string& str) const {
+	virtual CU_STR& GetHeader(CU_STR& str) const {
 		str += color_grading_header;
 		return str;
 	}
 
 protected:
-	virtual std::string GetBody() const {
+	virtual CU_STR GetBody() const {
 		return color_grading_body;
 	}
 

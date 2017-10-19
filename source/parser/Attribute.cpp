@@ -10,12 +10,12 @@ Attribute::Attribute(const Variable& var)
 {
 }
 
-Attribute::Attribute(VariableType type, std::string name)
+Attribute::Attribute(VariableType type, CU_STR name)
 	: Variable(type, name)
 {
 }
 
-std::string& Attribute::ToStatement(std::string& str) const
+CU_STR& Attribute::ToStatement(CU_STR& str) const
 {
 	str += "attribute ";
 	str += VAR_INFOS[m_type].name;

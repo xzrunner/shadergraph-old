@@ -18,7 +18,7 @@ public:
 	Gray() : Filter("_col_gray_") {}
 
 protected:
-	virtual std::string GetBody() const;
+	virtual CU_STR GetBody() const;
 
 }; // Gray
 

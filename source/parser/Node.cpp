@@ -37,7 +37,7 @@ Node* Node::Connect(Node* next)
 	return next;
 }
 
-void Node::GetVariables(IOType type, std::vector<const Variable*>& variables) const
+void Node::GetVariables(IOType type, CU_VEC<const Variable*>& variables) const
 {
 	if (type == IOT_ATTRIBUTE) {
 		std::copy(m_attributes.begin(), m_attributes.end(), back_inserter(variables));

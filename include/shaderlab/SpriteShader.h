@@ -3,10 +3,9 @@
 
 #include "Shader.h"
 
+#include <cu/cu_stl.h>
 #include <unirender/VertexAttrib.h>
 
-#include <string>
-#include <vector>
 #include <memory>
 
 #include <stdint.h>
@@ -68,7 +67,7 @@ protected:
 	};
 
 	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
+		const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 private:
 	void InitVAList(int position_sz);

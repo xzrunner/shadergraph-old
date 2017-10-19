@@ -21,13 +21,13 @@ ColorMap::ColorMap()
 	m_varyings.push_back(new Varying(VT_FLOAT4, "bmap"));
 }
 
-std::string& ColorMap::GetHeader(std::string& str) const
+CU_STR& ColorMap::GetHeader(CU_STR& str) const
 {
 	str += "\n#define neql(a, b) (step(0.0001, abs((a) - (b))))\n";
 	return str;
 }
 
-std::string& ColorMap::ToStatements(std::string& str) const
+CU_STR& ColorMap::ToStatements(CU_STR& str) const
 {
 	if (!m_input) {
 		return str;
@@ -35,7 +35,7 @@ std::string& ColorMap::ToStatements(std::string& str) const
 
 	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
-	std::string s = " \
+	CU_STR s = " \
 		float s = 1.2;\n \
 		float k = _TMP_.r + _TMP_.g + _TMP_.b;\n \
 		\

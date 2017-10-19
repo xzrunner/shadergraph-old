@@ -22,19 +22,19 @@ namespace parser
 class Filter : public Node
 {
 public:
-	Filter(const std::string& output) : m_output(output) {}
+	Filter(const CU_STR& output) : m_output(output) {}
 	
-	virtual std::string& ToStatements(std::string& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const;
 
 	virtual Variable GetOutput() const {
 		return Variable(VT_FLOAT4, m_output);
 	}
 
 protected:
-	virtual std::string GetBody() const = 0;
+	virtual CU_STR GetBody() const = 0;
 
 private:
-	std::string m_output;
+	CU_STR m_output;
 
 }; // Filter
 

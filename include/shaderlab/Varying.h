@@ -12,9 +12,9 @@ class Varying : public Variable
 {
 public:
 	Varying(const Variable& var);
-	Varying(VariableType type, std::string name);
+	Varying(VariableType type, CU_STR name);
 
-	virtual std::string& ToStatement(std::string& str) const;
+	virtual CU_STR& ToStatement(CU_STR& str) const;
 
 }; // Varying
 

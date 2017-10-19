@@ -1,9 +1,9 @@
 #ifndef _SHADERLAB_SHADER_PROGRAM_H_
 #define _SHADERLAB_SHADER_PROGRAM_H_
 
+#include <cu/cu_stl.h>
 #include <unirender/VertexAttrib.h>
 
-#include <vector>
 #include <memory>
 
 namespace ur { class RenderContext; }
@@ -26,7 +26,7 @@ public:
 	virtual void Bind() {}
 
 	void Load(parser::Node* vert, parser::Node* frag, 
-		const std::vector<ur::VertexAttrib>& va_list, 
+		const CU_VEC<ur::VertexAttrib>& va_list, 
 		const std::shared_ptr<RenderBuffer>& ib, bool has_mvp);
 
 	RenderShader* GetShader() { return m_shader; }

@@ -62,7 +62,7 @@ void ShapeShader::InitProg(int position_sz, int max_vertex)
 	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, "color"));
 	frag->Connect(new parser::FragColor());
 
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	va_list.push_back(ur::VertexAttrib("position", position_sz, sizeof(float)));
 	va_list.push_back(ur::VertexAttrib("color", 4, sizeof(uint8_t)));
 

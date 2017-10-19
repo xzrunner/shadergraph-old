@@ -3,9 +3,8 @@
 
 #include "sl_typedef.h"
 
+#include <cu/cu_stl.h>
 #include <unirender/VertexAttrib.h>
-
-#include <vector>
 
 namespace ur { class RenderContext; }
 
@@ -15,7 +14,7 @@ namespace sl
 class RenderLayout
 {
 public:
-	RenderLayout(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list);
+	RenderLayout(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list);
 	virtual ~RenderLayout();
 
 	void Bind();

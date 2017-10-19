@@ -5,7 +5,7 @@
 namespace sl
 {
 
-RenderLayout::RenderLayout(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list)
+RenderLayout::RenderLayout(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list)
 	: m_rc(rc)
 {
 	m_id = m_rc->CreateVertexLayout(va_list);

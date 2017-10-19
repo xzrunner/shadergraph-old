@@ -123,7 +123,7 @@ void BlendShader::InitVAList()
 
 void BlendShader::InitProg()
 {
- 	std::vector<ur::VertexAttrib> va_list;
+ 	CU_VEC<ur::VertexAttrib> va_list;
  	va_list.push_back(m_va_list[POSITION]);
  	va_list.push_back(m_va_list[TEXCOORD]);
  	va_list.push_back(m_va_list[TEXCOORD_BASE]);
@@ -139,7 +139,7 @@ void BlendShader::InitProg()
 /************************************************************************/
 
 BlendShader::Program::Program(ur::RenderContext* rc, 
-	                          const std::vector<ur::VertexAttrib>& va_list, 
+	                          const CU_VEC<ur::VertexAttrib>& va_list, 
 	                          const std::shared_ptr<RenderBuffer>& ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
@@ -168,7 +168,7 @@ void BlendShader::Program::SetMode(int mode)
 	m_shader->SetUniform(m_mode, ur::UNIFORM_INT1, &m);
 }
 
-void BlendShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, 
+void BlendShader::Program::Init(const CU_VEC<ur::VertexAttrib>& va_list, 
 	                            const std::shared_ptr<RenderBuffer>& ib)
 {
 	parser::Node* vert = new parser::PositionTrans();

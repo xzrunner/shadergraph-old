@@ -31,7 +31,7 @@ void Statistics::Reset()
 	m_vertices = 0;
 }
 
-void Statistics::Print(std::string& str) const
+void Statistics::Print(CU_STR& str) const
 {
 	static char buf[512];
 	sprintf(buf, "DC: %d, vertices: %d, max DC %d, max vert %d", 

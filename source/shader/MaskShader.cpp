@@ -94,7 +94,7 @@ void MaskShader::InitVAList()
 
 void MaskShader::InitProg()
 {
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
@@ -107,7 +107,7 @@ void MaskShader::InitProg()
 /* class MaskShader::Program                                            */
 /************************************************************************/
 
-MaskShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
+MaskShader::Program::Program(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
@@ -128,7 +128,7 @@ MaskShader::Program::Program(ur::RenderContext* rc, const std::vector<ur::Vertex
 	}
 }
 
-void MaskShader::Program::Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
+void MaskShader::Program::Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
 {
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

@@ -8,7 +8,7 @@ namespace sl
 {
 
 GaussianBlurVertProg::GaussianBlurVertProg(ur::RenderContext* rc, int max_vertex, 
-										   const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
+										   const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
 	: FilterProgram(rc, max_vertex)
 	, m_tex_height_val(0)
 {

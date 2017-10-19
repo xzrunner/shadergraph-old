@@ -27,7 +27,7 @@ public:
 	}
 
 protected:
-	virtual std::string GetBody() const {
+	virtual CU_STR GetBody() const {
 		return edge_detect_body;
 	}
 

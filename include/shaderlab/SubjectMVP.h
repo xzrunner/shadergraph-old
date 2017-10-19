@@ -1,9 +1,8 @@
 #ifndef _SHADERLAB_SUBJECT_MVP_H_
 #define _SHADERLAB_SUBJECT_MVP_H_
 
+#include <cu/cu_stl.h>
 #include <SM_Matrix.h>
-
-#include <set>
 
 namespace sl
 {
@@ -23,7 +22,7 @@ public:
 	}
 
 protected:
-	std::set<ObserverMVP*> m_observers;
+	CU_SET<ObserverMVP*> m_observers;
 
 	sm::mat4 m_modelview, m_projection;
 

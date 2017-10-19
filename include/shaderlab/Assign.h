@@ -14,7 +14,7 @@ public:
 	Assign(Variable left, Variable right);
 	Assign(Variable left, float r, float g, float b, float a);
 
-	virtual std::string& ToStatements(std::string& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const;
 	
 	virtual Variable GetOutput() const;
 

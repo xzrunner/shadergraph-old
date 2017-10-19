@@ -3,11 +3,11 @@
 
 #include "Shader.h"
 
+#include <cu/cu_stl.h>
 #include <SM_Vector.h>
 #include <SM_Matrix.h>
 #include <unirender/VertexAttrib.h>
 
-#include <vector>
 #include <memory>
 
 #include <stdint.h>
@@ -38,7 +38,7 @@ public:
 	void SetNormalMatrix(const sm::mat4& mat);
 	void SetModelview(const sm::mat4& mat);
 
-	void Draw(const std::vector<float>& vertices, const std::vector<uint16_t>& indices,
+	void Draw(const CU_VEC<float>& vertices, const CU_VEC<uint16_t>& indices,
 		bool has_normal, bool has_texcoord) const;
 
 private:
@@ -67,7 +67,7 @@ private:
 	};
 
 	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
-		const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
+		const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 	struct GouraudUniforms
 	{

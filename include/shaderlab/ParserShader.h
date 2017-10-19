@@ -3,8 +3,7 @@
 
 #include "IOType.h"
 
-#include <string>
-#include <vector>
+#include <cu/cu_stl.h>
 
 namespace sl
 {
@@ -29,17 +28,17 @@ private:
 	void ParserVert();
 	void ParserFrag();
 
-	static void GetVariables(const Node* head, IOType type, std::vector<const Variable*>& variables);
+	static void GetVariables(const Node* head, IOType type, CU_VEC<const Variable*>& variables);
 
 	static void ReleaseNodes(const Node* head);
 
 private:
 	const Node *m_vert_head, *m_frag_head;
 
-	std::string m_vert_str, m_frag_str;
+	CU_STR m_vert_str, m_frag_str;
 
-	std::vector<const Variable*> m_vert_uniforms, m_frag_uniforms;
-	std::vector<const Variable*> m_attributes;
+	CU_VEC<const Variable*> m_vert_uniforms, m_frag_uniforms;
+	CU_VEC<const Variable*> m_attributes;
 
 }; // Shader
 

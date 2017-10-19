@@ -10,7 +10,7 @@ class BlurProg : public FilterProgram
 {
 public:
 	BlurProg(ur::RenderContext* rc, int max_vertex, 
-		const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
+		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
 	void SetRadius(float r);
 

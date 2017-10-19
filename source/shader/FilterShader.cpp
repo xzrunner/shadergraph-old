@@ -213,7 +213,7 @@ void FilterShader::InitProgs()
 	memset(m_programs, 0, sizeof(m_programs));
 	memset(m_programs_with_color, 0, sizeof(m_programs_with_color));
 
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 
@@ -306,7 +306,7 @@ void FilterShader::InitProgs()
 
 FilterProgram* FilterShader::InitProgWithColor(int idx) const
 {
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	va_list.push_back(m_va_list[POSITION]);
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[COLOR]);

@@ -23,7 +23,7 @@ class ColorAddMul : public Node
 public:
 	ColorAddMul();
 
-	virtual std::string& ToStatements(std::string& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const;
 	
 	virtual Variable GetOutput() const;
 

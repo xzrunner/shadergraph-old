@@ -6,7 +6,7 @@ namespace sl
 namespace parser
 {
 
-std::string& Filter::ToStatements(std::string& str) const
+CU_STR& Filter::ToStatements(CU_STR& str) const
 {
 	if (!m_input) {
 		return str;
@@ -14,7 +14,7 @@ std::string& Filter::ToStatements(std::string& str) const
 
 	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
-	std::string s = GetBody();
+	CU_STR s = GetBody();
 	StringHelper::ReplaceAll(s, "_DST_COL_", m_output);
 	str += s;
 	return str;

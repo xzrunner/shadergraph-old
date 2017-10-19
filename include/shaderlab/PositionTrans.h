@@ -24,7 +24,7 @@ class PositionTrans : public Node
 public:
 	PositionTrans();
 
-	virtual std::string& ToStatements(std::string& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const;
 	
 	virtual Variable GetOutput() const { return Variable(VT_FLOAT4, "gl_Position"); }
 

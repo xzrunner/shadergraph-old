@@ -16,7 +16,7 @@ public:
 	Mul2(Variable left, Variable right0, Variable right1) 
 		: m_left(left), m_right0(right0), m_right1(right1) {}
 
-	virtual std::string& ToStatements(std::string& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const {
 		CheckType(m_left, m_right0);
 		CheckType(m_left, m_right1);
 		char buf[128];

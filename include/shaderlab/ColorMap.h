@@ -24,8 +24,8 @@ class ColorMap : public Node
 public:
 	ColorMap();
 
-	virtual std::string& GetHeader(std::string& str) const;
-	virtual std::string& ToStatements(std::string& str) const;
+	virtual CU_STR& GetHeader(CU_STR& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const;
 	
 	virtual Variable GetOutput() const;
 

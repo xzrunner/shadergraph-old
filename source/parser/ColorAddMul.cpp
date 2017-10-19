@@ -17,7 +17,7 @@ ColorAddMul::ColorAddMul()
 	m_varyings.push_back(new Varying(VT_FLOAT4, "additive"));
 }
 
-std::string& ColorAddMul::ToStatements(std::string& str) const
+CU_STR& ColorAddMul::ToStatements(CU_STR& str) const
 {
 	if (!m_input) {
 		return str;
@@ -25,7 +25,7 @@ std::string& ColorAddMul::ToStatements(std::string& str) const
 
 	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
-	std::string s = " \
+	CU_STR s = " \
 		vec4 _col_add_multi_;\n \
 		_col_add_multi_.xyz = _TMP_.xyz * v_color.xyz;\n \
 		_col_add_multi_.w = _TMP_.w;\n \

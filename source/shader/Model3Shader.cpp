@@ -97,8 +97,8 @@ void Model3Shader::SetModelview(const sm::mat4& mat)
 //	SetNormalMatrix(mat);
 }
 
-void Model3Shader::Draw(const std::vector<float>& vertices, 
-						const std::vector<uint16_t>& indices,
+void Model3Shader::Draw(const CU_VEC<float>& vertices, 
+						const CU_VEC<uint16_t>& indices,
 						bool has_normal, bool has_texcoord) const
 {
 	int stride = 3;
@@ -159,14 +159,14 @@ void Model3Shader::InitStaticColorProg(const std::shared_ptr<RenderBuffer>& idx_
 	parser::Node* frag = new parser::Assign(parser::Variable(parser::VT_FLOAT4, "_col_static_"), 0.5, 0.5, 0, 1);
 	frag->Connect(new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	m_programs[PI_STATIC_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
 }
 
 void Model3Shader::InitGouraudShadingProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 {
-	std::string varying_name = "gouraud_dst";
+	CU_STR varying_name = "gouraud_dst";
 
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(
@@ -176,7 +176,7 @@ void Model3Shader::InitGouraudShadingProg(const std::shared_ptr<RenderBuffer>& i
 	parser::Node* frag = new parser::VaryingNode(parser::Variable(parser::VT_FLOAT4, varying_name));
 	frag->Connect(new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(NORMAL);
 	m_programs[PI_GOURAUD_SHADING] = CreateProg(vert, frag, va_types, idx_buf);
@@ -194,7 +194,7 @@ void Model3Shader::InitTextureMapProg(const std::shared_ptr<RenderBuffer>& idx_b
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	m_programs[PI_TEXTURE_MAP] = CreateProg(vert, frag, va_types, idx_buf);
@@ -219,7 +219,7 @@ void Model3Shader::InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& i
 		new parser::Mul2(parser::Variable(parser::VT_FLOAT4, "tmp"), varying->GetOutput(), tex_map->GetOutput()))->Connect(
 		new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	va_types.push_back(NORMAL);
@@ -229,12 +229,12 @@ void Model3Shader::InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& i
 }
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
-										const std::vector<VA_TYPE>& va_types,
+										const CU_VEC<VA_TYPE>& va_types,
 										const std::shared_ptr<RenderBuffer>& ib) const
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, MAX_VERTICES);
 
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {
 		va_list.push_back(m_va_list[va_types[i]]);
 	}

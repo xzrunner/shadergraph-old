@@ -21,7 +21,7 @@ TextureMap::TextureMap()
 	m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "texture0"));
 }
 
-std::string& TextureMap::ToStatements(std::string& str) const
+CU_STR& TextureMap::ToStatements(CU_STR& str) const
 {
 	char buf[128];
 	sprintf(buf, "vec4 %s = texture2D(u_texture0, v_texcoord);\n", OUTPUT_NAME);

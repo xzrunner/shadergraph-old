@@ -103,11 +103,11 @@ void SpriteShader::InitVAList(int position_sz)
 }
 
 ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
-										const std::vector<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const
+										const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
 
-	std::vector<ur::VertexAttrib> va_list;
+	CU_VEC<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {
 		va_list.push_back(m_va_list[va_types[i]]);
 	}
@@ -131,7 +131,7 @@ void SpriteShader::InitNoColorProg(const std::shared_ptr<RenderBuffer>& idx_buf)
 	parser::Node* frag = new parser::TextureMap();
 	frag->Connect(new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	m_programs[PI_NO_COLOR] = CreateProg(vert, frag, va_types, idx_buf);
@@ -153,7 +153,7 @@ void SpriteShader::InitMultiAddColorProg(const std::shared_ptr<RenderBuffer>& id
 		new parser::ColorAddMul())->Connect(
 		new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	va_types.push_back(COLOR);
@@ -179,7 +179,7 @@ void SpriteShader::InitMapColorProg(const std::shared_ptr<RenderBuffer>& idx_buf
 		new parser::ColorMap())->Connect(
 		new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	va_types.push_back(RMAP);
@@ -211,7 +211,7 @@ void SpriteShader::InitFullColorProg(const std::shared_ptr<RenderBuffer>& idx_bu
 		new parser::ColorAddMul())->Connect(
 		new parser::FragColor());
 
-	std::vector<VA_TYPE> va_types;
+	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
 	va_types.push_back(TEXCOORD);
 	va_types.push_back(COLOR);

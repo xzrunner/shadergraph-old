@@ -4,8 +4,7 @@
 #include "IOType.h"
 #include "Variable.h"
 
-#include <string>
-#include <vector>
+#include <cu/cu_stl.h>
 
 namespace sl
 {
@@ -22,14 +21,14 @@ public:
 	Node();
 	virtual ~Node();
 
-	virtual std::string& GetHeader(std::string& str) const { return str; }
-	virtual std::string& ToStatements(std::string& str) const { return str; }
+	virtual CU_STR& GetHeader(CU_STR& str) const { return str; }
+	virtual CU_STR& ToStatements(CU_STR& str) const { return str; }
 
 	virtual Variable GetOutput() const = 0;
 
 	Node* Connect(Node* next);
 
-	void GetVariables(IOType type, std::vector<const Variable*>& variables) const;
+	void GetVariables(IOType type, CU_VEC<const Variable*>& variables) const;
 
 	const Node* Next() const { return m_output; }
 
@@ -40,12 +39,12 @@ protected:
 protected:
 	Node *m_input, *m_output;
 
-	std::vector<Attribute*> m_attributes;
-	std::vector<Varying*> m_varyings;
-	std::vector<Uniform*> m_uniforms;
+	CU_VEC<Attribute*> m_attributes;
+	CU_VEC<Varying*> m_varyings;
+	CU_VEC<Uniform*> m_uniforms;
 
-	//std::string m_type;
-	//std::string m_name;
+	//CU_STR m_type;
+	//CU_STR m_name;
 
 }; // Node
 

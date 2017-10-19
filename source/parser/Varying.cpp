@@ -10,12 +10,12 @@ Varying::Varying(const Variable& var)
 {
 }
 
-Varying::Varying(VariableType type, std::string name)
+Varying::Varying(VariableType type, CU_STR name)
 	: Variable(type, name)
 {
 }
 
-std::string& Varying::ToStatement(std::string& str) const
+CU_STR& Varying::ToStatement(CU_STR& str) const
 {
 	str += "varying ";
 	str += VAR_INFOS[m_type].name;

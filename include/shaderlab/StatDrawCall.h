@@ -1,9 +1,8 @@
 #ifndef _SHADERLAB_STAT_DRAWCALL_H_
 #define _SHADERLAB_STAT_DRAWCALL_H_
 
+#include <cu/cu_stl.h>
 #include <cu/cu_macro.h>
-
-#include <string>
 
 namespace sl
 {
@@ -11,7 +10,7 @@ namespace sl
 class StatDrawCall
 {
 public:
-	void Print(std::string& str) const;
+	void Print(CU_STR& str) const;
 	void Reset();
 
  	void AddDrawMode() { ++m_draw_mode; }

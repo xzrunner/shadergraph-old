@@ -12,7 +12,7 @@ AttributeNode::AttributeNode(Variable var)
 	m_attributes.push_back(new Attribute(var));	
 }
 
-std::string& AttributeNode::ToStatements(std::string& str) const
+CU_STR& AttributeNode::ToStatements(CU_STR& str) const
 {
 	return str;
 }

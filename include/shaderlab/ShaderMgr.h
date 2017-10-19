@@ -3,9 +3,8 @@
 
 #include "ShaderType.h"
 
+#include <cu/cu_stl.h>
 #include <cu/cu_macro.h>
-
-#include <vector>
 
 #include <stddef.h>
 
@@ -49,7 +48,7 @@ private:
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;
 
-	std::vector<RenderShader*> m_render_shaders;
+	CU_VEC<RenderShader*> m_render_shaders;
 	RenderShader* m_curr_render_shader;
 
 	CU_SINGLETON_DECLARATION(ShaderMgr);

@@ -15,7 +15,7 @@ PositionTrans::PositionTrans()
 	m_uniforms.push_back(new Uniform(VT_MAT4, "modelview"));
 }
 
-std::string& PositionTrans::ToStatements(std::string& str) const
+CU_STR& PositionTrans::ToStatements(CU_STR& str) const
 {
 	str += "gl_Position = u_projection * u_modelview * position;\n";
 	return str;

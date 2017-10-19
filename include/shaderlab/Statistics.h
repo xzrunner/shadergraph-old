@@ -1,9 +1,8 @@
 #ifndef _SHADERLAB_STATISTICS_H_
 #define _SHADERLAB_STATISTICS_H_
 
+#include <cu/cu_stl.h>
 #include <cu/cu_macro.h>
-
-#include <string>
 
 namespace sl
 {
@@ -20,7 +19,7 @@ public:
 	int GetVertices() const { return m_vertices; }
     bool GetRender() const {return !m_disable_render; }
 
-	void Print(std::string& str) const;
+	void Print(CU_STR& str) const;
 
 	void Reset();
 

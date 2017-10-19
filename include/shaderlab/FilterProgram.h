@@ -14,7 +14,7 @@ public:
 	virtual void UpdateTime(float time) {}
 
 protected:
-	void Init(const std::vector<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib, 
+	void Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib, 
 		parser::Node* pn, parser::Node* pre_pn = nullptr);
 
 }; // FilterProgram

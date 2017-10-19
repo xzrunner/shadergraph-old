@@ -30,7 +30,7 @@ void Shader::ParserVert()
 	m_vert_str.clear();
 	m_vert_str.reserve(SHADER_MAX_STR_LEN);
 
-	std::vector<const Variable*> varyings;
+	CU_VEC<const Variable*> varyings;
 	GetVariables(m_vert_head, IOT_ATTRIBUTE, m_attributes);
 	GetVariables(m_vert_head, IOT_VARYING, varyings);
 	GetVariables(m_vert_head, IOT_UNIFORM, m_vert_uniforms);
@@ -65,7 +65,7 @@ void Shader::ParserVert()
 
 void Shader::ParserFrag()
 {
-	std::vector<const Variable*> varyings;
+	CU_VEC<const Variable*> varyings;
 	GetVariables(m_frag_head, IOT_VARYING, varyings);
 	GetVariables(m_frag_head, IOT_UNIFORM, m_frag_uniforms);
 
@@ -93,7 +93,7 @@ void Shader::ParserFrag()
 	m_frag_str += "}";
 }
 
-void Shader::GetVariables(const Node* head, IOType type, std::vector<const Variable*>& variables)
+void Shader::GetVariables(const Node* head, IOType type, CU_VEC<const Variable*>& variables)
 {
 	const Node* node = head;
 	while (node) {

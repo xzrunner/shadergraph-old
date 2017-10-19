@@ -13,7 +13,7 @@ namespace parser
 class FragColor : public Node
 {
 public:
-	virtual std::string& ToStatements(std::string& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const {
 		if (m_input) {
 			char buf[128];
 			sprintf(buf, "gl_FragColor = %s;\n", m_input->GetOutput().GetName());

@@ -25,7 +25,7 @@ Assign::Assign(Variable left, float r, float g, float b, float a)
 	m_right.SetName(buf);
 }
 
-std::string& Assign::ToStatements(std::string& str) const
+CU_STR& Assign::ToStatements(CU_STR& str) const
 {
 	char buf[256];
 	sprintf(buf, "%s %s = %s;\n", VAR_INFOS[m_left.GetType()].name, m_left.GetName(), m_right.GetName());

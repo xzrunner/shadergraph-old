@@ -17,7 +17,7 @@ Mask::Mask()
 	m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "texture1"));
 }
 
-std::string& Mask::ToStatements(std::string& str) const
+CU_STR& Mask::ToStatements(CU_STR& str) const
 {
 	if (!m_input) {
 		return str;
@@ -25,7 +25,7 @@ std::string& Mask::ToStatements(std::string& str) const
 
 	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
-	std::string s = mask_body;
+	CU_STR s = mask_body;
 	StringHelper::ReplaceAll(s, "_SRC_COL_", m_input->GetOutput().GetName());
 	StringHelper::ReplaceAll(s, "_DST_COL_", OUTPUT_NAME);
 	str += s;

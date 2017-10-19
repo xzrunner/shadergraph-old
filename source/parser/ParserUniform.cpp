@@ -13,13 +13,13 @@ Uniform::Uniform(const Variable& var)
 	memset(m_value, 0, sizeof(m_value));
 }
 
-Uniform::Uniform(VariableType type, std::string name)
+Uniform::Uniform(VariableType type, CU_STR name)
 	: Variable(type, name)
 {
 	memset(m_value, 0, sizeof(m_value));
 }
 
-std::string& Uniform::ToStatement(std::string& str) const
+CU_STR& Uniform::ToStatement(CU_STR& str) const
 {
 	str += "uniform ";
 	str += VAR_INFOS[m_type].name;

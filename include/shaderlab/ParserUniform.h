@@ -12,9 +12,9 @@ class Uniform : public Variable
 {
 public:
 	Uniform(const Variable& var);
-	Uniform(VariableType type, std::string name);
+	Uniform(VariableType type, CU_STR name);
 
-	virtual std::string& ToStatement(std::string& str) const;
+	virtual CU_STR& ToStatement(CU_STR& str) const;
 	
 private:
 	float m_value[16];
