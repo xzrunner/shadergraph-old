@@ -7,21 +7,20 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := shaderlab
 
 LOCAL_C_INCLUDES := \
+	${CLIB_PATH} \
 	${LUA_SRC_PATH} \
 	${SM_SRC_PATH} \
 	${EJOY2D_SRC_PATH} \
 	${DS_SRC_PATH} \
-	${CU_SRC_PATH} \
 	${SHADERLAB_SRC_PATH}/include \
 	${SHADERLAB_SRC_PATH}/include/shaderlab \
 	${UNIRENDER_SRC_PATH}/include \
 	${COOKING_SRC_PATH}/include \
 	${MULTITASK_SRC_PATH}/include \
+	${MEMMGR_SRC_PATH}/include \
 
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,,$(shell find $(LOCAL_PATH)/source/ -name "*.cpp" -print)) \
-
-LOCAL_CPPFLAGS  := -std=c++11
 
 include $(BUILD_STATIC_LIBRARY)	
 
