@@ -1,5 +1,5 @@
-#include "Assign.h"
-#include "Variable.h"
+#include "shaderlab/Assign.h"
+#include "shaderlab/Variable.h"
 
 #include <stdio.h>
 

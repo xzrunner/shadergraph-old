@@ -1,4 +1,4 @@
-#include "StackAllocator.h"
+#include "shaderlab/StackAllocator.h"
 
 namespace sl
 {

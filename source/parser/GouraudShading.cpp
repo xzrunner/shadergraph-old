@@ -1,8 +1,8 @@
-#include "GouraudShading.h"
-#include "Attribute.h"
-#include "ParserUniform.h"
-#include "Varying.h"
-#include "SL_StringHelper.h"
+#include "shaderlab/GouraudShading.h"
+#include "shaderlab/Attribute.h"
+#include "shaderlab/ParserUniform.h"
+#include "shaderlab/Varying.h"
+#include "shaderlab/StringHelper.h"
 
 namespace sl
 {

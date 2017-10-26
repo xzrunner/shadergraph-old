@@ -1,9 +1,9 @@
 #include "shaderlab/Utility.h"
-#include "StackAllocator.h"
-#include "Buffer.h"
-#include "RenderBuffer.h"
+#include "shaderlab/StackAllocator.h"
+#include "shaderlab/Buffer.h"
+#include "shaderlab/RenderBuffer.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

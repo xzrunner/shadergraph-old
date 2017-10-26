@@ -1,8 +1,8 @@
 #ifndef _SHADERLAB_RENDER_BUFFER_H_
 #define _SHADERLAB_RENDER_BUFFER_H_
 
-#include "Buffer.h"
-#include "sl_typedef.h"
+#include "shaderlab/Buffer.h"
+#include "shaderlab/sl_typedef.h"
 
 namespace ur { class RenderContext; }
 

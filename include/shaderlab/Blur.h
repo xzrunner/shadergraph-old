@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_BLUR_H_
 #define _SHADERLAB_PARSER_BLUR_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "blur.frag"
+#include "shaderlab/blur.frag"
 
 namespace sl
 {

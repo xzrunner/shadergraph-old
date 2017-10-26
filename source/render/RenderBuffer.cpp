@@ -1,7 +1,7 @@
-#include "RenderBuffer.h"
-#include "Buffer.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/Buffer.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_BURNING_MAP_H_
 #define _SHADERLAB_PARSER_BURNING_MAP_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "burning_map.frag"
+#include "shaderlab/burning_map.frag"
 
 namespace sl
 {

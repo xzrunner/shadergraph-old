@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_GRAY_H_
 #define _SHADERLAB_PARSER_GRAY_H_
 
-#include "Filter.h"
+#include "shaderlab/Filter.h"
 
 namespace sl
 {

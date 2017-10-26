@@ -1,8 +1,8 @@
-#include "HeatHazeProg.h"
-#include "SL_RenderShader.h"
-#include "HeatHaze.h"
+#include "shaderlab/HeatHazeProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/HeatHaze.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

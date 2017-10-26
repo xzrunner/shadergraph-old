@@ -1,8 +1,8 @@
-#include "ParserShader.h"
-#include "Node.h"
-#include "Attribute.h"
-#include "Varying.h"
-#include "Uniform.h"
+#include "shaderlab/ParserShader.h"
+#include "shaderlab/Node.h"
+#include "shaderlab/Attribute.h"
+#include "shaderlab/Varying.h"
+#include "shaderlab/Uniform.h"
 
 namespace sl
 {

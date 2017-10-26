@@ -1,6 +1,6 @@
-#include "Mask.h"
-#include "SL_StringHelper.h"
-#include "ParserUniform.h"
+#include "shaderlab/Mask.h"
+#include "shaderlab/StringHelper.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
 #include <shaderlab/mask.frag>

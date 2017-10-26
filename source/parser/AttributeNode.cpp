@@ -1,5 +1,5 @@
-#include "AttributeNode.h"
-#include "Attribute.h"
+#include "shaderlab/AttributeNode.h"
+#include "shaderlab/Attribute.h"
 
 namespace sl
 {

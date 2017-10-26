@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_MUL1_H_
 #define _SHADERLAB_PARSER_MUL1_H_
 
-#include "Node.h"
+#include "shaderlab/Node.h"
 
 #include <stdio.h>
 

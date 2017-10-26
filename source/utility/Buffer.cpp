@@ -1,4 +1,4 @@
-#include "Buffer.h"
+#include "shaderlab/Buffer.h"
 
 namespace sl
 {

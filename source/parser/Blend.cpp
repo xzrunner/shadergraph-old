@@ -1,6 +1,6 @@
-#include "Blend.h"
-#include "SL_StringHelper.h"
-#include "ParserUniform.h"
+#include "shaderlab/Blend.h"
+#include "shaderlab/StringHelper.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
 #include <shaderlab/blend.frag>

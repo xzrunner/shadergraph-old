@@ -1,5 +1,5 @@
-#include "Filter.h"
-#include "SL_StringHelper.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/StringHelper.h"
 
 namespace sl
 {

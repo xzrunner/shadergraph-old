@@ -1,5 +1,5 @@
-#include "SubjectMVP3.h"
-#include "ObserverMVP.h"
+#include "shaderlab/SubjectMVP3.h"
+#include "shaderlab/ObserverMVP.h"
 
 #include <string.h>
 

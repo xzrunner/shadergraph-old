@@ -1,8 +1,8 @@
-#include "EdgeDetectProg.h"
-#include "SL_RenderShader.h"
-#include "EdgeDetect.h"
+#include "shaderlab/EdgeDetectProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/EdgeDetect.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

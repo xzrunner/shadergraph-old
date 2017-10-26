@@ -1,7 +1,7 @@
-#include "ObserverMVP.h"
-#include "SL_RenderShader.h"
+#include "shaderlab/ObserverMVP.h"
+#include "shaderlab/RenderShader.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

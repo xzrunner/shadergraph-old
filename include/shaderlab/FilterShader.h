@@ -1,8 +1,8 @@
 #ifndef _SHADERLAB_FILTER_SHADER_H_
 #define _SHADERLAB_FILTER_SHADER_H_
 
-#include "Shader.h"
-#include "FilterMode.h"
+#include "shaderlab/Shader.h"
+#include "shaderlab/FilterMode.h"
 
 #include <unirender/VertexAttrib.h>
 

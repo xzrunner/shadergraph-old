@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SHAPE_SHADER_H_
 #define _SHADERLAB_SHAPE_SHADER_H_
 
-#include "Shader.h"
+#include "shaderlab/Shader.h"
 
 #include <stdint.h>
 

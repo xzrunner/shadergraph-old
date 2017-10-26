@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_SHADER_H_
 #define _SHADERLAB_PARSER_SHADER_H_
 
-#include "IOType.h"
+#include "shaderlab/IOType.h"
 
 #include <cu/cu_stl.h>
 

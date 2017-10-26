@@ -1,14 +1,14 @@
-#include "ShapeShader.h"
-#include "ShaderProgram.h"
-#include "ShaderType.h"
-#include "ShaderMgr.h"
-#include "SL_RenderShader.h"
-#include "PositionTrans.h"
-#include "VaryingNode.h"
-#include "FragColor.h"
-#include "AttributeNode.h"
+#include "shaderlab/ShapeShader.h"
+#include "shaderlab/ShaderProgram.h"
+#include "shaderlab/ShaderType.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/PositionTrans.h"
+#include "shaderlab/VaryingNode.h"
+#include "shaderlab/FragColor.h"
+#include "shaderlab/AttributeNode.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

@@ -1,7 +1,7 @@
-#include "ShaderMgr.h"
-#include "Shader.h"
-#include "SL_RenderShader.h"
-#include "sl_config.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/Shader.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/config.h"
 #ifndef SL_DISABLE_STATISTICS
 #include "shaderlab/StatDrawCall.h"
 #endif // SL_DISABLE_STATISTICS

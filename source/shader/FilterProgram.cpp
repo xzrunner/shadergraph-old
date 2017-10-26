@@ -1,9 +1,9 @@
-#include "FilterProgram.h"
-#include "PositionTrans.h"
-#include "AttributeNode.h"
-#include "VaryingNode.h"
-#include "TextureMap.h"
-#include "FragColor.h"
+#include "shaderlab/FilterProgram.h"
+#include "shaderlab/PositionTrans.h"
+#include "shaderlab/AttributeNode.h"
+#include "shaderlab/VaryingNode.h"
+#include "shaderlab/TextureMap.h"
+#include "shaderlab/FragColor.h"
 
 namespace sl
 {

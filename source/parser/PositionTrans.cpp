@@ -1,6 +1,6 @@
-#include "PositionTrans.h"
-#include "Attribute.h"
-#include "ParserUniform.h"
+#include "shaderlab/PositionTrans.h"
+#include "shaderlab/Attribute.h"
+#include "shaderlab/ParserUniform.h"
 
 namespace sl
 {

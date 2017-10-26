@@ -1,17 +1,17 @@
-#include "Sprite2Shader.h"
-#include "SubjectMVP2.h"
-#include "ShaderProgram.h"
-#include "ShaderType.h"
-#include "ShaderMgr.h"
-#include "SL_RenderShader.h"
-#include "RenderBuffer.h"
-#include "StackAllocator.h"
-#include "sl_config.h"
+#include "shaderlab/Sprite2Shader.h"
+#include "shaderlab/SubjectMVP2.h"
+#include "shaderlab/ShaderProgram.h"
+#include "shaderlab/ShaderType.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/StackAllocator.h"
+#include "shaderlab/config.h"
 #ifndef SL_DISABLE_STATISTICS
 #include "shaderlab/StatDrawCall.h"
 #endif // SL_DISABLE_STATISTICS
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 #include <assert.h>
 

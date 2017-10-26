@@ -1,8 +1,8 @@
-#include "SwirlProg.h"
-#include "SL_RenderShader.h"
-#include "Swirl.h"
+#include "shaderlab/SwirlProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/Swirl.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

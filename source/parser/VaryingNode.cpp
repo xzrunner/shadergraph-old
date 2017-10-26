@@ -1,5 +1,5 @@
-#include "VaryingNode.h"
-#include "Varying.h"
+#include "shaderlab/VaryingNode.h"
+#include "shaderlab/Varying.h"
 
 #include <stdio.h>
 

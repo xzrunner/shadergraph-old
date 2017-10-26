@@ -1,13 +1,13 @@
-#include "Sprite3Shader.h"
-#include "SubjectMVP3.h"
-#include "ShaderProgram.h"
-#include "ShaderType.h"
-#include "ShaderMgr.h"
-#include "SL_RenderShader.h"
-#include "RenderBuffer.h"
-#include "StackAllocator.h"
+#include "shaderlab/Sprite3Shader.h"
+#include "shaderlab/SubjectMVP3.h"
+#include "shaderlab/ShaderProgram.h"
+#include "shaderlab/ShaderType.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/StackAllocator.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 #include <assert.h>
 

@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SPRITE3_SHADER_H_
 #define _SHADERLAB_SPRITE3_SHADER_H_
 
-#include "SpriteShader.h"
+#include "shaderlab/SpriteShader.h"
 
 namespace sl
 {

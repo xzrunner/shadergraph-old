@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_ASSIGN_H_
 #define _SHADERLAB_PARSER_ASSIGN_H_
 
-#include "Node.h"
+#include "shaderlab/Node.h"
 
 namespace sl
 {

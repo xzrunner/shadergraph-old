@@ -1,6 +1,6 @@
-#include "ReliefProg.h"
-#include "SL_RenderShader.h"
-#include "Relief.h"
+#include "shaderlab/ReliefProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/Relief.h"
 
 namespace sl
 {
