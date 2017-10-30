@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_ATTRIBUTE_H_
 #define _SHADERLAB_PARSER_ATTRIBUTE_H_
 
-#include "Variable.h"
+#include "shaderlab/Variable.h"
 
 namespace sl
 {

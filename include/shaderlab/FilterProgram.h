@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_FILTER_PROGRAM_H_
 #define _SHADERLAB_FILTER_PROGRAM_H_
 
-#include "ShaderProgram.h"
+#include "shaderlab/ShaderProgram.h"
 
 namespace sl
 {

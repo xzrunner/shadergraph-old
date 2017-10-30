@@ -1,4 +1,4 @@
-#include "Varying.h"
+#include "shaderlab/Varying.h"
 
 namespace sl
 {

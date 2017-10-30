@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_MASK_H_
 #define _SHADERLAB_PARSER_MASK_H_
 
-#include "Node.h"
+#include "shaderlab/Node.h"
 
 namespace sl
 {

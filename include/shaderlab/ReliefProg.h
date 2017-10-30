@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_RELIEF_PROG_H_
 #define _SHADERLAB_RELIEF_PROG_H_
 
-#include "FilterProgram.h"
+#include "shaderlab/FilterProgram.h"
 
 namespace sl
 {

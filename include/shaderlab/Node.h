@@ -1,8 +1,8 @@
 #ifndef _SHADERLAB_PARSER_NODE_H_
 #define _SHADERLAB_PARSER_NODE_H_
 
-#include "IOType.h"
-#include "Variable.h"
+#include "shaderlab/IOType.h"
+#include "shaderlab/Variable.h"
 
 #include <cu/cu_stl.h>
 

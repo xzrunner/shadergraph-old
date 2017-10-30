@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_BLUR_HORI_H_
 #define _SHADERLAB_PARSER_BLUR_HORI_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "gaussian_blur_hori.frag"
+#include "shaderlab/gaussian_blur_hori.frag"
 
 namespace sl
 {

@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SHADER_MGR_H_
 #define _SHADERLAB_SHADER_MGR_H_
 
-#include "ShaderType.h"
+#include "shaderlab/ShaderType.h"
 
 #include <cu/cu_stl.h>
 #include <cu/cu_macro.h>

@@ -1,8 +1,8 @@
-#include "Shape3Shader.h"
-#include "ShaderProgram.h"
-#include "SubjectMVP3.h"
-#include "SL_RenderShader.h"
-#include "StackAllocator.h"
+#include "shaderlab/Shape3Shader.h"
+#include "shaderlab/ShaderProgram.h"
+#include "shaderlab/SubjectMVP3.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/StackAllocator.h"
 
 namespace sl
 {

@@ -1,7 +1,7 @@
-#include "TextureMap.h"
-#include "Attribute.h"
-#include "Varying.h"
-#include "ParserUniform.h"
+#include "shaderlab/TextureMap.h"
+#include "shaderlab/Attribute.h"
+#include "shaderlab/Varying.h"
+#include "shaderlab/ParserUniform.h"
 
 #include <stdio.h>
 

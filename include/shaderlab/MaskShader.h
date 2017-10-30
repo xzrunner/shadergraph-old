@@ -1,8 +1,8 @@
 #ifndef _SHADERLAB_MASK_SHADER_H_
 #define _SHADERLAB_MASK_SHADER_H_
 
-#include "Shader.h"
-#include "ShaderProgram.h"
+#include "shaderlab/Shader.h"
+#include "shaderlab/ShaderProgram.h"
 
 #include <cu/cu_stl.h>
 

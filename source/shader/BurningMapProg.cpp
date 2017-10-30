@@ -1,8 +1,8 @@
-#include "BurningMapProg.h"
-#include "SL_RenderShader.h"
-#include "BurningMap.h"
+#include "shaderlab/BurningMapProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/BurningMap.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

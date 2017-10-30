@@ -1,10 +1,10 @@
 #ifndef _SHADERLAB_PARSER_RELIEF_H_
 #define _SHADERLAB_PARSER_RELIEF_H_
 
-#include "Filter.h"
+#include "shaderlab/Filter.h"
 
 #define STRINGIFY(A)  #A
-#include "relief.frag"
+#include "shaderlab/relief.frag"
 
 namespace sl
 {

@@ -1,7 +1,7 @@
-#include "Node.h"
-#include "Attribute.h"
-#include "Varying.h"
-#include "ParserUniform.h"
+#include "shaderlab/Node.h"
+#include "shaderlab/Attribute.h"
+#include "shaderlab/Varying.h"
+#include "shaderlab/ParserUniform.h"
 
 #include <stddef.h>
 #include <stdio.h>

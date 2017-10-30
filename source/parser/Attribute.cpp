@@ -1,4 +1,4 @@
-#include "Attribute.h"
+#include "shaderlab/Attribute.h"
 
 namespace sl
 {

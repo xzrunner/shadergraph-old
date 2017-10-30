@@ -1,5 +1,5 @@
-#include "Gray.h"
-#include "SL_StringHelper.h"
+#include "shaderlab/Gray.h"
+#include "shaderlab/StringHelper.h"
 
 namespace sl
 {

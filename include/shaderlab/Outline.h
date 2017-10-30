@@ -1,10 +1,10 @@
 #ifndef _SHADERLAB_PARSER_OUTLINE_H_
 #define _SHADERLAB_PARSER_OUTLINE_H_
 
-#include "Filter.h"
+#include "shaderlab/Filter.h"
 
 #define STRINGIFY(A)  #A
-#include "outline.frag"
+#include "shaderlab/outline.frag"
 
 namespace sl
 {

@@ -1,4 +1,4 @@
-#include "ParserUniform.h"
+#include "shaderlab/ParserUniform.h"
 
 #include <string.h>
 

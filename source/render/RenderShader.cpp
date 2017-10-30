@@ -1,19 +1,19 @@
-#include "SL_RenderShader.h"
-#include "RenderBuffer.h"
-#include "RenderLayout.h"
-#include "ShaderMgr.h"
-#include "Shader.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/RenderLayout.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/Shader.h"
 #include "shaderlab/Statistics.h"
-#include "sl_config.h"
+#include "shaderlab/config.h"
 #ifndef SL_DISABLE_STATISTICS
 #include "shaderlab/StatDrawCall.h"
 #endif // SL_DISABLE_STATISTICS
 
 // extern "C" {
-// 	#include "adapter/ej_statistics.h"
+// 	#include "shaderlab/adapter/ej_statistics.h"
 // }
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 //#define SHADER_LOG
 

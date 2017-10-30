@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SUBJECT_MVP3_H_
 #define _SHADERLAB_SUBJECT_MVP3_H_
 
-#include "SubjectMVP.h"
+#include "shaderlab/SubjectMVP.h"
 
 namespace sl
 {

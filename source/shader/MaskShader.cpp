@@ -1,18 +1,18 @@
-#include "MaskShader.h"
-#include "SubjectMVP2.h"
+#include "shaderlab/MaskShader.h"
+#include "shaderlab/SubjectMVP2.h"
 #include "shaderlab/Utility.h"
-#include "ShaderType.h"
-#include "ShaderMgr.h"
-#include "RenderBuffer.h"
-#include "SL_RenderShader.h"
-#include "Mask.h"
-#include "AttributeNode.h"
-#include "VaryingNode.h"
-#include "PositionTrans.h"
-#include "TextureMap.h"
-#include "FragColor.h"
+#include "shaderlab/ShaderType.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/Mask.h"
+#include "shaderlab/AttributeNode.h"
+#include "shaderlab/VaryingNode.h"
+#include "shaderlab/PositionTrans.h"
+#include "shaderlab/TextureMap.h"
+#include "shaderlab/FragColor.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

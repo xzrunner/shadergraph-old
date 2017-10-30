@@ -1,13 +1,13 @@
-#include "ShaderProgram.h"
-#include "ShaderMgr.h"
-#include "ObserverMVP.h"
-#include "ParserShader.h"
-#include "RenderLayout.h"
-#include "SL_RenderShader.h"
-#include "RenderBuffer.h"
-#include "Buffer.h"
+#include "shaderlab/ShaderProgram.h"
+#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/ObserverMVP.h"
+#include "shaderlab/ParserShader.h"
+#include "shaderlab/RenderLayout.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/RenderBuffer.h"
+#include "shaderlab/Buffer.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

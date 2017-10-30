@@ -1,8 +1,8 @@
-#include "ColGradingProg.h"
-#include "SL_RenderShader.h"
-#include "ColorGrading.h"
+#include "shaderlab/ColGradingProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/ColorGrading.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace sl
 {

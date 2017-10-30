@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_COLOR_GRADING_H_
 #define _SHADERLAB_PARSER_COLOR_GRADING_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "color_grading.frag"
+#include "shaderlab/color_grading.frag"
 
 namespace sl
 {

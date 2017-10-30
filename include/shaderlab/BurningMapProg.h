@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_BURNING_MAP_PROG_H_
 #define _SHADERLAB_BURNING_MAP_PROG_H_
 
-#include "FilterProgram.h"
+#include "shaderlab/FilterProgram.h"
 
 namespace sl
 {

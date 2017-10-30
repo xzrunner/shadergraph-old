@@ -1,4 +1,4 @@
-#include "SL_StringHelper.h"
+#include "shaderlab/StringHelper.h"
 
 namespace sl
 {

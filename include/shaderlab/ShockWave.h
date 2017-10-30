@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_RELIEF_H_
 #define _SHADERLAB_PARSER_RELIEF_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "shock_wave.frag"
+#include "shaderlab/shock_wave.frag"
 
 namespace sl
 {

@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_MODEL3_SHADER_H_
 #define _SHADERLAB_MODEL3_SHADER_H_
 
-#include "Shader.h"
+#include "shaderlab/Shader.h"
 
 #include <cu/cu_stl.h>
 #include <SM_Vector.h>

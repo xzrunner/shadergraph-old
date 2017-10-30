@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_RENDER_SHADER_H_
 #define _SHADERLAB_RENDER_SHADER_H_
 
-#include "sl_typedef.h"
+#include "shaderlab/sl_typedef.h"
 
 #include <memory>
 

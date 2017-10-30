@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_PARSER_VARIABLE_H_
 #define _SHADERLAB_PARSER_VARIABLE_H_
 
-#include "VariableType.h"
+#include "shaderlab/VariableType.h"
 
 #include <cu/cu_stl.h>
 

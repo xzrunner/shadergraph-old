@@ -1,8 +1,8 @@
-#include "GaussianBlurHoriProg.h"
-#include "SL_RenderShader.h"
-#include "GaussianBlurHori.h"
+#include "shaderlab/GaussianBlurHoriProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/GaussianBlurHori.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

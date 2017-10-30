@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_SHAPE2_SHADER_H_
 #define _SHADERLAB_SHAPE2_SHADER_H_
 
-#include "ShapeShader.h"
+#include "shaderlab/ShapeShader.h"
 
 namespace sl
 {

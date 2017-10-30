@@ -1,11 +1,11 @@
 #ifndef _SHADERLAB_PARSER_EDGE_DETECT_H_
 #define _SHADERLAB_PARSER_EDGE_DETECT_H_
 
-#include "Filter.h"
-#include "ParserUniform.h"
+#include "shaderlab/Filter.h"
+#include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include "edge_detect.frag"
+#include "shaderlab/edge_detect.frag"
 
 namespace sl
 {

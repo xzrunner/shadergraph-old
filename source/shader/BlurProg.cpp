@@ -1,8 +1,8 @@
-#include "BlurProg.h"
-#include "SL_RenderShader.h"
-#include "Blur.h"
+#include "shaderlab/BlurProg.h"
+#include "shaderlab/RenderShader.h"
+#include "shaderlab/Blur.h"
 
-#include <unirender/ur_typedef.h>
+#include <unirender/typedef.h>
 
 namespace sl
 {

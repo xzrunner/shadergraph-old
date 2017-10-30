@@ -1,7 +1,7 @@
 #ifndef _SHADERLAB_GAUSSIAN_BLUR_HORI_PROG_H_
 #define _SHADERLAB_GAUSSIAN_BLUR_HORI_PROG_H_
 
-#include "FilterProgram.h"
+#include "shaderlab/FilterProgram.h"
 
 namespace sl
 {
