@@ -2,157 +2,157 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="shader">
-      <UniqueIdentifier>{6ed87d74-def6-4f25-8be4-73c50ecc4105}</UniqueIdentifier>
+      <UniqueIdentifier>{e4fde4ed-5791-4b28-9aaa-27d1b97430fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\shape">
-      <UniqueIdentifier>{fd3273c7-461f-42c9-96a1-c037da323cdd}</UniqueIdentifier>
+      <UniqueIdentifier>{611890c5-5003-45a4-9d77-81118a9d7bf0}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\shape\2d">
-      <UniqueIdentifier>{7f7ef67c-10fc-4207-89ee-f92c4482c87c}</UniqueIdentifier>
+      <UniqueIdentifier>{4b2d161c-19ee-4eac-b14f-d3123daba042}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\shape\pseudo3d">
-      <UniqueIdentifier>{1e17c77f-b337-4873-85bc-859f08137516}</UniqueIdentifier>
+      <UniqueIdentifier>{31dd91c7-77a1-44da-9709-35490f3bbbba}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\sprite">
-      <UniqueIdentifier>{7eed1bfb-3fad-40cf-a0bb-73ed9e77bd0d}</UniqueIdentifier>
+      <UniqueIdentifier>{69af22f5-271d-4480-a139-2a184e2adf95}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\sprite\pseudo3d">
-      <UniqueIdentifier>{b13e5f74-cdac-4336-b6cd-0f19da12709a}</UniqueIdentifier>
+      <UniqueIdentifier>{abc73e52-7452-4902-a606-0dd139889bb0}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\sprite\2d">
-      <UniqueIdentifier>{f56e4a62-edd6-4f60-82e5-58f7ea654d18}</UniqueIdentifier>
+      <UniqueIdentifier>{f2ab3490-59b8-4721-9a6d-0a207fce2b5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter">
-      <UniqueIdentifier>{b7c9d431-25a0-4c81-a103-0a3937b24839}</UniqueIdentifier>
+      <UniqueIdentifier>{f5405997-b6d4-44ed-b9ff-f71a9736dd1c}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs">
-      <UniqueIdentifier>{5ce1e73e-5c5f-4dd0-98d5-66de61ff4ef2}</UniqueIdentifier>
+      <UniqueIdentifier>{bd31884e-e0ae-44fb-a5b6-0553ab510293}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\blur">
-      <UniqueIdentifier>{d6d50a78-26cd-4ba9-849f-590db203162c}</UniqueIdentifier>
+      <UniqueIdentifier>{bb661ec5-bee1-471f-952e-c7851f5c02b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\burning_map">
-      <UniqueIdentifier>{ae90337c-dc94-4a3c-9db3-a2cde78ba64c}</UniqueIdentifier>
+      <UniqueIdentifier>{6fa9582e-8384-443a-9b72-4e9fa311120f}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\edge_detect">
-      <UniqueIdentifier>{8787f489-9f1c-44db-90fa-02ed44b5c09e}</UniqueIdentifier>
+      <UniqueIdentifier>{e2e156de-98af-41d1-84d1-1be21670796a}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\gaussian_blur">
-      <UniqueIdentifier>{b7db9938-17ca-456e-9b94-c75456cec540}</UniqueIdentifier>
+      <UniqueIdentifier>{da827923-9a93-4330-b9f4-72e270523b92}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\gray">
-      <UniqueIdentifier>{3372a542-82ac-4f5f-b5ed-9997023ae2d7}</UniqueIdentifier>
+      <UniqueIdentifier>{a21f65b9-0170-45d3-a93d-c0fc0c70c368}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\heat_haze">
-      <UniqueIdentifier>{5bce4ec8-c9db-4e1d-bab5-5bd88f9fd81c}</UniqueIdentifier>
+      <UniqueIdentifier>{cc8c1caa-4e3b-4a5f-a960-ceabda6b28f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\outline">
-      <UniqueIdentifier>{cb60bb03-bf7a-4818-b850-9e0f42ba6cce}</UniqueIdentifier>
+      <UniqueIdentifier>{8358d218-8774-425f-936c-e1e3af03d728}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\relief">
-      <UniqueIdentifier>{9a2cf184-6af3-41ed-81de-14d6d3eb2701}</UniqueIdentifier>
+      <UniqueIdentifier>{2246c54b-0b1b-4c1a-a5b9-d51557768f61}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\shock_wave">
-      <UniqueIdentifier>{4bfea502-6b2e-49d1-bd38-9fbbfd4ae519}</UniqueIdentifier>
+      <UniqueIdentifier>{f97e80dd-a504-451a-8969-7f1a627b8301}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\swirl">
-      <UniqueIdentifier>{af63c99d-1ea3-4022-a67c-bf6bc402361a}</UniqueIdentifier>
+      <UniqueIdentifier>{e1b5980b-822a-49a4-bfa1-6f71e2bb678f}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\mask">
-      <UniqueIdentifier>{a7a0b6e3-e127-40f5-93bb-5f2794b0d9a6}</UniqueIdentifier>
+      <UniqueIdentifier>{446c8759-affa-4960-be2f-cc1df57a297c}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\filter\progs\color_grading">
-      <UniqueIdentifier>{698a9460-19e5-4281-bd03-2524aed74b5b}</UniqueIdentifier>
+      <UniqueIdentifier>{2b73ebdf-0278-4b91-9c27-e43a563eb9b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\blend">
-      <UniqueIdentifier>{44c53142-c872-4f5f-9313-ae0d816f9983}</UniqueIdentifier>
+      <UniqueIdentifier>{6e17e685-4be4-404f-bddb-59c5fc555c4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\model3">
-      <UniqueIdentifier>{6fa36e1b-7ad5-4eda-a5cc-d61217b6ff7a}</UniqueIdentifier>
+      <UniqueIdentifier>{8e06222a-f70c-4660-9ba1-ea34e44f198c}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\utility">
-      <UniqueIdentifier>{3aa20786-2491-4015-92e7-8e9697bba5b0}</UniqueIdentifier>
+      <UniqueIdentifier>{2fc1ad5a-c152-4f75-8f4b-71ebfcc41c4e}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\utility\msg">
-      <UniqueIdentifier>{05b8a5a5-7cd6-4259-8fdf-415c215a2f7a}</UniqueIdentifier>
+      <UniqueIdentifier>{9682ab01-31ea-4965-9c77-d40bc07fbd15}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader\mask">
-      <UniqueIdentifier>{7ad3d955-28db-4e27-bac2-18cc40a2772f}</UniqueIdentifier>
+      <UniqueIdentifier>{36fe06cc-674c-44f6-b130-d72c8f7466b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="utility">
-      <UniqueIdentifier>{489c21b2-8b25-4055-83c0-c4e7c8a1ad2c}</UniqueIdentifier>
+      <UniqueIdentifier>{c2934c1d-fedc-435f-9116-51dd8da7beb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="utility\stat">
-      <UniqueIdentifier>{ce7fb461-4a36-46be-8946-90eaff996d07}</UniqueIdentifier>
+      <UniqueIdentifier>{03db24c6-3b6d-4fcd-b9f5-6cf38df8d109}</UniqueIdentifier>
     </Filter>
     <Filter Include="render">
-      <UniqueIdentifier>{19fb5c3f-bde2-476f-9ea9-94cc5df44d86}</UniqueIdentifier>
+      <UniqueIdentifier>{9b808197-d781-45e0-9490-720c861307d6}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser">
-      <UniqueIdentifier>{440981da-1708-4ca9-bf08-36a167bcc75b}</UniqueIdentifier>
+      <UniqueIdentifier>{e1c05760-47cb-4d31-9634-44db29b5baf1}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\utility">
-      <UniqueIdentifier>{db8f8d02-da67-431c-95d4-826326710f7c}</UniqueIdentifier>
+      <UniqueIdentifier>{ba929a23-b4ab-4efd-8a03-abd92d5e3cb9}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes">
-      <UniqueIdentifier>{ea78d037-3e9c-4bca-a072-5c4c7eb89ee0}</UniqueIdentifier>
+      <UniqueIdentifier>{9507357c-79d9-43da-ad27-cd73bc886cab}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\vert">
-      <UniqueIdentifier>{8e9cec92-9abf-4e2d-ba10-d6c04f914fdc}</UniqueIdentifier>
+      <UniqueIdentifier>{46a86e6b-0afe-416f-a83a-d821d16b9dc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\frag">
-      <UniqueIdentifier>{98a04ec3-2a26-4f80-bf8e-e69b0f52b006}</UniqueIdentifier>
+      <UniqueIdentifier>{ff646e67-6211-4a67-a569-c8fc9955de82}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\atomic">
-      <UniqueIdentifier>{ffed6d6c-fac1-45f3-a30e-739a9d560920}</UniqueIdentifier>
+      <UniqueIdentifier>{c4e691c5-e21c-402b-81d1-3ea046223e73}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter">
-      <UniqueIdentifier>{e09624ab-28d8-4342-b92a-e0bae57ac3f0}</UniqueIdentifier>
+      <UniqueIdentifier>{a08eb860-89b6-4ade-a774-30f01d01515d}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\blur">
-      <UniqueIdentifier>{8833d62c-a62c-439c-bea1-3ddcb357f2bf}</UniqueIdentifier>
+      <UniqueIdentifier>{c2055f1b-71e4-4b82-abec-bbc3e4487c73}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\edge_detect">
-      <UniqueIdentifier>{a17d1e84-f299-4da8-97c0-9dec607da578}</UniqueIdentifier>
+      <UniqueIdentifier>{be9d030f-305c-4567-9887-5498216ab341}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\gaussian_blur">
-      <UniqueIdentifier>{6865e86b-55cb-4cd7-88b6-f5a7da8f66b9}</UniqueIdentifier>
+      <UniqueIdentifier>{a4f9c522-59c6-450c-bd68-311a7e446e55}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\gray">
-      <UniqueIdentifier>{d26c432d-595d-42e4-b4b9-30a1c4ebbd0c}</UniqueIdentifier>
+      <UniqueIdentifier>{bc962b88-fc29-4af5-b03a-9e5ec35c8a44}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\heat_haze">
-      <UniqueIdentifier>{b6232146-7318-4f22-9e5d-db3e62bede16}</UniqueIdentifier>
+      <UniqueIdentifier>{dab6117c-c45b-47ed-93be-8b12ff618a76}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\outline">
-      <UniqueIdentifier>{49b847c1-a410-488e-9e8f-4c1009dc24ab}</UniqueIdentifier>
+      <UniqueIdentifier>{dd7ee31a-e993-47b0-92f6-7b76d4e99b5f}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\relief">
-      <UniqueIdentifier>{9c806c2a-b6aa-429e-8e48-d0478da24849}</UniqueIdentifier>
+      <UniqueIdentifier>{a520d1bf-0439-4252-82af-53aaa34288c6}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\shock_wave">
-      <UniqueIdentifier>{3be21049-6498-4e19-a770-3e5bf76cd7e9}</UniqueIdentifier>
+      <UniqueIdentifier>{1d07a410-54c4-447c-89cd-2331c1c98fa8}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\swirl">
-      <UniqueIdentifier>{83e9761c-e099-40b8-98a7-dc37c9cefa65}</UniqueIdentifier>
+      <UniqueIdentifier>{ed506e2f-12c4-4160-8ceb-1a5d1f416287}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\burning_map">
-      <UniqueIdentifier>{967aa10b-aa05-432d-a5a9-4544f240d752}</UniqueIdentifier>
+      <UniqueIdentifier>{73e078e4-7efe-4c9d-9465-2696034fa05e}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\filter\color_grading">
-      <UniqueIdentifier>{72ebe159-2592-4d35-acfd-ae26ffa4b0b4}</UniqueIdentifier>
+      <UniqueIdentifier>{b47a717b-1440-47ce-9fb5-4ed40cc1ee0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\blend">
-      <UniqueIdentifier>{6785e388-efbf-4fdd-a6f3-200e26797ce6}</UniqueIdentifier>
+      <UniqueIdentifier>{00da590d-bcd6-4cd9-b012-1bab7117d777}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\nodes\mask">
-      <UniqueIdentifier>{c4d2c86c-04c3-47da-ae73-1a0ea1678f76}</UniqueIdentifier>
+      <UniqueIdentifier>{55fec0f2-858c-4d80-8943-87ee32f06982}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\variables">
-      <UniqueIdentifier>{b3b693f6-1f5f-4268-95b0-03d1651d3b82}</UniqueIdentifier>
+      <UniqueIdentifier>{9633bffc-2fb9-4c81-9e25-607161970374}</UniqueIdentifier>
     </Filter>
     <Filter Include="parser\variables\types">
-      <UniqueIdentifier>{3b95ffb6-070c-45f0-9952-71f6c1183273}</UniqueIdentifier>
+      <UniqueIdentifier>{dfd86f30-fcc0-4af7-afa3-3465b58f195e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -264,10 +264,10 @@
     <ClInclude Include="..\..\..\include\shaderlab\Buffer.h">
       <Filter>utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\shaderlab\StackAllocator.h">
+    <ClInclude Include="..\..\..\include\shaderlab\Callback.h">
       <Filter>utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\shaderlab\typedef.h">
+    <ClInclude Include="..\..\..\include\shaderlab\StackAllocator.h">
       <Filter>utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\StatDrawCall.h">
@@ -282,14 +282,11 @@
     <ClInclude Include="..\..\..\include\shaderlab\RenderLayout.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\shaderlab\SL_RenderShader.h">
+    <ClInclude Include="..\..\..\include\shaderlab\RenderTask.h">
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\ParserShader.h">
       <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\shaderlab\SL_StringHelper.h">
-      <Filter>parser\utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\Node.h">
       <Filter>parser\nodes</Filter>
@@ -400,6 +397,17 @@
       <Filter>parser\variables\types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\c_wrap_sl.h" />
+    <ClInclude Include="..\..\..\include\c_wrap_sl_deferred.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderShader.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\shaderlab\config.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\shaderlab\Facade.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\StringHelper.h">
+      <Filter>parser\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\shader\ShaderMgr.cpp">
@@ -492,6 +500,9 @@
     <ClCompile Include="..\..\..\source\utility\Buffer.cpp">
       <Filter>utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\utility\Callback.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\utility\StackAllocator.cpp">
       <Filter>utility</Filter>
     </ClCompile>
@@ -507,14 +518,11 @@
     <ClCompile Include="..\..\..\source\render\RenderLayout.cpp">
       <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\render\SL_RenderShader.cpp">
+    <ClCompile Include="..\..\..\source\render\RenderTask.cpp">
       <Filter>render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\parser\ParserShader.cpp">
       <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\parser\SL_StringHelper.cpp">
-      <Filter>parser\utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\parser\Node.cpp">
       <Filter>parser\nodes</Filter>
@@ -565,6 +573,14 @@
       <Filter>parser\variables\types</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\c_wrap_sl.cpp" />
+    <ClCompile Include="..\..\..\source\c_wrap_sl_deferred.cpp" />
+    <ClCompile Include="..\..\..\source\render\RenderShader.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Facade.cpp" />
+    <ClCompile Include="..\..\..\source\parser\StringHelper.cpp">
+      <Filter>parser\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\shaderlab\blur.frag">
