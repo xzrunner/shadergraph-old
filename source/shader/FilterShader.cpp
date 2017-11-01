@@ -37,7 +37,6 @@ FilterShader::FilterShader(ur::RenderContext* rc)
 	, m_curr_mode(FM_NULL)
 	, m_texid(0)
 	, m_quad_sz(0)
-	, m_index_buf(nullptr)
 	, m_prog_type(0)
 {
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
