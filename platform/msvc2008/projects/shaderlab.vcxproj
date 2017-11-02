@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\cu\src\cu;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -66,7 +66,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\cu\src\cu;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\editor-external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\c_wrap_sl.h" />
+    <ClInclude Include="..\..\..\include\c_wrap_sl_deferred.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Add1.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Add2.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Assign.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="..\..\..\include\shaderlab\Buffer.h" />
     <ClInclude Include="..\..\..\include\shaderlab\BurningMap.h" />
     <ClInclude Include="..\..\..\include\shaderlab\BurningMapProg.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Callback.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ColGradingProg.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ColorAddMul.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ColorGrading.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="..\..\..\include\shaderlab\ReliefProg.h" />
     <ClInclude Include="..\..\..\include\shaderlab\RenderBuffer.h" />
     <ClInclude Include="..\..\..\include\shaderlab\RenderLayout.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderTask.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Shader.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ShaderMgr.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ShaderProgram.h" />
@@ -136,8 +139,10 @@
     <ClInclude Include="..\..\..\include\shaderlab\ShapeShader.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ShockWave.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ShockWaveProg.h" />
-    <ClInclude Include="..\..\..\include\shaderlab\SL_RenderShader.h" />
-    <ClInclude Include="..\..\..\include\shaderlab\SL_StringHelper.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\config.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Facade.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderShader.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\StringHelper.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Sprite2Shader.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Sprite3Shader.h" />
     <ClInclude Include="..\..\..\include\shaderlab\SpriteShader.h" />
@@ -150,7 +155,6 @@
     <ClInclude Include="..\..\..\include\shaderlab\Swirl.h" />
     <ClInclude Include="..\..\..\include\shaderlab\SwirlProg.h" />
     <ClInclude Include="..\..\..\include\shaderlab\TextureMap.h" />
-    <ClInclude Include="..\..\..\include\shaderlab\typedef.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Uniform.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Utility.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Variable.h" />
@@ -161,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\c_wrap_sl.cpp" />
+    <ClCompile Include="..\..\..\source\c_wrap_sl_deferred.cpp" />
     <ClCompile Include="..\..\..\source\parser\Assign.cpp" />
     <ClCompile Include="..\..\..\source\parser\Attribute.cpp" />
     <ClCompile Include="..\..\..\source\parser\AttributeNode.cpp" />
@@ -175,13 +180,14 @@
     <ClCompile Include="..\..\..\source\parser\ParserShader.cpp" />
     <ClCompile Include="..\..\..\source\parser\ParserUniform.cpp" />
     <ClCompile Include="..\..\..\source\parser\PositionTrans.cpp" />
-    <ClCompile Include="..\..\..\source\parser\SL_StringHelper.cpp" />
+    <ClCompile Include="..\..\..\source\parser\StringHelper.cpp" />
     <ClCompile Include="..\..\..\source\parser\TextureMap.cpp" />
     <ClCompile Include="..\..\..\source\parser\Varying.cpp" />
     <ClCompile Include="..\..\..\source\parser\VaryingNode.cpp" />
     <ClCompile Include="..\..\..\source\render\RenderBuffer.cpp" />
     <ClCompile Include="..\..\..\source\render\RenderLayout.cpp" />
-    <ClCompile Include="..\..\..\source\render\SL_RenderShader.cpp" />
+    <ClCompile Include="..\..\..\source\render\RenderTask.cpp" />
+    <ClCompile Include="..\..\..\source\render\RenderShader.cpp" />
     <ClCompile Include="..\..\..\source\shader\BlendShader.cpp" />
     <ClCompile Include="..\..\..\source\shader\BlurProg.cpp" />
     <ClCompile Include="..\..\..\source\shader\BurningMapProg.cpp" />
@@ -211,7 +217,9 @@
     <ClCompile Include="..\..\..\source\shader\SubjectMVP3.cpp" />
     <ClCompile Include="..\..\..\source\shader\SwirlProg.cpp" />
     <ClCompile Include="..\..\..\source\shader\Utility.cpp" />
+    <ClCompile Include="..\..\..\source\Facade.cpp" />
     <ClCompile Include="..\..\..\source\utility\Buffer.cpp" />
+    <ClCompile Include="..\..\..\source\utility\Callback.cpp" />
     <ClCompile Include="..\..\..\source\utility\StackAllocator.cpp" />
     <ClCompile Include="..\..\..\source\utility\StatDrawCall.cpp" />
     <ClCompile Include="..\..\..\source\utility\Statistics.cpp" />

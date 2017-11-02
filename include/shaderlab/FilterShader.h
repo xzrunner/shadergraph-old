@@ -104,7 +104,7 @@ private:
 	Vertex* m_vertex_buf;
 	mutable int m_quad_sz;
 
-	std::shared_ptr<RenderBuffer> m_index_buf;
+	std::shared_ptr<RenderBuffer> m_index_buf = nullptr;
 
 	uint32_t m_color, m_additive;
 
