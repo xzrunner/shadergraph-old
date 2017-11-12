@@ -21,7 +21,7 @@ public:
 	Outline() : Filter("_col_outline_") {}
 	
 protected:
-	virtual CU_STR GetBody() const {
+	virtual CU_STR GetBody() const override {
 		return outline_body;
 	}
 

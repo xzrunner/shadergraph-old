@@ -34,7 +34,7 @@ public:
 	}
 	
 protected:
-	virtual CU_STR GetBody() const {
+	virtual CU_STR GetBody() const override {
 		return heat_haze_body;
 	}
 

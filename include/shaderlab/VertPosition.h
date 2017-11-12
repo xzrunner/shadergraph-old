@@ -11,7 +11,7 @@ namespace parser
 class VertPosition : public Node
 {
 public:
-	virtual Variable GetOutput() const {
+	virtual Variable GetOutput() const override {
 		return Variable(VT_FLOAT4, "gl_Position");
 	}
 

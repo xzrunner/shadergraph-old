@@ -24,9 +24,9 @@ class PositionTrans : public Node
 public:
 	PositionTrans();
 
-	virtual CU_STR& ToStatements(CU_STR& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const override;
 	
-	virtual Variable GetOutput() const { return Variable(VT_FLOAT4, "gl_Position"); }
+	virtual Variable GetOutput() const override { return Variable(VT_FLOAT4, "gl_Position"); }
 
 }; // PositionTrans
 

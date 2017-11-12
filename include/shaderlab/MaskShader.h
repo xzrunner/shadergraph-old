@@ -15,9 +15,9 @@ public:
 	MaskShader(ur::RenderContext* rc);
 	virtual ~MaskShader();
 
-	virtual void Bind() const;
-	virtual void UnBind() const;
-	virtual bool Commit() const;
+	virtual void Bind() const override;
+	virtual void UnBind() const override;
+	virtual bool Commit() const override;
 
 	void Draw(const float* positions, const float* texcoords, 
 		const float* texcoords_mask, int tex, int tex_mask) const;

@@ -28,9 +28,9 @@ public:
 	Model3Shader(ur::RenderContext* rc);
 	virtual ~Model3Shader();
 
-	virtual void Bind() const;
-	virtual void UnBind() const;
-	virtual bool Commit() const;
+	virtual void Bind() const override;
+	virtual void UnBind() const override;
+	virtual bool Commit() const override;
 
 	void SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
 		const sm::vec3& specular, float shininess, int tex);

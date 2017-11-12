@@ -18,9 +18,9 @@ public:
 	BlendShader(ur::RenderContext* rc);
 	virtual ~BlendShader();
 
-	virtual void Bind() const;
-	virtual void UnBind() const;
-	virtual bool Commit() const;
+	virtual void Bind() const override;
+	virtual void UnBind() const override;
+	virtual bool Commit() const override;
 
 	void SetColor(uint32_t color, uint32_t additive);
 

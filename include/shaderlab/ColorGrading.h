@@ -26,13 +26,13 @@ public:
 		m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "col_lut"));
 	}
 	
-	virtual CU_STR& GetHeader(CU_STR& str) const {
+	virtual CU_STR& GetHeader(CU_STR& str) const override {
 		str += color_grading_header;
 		return str;
 	}
 
 protected:
-	virtual CU_STR GetBody() const {
+	virtual CU_STR GetBody() const override {
 		return color_grading_body;
 	}
 

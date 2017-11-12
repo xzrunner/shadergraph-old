@@ -27,9 +27,9 @@ class GouraudShading : public Node
 public:
 	GouraudShading();
 
-	virtual CU_STR& ToStatements(CU_STR& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const override;
 
-	virtual Variable GetOutput() const;
+	virtual Variable GetOutput() const override;
 
 	const char* GetSpecularName() const;
 

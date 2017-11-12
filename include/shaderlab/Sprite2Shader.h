@@ -11,12 +11,12 @@ class Sprite2Shader : public SpriteShader
 public:
 	Sprite2Shader(ur::RenderContext* rc);	
 
-	virtual bool Commit() const;
+	virtual bool Commit() const override;
 
 	void DrawQuad(const float* positions, const float* texcoords, int texid) const;
 
 protected:
-	virtual void InitMVP(ObserverMVP* mvp) const;
+	virtual void InitMVP(ObserverMVP* mvp) const override;
 
 private:
 	struct Vertex

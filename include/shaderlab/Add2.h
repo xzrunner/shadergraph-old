@@ -16,7 +16,7 @@ public:
 	Add2(Variable left, Variable right0, Variable right1) 
 		: m_left(left), m_right0(right0), m_right1(right1) {}
 
-	virtual CU_STR& ToStatements(CU_STR& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const override {
 		CheckType(m_left, m_right0);
 		CheckType(m_left, m_right1);
 		char buf[128];
@@ -25,7 +25,7 @@ public:
 		return str;
 	}
 
-	virtual Variable GetOutput() const {
+	virtual Variable GetOutput() const override {
 		return m_left;
 	}
 

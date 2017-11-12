@@ -15,7 +15,7 @@ public:
 	void Draw(float x, float y, float z, bool dummy) const;
 
 protected:
-	virtual void InitMVP(ObserverMVP* mvp) const;
+	virtual void InitMVP(ObserverMVP* mvp) const override;
 
 }; // Shape3Shader
 

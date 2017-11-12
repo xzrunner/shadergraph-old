@@ -13,7 +13,7 @@ namespace parser
 class FragColor : public Node
 {
 public:
-	virtual CU_STR& ToStatements(CU_STR& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const override {
 		if (m_input) {
 			char buf[128];
 			sprintf(buf, "gl_FragColor = %s;\n", m_input->GetOutput().GetName());
@@ -22,7 +22,7 @@ public:
 		return str;
 	}
 
-	virtual Variable GetOutput() const { return Variable(VT_FLOAT4, "gl_FragColor"); }
+	virtual Variable GetOutput() const override { return Variable(VT_FLOAT4, "gl_FragColor"); }
 
 }; // FragColor
 

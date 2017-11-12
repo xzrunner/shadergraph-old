@@ -24,10 +24,10 @@ class ColorMap : public Node
 public:
 	ColorMap();
 
-	virtual CU_STR& GetHeader(CU_STR& str) const;
-	virtual CU_STR& ToStatements(CU_STR& str) const;
+	virtual CU_STR& GetHeader(CU_STR& str) const override;
+	virtual CU_STR& ToStatements(CU_STR& str) const override;
 	
-	virtual Variable GetOutput() const;
+	virtual Variable GetOutput() const override;
 
 }; // ColorMap
 

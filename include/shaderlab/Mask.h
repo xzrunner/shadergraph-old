@@ -17,9 +17,9 @@ class Mask : public Node
 public:
 	Mask();
 
-	virtual CU_STR& ToStatements(CU_STR& str) const;
+	virtual CU_STR& ToStatements(CU_STR& str) const override;
 
-	virtual Variable GetOutput() const;
+	virtual Variable GetOutput() const override;
 
 }; // Mask
 

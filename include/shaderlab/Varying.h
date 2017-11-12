@@ -14,7 +14,7 @@ public:
 	Varying(const Variable& var);
 	Varying(VariableType type, CU_STR name);
 
-	virtual CU_STR& ToStatement(CU_STR& str) const;
+	virtual CU_STR& ToStatement(CU_STR& str) const override;
 
 }; // Varying
 

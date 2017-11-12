@@ -16,7 +16,7 @@ public:
 	Mul1(Variable left, Variable right) 
 		: m_left(left), m_right(right) {}
 
-	virtual CU_STR& ToStatements(CU_STR& str) const {
+	virtual CU_STR& ToStatements(CU_STR& str) const override {
 		CheckType(m_left, m_right);
 		char buf[128];
 		sprintf(buf, "%s *= %s;\n", m_left.GetName(), m_right.GetName());
@@ -24,7 +24,7 @@ public:
 		return str;
 	}
 
-	virtual Variable GetOutput() const {
+	virtual Variable GetOutput() const override {
 		return m_left;
 	}
 

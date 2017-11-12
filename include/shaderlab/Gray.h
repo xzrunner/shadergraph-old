@@ -18,7 +18,7 @@ public:
 	Gray() : Filter("_col_gray_") {}
 
 protected:
-	virtual CU_STR GetBody() const;
+	virtual CU_STR GetBody() const override;
 
 }; // Gray
 

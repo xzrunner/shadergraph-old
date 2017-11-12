@@ -12,7 +12,7 @@ public:
 	ColGradingProg(ur::RenderContext* rc, int max_vertex, 
 		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
-	virtual void Bind();
+	virtual void Bind() override;
 
 	void SetLUTTex(int tex);
 

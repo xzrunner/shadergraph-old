@@ -31,7 +31,7 @@ public:
 	}
 	
 protected:
-	virtual CU_STR GetBody() const {
+	virtual CU_STR GetBody() const override {
 		return swirl_body;
 	}
 

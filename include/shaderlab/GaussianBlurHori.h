@@ -25,13 +25,13 @@ public:
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "tex_width"));
 	}
 	
-	virtual CU_STR& GetHeader(CU_STR& str) const { 
+	virtual CU_STR& GetHeader(CU_STR& str) const override { 
 		str += gaussian_blur_hori_header;
 		return str; 
 	}
 
 protected:
-	virtual CU_STR GetBody() const {
+	virtual CU_STR GetBody() const override {
 		return gaussian_blur_hori_body;
 	}
 

@@ -27,8 +27,8 @@ public:
 		bool vertex_index);	
 	virtual ~SpriteShader();
 
-	virtual void Bind() const;
-	virtual void UnBind() const;
+	virtual void Bind() const override;
+	virtual void UnBind() const override;
 
 	void SetColor(uint32_t color, uint32_t additive);
 	void SetColorMap(uint32_t rmap, uint32_t gmap, uint32_t bmap);

@@ -12,7 +12,7 @@ public:
 	ShockWaveProg(ur::RenderContext* rc, int max_vertex, 
 		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
-	virtual void UpdateTime(float time);
+	virtual void UpdateTime(float time) override;
 
 	void SetCenter(float center[2]);
 
