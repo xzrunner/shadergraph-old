@@ -10,9 +10,6 @@
     <Filter Include="shader\shape\2d">
       <UniqueIdentifier>{4b2d161c-19ee-4eac-b14f-d3123daba042}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shader\shape\pseudo3d">
-      <UniqueIdentifier>{31dd91c7-77a1-44da-9709-35490f3bbbba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shader\sprite">
       <UniqueIdentifier>{69af22f5-271d-4480-a139-2a184e2adf95}</UniqueIdentifier>
     </Filter>
@@ -154,6 +151,9 @@
     <Filter Include="parser\variables\types">
       <UniqueIdentifier>{dfd86f30-fcc0-4af7-afa3-3465b58f195e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader\shape\3d">
+      <UniqueIdentifier>{31dd91c7-77a1-44da-9709-35490f3bbbba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\shaderlab\Shader.h">
@@ -178,7 +178,7 @@
       <Filter>shader\shape\2d</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\Shape3Shader.h">
-      <Filter>shader\shape\pseudo3d</Filter>
+      <Filter>shader\shape\3d</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\SpriteShader.h">
       <Filter>shader\sprite</Filter>
@@ -423,7 +423,7 @@
       <Filter>shader\shape\2d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\shader\Shape3Shader.cpp">
-      <Filter>shader\shape\pseudo3d</Filter>
+      <Filter>shader\shape\3d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\shader\SpriteShader.cpp">
       <Filter>shader\sprite</Filter>
