@@ -3,7 +3,6 @@
 
 #include "shaderlab/Shader.h"
 
-#include <cu/cu_stl.h>
 #include <SM_Vector.h>
 #include <SM_Matrix.h>
 #include <unirender/VertexAttrib.h>
@@ -61,7 +60,8 @@ public:
 	void SetNormalMatrix(const sm::mat4& mat);
 	void SetModelview(const sm::mat4& mat);
 
-	void Draw(const CU_VEC<float>& vertices, const CU_VEC<uint16_t>& indices,
+	void Draw(const float* vertices, size_t vertices_n, 
+		const uint16_t* indices, size_t indices_n,
 		bool has_normal, bool has_texcoord) const;
 
 private:

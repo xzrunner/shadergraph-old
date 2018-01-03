@@ -123,9 +123,9 @@ void Model3Shader::SetModelview(const sm::mat4& mat)
 //	SetNormalMatrix(mat);
 }
 
-void Model3Shader::Draw(const CU_VEC<float>& vertices, 
-						const CU_VEC<uint16_t>& indices,
-						bool has_normal, bool has_texcoord) const
+void Model3Shader::Draw(const float* vertices, size_t vertices_n, 
+	                    const uint16_t* indices, size_t indices_n,
+	                    bool has_normal, bool has_texcoord) const
 {
 	int stride = 3;
 	if (has_normal) {
@@ -134,7 +134,7 @@ void Model3Shader::Draw(const CU_VEC<float>& vertices,
 	if (has_texcoord) {
 		stride += 2;
 	}
-	assert(vertices.size() % stride == 0);
+	assert(vertices_n % stride == 0);
 	
 	PROG_IDX idx = PI_STATIC_COLOR;
 	if (!has_normal && !has_texcoord) idx = PI_STATIC_COLOR;
@@ -150,8 +150,8 @@ void Model3Shader::Draw(const CU_VEC<float>& vertices,
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
 	auto& vb = shader->GetVertexBuffer();
 	auto& ib = shader->GetIndexBuffer();
-	int vn = vertices.size() / stride,
-		in = indices.size();
+	int vn = vertices_n / stride,
+		in = indices_n;
 	if (vb->Size() + vn > vb->Capacity() || 
 		ib->Size() + in > ib->Capacity()) {
 		Commit();
@@ -160,7 +160,7 @@ void Model3Shader::Draw(const CU_VEC<float>& vertices,
 		return;
 	}
 
-	shader->Draw(&vertices[0], vn, &indices[0], in);
+	shader->Draw(vertices, vn, indices, in);
 }
 
 void Model3Shader::InitCurrStatus()
