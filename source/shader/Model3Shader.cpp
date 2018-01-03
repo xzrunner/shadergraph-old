@@ -33,6 +33,7 @@ Model3Shader::Model3Shader(ur::RenderContext* rc)
 {
 	m_rc->SetClearFlag(ur::MASKC | ur::MASKD);
 
+	InitCurrStatus();
 	InitVAList();
 	InitProgs();
 }
@@ -65,25 +66,44 @@ bool Model3Shader::Commit() const
 	return shader->Commit();
 }
 
-void Model3Shader::SetMaterial(const sm::vec3& ambient, const sm::vec3& diffuse, 
-							   const sm::vec3& specular, float shininess, int tex)
+void Model3Shader::SetMaterial(const Material& material)
 {
-	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), ambient, diffuse, specular, shininess);
-	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), ambient, diffuse, specular, shininess);
-	if (tex >= 0) {
+	if (m_curr_material == material) {
+		return;
+	}	
+	Commit();
+	m_curr_material = material;
+	
+	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), 
+		material.ambient, material.diffuse, material.specular, material.shininess);
+	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), 
+		material.ambient, material.diffuse, material.specular, material.shininess);
+	if (material.tex_id >= 0) {
 		m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
-		m_rc->BindTexture(tex, 0);
+		m_rc->BindTexture(material.tex_id, 0);
 	}
 }
 
 void Model3Shader::SetLightPosition(const sm::vec3& pos)
 {
+	if (m_curr_light_pos == pos) {
+		return;
+	}
+	Commit();
+	m_curr_light_pos = pos;
+
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 }
 
 void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
 {
+	if (m_curr_normal_mat == mat) {
+		return;
+	}
+	Commit();
+	m_curr_normal_mat = mat;
+
 	sm::mat3 mat3(mat);
 	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
@@ -91,6 +111,12 @@ void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
 
 void Model3Shader::SetModelview(const sm::mat4& mat)
 {
+	if (m_curr_mv == mat) {
+		return;
+	}
+	Commit();
+	m_curr_mv = mat;
+
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		m_programs[i]->GetMVP()->SetModelview(&mat);
 	}
@@ -135,6 +161,23 @@ void Model3Shader::Draw(const CU_VEC<float>& vertices,
 	}
 
 	shader->Draw(&vertices[0], vn, &indices[0], in);
+}
+
+void Model3Shader::InitCurrStatus()
+{
+	static const float max = std::numeric_limits<float>::max();
+
+	m_curr_material.ambient.Assign(max, max, max);
+	m_curr_material.diffuse.Assign(max, max, max);
+	m_curr_material.specular.Assign(max, max, max);
+	m_curr_material.shininess = max;
+	m_curr_material.tex_id = -1;
+
+	m_curr_light_pos.Assign(max, max, max);
+
+	memset(m_curr_normal_mat.x, 0xff, sizeof(m_curr_normal_mat.x));
+
+	memset(m_curr_mv.x, 0xff, sizeof(m_curr_mv.x));
 }
 
 void Model3Shader::InitVAList()
