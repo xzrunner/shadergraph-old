@@ -96,19 +96,6 @@ void Model3Shader::SetLightPosition(const sm::vec3& pos)
 	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.light_position, ur::UNIFORM_FLOAT3, &pos.x);
 }
 
-void Model3Shader::SetNormalMatrix(const sm::mat4& mat)
-{
-	if (m_curr_normal_mat == mat) {
-		return;
-	}
-	Commit();
-	m_curr_normal_mat = mat;
-
-	sm::mat3 mat3(mat);
-	m_programs[PI_GOURAUD_SHADING]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
-	m_programs[PI_GOURAUD_TEXTURE]->GetShader()->SetUniform(m_shading_uniforms.normal_matrix, ur::UNIFORM_FLOAT33, mat3.x);
-}
-
 void Model3Shader::SetModelview(const sm::mat4& mat)
 {
 	if (m_curr_mv == mat) {
@@ -120,7 +107,6 @@ void Model3Shader::SetModelview(const sm::mat4& mat)
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		m_programs[i]->GetMVP()->SetModelview(&mat);
 	}
-//	SetNormalMatrix(mat);
 }
 
 void Model3Shader::Draw(const float* vertices, size_t vertices_n, 
@@ -174,8 +160,6 @@ void Model3Shader::InitCurrStatus()
 	m_curr_material.tex_id = -1;
 
 	m_curr_light_pos.Assign(max, max, max);
-
-	memset(m_curr_normal_mat.x, 0xff, sizeof(m_curr_normal_mat.x));
 
 	memset(m_curr_mv.x, 0xff, sizeof(m_curr_mv.x));
 }
@@ -303,7 +287,6 @@ Init(RenderShader* shader)
 	specular = shader->AddUniform("u_specular_material", ur::UNIFORM_FLOAT3);
 	shininess = shader->AddUniform("u_shininess", ur::UNIFORM_FLOAT1);
 
-	normal_matrix = shader->AddUniform("u_normal_matrix", ur::UNIFORM_FLOAT33);
 	light_position = shader->AddUniform("u_light_position", ur::UNIFORM_FLOAT3);
 }
 

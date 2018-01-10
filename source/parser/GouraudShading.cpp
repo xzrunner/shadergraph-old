@@ -20,14 +20,13 @@ GouraudShading::GouraudShading()
 	m_uniforms.push_back(new Uniform(VT_FLOAT3, "specular_material"));
 	m_uniforms.push_back(new Uniform(VT_FLOAT1, "shininess"));
 
-	m_uniforms.push_back(new Uniform(VT_MAT3, "normal_matrix"));
 	m_uniforms.push_back(new Uniform(VT_FLOAT3, "light_position"));
 }
 
 CU_STR& GouraudShading::ToStatements(CU_STR& str) const
 {
 	CU_STR s = "\
-		vec3 eye_normal = u_normal_matrix * normal;\n \
+		vec3 eye_normal = normal;\n \
 		\
 		vec4 pos4 = u_modelview * position;\n \
 		vec3 pos3 = pos4.xyz / pos4.w;\n \

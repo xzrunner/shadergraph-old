@@ -131,12 +131,6 @@ void sl_on_modelview2(float x, float y, float sx, float sy) {
 extern "C"
 void sl_on_modelview3(const sm_mat4* mat) {
 	SubjectMVP3::Instance()->NotifyModelview(sm::mat4(mat->x));
-
-	ShaderMgr* mgr = ShaderMgr::Instance();
-	Model3Shader* shader = static_cast<Model3Shader*>(mgr->GetShader(MODEL3));
-	if (shader) {
-		shader->SetNormalMatrix(sm::mat4(mat->x));
-	}
 }
 
 extern "C"
