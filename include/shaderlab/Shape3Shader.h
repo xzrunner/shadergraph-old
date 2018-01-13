@@ -11,6 +11,9 @@ class Shape3Shader : public ShapeShader
 public:
 	Shape3Shader(ur::RenderContext* rc);	
 
+	virtual void Bind() const override;
+	virtual void UnBind() const override;
+
 	void Draw(const float* positions, int count) const;
 	void Draw(float x, float y, float z, bool dummy) const;
 

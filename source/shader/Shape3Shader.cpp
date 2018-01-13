@@ -4,6 +4,8 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/StackAllocator.h"
 
+#include <unirender/RenderContext.h>
+
 namespace sl
 {
 
@@ -12,7 +14,24 @@ static const int MAX_VERTICES = 4096;
 Shape3Shader::Shape3Shader(ur::RenderContext* rc)
 	: ShapeShader(rc)
 {
+	m_rc->SetClearFlag(ur::MASKC | ur::MASKD);
+
 	InitProg(3, MAX_VERTICES);
+}
+
+void Shape3Shader::Bind() const
+{
+	ShapeShader::Bind();
+
+	m_rc->EnableDepth(true);
+	m_rc->SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+}
+
+void Shape3Shader::UnBind() const
+{
+	ShapeShader::UnBind();
+
+	m_rc->EnableDepth(false);
 }
 
 void Shape3Shader::Draw(const float* positions, int count) const

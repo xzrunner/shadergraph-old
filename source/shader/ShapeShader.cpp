@@ -18,7 +18,6 @@ ShapeShader::ShapeShader(ur::RenderContext* rc)
 	, m_prog(nullptr)
 	, m_color(0xffffffff)
 {
-	m_rc->SetClearFlag(ur::MASKC);	
 }
 
 ShapeShader::~ShapeShader()

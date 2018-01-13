@@ -4,6 +4,8 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/StackAllocator.h"
 
+#include <unirender/RenderContext.h>
+
 namespace sl
 {
 
@@ -12,6 +14,8 @@ static const int MAX_VERTICES = 4096;
 Shape2Shader::Shape2Shader(ur::RenderContext* rc)
 	: ShapeShader(rc)
 {
+	m_rc->SetClearFlag(ur::MASKC);
+
 	InitProg(2, MAX_VERTICES);
 }
 

@@ -47,12 +47,13 @@ Model3Shader::~Model3Shader()
 
 void Model3Shader::Bind() const
 {
-	m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
+	m_rc->EnableDepth(true);
+	m_rc->SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
-	m_rc->SetDepth(ur::DEPTH_DISABLE);
+	m_rc->EnableDepth(false);
 }
 
 bool Model3Shader::Commit() const
@@ -79,7 +80,8 @@ void Model3Shader::SetMaterial(const Material& material)
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), 
 		material.ambient, material.diffuse, material.specular, material.shininess);
 	if (material.tex_id >= 0) {
-		m_rc->SetDepth(ur::DEPTH_LESS_EQUAL);
+		//m_rc->EnableDepth(true);
+		//m_rc->SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 		m_rc->BindTexture(material.tex_id, 0);
 	}
 }
