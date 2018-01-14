@@ -122,7 +122,6 @@ void Model3Shader::SetModelview(const sm::mat4& mat)
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		m_programs[i]->GetMVP()->SetModelview(&mat);
 	}
-//	SetNormalMatrix(mat);
 }
 
 void Model3Shader::Draw(const float* vertices, size_t vertices_n, 
