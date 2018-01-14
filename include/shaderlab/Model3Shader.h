@@ -57,6 +57,7 @@ public:
 
 	void SetMaterial(const Material& material);
 	void SetLightPosition(const sm::vec3& pos);
+	void SetNormalMatrix(const sm::mat4& mat);
 	void SetModelview(const sm::mat4& mat);
 
 	void Draw(const float* vertices, size_t vertices_n, 
@@ -95,7 +96,7 @@ private:
 	struct GouraudUniforms
 	{
 		int diffuse, ambient, specular, shininess;
-		int light_position;
+		int normal_matrix, light_position;
 
 		void Init(RenderShader* shader);
 		void SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
@@ -114,6 +115,7 @@ private:
 	// curr status
 	Material m_curr_material;
 	sm::vec3 m_curr_light_pos;
+	sm::mat4 m_curr_normal_mat;
 	sm::mat4 m_curr_mv;
 
 }; // Model3Shader
