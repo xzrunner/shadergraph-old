@@ -16,8 +16,8 @@ namespace sl
 
 static const int MAX_VERTICES = 4096;
 
-Sprite3Shader::Sprite3Shader(ur::RenderContext* rc)
-	: SpriteShader(rc, 3, MAX_VERTICES, false)
+Sprite3Shader::Sprite3Shader(ShaderMgr& shader_mgr)
+	: SpriteShader(shader_mgr, 3, MAX_VERTICES, false)
 {
 	InitProgs();
 	m_vertex_buf = new Vertex[MAX_VERTICES];
@@ -29,7 +29,7 @@ bool Sprite3Shader::Commit() const
 		return false;
 	}
 
-	m_rc->BindTexture(m_texid, 0);
+	m_shader_mgr.GetContext().BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)
@@ -70,7 +70,7 @@ bool Sprite3Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	ShaderMgr::Instance()->BindRenderShader(shader, SPRITE3);
+	m_shader_mgr.BindRenderShader(shader, SPRITE3);
 	shader->Draw(buf, vb_count);
 	alloc->Free(buf);
 

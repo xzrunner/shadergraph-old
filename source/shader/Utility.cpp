@@ -8,7 +8,7 @@
 namespace sl
 {
 
-std::shared_ptr<RenderBuffer> Utility::CreateIndexBuffer(ur::RenderContext* rc, int count)
+std::shared_ptr<RenderBuffer> Utility::CreateIndexBuffer(ur::RenderContext& rc, int count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * count;
@@ -24,7 +24,7 @@ std::shared_ptr<RenderBuffer> Utility::CreateIndexBuffer(ur::RenderContext* rc, 
 	return ret;	
 }
 
-std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext* rc, int quad_count)
+std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext& rc, int quad_count)
 {
 	StackAllocator* alloc = StackAllocator::Instance();
 	int sz = sizeof(uint16_t) * 6 * quad_count;

@@ -6,8 +6,6 @@
 
 #include <memory>
 
-namespace ur { class RenderContext; }
-
 namespace sl
 {
 
@@ -16,11 +14,12 @@ namespace parser { class Shader; class Node; }
 class RenderShader;
 class RenderBuffer;
 class ObserverMVP;
+class ShaderMgr;
 
 class ShaderProgram
 {
 public:
-	ShaderProgram(ur::RenderContext* rc, int max_vertex);
+	ShaderProgram(ShaderMgr& shader_mgr, int max_vertex);
 	virtual ~ShaderProgram();
 
 	virtual void Bind() {}
@@ -37,7 +36,7 @@ private:
 	void Release();
 
 protected:
-	ur::RenderContext* m_rc;
+	ShaderMgr& m_shader_mgr;
 
 	RenderShader* m_shader;
 

@@ -35,7 +35,7 @@ union sm_mat4;
  *    common
  */
 
-void sl_create(void* render_context);
+//void sl_create(void* render_context);
 void sl_release();
 
 void sl_create_shader(enum SHADER_TYPE type);

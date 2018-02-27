@@ -12,7 +12,7 @@ namespace sl
 class MaskShader : public Shader
 {
 public:
-	MaskShader(ur::RenderContext* rc);
+	MaskShader(ShaderMgr& shader_mgr);
 	virtual ~MaskShader();
 
 	virtual void Bind() const override;
@@ -44,7 +44,7 @@ private:
 	class Program : public ShaderProgram
 	{
 	public:
-		Program(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list, 
+		Program(ShaderMgr& shader_mgr, const CU_VEC<ur::VertexAttrib>& va_list,
 			const std::shared_ptr<RenderBuffer>& ib);
 	private:
 		void Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);

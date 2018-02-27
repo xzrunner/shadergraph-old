@@ -23,7 +23,7 @@ class ShaderProgram;
 class SpriteShader : public Shader
 {
 public:
-	SpriteShader(ur::RenderContext* rc, int position_sz, int max_vertex, 
+	SpriteShader(ShaderMgr& shader_mgr, int position_sz, int max_vertex,
 		bool vertex_index);	
 	virtual ~SpriteShader();
 

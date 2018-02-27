@@ -7,9 +7,9 @@
 namespace sl
 {
 
-GaussianBlurHoriProg::GaussianBlurHoriProg(ur::RenderContext* rc, int max_vertex, 
+GaussianBlurHoriProg::GaussianBlurHoriProg(ShaderMgr& shader_mgr, int max_vertex,
 										   const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(rc, max_vertex)
+	: FilterProgram(shader_mgr, max_vertex)
 	, m_tex_width_val(0)
 {
 	Init(va_list, ib, new parser::GaussianBlurHori());

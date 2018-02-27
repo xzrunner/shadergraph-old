@@ -7,9 +7,9 @@
 namespace sl
 {
 
-EdgeDetectProg::EdgeDetectProg(ur::RenderContext* rc, int max_vertex, 
+EdgeDetectProg::EdgeDetectProg(ShaderMgr& shader_mgr, int max_vertex,
 							   const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(rc, max_vertex)
+	: FilterProgram(shader_mgr, max_vertex)
 {
 	Init(va_list, ib, new parser::EdgeDetect());
 	m_blend = m_shader->AddUniform("u_blend", ur::UNIFORM_FLOAT1);

@@ -9,7 +9,7 @@ namespace sl
 class Shape3Shader : public ShapeShader
 {
 public:
-	Shape3Shader(ur::RenderContext* rc);	
+	Shape3Shader(ShaderMgr& shader_mgr);
 
 	virtual void Bind() const override;
 	virtual void UnBind() const override;

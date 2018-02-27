@@ -16,11 +16,12 @@ namespace sl
 class Buffer;
 class RenderBuffer;
 class RenderLayout;
+class ShaderMgr;
 
 class RenderShader
 {
 public:
-	RenderShader(ur::RenderContext* rc);
+	RenderShader(ShaderMgr& shader_mgr);
 
 	void Load(const char* vs, const char* fs);
 	void Unload();
@@ -67,7 +68,7 @@ private:
 		void Assign(int loc, UNIFORM_FORMAT_TYPE type);
 		void Assign(UNIFORM_FORMAT_TYPE t, const float* v);
 
-		bool Apply(ur::RenderContext* rc);
+		bool Apply(ur::RenderContext& rc);
 
 	private:
 		int m_loc;
@@ -79,7 +80,7 @@ private:
 	}; // Uniform
 
 private:
-	ur::RenderContext* m_rc;
+	ShaderMgr& m_shader_mgr;
 
 	int m_prog;
 

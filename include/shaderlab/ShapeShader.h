@@ -14,7 +14,7 @@ class ShaderProgram;
 class ShapeShader : public Shader
 {
 public:
-	ShapeShader(ur::RenderContext* rc);
+	ShapeShader(ShaderMgr& shader_mgr);
 	virtual ~ShapeShader();
 
 	virtual void Bind() const override;

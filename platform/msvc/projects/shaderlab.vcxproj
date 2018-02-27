@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\sm\src\sm;..\..\..\..\external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\sm\src\sm;..\..\..\..\external\c99;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;EASY_EDITOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -67,7 +67,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\sm\src\sm;..\..\..\..\external\c99;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\shaderlab;..\..\..\..\ds\src\ds;..\..\..\..\unirender\include;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\sm\src\sm;..\..\..\..\external\c99;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;EASY_EDITOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -84,6 +84,7 @@
     <ClInclude Include="..\..\..\include\shaderlab\Assign.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Attribute.h" />
     <ClInclude Include="..\..\..\include\shaderlab\AttributeNode.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\Blackboard.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Blend.h" />
     <ClInclude Include="..\..\..\include\shaderlab\BlendMode.h" />
     <ClInclude Include="..\..\..\include\shaderlab\BlendShader.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="..\..\..\source\shader\SwirlProg.cpp" />
     <ClCompile Include="..\..\..\source\shader\Utility.cpp" />
     <ClCompile Include="..\..\..\source\Facade.cpp" />
+    <ClCompile Include="..\..\..\source\utility\Blackboard.cpp" />
     <ClCompile Include="..\..\..\source\utility\Buffer.cpp" />
     <ClCompile Include="..\..\..\source\utility\Callback.cpp" />
     <ClCompile Include="..\..\..\source\utility\StackAllocator.cpp" />

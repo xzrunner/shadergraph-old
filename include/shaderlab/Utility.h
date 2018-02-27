@@ -15,8 +15,8 @@ class RenderBuffer;
 class Utility
 {
 public:
-	static std::shared_ptr<RenderBuffer> CreateIndexBuffer(ur::RenderContext* rc, int count);
-	static std::shared_ptr<RenderBuffer> CreateQuadIndexBuffer(ur::RenderContext* rc, int quad_count);
+	static std::shared_ptr<RenderBuffer> CreateIndexBuffer(ur::RenderContext& rc, int count);
+	static std::shared_ptr<RenderBuffer> CreateQuadIndexBuffer(ur::RenderContext& rc, int quad_count);
 
 private:
 	static void FillingQuadIndexBuffer(uint16_t* buf, int quad_count);

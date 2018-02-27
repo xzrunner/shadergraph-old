@@ -19,10 +19,10 @@ namespace sl
 
 static const int MAX_COMMBINE = 128;
 
-MaskShader::MaskShader(ur::RenderContext* rc)
-	: Shader(rc)
+MaskShader::MaskShader(ShaderMgr& shader_mgr)
+	: Shader(shader_mgr)
 {
-	m_rc->SetClearFlag(ur::MASKC);
+	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
 
 	m_tex = m_tex_mask = 0;
 
@@ -41,7 +41,7 @@ MaskShader::~MaskShader()
 
 void MaskShader::Bind() const
 {
-	ShaderMgr::Instance()->BindRenderShader(m_prog->GetShader(), MASK);
+	m_shader_mgr.BindRenderShader(m_prog->GetShader(), MASK);
 }
 
 void MaskShader::UnBind() const
@@ -50,11 +50,11 @@ void MaskShader::UnBind() const
 
 bool MaskShader::Commit() const
 {
-	m_rc->BindTexture(m_tex, 0);
-	m_rc->BindTexture(m_tex_mask, 1);
+	m_shader_mgr.GetContext().BindTexture(m_tex, 0);
+	m_shader_mgr.GetContext().BindTexture(m_tex_mask, 1);
 
 	RenderShader* shader = m_prog->GetShader();
-	ShaderMgr::Instance()->BindRenderShader(shader, MASK);
+	m_shader_mgr.BindRenderShader(shader, MASK);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -99,16 +99,16 @@ void MaskShader::InitProg()
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
-	m_prog = new Program(m_rc, va_list, idx_buf);
+	auto idx_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), MAX_COMMBINE);
+	m_prog = new Program(m_shader_mgr, va_list, idx_buf);
 }
 
 /************************************************************************/
 /* class MaskShader::Program                                            */
 /************************************************************************/
 
-MaskShader::Program::Program(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
-	: ShaderProgram(rc, MAX_COMMBINE * 4)
+MaskShader::Program::Program(ShaderMgr& shader_mgr, const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
+	: ShaderProgram(shader_mgr, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 

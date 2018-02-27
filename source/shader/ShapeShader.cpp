@@ -13,8 +13,8 @@
 namespace sl
 {
 
-ShapeShader::ShapeShader(ur::RenderContext* rc)
-	: Shader(rc)
+ShapeShader::ShapeShader(ShaderMgr& shader_mgr)
+	: Shader(shader_mgr)
 	, m_prog(nullptr)
 	, m_color(0xffffffff)
 {
@@ -27,7 +27,7 @@ ShapeShader::~ShapeShader()
 
 void ShapeShader::Bind() const
 {
-	ShaderMgr::Instance()->BindRenderShader(m_prog->GetShader(), SHAPE2);
+	m_shader_mgr.BindRenderShader(m_prog->GetShader(), SHAPE2);
 }
 
 void ShapeShader::UnBind() const
@@ -51,7 +51,7 @@ void ShapeShader::SetType(int type)
 
 void ShapeShader::InitProg(int position_sz, int max_vertex)
 {
-	m_prog = new ShaderProgram(m_rc, max_vertex);
+	m_prog = new ShaderProgram(m_shader_mgr, max_vertex);
 
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

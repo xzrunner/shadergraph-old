@@ -1,16 +1,17 @@
 #include "shaderlab/ColGradingProg.h"
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/ColorGrading.h"
+#include "shaderlab/ShaderMgr.h"
 
 #include <unirender/RenderContext.h>
 
 namespace sl
 {
 
-ColGradingProg::ColGradingProg(ur::RenderContext* rc, int max_vertex, 
-						   const CU_VEC<ur::VertexAttrib>& va_list, 
-						   const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(rc, max_vertex)
+ColGradingProg::ColGradingProg(ShaderMgr& shader_mgr, int max_vertex,
+						       const CU_VEC<ur::VertexAttrib>& va_list, 
+						       const std::shared_ptr<RenderBuffer>& ib)
+	: FilterProgram(shader_mgr, max_vertex)
 	, m_lut_tex(0)
 {
 	Init(va_list, ib, new parser::ColorGrading());
@@ -29,13 +30,13 @@ ColGradingProg::ColGradingProg(ur::RenderContext* rc, int max_vertex,
 
 void ColGradingProg::Bind()
 {
-	m_rc->BindTexture(m_lut_tex, 1);
+	m_shader_mgr.GetContext().BindTexture(m_lut_tex, 1);
 }
 
 void ColGradingProg::SetLUTTex(int tex)
 {
 	m_lut_tex = tex;
-	m_rc->BindTexture(m_lut_tex, 1);
+	m_shader_mgr.GetContext().BindTexture(m_lut_tex, 1);
 }
 
 }

@@ -9,7 +9,7 @@ namespace sl
 class Sprite2Shader : public SpriteShader
 {
 public:
-	Sprite2Shader(ur::RenderContext* rc);	
+	Sprite2Shader(ShaderMgr& shader_mgr);
 
 	virtual bool Commit() const override;
 

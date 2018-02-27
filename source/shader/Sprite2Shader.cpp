@@ -20,8 +20,8 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-Sprite2Shader::Sprite2Shader(ur::RenderContext* rc)
-	: SpriteShader(rc, 2, MAX_COMMBINE * 4, true)
+Sprite2Shader::Sprite2Shader(ShaderMgr& shader_mgr)
+	: SpriteShader(shader_mgr, 2, MAX_COMMBINE * 4, true)
 {
 	InitProgs();
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
@@ -33,7 +33,7 @@ bool Sprite2Shader::Commit() const
 		return false;
 	}
 
-	m_rc->BindTexture(m_texid, 0);
+	m_shader_mgr.GetContext().BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)
@@ -74,7 +74,7 @@ bool Sprite2Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	ShaderMgr::Instance()->BindRenderShader(shader, SPRITE2);
+	m_shader_mgr.BindRenderShader(shader, SPRITE2);
 	shader->Draw(buf, vb_count, nullptr, m_quad_sz * 6);
 	alloc->Free(buf);
 

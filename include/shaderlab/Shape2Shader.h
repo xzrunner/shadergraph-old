@@ -9,7 +9,7 @@ namespace sl
 class Shape2Shader : public ShapeShader
 {
 public:
-	Shape2Shader(ur::RenderContext* rc);	
+	Shape2Shader(ShaderMgr& shader_mgr);
 
 	void Draw(const float* positions, int count) const;
 	void Draw(const float* positions, const uint32_t* colors, int count) const;

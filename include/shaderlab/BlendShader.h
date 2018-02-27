@@ -15,7 +15,7 @@ class ShaderProgram;
 class BlendShader : public Shader
 {
 public:
-	BlendShader(ur::RenderContext* rc);
+	BlendShader(ShaderMgr& shader_mgr);
 	virtual ~BlendShader();
 
 	virtual void Bind() const override;
@@ -54,7 +54,7 @@ private:
 	class Program : public ShaderProgram
 	{
 	public:
-		Program(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list, 
+		Program(ShaderMgr& shader_mgr, const CU_VEC<ur::VertexAttrib>& va_list,
 			const std::shared_ptr<RenderBuffer>& ib);
 		
 		void SetMode(int mode);

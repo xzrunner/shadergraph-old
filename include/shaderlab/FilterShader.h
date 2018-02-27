@@ -19,7 +19,7 @@ class RenderBuffer;
 class FilterShader : public Shader
 {
 public:
-	FilterShader(ur::RenderContext* rc);
+	FilterShader(ShaderMgr& shader_mgr);
 	virtual ~FilterShader();
 	
 	virtual void Bind() const override;

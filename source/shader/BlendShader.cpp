@@ -20,10 +20,10 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-BlendShader::BlendShader(ur::RenderContext* rc)
-	: Shader(rc)
+BlendShader::BlendShader(ShaderMgr& shader_mgr)
+	: Shader(shader_mgr)
 {
-	m_rc->SetClearFlag(ur::MASKC);
+	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -47,7 +47,7 @@ BlendShader::~BlendShader()
 
 void BlendShader::Bind() const
 {
-	ShaderMgr::Instance()->BindRenderShader(m_prog->GetShader(), BLEND);
+	m_shader_mgr.BindRenderShader(m_prog->GetShader(), BLEND);
 }
 
 void BlendShader::UnBind() const
@@ -60,11 +60,11 @@ bool BlendShader::Commit() const
 		return false;
 	}
 
-	m_rc->BindTexture(m_tex_blend, 0);
-	m_rc->BindTexture(m_tex_base, 1);
+	m_shader_mgr.GetContext().BindTexture(m_tex_blend, 0);
+	m_shader_mgr.GetContext().BindTexture(m_tex_base, 1);
 	
 	RenderShader* shader = m_prog->GetShader();
-	ShaderMgr::Instance()->BindRenderShader(shader);
+	m_shader_mgr.BindRenderShader(shader);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -130,18 +130,18 @@ void BlendShader::InitProg()
  	va_list.push_back(m_va_list[COLOR]);
  	va_list.push_back(m_va_list[ADDITIVE]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc, MAX_COMMBINE);
-	m_prog = new Program(m_rc, va_list, idx_buf);
+	auto idx_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), MAX_COMMBINE);
+	m_prog = new Program(m_shader_mgr, va_list, idx_buf);
 }
 
 /************************************************************************/
 /* class BlendShader::Program                                           */
 /************************************************************************/
 
-BlendShader::Program::Program(ur::RenderContext* rc, 
+BlendShader::Program::Program(ShaderMgr& shader_mgr,
 	                          const CU_VEC<ur::VertexAttrib>& va_list, 
 	                          const std::shared_ptr<RenderBuffer>& ib)
-	: ShaderProgram(rc, MAX_COMMBINE * 4)
+	: ShaderProgram(shader_mgr, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 

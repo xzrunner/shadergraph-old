@@ -15,6 +15,8 @@
 #include "shaderlab/ColGradingProg.h"
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/Statistics.h"
+#include "shaderlab/Blackboard.h"
+#include "shaderlab/ShaderMgr.h"
 
 #include <unirender/RenderContext.h>
 #include <sm_c_vector.h>
@@ -28,11 +30,12 @@ namespace sl
  *    common
  */
 
-extern "C"
-void sl_create(void* render_context)
-{
-	ShaderMgr::Instance()->SetContext(static_cast<ur::RenderContext*>(render_context));
-}
+//extern "C"
+//void sl_create(void* render_context)
+//{
+//	Blackboard::Instance()->GetShaderMgr()->
+//		SetContext(static_cast<ur::RenderContext*>(render_context));
+//}
 
 extern "C"
 void sl_release()
@@ -44,8 +47,7 @@ void sl_release()
 extern "C"
 void sl_create_shader(enum SHADER_TYPE type)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
-	ur::RenderContext* rc = mgr->GetContext();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 
 	ShaderType sl_type = MAX_SHADER;
 	Shader* shader = nullptr;
@@ -53,35 +55,35 @@ void sl_create_shader(enum SHADER_TYPE type)
 	{
 	case ST_SHAPE2:
 		sl_type = SHAPE2;
-		shader = new Shape2Shader(rc);
+		shader = new Shape2Shader(*mgr);
 		break;
 	case ST_SHAPE3:
 		sl_type = SHAPE3;
-		shader = new Shape3Shader(rc);
+		shader = new Shape3Shader(*mgr);
 		break;
 	case ST_SPRITE2:
 		sl_type = SPRITE2;
-		shader = new Sprite2Shader(rc);
+		shader = new Sprite2Shader(*mgr);
 		break;
 	case ST_SPRITE3:
 		sl_type = SPRITE3;
-		shader = new Sprite3Shader(rc);
+		shader = new Sprite3Shader(*mgr);
 		break;
 	case ST_BLEND:
 		sl_type = BLEND;
-		shader = new BlendShader(rc);
+		shader = new BlendShader(*mgr);
 		break;
 	case ST_FILTER:
 		sl_type = FILTER;
-		shader = new FilterShader(rc);
+		shader = new FilterShader(*mgr);
 		break;
 	case ST_MODEL3:
 		sl_type = MODEL3;
-		shader = new Model3Shader(rc);
+		shader = new Model3Shader(*mgr);
 		break;
 	case ST_MASK:
 		sl_type = MASK;
-		shader = new MaskShader(rc);
+		shader = new MaskShader(*mgr);
 		break;
 	default:
 		break;
@@ -93,21 +95,21 @@ void sl_create_shader(enum SHADER_TYPE type)
 
 extern "C"
 void sl_release_shader(enum SHADER_TYPE type) {
-	ShaderMgr::Instance()->ReleaseShader((ShaderType)type);
+	Blackboard::Instance()->GetShaderMgr()->ReleaseShader((ShaderType)type);
 }
 
 extern "C"
 void sl_set_shader(enum SHADER_TYPE type)
 {
 	if (type >= 0 && type < ST_MAX_SHADER) {
-		ShaderMgr::Instance()->SetShader(ShaderType(type));
+		Blackboard::Instance()->GetShaderMgr()->SetShader(ShaderType(type));
 	}
 }
 
 extern "C"
 int  sl_is_shader(enum SHADER_TYPE type) {
 	if (type >= 0 && type < ST_MAX_SHADER) {
-		return SHADER_TYPE(ShaderMgr::Instance()->GetShaderType()) == type ? 1 : 0;
+		return SHADER_TYPE(Blackboard::Instance()->GetShaderMgr()->GetShaderType()) == type ? 1 : 0;
 	} else {
 		return 0;
 	}	
@@ -132,8 +134,7 @@ extern "C"
 void sl_on_modelview3(const sm_mat4* mat) {
 	SubjectMVP3::Instance()->NotifyModelview(sm::mat4(mat->x));
 
-	ShaderMgr* mgr = ShaderMgr::Instance();
-	Model3Shader* shader = static_cast<Model3Shader*>(mgr->GetShader(MODEL3));
+	Model3Shader* shader = static_cast<Model3Shader*>(Blackboard::Instance()->GetShaderMgr()->GetShader(MODEL3));
 	if (shader) {
 		shader->SetNormalMatrix(sm::mat4(mat->x));
 	}
@@ -141,58 +142,58 @@ void sl_on_modelview3(const sm_mat4* mat) {
 
 extern "C"
 void sl_set_texture(int id) {
-	ShaderMgr::Instance()->GetContext()->BindTexture(id, 0);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().BindTexture(id, 0);
 }
 
 extern "C"
 int  sl_get_texture() {
-	return ShaderMgr::Instance()->GetContext()->GetCurrTexture();
+	return Blackboard::Instance()->GetShaderMgr()->GetContext().GetCurrTexture();
 }
 
 extern "C"
 void sl_set_target(int id) {
-	ShaderMgr::Instance()->GetContext()->BindRenderTarget(id);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().BindRenderTarget(id);
 }
 
 extern "C"
 void sl_set_blend(int m1, int m2) {
-	ShaderMgr::Instance()->GetContext()->SetBlend(m1, m2);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().SetBlend(m1, m2);
 }
 
 extern "C"
 void sl_set_default_blend() {
-	ShaderMgr::Instance()->GetContext()->SetDefaultBlend();
+	Blackboard::Instance()->GetShaderMgr()->GetContext().SetDefaultBlend();
 }
 
 extern "C"
 void sl_set_blend_equation(int func) {
-	ShaderMgr::Instance()->GetContext()->SetBlendEquation(func);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().SetBlendEquation(func);
 }
 
 extern "C"
 void sl_render_clear(unsigned long argb) {
-	ShaderMgr::Instance()->GetContext()->Clear(argb);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().Clear(argb);
 }
 
 extern "C"
 int  sl_render_version() {
-	return ShaderMgr::Instance()->GetContext()->RenderVersion();
+	return Blackboard::Instance()->GetShaderMgr()->GetContext().RenderVersion();
 }
 
 extern "C"
 void sl_enable_scissor(int enable) {
-	ShaderMgr::Instance()->GetContext()->EnableScissor(enable);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().EnableScissor(enable);
 }
 
 extern "C"
 void sl_set_viewport(int x, int y, int w, int h) {
-	ShaderMgr::Instance()->GetContext()->SetViewport(x, y, w, h);
+	Blackboard::Instance()->GetShaderMgr()->GetContext().SetViewport(x, y, w, h);
 }
 
 extern "C"
 void sl_flush() 
 {
-	Shader* shader = ShaderMgr::Instance()->GetShader();
+	Shader* shader = Blackboard::Instance()->GetShaderMgr()->GetShader();
 	if (shader) {
 		shader->Commit();
 	}
@@ -201,7 +202,7 @@ void sl_flush()
 extern "C"
 void* sl_get_render_context()
 {
-	return ShaderMgr::Instance()->GetContext();	
+	return &Blackboard::Instance()->GetShaderMgr()->GetContext();	
 }
 
 /**
@@ -212,7 +213,7 @@ void* sl_get_render_context()
 extern "C"
 void sl_shape2_color(uint32_t color) 
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
 		shader->SetColor(color);
 	}
@@ -221,7 +222,7 @@ void sl_shape2_color(uint32_t color)
 extern "C"
 void sl_shape2_type(int type)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
 		shader->SetType(type);
 	}
@@ -230,7 +231,7 @@ void sl_shape2_type(int type)
 extern "C"
 void sl_shape2_draw(const float* positions, int count)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
 		shader->Draw(positions, count);
 	}
@@ -238,7 +239,7 @@ void sl_shape2_draw(const float* positions, int count)
 
 extern "C"
 void sl_shape2_draw_with_color(const float* positions, const uint32_t* colors, int count) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
 		shader->Draw(positions, colors, count);
 	}	
@@ -247,7 +248,7 @@ void sl_shape2_draw_with_color(const float* positions, const uint32_t* colors, i
 extern "C"
 void sl_shape2_draw_node(float x, float y, int dummy)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr->GetShader(SHAPE2))) {
 		shader->Draw(x, y, dummy != 0);
 	}
@@ -261,7 +262,7 @@ void sl_shape2_draw_node(float x, float y, int dummy)
 extern "C"
 void sl_shape3_color(uint32_t color) 
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape3Shader* shader = static_cast<Shape3Shader*>(mgr->GetShader(SHAPE3))) {
 		shader->SetColor(color);
 	}
@@ -270,7 +271,7 @@ void sl_shape3_color(uint32_t color)
 extern "C"
 void sl_shape3_type(int type)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape3Shader* shader = static_cast<Shape3Shader*>(mgr->GetShader(SHAPE3))) {
 		shader->SetType(type);
 	}
@@ -279,7 +280,7 @@ void sl_shape3_type(int type)
 extern "C"
 void sl_shape3_draw(const float* positions, int count)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape3Shader* shader = static_cast<Shape3Shader*>(mgr->GetShader(SHAPE3))) {
 		shader->Draw(positions, count);
 	}
@@ -288,7 +289,7 @@ void sl_shape3_draw(const float* positions, int count)
 extern "C"
 void sl_shape3_draw_node(float x, float y, float z, int dummy)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Shape3Shader* shader = static_cast<Shape3Shader*>(mgr->GetShader(SHAPE3))) {
 		shader->Draw(x, y, z, dummy != 0);
 	}
@@ -302,7 +303,7 @@ void sl_shape3_draw_node(float x, float y, float z, int dummy)
 extern "C"
 void sl_sprite2_set_color(uint32_t color, uint32_t additive)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite2Shader* shader = static_cast<Sprite2Shader*>(mgr->GetShader(SPRITE2))) {
 		shader->SetColor(color, additive);
 	}
@@ -311,7 +312,7 @@ void sl_sprite2_set_color(uint32_t color, uint32_t additive)
 extern "C"
 void sl_sprite2_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite2Shader* shader = static_cast<Sprite2Shader*>(mgr->GetShader(SPRITE2))) {
 		shader->SetColorMap(rmap, gmap, bmap);
 	}
@@ -320,7 +321,7 @@ void sl_sprite2_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap)
 extern "C"
 void sl_sprite2_draw(const float* positions, const float* texcoords, int texid)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite2Shader* shader = static_cast<Sprite2Shader*>(mgr->GetShader(SPRITE2))) {
 		shader->DrawQuad(positions, texcoords, texid);
 	}
@@ -333,7 +334,7 @@ void sl_sprite2_draw(const float* positions, const float* texcoords, int texid)
 
 extern "C"
 void sl_sprite3_set_color(uint32_t color, uint32_t additive) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite3Shader* shader = static_cast<Sprite3Shader*>(mgr->GetShader(SPRITE3))) {
 		shader->SetColor(color, additive);
 	}
@@ -341,7 +342,7 @@ void sl_sprite3_set_color(uint32_t color, uint32_t additive) {
 
 extern "C"
 void sl_sprite3_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite3Shader* shader = static_cast<Sprite3Shader*>(mgr->GetShader(SPRITE3))) {
 		shader->SetColorMap(rmap, gmap, bmap);
 	}
@@ -349,7 +350,7 @@ void sl_sprite3_set_map_color(uint32_t rmap, uint32_t gmap, uint32_t bmap) {
 
 extern "C"
 void sl_sprite3_draw(const float* positions, const float* texcoords, int texid) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (Sprite3Shader* shader = static_cast<Sprite3Shader*>(mgr->GetShader(SPRITE3))) {
 		shader->Draw(positions, texcoords, texid);
 	}
@@ -362,7 +363,7 @@ void sl_sprite3_draw(const float* positions, const float* texcoords, int texid) 
 
 extern "C"
 void sl_filter_set_mode(int mode) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
 		shader->SetMode(FILTER_MODE(mode));
 	}
@@ -370,7 +371,7 @@ void sl_filter_set_mode(int mode) {
 
 extern "C"
 void sl_filter_set_heat_haze_factor(float distortion, float rise) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (shader) {
 		HeatHazeProg* prog = static_cast<HeatHazeProg*>(shader->GetProgram(FM_HEAT_HAZE));
@@ -382,7 +383,7 @@ void sl_filter_set_heat_haze_factor(float distortion, float rise) {
 
 extern "C"
 void sl_filter_set_heat_haze_texture(int id) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (shader) {
 		HeatHazeProg* prog = static_cast<HeatHazeProg*>(shader->GetProgram(FM_HEAT_HAZE));
@@ -394,7 +395,7 @@ void sl_filter_set_heat_haze_texture(int id) {
 
 extern "C"
 void sl_filter_set_burning_map_upper_texture(int id) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (shader) {
 		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
@@ -406,7 +407,7 @@ void sl_filter_set_burning_map_upper_texture(int id) {
 
 extern "C"
 void sl_filter_set_burning_map_height_texture(int id) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (shader) {
 		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
@@ -418,7 +419,7 @@ void sl_filter_set_burning_map_height_texture(int id) {
 
 extern "C"
 void sl_filter_set_burning_map_border_texture(int id) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (shader) {
 		BurningMapProg* prog = static_cast<BurningMapProg*>(shader->GetProgram(FM_BURNING_MAP));
@@ -430,7 +431,7 @@ void sl_filter_set_burning_map_border_texture(int id) {
 
 extern "C"
 void sl_filter_set_col_grading_texture(int id) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER));
 	if (!shader) {
 		return;
@@ -451,7 +452,7 @@ void sl_filter_set_col_grading_texture(int id) {
 
 extern "C"
 void sl_filter_update(float dt) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
 		shader->UpdateTime(dt);
 	}
@@ -459,7 +460,7 @@ void sl_filter_update(float dt) {
 
 extern "C"
 void sl_filter_clear_time() {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
 		shader->ClearTime();
 	}
@@ -468,7 +469,7 @@ void sl_filter_clear_time() {
 extern "C"
 void sl_filter_set_color(uint32_t color, uint32_t additive)
 {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
 		shader->SetColor(color, additive);
 	}
@@ -476,7 +477,7 @@ void sl_filter_set_color(uint32_t color, uint32_t additive)
 
 extern "C"
 void sl_filter_draw(const float* positions, const float* texcoords, int texid) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (FilterShader* shader = static_cast<FilterShader*>(mgr->GetShader(FILTER))) {
 		shader->Draw(positions, texcoords, texid);
 	}
@@ -489,7 +490,7 @@ void sl_filter_draw(const float* positions, const float* texcoords, int texid) {
 
 extern "C"
 void sl_blend_set_mode(int mode) {
-	ShaderMgr* mgr = ShaderMgr::Instance();	
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();	
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr->GetShader(BLEND))) {
 		shader->SetMode(mode);
 	}
@@ -497,7 +498,7 @@ void sl_blend_set_mode(int mode) {
 
 extern "C"
 void sl_blend_set_color(uint32_t color, uint32_t additive) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr->GetShader(BLEND))) {
 		shader->SetColor(color, additive);
 	}
@@ -506,7 +507,7 @@ void sl_blend_set_color(uint32_t color, uint32_t additive) {
 extern "C"
 void sl_blend_draw(const float* positions, const float* texcoords_blend, 
 				   const float* texcoords_base, int tex_blend, int tex_base) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr->GetShader(BLEND))) {
 		shader->Draw(positions, texcoords_blend, texcoords_base, tex_blend, tex_base);
 	}
@@ -520,7 +521,7 @@ void sl_blend_draw(const float* positions, const float* texcoords_blend,
 extern "C"
 void sl_mask_draw(const float* positions, const float* texcoords, 
 				  const float* texcoords_mask, int tex, int tex_mask) {
-	ShaderMgr* mgr = ShaderMgr::Instance();
+	ShaderMgr* mgr = Blackboard::Instance()->GetShaderMgr();
 	if (MaskShader* shader = static_cast<MaskShader*>(mgr->GetShader(MASK))) {
 		shader->Draw(positions, texcoords, texcoords_mask, tex, tex_mask);
 	}

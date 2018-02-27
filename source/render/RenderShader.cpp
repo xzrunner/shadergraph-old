@@ -24,8 +24,8 @@
 namespace sl
 {
 
-RenderShader::RenderShader(ur::RenderContext* rc)
-	: m_rc(rc)
+RenderShader::RenderShader(ShaderMgr& shader_mgr)
+	: m_shader_mgr(shader_mgr)
 {
 	m_prog = 0;
 
@@ -50,20 +50,20 @@ void RenderShader::Load(const char* vs, const char* fs)
 	std::cout << "================================================== \n";
 #endif // SHADER_LOG
 
-	m_prog = m_rc->CreateShader(vs, fs);
-	m_rc->BindShader(m_prog);
+	m_prog = m_shader_mgr.GetContext().CreateShader(vs, fs);
+	m_shader_mgr.GetContext().BindShader(m_prog);
 //	render_shader_bind(m_ej_render, 0);	// ??
 	//	S->curr_shader = -1;
 }
 
 void RenderShader::Unload()
 {
-	m_rc->ReleaseShader(m_prog);
+	m_shader_mgr.GetContext().ReleaseShader(m_prog);
 }
 
 void RenderShader::Bind()
 {
-	m_rc->BindShader(m_prog);
+	m_shader_mgr.GetContext().BindShader(m_prog);
 	m_vb->Bind();
 	if (m_ib) {
 		m_ib->Bind();
@@ -91,11 +91,11 @@ bool RenderShader::Commit()
 	m_vb->Update();
 	if (m_ib) {
 		m_ib->Update();
-		m_rc->DrawElements((ur::DRAW_MODE)m_draw_mode, 0, m_ib->Size());
+		m_shader_mgr.GetContext().DrawElements((ur::DRAW_MODE)m_draw_mode, 0, m_ib->Size());
 		stat->AddVertices(m_ib->Size());
 		m_ib->Clear();
 	} else {
-		m_rc->DrawArrays((ur::DRAW_MODE)m_draw_mode, 0, m_vb->Size());
+		m_shader_mgr.GetContext().DrawArrays((ur::DRAW_MODE)m_draw_mode, 0, m_vb->Size());
 		stat->AddVertices(m_vb->Size());
 	}
 	m_vb->Clear();
@@ -125,7 +125,7 @@ int RenderShader::AddUniform(const char* name, UNIFORM_FORMAT_TYPE t)
 	if (m_uniform_number >= MAX_UNIFORM) {
 		return -1;
 	}
-	int loc = m_rc->GetShaderUniform(name);
+	int loc = m_shader_mgr.GetContext().GetShaderUniform(name);
 	int index = m_uniform_number++;
 	m_uniform[index].Assign(loc, t);
 	return loc < 0 ? -1 : index;
@@ -145,7 +145,7 @@ void RenderShader::SetUniform(int index, UNIFORM_FORMAT_TYPE t, const float* v)
 	}
 
 	m_uniform_changed = true;
-	if (Shader* shader = ShaderMgr::Instance()->GetShader()) {
+	if (Shader* shader = m_shader_mgr.GetShader()) {
 		bool changed = shader->Commit();
 #ifndef SL_DISABLE_STATISTICS
 		if (changed) {
@@ -179,7 +179,7 @@ void RenderShader::Draw(const void* vb, int vb_n, const void* ib, int ib_n)
 void RenderShader::ApplyUniform()
 {
 	for (int i = 0; i < m_uniform_number; ++i) {
-		bool changed = m_uniform[i].Apply(m_rc);
+		bool changed = m_uniform[i].Apply(m_shader_mgr.GetContext());
 		if (changed) {
 			m_uniform_changed = changed;
 		}
@@ -256,10 +256,10 @@ void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v)
 	m_changed = true;
 }
 
-bool RenderShader::Uniform::Apply(ur::RenderContext* rc) 
+bool RenderShader::Uniform::Apply(ur::RenderContext& rc) 
 {
 	if (m_changed && m_loc >= 0) {
-		rc->SetShaderUniform(m_loc, (ur::UNIFORM_FORMAT)m_type, m_value);
+		rc.SetShaderUniform(m_loc, (ur::UNIFORM_FORMAT)m_type, m_value);
 		return true;
 	} else {
 		return false;

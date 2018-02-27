@@ -14,13 +14,13 @@ namespace sl
 class RenderLayout
 {
 public:
-	RenderLayout(ur::RenderContext* rc, const CU_VEC<ur::VertexAttrib>& va_list);
+	RenderLayout(ur::RenderContext& rc, const CU_VEC<ur::VertexAttrib>& va_list);
 	virtual ~RenderLayout();
 
 	void Bind();
 
 private:
-	ur::RenderContext* m_rc;
+	ur::RenderContext& m_rc;
 
 	RID m_id;
 

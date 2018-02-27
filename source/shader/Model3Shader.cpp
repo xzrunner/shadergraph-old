@@ -27,11 +27,11 @@ namespace sl
 static const int MAX_VERTICES = 10000;
 static const int MAX_INDICES = 20000;
 
-Model3Shader::Model3Shader(ur::RenderContext* rc)
-	: Shader(rc)
+Model3Shader::Model3Shader(ShaderMgr& shader_mgr)
+	: Shader(shader_mgr)
 	, m_curr_shader(-1)
 {
-	m_rc->SetClearFlag(ur::MASKC | ur::MASKD);
+	m_shader_mgr.GetContext().SetClearFlag(ur::MASKC | ur::MASKD);
 
 	InitCurrStatus();
 	InitVAList();
@@ -47,13 +47,13 @@ Model3Shader::~Model3Shader()
 
 void Model3Shader::Bind() const
 {
-	m_rc->EnableDepth(true);
-	m_rc->SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+	m_shader_mgr.GetContext().EnableDepth(true);
+	m_shader_mgr.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
-	m_rc->EnableDepth(false);
+	m_shader_mgr.GetContext().EnableDepth(false);
 }
 
 bool Model3Shader::Commit() const
@@ -63,7 +63,7 @@ bool Model3Shader::Commit() const
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
-	ShaderMgr::Instance()->BindRenderShader(shader, MODEL3);
+	m_shader_mgr.BindRenderShader(shader, MODEL3);
 	return shader->Commit();
 }
 
@@ -80,9 +80,9 @@ void Model3Shader::SetMaterial(const Material& material)
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), 
 		material.ambient, material.diffuse, material.specular, material.shininess);
 	if (material.tex_id >= 0) {
-		//m_rc->EnableDepth(true);
-		//m_rc->SetDepthFormat(ur::DEPTH_LESS_EQUAL);
-		m_rc->BindTexture(material.tex_id, 0);
+		//m_shader_mgr.GetContext().EnableDepth(true);
+		//m_shader_mgr.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+		m_shader_mgr.GetContext().BindTexture(material.tex_id, 0);
 	}
 }
 
@@ -145,7 +145,7 @@ void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 	if (idx != m_curr_shader) {
 		Commit();
 		m_curr_shader = idx;
-		ShaderMgr::Instance()->BindRenderShader(m_programs[idx]->GetShader(), MODEL3);
+		m_shader_mgr.BindRenderShader(m_programs[idx]->GetShader(), MODEL3);
 	}
 
 	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
@@ -190,7 +190,7 @@ void Model3Shader::InitVAList()
 
 void Model3Shader::InitProgs()
 {
-	auto idx_buf = Utility::CreateIndexBuffer(m_rc, MAX_INDICES);
+	auto idx_buf = Utility::CreateIndexBuffer(m_shader_mgr.GetContext(), MAX_INDICES);
 	InitStaticColorProg(idx_buf);
 	InitGouraudShadingProg(idx_buf);
  	InitTextureMapProg(idx_buf);
@@ -276,7 +276,7 @@ ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 										const CU_VEC<VA_TYPE>& va_types,
 										const std::shared_ptr<RenderBuffer>& ib) const
 {
-	ShaderProgram* prog = new ShaderProgram(m_rc, MAX_VERTICES);
+	ShaderProgram* prog = new ShaderProgram(m_shader_mgr, MAX_VERTICES);
 
 	CU_VEC<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {

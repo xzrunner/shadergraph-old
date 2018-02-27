@@ -23,13 +23,13 @@
 namespace sl
 {
 
-SpriteShader::SpriteShader(ur::RenderContext* rc, int position_sz, int max_vertex,
+SpriteShader::SpriteShader(ShaderMgr& shader_mgr, int position_sz, int max_vertex,
 						   bool vertex_index)
-	: Shader(rc)
+	: Shader(shader_mgr)
 	, m_max_vertex(max_vertex)
 	, m_vertex_index(vertex_index)
 {
-	m_rc->SetClearFlag(ur::MASKC);
+	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -83,7 +83,7 @@ void SpriteShader::InitProgs()
 {
 	std::shared_ptr<RenderBuffer> idx_buf;
 	if (m_vertex_index) {
-		idx_buf = Utility::CreateQuadIndexBuffer(m_rc, m_max_vertex / 4);
+		idx_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), m_max_vertex / 4);
 	}
 	InitNoColorProg(idx_buf);
 	InitMultiAddColorProg(idx_buf);
@@ -105,7 +105,7 @@ void SpriteShader::InitVAList(int position_sz)
 ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
 										const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const
 {
-	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
+	ShaderProgram* prog = new ShaderProgram(m_shader_mgr, m_max_vertex);
 
 	CU_VEC<ur::VertexAttrib> va_list;
 	for (int i = 0, n = va_types.size(); i < n; ++i) {

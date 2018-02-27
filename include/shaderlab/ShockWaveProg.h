@@ -9,7 +9,7 @@ namespace sl
 class ShockWaveProg : public FilterProgram
 {
 public:
-	ShockWaveProg(ur::RenderContext* rc, int max_vertex, 
+	ShockWaveProg(ShaderMgr& shader_mgr, int max_vertex,
 		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
 	virtual void UpdateTime(float time) override;

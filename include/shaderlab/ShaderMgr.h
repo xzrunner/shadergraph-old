@@ -4,7 +4,8 @@
 #include "shaderlab/ShaderType.h"
 
 #include <cu/cu_stl.h>
-#include <cu/cu_macro.h>
+
+#include <boost/noncopyable.hpp>
 
 #include <stddef.h>
 
@@ -16,11 +17,14 @@ namespace sl
 class Shader;
 class RenderShader;
 
-class ShaderMgr
+class ShaderMgr : boost::noncopyable
 {
 public:
-	void SetContext(ur::RenderContext* context) { m_context = context; }
-	ur::RenderContext* GetContext() { return m_context; }
+	ShaderMgr(ur::RenderContext& rc);
+	~ShaderMgr();
+
+	const ur::RenderContext& GetContext() const { return m_rc; }
+	ur::RenderContext& GetContext() { return m_rc; }
 
 	void CreateShader(ShaderType type, Shader* shader);
 	void ReleaseShader(ShaderType type);
@@ -43,15 +47,13 @@ public:
 	void FlushRenderShader();
 	
 private:
-	ur::RenderContext* m_context;
+	ur::RenderContext& m_rc;
 
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;
 
 	CU_VEC<RenderShader*> m_render_shaders;
 	RenderShader* m_curr_render_shader;
-
-	CU_SINGLETON_DECLARATION(ShaderMgr);
 
 }; // ShaderMgr
 

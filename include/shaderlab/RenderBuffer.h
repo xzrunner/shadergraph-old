@@ -14,7 +14,7 @@ class Buffer;
 class RenderBuffer
 {
 public:
-	RenderBuffer(ur::RenderContext* rc, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
+	RenderBuffer(ur::RenderContext& rc, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
 	virtual ~RenderBuffer();
 
 	void Bind();
@@ -27,7 +27,7 @@ public:
 	bool Add(const void* data, int n) { return m_buf->Add(data, n); }
 
 private:
-	ur::RenderContext* m_rc;
+	ur::RenderContext& m_rc;
 
 	RENDER_OBJ_TYPE m_type;
 

@@ -408,6 +408,9 @@
     <ClInclude Include="..\..\..\include\shaderlab\StringHelper.h">
       <Filter>parser\utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\shaderlab\Blackboard.h">
+      <Filter>utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\shader\ShaderMgr.cpp">
@@ -580,6 +583,9 @@
     <ClCompile Include="..\..\..\source\Facade.cpp" />
     <ClCompile Include="..\..\..\source\parser\StringHelper.cpp">
       <Filter>parser\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\utility\Blackboard.cpp">
+      <Filter>utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
