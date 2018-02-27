@@ -9,7 +9,6 @@ namespace sl
 {
 
 class RenderContext;
-class ShaderMgr;
 
 class Blackboard
 {
