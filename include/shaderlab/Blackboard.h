@@ -1,5 +1,6 @@
 #pragma once
 
+#include <guard/check.h>
 #include <cu/cu_macro.h>
 
 #include <memory>
@@ -7,20 +8,22 @@
 namespace sl
 {
 
+class RenderContext;
 class ShaderMgr;
 
 class Blackboard
 {
 public:
-	void SetShaderMgr(const std::shared_ptr<ShaderMgr>& shader_mgr) { 
-		m_shader_mgr = shader_mgr; 
+	void SetRenderContext(const std::shared_ptr<RenderContext>& rc) {
+		m_rc = rc; 
 	}
-	ShaderMgr* GetShaderMgr() {
-		return m_shader_mgr.get();
+	RenderContext& GetRenderContext() {
+		GD_ASSERT(m_rc, "null rc");
+		return *m_rc;
 	}
 
 private:
-	std::shared_ptr<ShaderMgr> m_shader_mgr = nullptr;
+	std::shared_ptr<RenderContext> m_rc = nullptr;
 
 	CU_SINGLETON_DECLARATION(Blackboard);
 

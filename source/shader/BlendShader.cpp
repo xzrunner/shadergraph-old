@@ -12,6 +12,7 @@
 #include "shaderlab/ColorAddMul.h"
 #include "shaderlab/Blend.h"
 #include "shaderlab/FragColor.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -20,10 +21,10 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-BlendShader::BlendShader(ShaderMgr& shader_mgr)
-	: Shader(shader_mgr)
+BlendShader::BlendShader(RenderContext& rc)
+	: Shader(rc)
 {
-	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
+	rc.GetContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -47,7 +48,7 @@ BlendShader::~BlendShader()
 
 void BlendShader::Bind() const
 {
-	m_shader_mgr.BindRenderShader(m_prog->GetShader(), BLEND);
+	m_rc.GetShaderMgr().BindRenderShader(m_prog->GetShader(), BLEND);
 }
 
 void BlendShader::UnBind() const
@@ -60,11 +61,11 @@ bool BlendShader::Commit() const
 		return false;
 	}
 
-	m_shader_mgr.GetContext().BindTexture(m_tex_blend, 0);
-	m_shader_mgr.GetContext().BindTexture(m_tex_base, 1);
+	m_rc.GetContext().BindTexture(m_tex_blend, 0);
+	m_rc.GetContext().BindTexture(m_tex_base, 1);
 	
 	RenderShader* shader = m_prog->GetShader();
-	m_shader_mgr.BindRenderShader(shader);
+	m_rc.GetShaderMgr().BindRenderShader(shader);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -130,22 +131,22 @@ void BlendShader::InitProg()
  	va_list.push_back(m_va_list[COLOR]);
  	va_list.push_back(m_va_list[ADDITIVE]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), MAX_COMMBINE);
-	m_prog = new Program(m_shader_mgr, va_list, idx_buf);
+	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
+	m_prog = new Program(m_rc, va_list, idx_buf);
 }
 
 /************************************************************************/
 /* class BlendShader::Program                                           */
 /************************************************************************/
 
-BlendShader::Program::Program(ShaderMgr& shader_mgr,
+BlendShader::Program::Program(RenderContext& rc,
 	                          const CU_VEC<ur::VertexAttrib>& va_list, 
 	                          const std::shared_ptr<RenderBuffer>& ib)
-	: ShaderProgram(shader_mgr, MAX_COMMBINE * 4)
+	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 
-	SubjectMVP2::Instance()->Register(GetMVP());
+	rc.GetSubMVP2().Register(GetMVP());
 
 	m_shader->SetDrawMode(ur::DRAW_TRIANGLES);
 

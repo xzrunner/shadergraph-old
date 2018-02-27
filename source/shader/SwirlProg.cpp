@@ -7,9 +7,10 @@
 namespace sl
 {
 
-SwirlProg::SwirlProg(ShaderMgr& shader_mgr, int max_vertex,
-					 const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(shader_mgr, max_vertex)
+SwirlProg::SwirlProg(RenderContext& rc, int max_vertex,
+					 const CU_VEC<ur::VertexAttrib>& va_list, 
+	                 const std::shared_ptr<RenderBuffer>& ib)
+	: FilterProgram(rc, max_vertex)
 {
 	Init(va_list, ib, new parser::Swirl());
 

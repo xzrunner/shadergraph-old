@@ -9,7 +9,7 @@ namespace sl
 class OutlineProg : public FilterProgram
 {
 public:
-	OutlineProg(ShaderMgr& shader_mgr, int max_vertex,
+	OutlineProg(RenderContext& rc, int max_vertex,
 		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
 }; // OutlineProg

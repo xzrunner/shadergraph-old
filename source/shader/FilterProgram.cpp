@@ -8,8 +8,8 @@
 namespace sl
 {
 
-FilterProgram::FilterProgram(ShaderMgr& shader_mgr, int max_vertex)
-	: ShaderProgram(shader_mgr, max_vertex)
+FilterProgram::FilterProgram(RenderContext& rc, int max_vertex)
+	: ShaderProgram(rc, max_vertex)
 {
 }
 

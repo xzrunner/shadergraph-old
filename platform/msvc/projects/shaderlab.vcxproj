@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\..\include\shaderlab\Relief.h" />
     <ClInclude Include="..\..\..\include\shaderlab\ReliefProg.h" />
     <ClInclude Include="..\..\..\include\shaderlab\RenderBuffer.h" />
+    <ClInclude Include="..\..\..\include\shaderlab\RenderContext.h" />
     <ClInclude Include="..\..\..\include\shaderlab\RenderLayout.h" />
     <ClInclude Include="..\..\..\include\shaderlab\RenderTask.h" />
     <ClInclude Include="..\..\..\include\shaderlab\Shader.h" />

@@ -9,22 +9,18 @@
 
 #include <stddef.h>
 
-namespace ur { class RenderContext; }
-
 namespace sl
 {
 
 class Shader;
 class RenderShader;
+class RenderContext;
 
 class ShaderMgr : boost::noncopyable
 {
 public:
-	ShaderMgr(ur::RenderContext& rc);
+	ShaderMgr();
 	~ShaderMgr();
-
-	const ur::RenderContext& GetContext() const { return m_rc; }
-	ur::RenderContext& GetContext() { return m_rc; }
 
 	void CreateShader(ShaderType type, Shader* shader);
 	void ReleaseShader(ShaderType type);
@@ -40,15 +36,13 @@ public:
 		return m_curr_shader == -1 ? MAX_SHADER : (ShaderType)m_curr_shader;
 	}
 
-	RenderShader* CreateRenderShader();
+	RenderShader* CreateRenderShader(RenderContext& rc);
 	void BindRenderShader(RenderShader* shader, int type = -1);
 
 	void FlushShader();
 	void FlushRenderShader();
 	
 private:
-	ur::RenderContext& m_rc;
-
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;
 

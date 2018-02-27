@@ -4,6 +4,7 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/StackAllocator.h"
 #include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -12,10 +13,10 @@ namespace sl
 
 static const int MAX_VERTICES = 4096;
 
-Shape2Shader::Shape2Shader(ShaderMgr& shader_mgr)
-	: ShapeShader(shader_mgr)
+Shape2Shader::Shape2Shader(RenderContext& rc)
+	: ShapeShader(rc)
 {
-	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
+	m_rc.GetContext().SetClearFlag(ur::MASKC);
 
 	InitProg(2, MAX_VERTICES);
 }
@@ -79,7 +80,7 @@ void Shape2Shader::Draw(float x, float y, bool dummy) const
 
 void Shape2Shader::InitMVP(ObserverMVP* mvp) const
 {
-	SubjectMVP2::Instance()->Register(mvp);
+	m_rc.GetSubMVP2().Register(mvp);
 }
 
 }

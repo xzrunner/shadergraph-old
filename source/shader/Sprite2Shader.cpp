@@ -10,6 +10,7 @@
 #ifndef SL_DISABLE_STATISTICS
 #include "shaderlab/StatDrawCall.h"
 #endif // SL_DISABLE_STATISTICS
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -20,8 +21,8 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-Sprite2Shader::Sprite2Shader(ShaderMgr& shader_mgr)
-	: SpriteShader(shader_mgr, 2, MAX_COMMBINE * 4, true)
+Sprite2Shader::Sprite2Shader(RenderContext& rc)
+	: SpriteShader(rc, 2, MAX_COMMBINE * 4, true)
 {
 	InitProgs();
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
@@ -33,7 +34,7 @@ bool Sprite2Shader::Commit() const
 		return false;
 	}
 
-	m_shader_mgr.GetContext().BindTexture(m_texid, 0);
+	m_rc.GetContext().BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)
@@ -74,7 +75,7 @@ bool Sprite2Shader::Commit() const
 	}
 
 	RenderShader* shader = prog->GetShader();
-	m_shader_mgr.BindRenderShader(shader, SPRITE2);
+	m_rc.GetShaderMgr().BindRenderShader(shader, SPRITE2);
 	shader->Draw(buf, vb_count, nullptr, m_quad_sz * 6);
 	alloc->Free(buf);
 
@@ -128,7 +129,7 @@ void Sprite2Shader::DrawQuad(const float* positions, const float* texcoords, int
 
 void Sprite2Shader::InitMVP(ObserverMVP* mvp) const
 {
-	SubjectMVP2::Instance()->Register(mvp);
+	m_rc.GetSubMVP2().Register(mvp);
 }
 
 }

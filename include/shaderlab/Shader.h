@@ -4,20 +4,20 @@
 namespace sl
 {
 
-class ShaderMgr;
+class RenderContext;
 
 class Shader
 {
 public:
-	Shader(ShaderMgr& shader_mgr) 
-		: m_shader_mgr(shader_mgr) {}
+	Shader(RenderContext& rc)
+		: m_rc(rc) {}
 	virtual ~Shader() {}
 	virtual void Bind() const = 0;
 	virtual void UnBind() const = 0;
 	virtual bool Commit() const = 0;
 
 protected:
-	ShaderMgr& m_shader_mgr;
+	RenderContext& m_rc;
 
 }; // Shader
 

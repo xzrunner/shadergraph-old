@@ -6,22 +6,6 @@
 namespace sl
 {
 
-SubjectMVP2* SubjectMVP2::m_instance = nullptr;
-
-SubjectMVP2* SubjectMVP2::Instance()
-{
-	if (!m_instance) {
-		m_instance = new SubjectMVP2;
-	}
-	return m_instance;
-}
-
-SubjectMVP2::SubjectMVP2()
-{
-	m_modelview.Identity();
-	m_projection.Identity();
-}
-
 void SubjectMVP2::NotifyModelview(float x, float y, float sx, float sy)
 {
 	m_modelview = sm::mat4::Scaled(sx, sy, 1);

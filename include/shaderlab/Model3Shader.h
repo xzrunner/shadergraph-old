@@ -48,7 +48,7 @@ public:
 	};
 
 public:
-	Model3Shader(ShaderMgr& shader_mgr);
+	Model3Shader(RenderContext& rc);
 	virtual ~Model3Shader();
 
 	virtual void Bind() const override;

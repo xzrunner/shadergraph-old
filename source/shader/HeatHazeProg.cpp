@@ -2,16 +2,17 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/HeatHaze.h"
 #include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
 namespace sl
 {
 
-HeatHazeProg::HeatHazeProg(ShaderMgr& shader_mgr, int max_vertex,
+HeatHazeProg::HeatHazeProg(RenderContext& rc, int max_vertex,
 						   const CU_VEC<ur::VertexAttrib>& va_list, 
 						   const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(shader_mgr, max_vertex)
+	: FilterProgram(rc, max_vertex)
 	, m_distortion_map_tex(0)
 {
 	Init(va_list, ib, new parser::HeatHaze());
@@ -46,7 +47,7 @@ void HeatHazeProg::SetFactor(float distortion, float rise)
 void HeatHazeProg::SetDistortionMapTex(int tex)
 {
 	m_distortion_map_tex = tex;
-	m_shader_mgr.GetContext().BindTexture(m_distortion_map_tex, 1);
+	m_rc.GetContext().BindTexture(m_distortion_map_tex, 1);
 }
 
 }

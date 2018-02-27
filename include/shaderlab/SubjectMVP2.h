@@ -12,14 +12,6 @@ public:
 	void NotifyModelview(float x, float y, float sx, float sy);
 	void NotifyProjection(int width, int height);
 
-	static SubjectMVP2* Instance();
-
-private:
-	SubjectMVP2();
-
-private:
-	static SubjectMVP2* m_instance;
-
 };	// SubjectMVP2
 	
 }

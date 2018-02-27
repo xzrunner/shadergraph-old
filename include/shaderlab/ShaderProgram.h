@@ -14,12 +14,12 @@ namespace parser { class Shader; class Node; }
 class RenderShader;
 class RenderBuffer;
 class ObserverMVP;
-class ShaderMgr;
+class RenderContext;
 
 class ShaderProgram
 {
 public:
-	ShaderProgram(ShaderMgr& shader_mgr, int max_vertex);
+	ShaderProgram(RenderContext& rc, int max_vertex);
 	virtual ~ShaderProgram();
 
 	virtual void Bind() {}
@@ -36,7 +36,7 @@ private:
 	void Release();
 
 protected:
-	ShaderMgr& m_shader_mgr;
+	RenderContext& m_rc;
 
 	RenderShader* m_shader;
 

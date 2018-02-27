@@ -4,6 +4,7 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/StackAllocator.h"
 #include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -12,10 +13,10 @@ namespace sl
 
 static const int MAX_VERTICES = 4096;
 
-Shape3Shader::Shape3Shader(ShaderMgr& shader_mgr)
-	: ShapeShader(shader_mgr)
+Shape3Shader::Shape3Shader(RenderContext& rc)
+	: ShapeShader(rc)
 {
-	shader_mgr.GetContext().SetClearFlag(ur::MASKC | ur::MASKD);
+	rc.GetContext().SetClearFlag(ur::MASKC | ur::MASKD);
 
 	InitProg(3, MAX_VERTICES);
 }
@@ -24,15 +25,15 @@ void Shape3Shader::Bind() const
 {
 	ShapeShader::Bind();
 
-	m_shader_mgr.GetContext().EnableDepth(true);
-	m_shader_mgr.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+	m_rc.GetContext().EnableDepth(true);
+	m_rc.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Shape3Shader::UnBind() const
 {
 	ShapeShader::UnBind();
 
-	m_shader_mgr.GetContext().EnableDepth(false);
+	m_rc.GetContext().EnableDepth(false);
 }
 
 void Shape3Shader::Draw(const float* positions, int count) const
@@ -78,7 +79,7 @@ void Shape3Shader::Draw(float x, float y, float z, bool dummy) const
 
 void Shape3Shader::InitMVP(ObserverMVP* mvp) const
 {
-	SubjectMVP3::Instance()->Register(mvp);
+	m_rc.GetSubMVP3().Register(mvp);
 }
 
 }

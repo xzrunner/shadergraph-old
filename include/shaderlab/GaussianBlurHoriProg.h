@@ -9,7 +9,7 @@ namespace sl
 class GaussianBlurHoriProg : public FilterProgram
 {
 public:
-	GaussianBlurHoriProg(ShaderMgr& shader_mgr, int max_vertex,
+	GaussianBlurHoriProg(RenderContext& rc, int max_vertex,
 		const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib);
 
 	void SetTexWidth(float width);

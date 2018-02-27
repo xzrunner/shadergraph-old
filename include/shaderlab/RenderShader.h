@@ -16,12 +16,12 @@ namespace sl
 class Buffer;
 class RenderBuffer;
 class RenderLayout;
-class ShaderMgr;
+class RenderContext;
 
 class RenderShader
 {
 public:
-	RenderShader(ShaderMgr& shader_mgr);
+	RenderShader(RenderContext& rc);
 
 	void Load(const char* vs, const char* fs);
 	void Unload();
@@ -80,7 +80,7 @@ private:
 	}; // Uniform
 
 private:
-	ShaderMgr& m_shader_mgr;
+	RenderContext& m_rc;
 
 	int m_prog;
 

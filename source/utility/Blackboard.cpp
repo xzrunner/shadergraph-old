@@ -1,4 +1,5 @@
 #include "shaderlab/Blackboard.h"
+#include "shaderlab/RenderContext.h"
 
 namespace sl
 {

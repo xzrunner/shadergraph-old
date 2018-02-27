@@ -6,14 +6,15 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/RenderBuffer.h"
 #include "shaderlab/Buffer.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
 namespace sl
 {
 
-ShaderProgram::ShaderProgram(ShaderMgr& shader_mgr, int max_vertex)
-	: m_shader_mgr(shader_mgr)
+ShaderProgram::ShaderProgram(RenderContext& rc, int max_vertex)
+	: m_rc(rc)
 	, m_max_vertex(max_vertex)
 	, m_parser(nullptr)
 	, m_shader(nullptr)
@@ -33,10 +34,10 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 {
 	// shader
 	m_parser = new parser::Shader(vert, frag);
-	m_shader = m_shader_mgr.CreateRenderShader();
+	m_shader = m_rc.GetShaderMgr().CreateRenderShader(m_rc);
 	
 	// vertex layout
-	auto lo = std::make_shared<RenderLayout>(m_shader_mgr.GetContext(), va_list);
+	auto lo = std::make_shared<RenderLayout>(m_rc.GetContext(), va_list);
 	m_shader->SetLayout(lo);
 
 	// vertex buffer
@@ -45,7 +46,7 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 		m_vertex_sz += va_list[i].tot_size;
 	}
 	Buffer* buf = new Buffer(m_vertex_sz, m_max_vertex);
-	auto vb = std::make_shared<RenderBuffer>(m_shader_mgr.GetContext(), ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
+	auto vb = std::make_shared<RenderBuffer>(m_rc.GetContext(), ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
 	m_shader->SetVertexBuffer(vb);
 
 	// index buffer

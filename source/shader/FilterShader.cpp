@@ -19,6 +19,7 @@
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/ColorAddMul.h"
 #include "shaderlab/StackAllocator.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -31,8 +32,8 @@ namespace sl
 
 static const int MAX_COMMBINE = 1024;
 
-FilterShader::FilterShader(ShaderMgr& shader_mgr)
-	: Shader(shader_mgr)
+FilterShader::FilterShader(RenderContext& rc)
+	: Shader(rc)
 	, m_time(0)
 	, m_curr_mode(FM_NULL)
 	, m_texid(0)
@@ -41,7 +42,7 @@ FilterShader::FilterShader(ShaderMgr& shader_mgr)
 {
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
 
-	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
+	rc.GetContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -64,7 +65,7 @@ void FilterShader::Bind() const
 {
 	if (m_curr_mode != FM_NULL) {
 		int idx = m_mode2index[m_curr_mode];
-		m_shader_mgr.BindRenderShader(m_programs[idx]->GetShader(), FILTER);
+		m_rc.GetShaderMgr().BindRenderShader(m_programs[idx]->GetShader(), FILTER);
 
 		m_programs[idx]->Bind();
 	}
@@ -100,9 +101,9 @@ bool FilterShader::Commit() const
 		return false;
 	}
 
-	m_shader_mgr.GetContext().BindTexture(m_texid, 0);
+	m_rc.GetContext().BindTexture(m_texid, 0);
 	RenderShader* shader = prog->GetShader();
-	m_shader_mgr.BindRenderShader(shader, FILTER);
+	m_rc.GetShaderMgr().BindRenderShader(shader, FILTER);
 
 	int vertex_sz = prog->GetVertexSize();
 	int vb_count = m_quad_sz * 4;
@@ -150,7 +151,7 @@ void FilterShader::SetMode(FILTER_MODE mode)
 		Commit();
 		m_curr_mode = mode;
 		int idx = m_mode2index[m_curr_mode];
-		m_shader_mgr.BindRenderShader(m_programs[idx]->GetShader(), FILTER);
+		m_rc.GetShaderMgr().BindRenderShader(m_programs[idx]->GetShader(), FILTER);
 	}
 }
 
@@ -217,39 +218,39 @@ void FilterShader::InitProgs()
 	va_list.push_back(m_va_list[TEXCOORD]);
 
 	int max_vertex = MAX_COMMBINE * 4;
-	m_index_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), MAX_COMMBINE);
+	m_index_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
 
 #ifdef HAS_TEXTURE_SIZE
 	// edge detect
-	EdgeDetectProg* edge_detect			= new EdgeDetectProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	EdgeDetectProg* edge_detect			= new EdgeDetectProg(m_rc, max_vertex, va_list, m_index_buf);
 	edge_detect->SetBlend(0.5f);
 	m_programs[PI_EDGE_DETECTION]		= edge_detect;
 	// relief
-	m_programs[PI_RELIEF]				= new ReliefProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	m_programs[PI_RELIEF]				= new ReliefProg(m_rc, max_vertex, va_list, m_index_buf);
 	// outline
-	m_programs[PI_OUTLINE]				= new OutlineProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	m_programs[PI_OUTLINE]				= new OutlineProg(m_rc, max_vertex, va_list, m_index_buf);
 #endif // HAS_TEXTURE_SIZE
 
 	// gray
-	m_programs[PI_GRAY]					= new GrayProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	m_programs[PI_GRAY]					= new GrayProg(m_rc, max_vertex, va_list, m_index_buf);
 	// blur
-	BlurProg* blur						= new BlurProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	BlurProg* blur						= new BlurProg(m_rc, max_vertex, va_list, m_index_buf);
 	blur->SetRadius(1);
 	m_programs[PI_BLUR]					= blur;
 	// gaussian blur
-	GaussianBlurHoriProg* gbh			= new GaussianBlurHoriProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	GaussianBlurHoriProg* gbh			= new GaussianBlurHoriProg(m_rc, max_vertex, va_list, m_index_buf);
 	gbh->SetTexWidth(1024);
 	m_programs[PI_GAUSSIAN_BLUR_HORI]	= gbh;
-	GaussianBlurVertProg* gbv			= new GaussianBlurVertProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	GaussianBlurVertProg* gbv			= new GaussianBlurVertProg(m_rc, max_vertex, va_list, m_index_buf);
 	gbv->SetTexHeight(1024);
 	m_programs[PI_GAUSSIAN_BLUR_VERT]	= gbv;
 
 	// heat haze
-	HeatHazeProg* heat_haze				= new HeatHazeProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	HeatHazeProg* heat_haze				= new HeatHazeProg(m_rc, max_vertex, va_list, m_index_buf);
 	heat_haze->SetFactor(0.02f, 0.2f);
 	m_programs[PI_HEAT_HAZE]			= heat_haze;
 	// shock wave
-	ShockWaveProg* shock_wave			= new ShockWaveProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	ShockWaveProg* shock_wave			= new ShockWaveProg(m_rc, max_vertex, va_list, m_index_buf);
 	{
 		float center[2] = { 0.5f, 0.5f };
 		shock_wave->SetCenter(center);
@@ -259,7 +260,7 @@ void FilterShader::InitProgs()
 	m_programs[PI_SHOCK_WAVE]			= shock_wave;
 #ifdef HAS_TEXTURE_SIZE
 	// swirl
-	SwirlProg* swirl					= new SwirlProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	SwirlProg* swirl					= new SwirlProg(m_rc, max_vertex, va_list, m_index_buf);
 	{
 		float center[2] = { 400, 300 };
 		swirl->SetCenter(center);
@@ -269,12 +270,12 @@ void FilterShader::InitProgs()
 	m_programs[PI_SWIRL]				= swirl;
 #endif // HAS_TEXTURE_SIZE
 	// burning map
-	BurningMapProg* burn_map			= new BurningMapProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	BurningMapProg* burn_map			= new BurningMapProg(m_rc, max_vertex, va_list, m_index_buf);
 	m_programs[PI_BURNING_MAP]			= burn_map;
 	burn_map->SetLifeTime(2);
 
 	// color grading
-	ColGradingProg* col_grading			= new ColGradingProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+	ColGradingProg* col_grading			= new ColGradingProg(m_rc, max_vertex, va_list, m_index_buf);
 	m_programs[PI_COL_GRADING]			= col_grading;
 
 	memset(m_mode2index, 0xff, sizeof(m_mode2index));
@@ -294,7 +295,7 @@ void FilterShader::InitProgs()
 	for (int i = 0; i < PROG_COUNT; ++i) {
 		ShaderProgram* prog = m_programs[i];
 		if (prog) {
-			SubjectMVP2::Instance()->Register(prog->GetMVP());
+			m_rc.GetSubMVP2().Register(prog->GetMVP());
 			prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 		}
 	}
@@ -317,17 +318,17 @@ FilterProgram* FilterShader::InitProgWithColor(int idx) const
 	switch (idx)
 	{
 	case PI_GRAY:
-		prog = new GrayProg(m_shader_mgr, max_vertex, va_list, m_index_buf, new parser::ColorAddMul());
+		prog = new GrayProg(m_rc, max_vertex, va_list, m_index_buf, new parser::ColorAddMul());
 		m_programs_with_color[PI_GRAY] = prog;
 		break;
 	case PI_COL_GRADING:
-		prog = new ColGradingProg(m_shader_mgr, max_vertex, va_list, m_index_buf);
+		prog = new ColGradingProg(m_rc, max_vertex, va_list, m_index_buf);
 		m_programs_with_color[PI_COL_GRADING] = prog;
 		break;
 	}
 
 	if (prog) {
-		SubjectMVP2::Instance()->Register(prog->GetMVP());
+		m_rc.GetSubMVP2().Register(prog->GetMVP());
 		prog->GetShader()->SetDrawMode(ur::DRAW_TRIANGLES);
 	}
 

@@ -19,7 +19,7 @@ class RenderBuffer;
 class FilterShader : public Shader
 {
 public:
-	FilterShader(ShaderMgr& shader_mgr);
+	FilterShader(RenderContext& rc);
 	virtual ~FilterShader();
 	
 	virtual void Bind() const override;

@@ -1,17 +1,17 @@
 #include "shaderlab/BurningMapProg.h"
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/BurningMap.h"
-#include "shaderlab/ShaderMgr.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
 namespace sl
 {
 
-BurningMapProg::BurningMapProg(ShaderMgr& shader_mgr, int max_vertex,
+BurningMapProg::BurningMapProg(RenderContext& rc, int max_vertex,
 							   const CU_VEC<ur::VertexAttrib>& va_list, 
 							   const std::shared_ptr<RenderBuffer>& ib)
-	: FilterProgram(shader_mgr, max_vertex)
+	: FilterProgram(rc, max_vertex)
 	, m_height_map_tex(0)
 	, m_upper_tex(0)
 {
@@ -59,19 +59,19 @@ void BurningMapProg::SetLifeTime(float lifetime)
 void BurningMapProg::SetUpperTex(int tex)
 {
 	m_upper_tex = tex;
-	m_shader_mgr.GetContext().BindTexture(m_upper_tex, 1);
+	m_rc.GetContext().BindTexture(m_upper_tex, 1);
 }
 
 void BurningMapProg::SetHeightMapTex(int tex)
 {
 	m_height_map_tex = tex;
-	m_shader_mgr.GetContext().BindTexture(m_height_map_tex, 2);
+	m_rc.GetContext().BindTexture(m_height_map_tex, 2);
 }
 
 void BurningMapProg::SetBorderGradientTex(int tex)
 {
 	m_border_gradient_tex = tex;
-	m_shader_mgr.GetContext().BindTexture(m_border_gradient_tex, 3);
+	m_rc.GetContext().BindTexture(m_border_gradient_tex, 3);
 }
 
 }

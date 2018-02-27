@@ -7,14 +7,15 @@
 #include "shaderlab/VaryingNode.h"
 #include "shaderlab/FragColor.h"
 #include "shaderlab/AttributeNode.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
 namespace sl
 {
 
-ShapeShader::ShapeShader(ShaderMgr& shader_mgr)
-	: Shader(shader_mgr)
+ShapeShader::ShapeShader(RenderContext& rc)
+	: Shader(rc)
 	, m_prog(nullptr)
 	, m_color(0xffffffff)
 {
@@ -27,7 +28,7 @@ ShapeShader::~ShapeShader()
 
 void ShapeShader::Bind() const
 {
-	m_shader_mgr.BindRenderShader(m_prog->GetShader(), SHAPE2);
+	m_rc.GetShaderMgr().BindRenderShader(m_prog->GetShader(), SHAPE2);
 }
 
 void ShapeShader::UnBind() const
@@ -51,7 +52,7 @@ void ShapeShader::SetType(int type)
 
 void ShapeShader::InitProg(int position_sz, int max_vertex)
 {
-	m_prog = new ShaderProgram(m_shader_mgr, max_vertex);
+	m_prog = new ShaderProgram(m_rc, max_vertex);
 
 	parser::Node* vert = new parser::PositionTrans();
 	vert->Connect(

@@ -9,7 +9,7 @@ namespace sl
 class FilterProgram : public ShaderProgram
 {
 public:
-	FilterProgram(ShaderMgr& shader_mgr, int max_vertex);
+	FilterProgram(RenderContext& rc, int max_vertex);
 	
 	virtual void UpdateTime(float time) {}
 

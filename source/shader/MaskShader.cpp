@@ -11,6 +11,7 @@
 #include "shaderlab/PositionTrans.h"
 #include "shaderlab/TextureMap.h"
 #include "shaderlab/FragColor.h"
+#include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
 
@@ -19,10 +20,10 @@ namespace sl
 
 static const int MAX_COMMBINE = 128;
 
-MaskShader::MaskShader(ShaderMgr& shader_mgr)
-	: Shader(shader_mgr)
+MaskShader::MaskShader(RenderContext& rc)
+	: Shader(rc)
 {
-	shader_mgr.GetContext().SetClearFlag(ur::MASKC);
+	rc.GetContext().SetClearFlag(ur::MASKC);
 
 	m_tex = m_tex_mask = 0;
 
@@ -41,7 +42,7 @@ MaskShader::~MaskShader()
 
 void MaskShader::Bind() const
 {
-	m_shader_mgr.BindRenderShader(m_prog->GetShader(), MASK);
+	m_rc.GetShaderMgr().BindRenderShader(m_prog->GetShader(), MASK);
 }
 
 void MaskShader::UnBind() const
@@ -50,11 +51,11 @@ void MaskShader::UnBind() const
 
 bool MaskShader::Commit() const
 {
-	m_shader_mgr.GetContext().BindTexture(m_tex, 0);
-	m_shader_mgr.GetContext().BindTexture(m_tex_mask, 1);
+	m_rc.GetContext().BindTexture(m_tex, 0);
+	m_rc.GetContext().BindTexture(m_tex_mask, 1);
 
 	RenderShader* shader = m_prog->GetShader();
-	m_shader_mgr.BindRenderShader(shader, MASK);
+	m_rc.GetShaderMgr().BindRenderShader(shader, MASK);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
 	m_quad_sz = 0;
 
@@ -99,20 +100,20 @@ void MaskShader::InitProg()
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_shader_mgr.GetContext(), MAX_COMMBINE);
-	m_prog = new Program(m_shader_mgr, va_list, idx_buf);
+	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
+	m_prog = new Program(m_rc, va_list, idx_buf);
 }
 
 /************************************************************************/
 /* class MaskShader::Program                                            */
 /************************************************************************/
 
-MaskShader::Program::Program(ShaderMgr& shader_mgr, const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
-	: ShaderProgram(shader_mgr, MAX_COMMBINE * 4)
+MaskShader::Program::Program(RenderContext& rc, const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib)
+	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
 	Init(va_list, ib);
 
-	SubjectMVP2::Instance()->Register(GetMVP());
+	rc.GetSubMVP2().Register(GetMVP());
 
 	m_shader->SetDrawMode(ur::DRAW_TRIANGLES);
 

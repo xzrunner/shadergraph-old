@@ -11,9 +11,8 @@
 namespace sl
 {
 
-ShaderMgr::ShaderMgr(ur::RenderContext& rc)
-	: m_rc(rc)
-	, m_curr_shader(-1)
+ShaderMgr::ShaderMgr()
+	: m_curr_shader(-1)
 {
 	memset(m_shaders, 0, sizeof(m_shaders));
 
@@ -67,9 +66,9 @@ void ShaderMgr::SetShader(ShaderType type)
 	}
 }
 
-RenderShader* ShaderMgr::CreateRenderShader()
+RenderShader* ShaderMgr::CreateRenderShader(RenderContext& rc)
 {
-	RenderShader* shader = new RenderShader(*this);
+	RenderShader* shader = new RenderShader(rc);
 	m_render_shaders.push_back(shader);
 	return shader;
 }

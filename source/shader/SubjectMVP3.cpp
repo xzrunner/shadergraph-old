@@ -6,22 +6,6 @@
 namespace sl
 {
 
-SubjectMVP3* SubjectMVP3::m_instance = nullptr;
-
-SubjectMVP3* SubjectMVP3::Instance()
-{
-	if (!m_instance) {
-		m_instance = new SubjectMVP3;
-	}
-	return m_instance;
-}
-
-SubjectMVP3::SubjectMVP3()
-{
-	m_modelview.Identity();
-	m_projection.Identity();
-}
-
 void SubjectMVP3::NotifyModelview(const sm::mat4& mat)
 {
 	m_modelview = mat;
