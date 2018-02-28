@@ -4,6 +4,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -30,13 +31,13 @@ ColGradingProg::ColGradingProg(RenderContext& rc, int max_vertex,
 
 void ColGradingProg::Bind()
 {
-	m_rc.GetContext().BindTexture(m_lut_tex, 1);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_lut_tex, 1);
 }
 
 void ColGradingProg::SetLUTTex(int tex)
 {
 	m_lut_tex = tex;
-	m_rc.GetContext().BindTexture(m_lut_tex, 1);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_lut_tex, 1);
 }
 
 }

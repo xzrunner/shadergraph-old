@@ -21,6 +21,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -32,7 +33,7 @@ Model3Shader::Model3Shader(RenderContext& rc)
 	: Shader(rc)
 	, m_curr_shader(-1)
 {
-	rc.GetContext().SetClearFlag(ur::MASKC | ur::MASKD);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC | ur::MASKD);
 
 	InitCurrStatus();
 	InitVAList();
@@ -48,13 +49,14 @@ Model3Shader::~Model3Shader()
 
 void Model3Shader::Bind() const
 {
-	m_rc.GetContext().EnableDepth(true);
-	m_rc.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.EnableDepth(true);
+	ur_rc.SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
-	m_rc.GetContext().EnableDepth(false);
+	ur::Blackboard::Instance()->GetRenderContext().EnableDepth(false);
 }
 
 bool Model3Shader::Commit() const
@@ -83,7 +85,7 @@ void Model3Shader::SetMaterial(const Material& material)
 	if (material.tex_id >= 0) {
 		//m_rc.GetContext().EnableDepth(true);
 		//m_rc.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
-		m_rc.GetContext().BindTexture(material.tex_id, 0);
+		ur::Blackboard::Instance()->GetRenderContext().BindTexture(material.tex_id, 0);
 	}
 }
 
@@ -191,7 +193,8 @@ void Model3Shader::InitVAList()
 
 void Model3Shader::InitProgs()
 {
-	auto idx_buf = Utility::CreateIndexBuffer(m_rc.GetContext(), MAX_INDICES);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	auto idx_buf = Utility::CreateIndexBuffer(ur_rc, MAX_INDICES);
 	InitStaticColorProg(idx_buf);
 	InitGouraudShadingProg(idx_buf);
  	InitTextureMapProg(idx_buf);

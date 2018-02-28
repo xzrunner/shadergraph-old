@@ -22,6 +22,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 #ifdef EASY_EDITOR
 #define HAS_TEXTURE_SIZE
@@ -42,7 +43,7 @@ FilterShader::FilterShader(RenderContext& rc)
 {
 	m_vertex_buf = new Vertex[MAX_COMMBINE * 4];
 
-	rc.GetContext().SetClearFlag(ur::MASKC);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -101,7 +102,7 @@ bool FilterShader::Commit() const
 		return false;
 	}
 
-	m_rc.GetContext().BindTexture(m_texid, 0);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0);
 	RenderShader* shader = prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader, FILTER);
 
@@ -218,7 +219,8 @@ void FilterShader::InitProgs()
 	va_list.push_back(m_va_list[TEXCOORD]);
 
 	int max_vertex = MAX_COMMBINE * 4;
-	m_index_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	m_index_buf = Utility::CreateQuadIndexBuffer(ur_rc, MAX_COMMBINE);
 
 #ifdef HAS_TEXTURE_SIZE
 	// edge detect

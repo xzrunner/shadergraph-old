@@ -15,6 +15,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -24,7 +25,7 @@ static const int MAX_COMMBINE = 1024;
 BlendShader::BlendShader(RenderContext& rc)
 	: Shader(rc)
 {
-	rc.GetContext().SetClearFlag(ur::MASKC);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -61,8 +62,9 @@ bool BlendShader::Commit() const
 		return false;
 	}
 
-	m_rc.GetContext().BindTexture(m_tex_blend, 0);
-	m_rc.GetContext().BindTexture(m_tex_base, 1);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.BindTexture(m_tex_blend, 0);
+	ur_rc.BindTexture(m_tex_base, 1);
 	
 	RenderShader* shader = m_prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader);
@@ -131,7 +133,8 @@ void BlendShader::InitProg()
  	va_list.push_back(m_va_list[COLOR]);
  	va_list.push_back(m_va_list[ADDITIVE]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	auto idx_buf = Utility::CreateQuadIndexBuffer(ur_rc, MAX_COMMBINE);
 	m_prog = new Program(m_rc, va_list, idx_buf);
 }
 

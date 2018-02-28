@@ -14,6 +14,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -23,7 +24,7 @@ static const int MAX_COMMBINE = 128;
 MaskShader::MaskShader(RenderContext& rc)
 	: Shader(rc)
 {
-	rc.GetContext().SetClearFlag(ur::MASKC);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC);
 
 	m_tex = m_tex_mask = 0;
 
@@ -51,8 +52,9 @@ void MaskShader::UnBind() const
 
 bool MaskShader::Commit() const
 {
-	m_rc.GetContext().BindTexture(m_tex, 0);
-	m_rc.GetContext().BindTexture(m_tex_mask, 1);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.BindTexture(m_tex, 0);
+	ur_rc.BindTexture(m_tex_mask, 1);
 
 	RenderShader* shader = m_prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader, MASK);
@@ -100,7 +102,8 @@ void MaskShader::InitProg()
 	va_list.push_back(m_va_list[TEXCOORD]);
 	va_list.push_back(m_va_list[TEXCOORD_MASK]);
 
-	auto idx_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), MAX_COMMBINE);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	auto idx_buf = Utility::CreateQuadIndexBuffer(ur_rc, MAX_COMMBINE);
 	m_prog = new Program(m_rc, va_list, idx_buf);
 }
 

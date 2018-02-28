@@ -4,6 +4,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -59,19 +60,19 @@ void BurningMapProg::SetLifeTime(float lifetime)
 void BurningMapProg::SetUpperTex(int tex)
 {
 	m_upper_tex = tex;
-	m_rc.GetContext().BindTexture(m_upper_tex, 1);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_upper_tex, 1);
 }
 
 void BurningMapProg::SetHeightMapTex(int tex)
 {
 	m_height_map_tex = tex;
-	m_rc.GetContext().BindTexture(m_height_map_tex, 2);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_height_map_tex, 2);
 }
 
 void BurningMapProg::SetBorderGradientTex(int tex)
 {
 	m_border_gradient_tex = tex;
-	m_rc.GetContext().BindTexture(m_border_gradient_tex, 3);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_border_gradient_tex, 3);
 }
 
 }

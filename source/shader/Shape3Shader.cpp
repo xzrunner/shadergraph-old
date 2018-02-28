@@ -7,6 +7,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -16,7 +17,7 @@ static const int MAX_VERTICES = 4096;
 Shape3Shader::Shape3Shader(RenderContext& rc)
 	: ShapeShader(rc)
 {
-	rc.GetContext().SetClearFlag(ur::MASKC | ur::MASKD);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC | ur::MASKD);
 
 	InitProg(3, MAX_VERTICES);
 }
@@ -25,15 +26,16 @@ void Shape3Shader::Bind() const
 {
 	ShapeShader::Bind();
 
-	m_rc.GetContext().EnableDepth(true);
-	m_rc.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.EnableDepth(true);
+	ur_rc.SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Shape3Shader::UnBind() const
 {
 	ShapeShader::UnBind();
 
-	m_rc.GetContext().EnableDepth(false);
+	ur::Blackboard::Instance()->GetRenderContext().EnableDepth(false);
 }
 
 void Shape3Shader::Draw(const float* positions, int count) const

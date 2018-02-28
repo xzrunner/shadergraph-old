@@ -18,6 +18,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 #include <memory>
 
@@ -30,7 +31,7 @@ SpriteShader::SpriteShader(RenderContext& rc, int position_sz,
 	, m_max_vertex(max_vertex)
 	, m_vertex_index(vertex_index)
 {
-	m_rc.GetContext().SetClearFlag(ur::MASKC);
+	ur::Blackboard::Instance()->GetRenderContext().SetClearFlag(ur::MASKC);
 
 	m_color = 0xffffffff;
 	m_additive = 0x00000000;
@@ -84,7 +85,8 @@ void SpriteShader::InitProgs()
 {
 	std::shared_ptr<RenderBuffer> idx_buf;
 	if (m_vertex_index) {
-		idx_buf = Utility::CreateQuadIndexBuffer(m_rc.GetContext(), m_max_vertex / 4);
+		auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+		idx_buf = Utility::CreateQuadIndexBuffer(ur_rc, m_max_vertex / 4);
 	}
 	InitNoColorProg(idx_buf);
 	InitMultiAddColorProg(idx_buf);

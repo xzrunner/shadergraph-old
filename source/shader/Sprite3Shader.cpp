@@ -9,6 +9,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 #include <assert.h>
 
@@ -30,7 +31,7 @@ bool Sprite3Shader::Commit() const
 		return false;
 	}
 
-	m_rc.GetContext().BindTexture(m_texid, 0);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0);
 
 	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)

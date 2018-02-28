@@ -15,6 +15,7 @@
 // }
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 //#define SHADER_LOG
 
@@ -51,20 +52,21 @@ void RenderShader::Load(const char* vs, const char* fs)
 	std::cout << "================================================== \n";
 #endif // SHADER_LOG
 
-	m_prog = m_rc.GetContext().CreateShader(vs, fs);
-	m_rc.GetContext().BindShader(m_prog);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	m_prog = ur_rc.CreateShader(vs, fs);
+	ur_rc.BindShader(m_prog);
 //	render_shader_bind(m_ej_render, 0);	// ??
 	//	S->curr_shader = -1;
 }
 
 void RenderShader::Unload()
 {
-	m_rc.GetContext().ReleaseShader(m_prog);
+	ur::Blackboard::Instance()->GetRenderContext().ReleaseShader(m_prog);
 }
 
 void RenderShader::Bind()
 {
-	m_rc.GetContext().BindShader(m_prog);
+	ur::Blackboard::Instance()->GetRenderContext().BindShader(m_prog);
 	m_vb->Bind();
 	if (m_ib) {
 		m_ib->Bind();
@@ -92,11 +94,11 @@ bool RenderShader::Commit()
 	m_vb->Update();
 	if (m_ib) {
 		m_ib->Update();
-		m_rc.GetContext().DrawElements((ur::DRAW_MODE)m_draw_mode, 0, m_ib->Size());
+		ur::Blackboard::Instance()->GetRenderContext().DrawElements((ur::DRAW_MODE)m_draw_mode, 0, m_ib->Size());
 		stat->AddVertices(m_ib->Size());
 		m_ib->Clear();
 	} else {
-		m_rc.GetContext().DrawArrays((ur::DRAW_MODE)m_draw_mode, 0, m_vb->Size());
+		ur::Blackboard::Instance()->GetRenderContext().DrawArrays((ur::DRAW_MODE)m_draw_mode, 0, m_vb->Size());
 		stat->AddVertices(m_vb->Size());
 	}
 	m_vb->Clear();
@@ -126,7 +128,7 @@ int RenderShader::AddUniform(const char* name, UNIFORM_FORMAT_TYPE t)
 	if (m_uniform_number >= MAX_UNIFORM) {
 		return -1;
 	}
-	int loc = m_rc.GetContext().GetShaderUniform(name);
+	int loc = ur::Blackboard::Instance()->GetRenderContext().GetShaderUniform(name);
 	int index = m_uniform_number++;
 	m_uniform[index].Assign(loc, t);
 	return loc < 0 ? -1 : index;
@@ -179,8 +181,10 @@ void RenderShader::Draw(const void* vb, int vb_n, const void* ib, int ib_n)
 
 void RenderShader::ApplyUniform()
 {
-	for (int i = 0; i < m_uniform_number; ++i) {
-		bool changed = m_uniform[i].Apply(m_rc.GetContext());
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	for (int i = 0; i < m_uniform_number; ++i) 
+	{
+		bool changed = m_uniform[i].Apply(ur_rc);
 		if (changed) {
 			m_uniform_changed = changed;
 		}

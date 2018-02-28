@@ -20,6 +20,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <sm_c_vector.h>
 #include <sm_c_matrix.h>
 
@@ -144,52 +145,52 @@ void sl_on_modelview3(const sm_mat4* mat) {
 
 extern "C"
 void sl_set_texture(int id) {
-	Blackboard::Instance()->GetRenderContext().GetContext().BindTexture(id, 0);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(id, 0);
 }
 
 extern "C"
 int  sl_get_texture() {
-	return Blackboard::Instance()->GetRenderContext().GetContext().GetCurrTexture();
+	return ur::Blackboard::Instance()->GetRenderContext().GetCurrTexture();
 }
 
 extern "C"
 void sl_set_target(int id) {
-	Blackboard::Instance()->GetRenderContext().GetContext().BindRenderTarget(id);
+	ur::Blackboard::Instance()->GetRenderContext().BindRenderTarget(id);
 }
 
 extern "C"
 void sl_set_blend(int m1, int m2) {
-	Blackboard::Instance()->GetRenderContext().GetContext().SetBlend(m1, m2);
+	ur::Blackboard::Instance()->GetRenderContext().SetBlend(m1, m2);
 }
 
 extern "C"
 void sl_set_default_blend() {
-	Blackboard::Instance()->GetRenderContext().GetContext().SetDefaultBlend();
+	ur::Blackboard::Instance()->GetRenderContext().SetDefaultBlend();
 }
 
 extern "C"
 void sl_set_blend_equation(int func) {
-	Blackboard::Instance()->GetRenderContext().GetContext().SetBlendEquation(func);
+	ur::Blackboard::Instance()->GetRenderContext().SetBlendEquation(func);
 }
 
 extern "C"
 void sl_render_clear(unsigned long argb) {
-	Blackboard::Instance()->GetRenderContext().GetContext().Clear(argb);
+	ur::Blackboard::Instance()->GetRenderContext().Clear(argb);
 }
 
 extern "C"
 int  sl_render_version() {
-	return Blackboard::Instance()->GetRenderContext().GetContext().RenderVersion();
+	return ur::Blackboard::Instance()->GetRenderContext().RenderVersion();
 }
 
 extern "C"
 void sl_enable_scissor(int enable) {
-	Blackboard::Instance()->GetRenderContext().GetContext().EnableScissor(enable);
+	ur::Blackboard::Instance()->GetRenderContext().EnableScissor(enable);
 }
 
 extern "C"
 void sl_set_viewport(int x, int y, int w, int h) {
-	Blackboard::Instance()->GetRenderContext().GetContext().SetViewport(x, y, w, h);
+	ur::Blackboard::Instance()->GetRenderContext().SetViewport(x, y, w, h);
 }
 
 extern "C"
@@ -204,7 +205,7 @@ void sl_flush()
 extern "C"
 void* sl_get_render_context()
 {
-	return &Blackboard::Instance()->GetRenderContext().GetContext();	
+	return &ur::Blackboard::Instance()->GetRenderContext();
 }
 
 /**

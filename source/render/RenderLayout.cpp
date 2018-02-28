@@ -1,6 +1,7 @@
 #include "shaderlab/RenderLayout.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {

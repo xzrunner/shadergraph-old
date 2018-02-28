@@ -9,6 +9,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -37,7 +38,8 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 	m_shader = m_rc.GetShaderMgr().CreateRenderShader(m_rc);
 	
 	// vertex layout
-	auto lo = std::make_shared<RenderLayout>(m_rc.GetContext(), va_list);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	auto lo = std::make_shared<RenderLayout>(ur_rc, va_list);
 	m_shader->SetLayout(lo);
 
 	// vertex buffer
@@ -46,7 +48,7 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 		m_vertex_sz += va_list[i].tot_size;
 	}
 	Buffer* buf = new Buffer(m_vertex_sz, m_max_vertex);
-	auto vb = std::make_shared<RenderBuffer>(m_rc.GetContext(), ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
+	auto vb = std::make_shared<RenderBuffer>(ur_rc, ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
 	m_shader->SetVertexBuffer(vb);
 
 	// index buffer

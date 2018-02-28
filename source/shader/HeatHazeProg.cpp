@@ -5,6 +5,7 @@
 #include "shaderlab/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 
 namespace sl
 {
@@ -47,7 +48,7 @@ void HeatHazeProg::SetFactor(float distortion, float rise)
 void HeatHazeProg::SetDistortionMapTex(int tex)
 {
 	m_distortion_map_tex = tex;
-	m_rc.GetContext().BindTexture(m_distortion_map_tex, 1);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_distortion_map_tex, 1);
 }
 
 }
