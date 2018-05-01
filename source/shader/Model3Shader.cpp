@@ -173,13 +173,13 @@ void Model3Shader::InitCurrStatus()
 {
 	static const float max = std::numeric_limits<float>::max();
 
-	m_curr_material.ambient.Assign(max, max, max);
-	m_curr_material.diffuse.Assign(max, max, max);
-	m_curr_material.specular.Assign(max, max, max);
+	m_curr_material.ambient.Set(max, max, max);
+	m_curr_material.diffuse.Set(max, max, max);
+	m_curr_material.specular.Set(max, max, max);
 	m_curr_material.shininess = max;
 	m_curr_material.tex_id = -1;
 
-	m_curr_light_pos.Assign(max, max, max);
+	m_curr_light_pos.Set(max, max, max);
 
 	memset(m_curr_normal_mat.x, 0xff, sizeof(m_curr_normal_mat.x));
 
