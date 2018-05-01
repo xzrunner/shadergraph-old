@@ -50,13 +50,15 @@ Model3Shader::~Model3Shader()
 void Model3Shader::Bind() const
 {
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	ur_rc.EnableDepth(true);
+//	ur_rc.EnableDepth(true);
 	ur_rc.SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
-	ur::Blackboard::Instance()->GetRenderContext().EnableDepth(false);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+//	ur_rc.EnableDepth(false);
+	ur_rc.SetDepthFormat(ur::DEPTH_DISABLE);
 }
 
 bool Model3Shader::Commit() const

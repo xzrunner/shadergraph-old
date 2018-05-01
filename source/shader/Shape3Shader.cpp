@@ -27,7 +27,7 @@ void Shape3Shader::Bind() const
 	ShapeShader::Bind();
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	ur_rc.EnableDepth(true);
+//	ur_rc.EnableDepth(true);
 	ur_rc.SetDepthFormat(ur::DEPTH_LESS_EQUAL);
 }
 
@@ -35,7 +35,9 @@ void Shape3Shader::UnBind() const
 {
 	ShapeShader::UnBind();
 
-	ur::Blackboard::Instance()->GetRenderContext().EnableDepth(false);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+//	ur_rc.EnableDepth(false);
+	ur_rc.SetDepthFormat(ur::DEPTH_DISABLE);
 }
 
 void Shape3Shader::Draw(const float* positions, int count) const
