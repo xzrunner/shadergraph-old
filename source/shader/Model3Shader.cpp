@@ -169,6 +169,29 @@ void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 	shader->Draw(vertices, vn, indices, in);
 }
 
+void Model3Shader::DrawVAO(unsigned int vao, size_t indices_n,
+	                       bool has_normal, bool has_texcoord) const
+{
+	ApplyUniform();
+
+	PROG_IDX idx = PI_STATIC_COLOR;
+	if (!has_normal && !has_texcoord) idx = PI_STATIC_COLOR;
+	if (has_normal && !has_texcoord) idx = PI_GOURAUD_SHADING;
+	if (!has_normal &&  has_texcoord) idx = PI_TEXTURE_MAP;
+	if (has_normal &&  has_texcoord) idx = PI_GOURAUD_TEXTURE;
+	if (idx != m_curr_shader) {
+		Commit();
+		m_curr_shader = idx;
+		m_rc.GetShaderMgr().BindRenderShader(m_programs[idx]->GetShader(), MODEL3);
+	}
+
+	ApplyUniform();
+
+	auto mode = m_programs[m_curr_shader]->GetShader()->GetDrawMode();
+	ur::Blackboard::Instance()->GetRenderContext().DrawElementsVAO(
+		(ur::DRAW_MODE)mode, 0, indices_n, vao);
+}
+
 void Model3Shader::InitCurrStatus()
 {
 	static const float max = std::numeric_limits<float>::max();
@@ -276,6 +299,17 @@ void Model3Shader::InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& i
 	m_programs[PI_GOURAUD_TEXTURE] = CreateProg(vert, frag, va_types, idx_buf);
 
 	m_shading_uniforms.Init(m_programs[PI_GOURAUD_TEXTURE]->GetShader());
+}
+
+void Model3Shader::ApplyUniform() const
+{
+	if (m_curr_shader < 0) {
+		return;
+	}
+
+	RenderShader* shader = m_programs[m_curr_shader]->GetShader();
+	m_rc.GetShaderMgr().BindRenderShader(shader, MODEL3);
+	shader->ApplyUniform();
 }
 
 ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 

@@ -63,6 +63,8 @@ public:
 	void Draw(const float* vertices, size_t vertices_n, 
 		const uint16_t* indices, size_t indices_n,
 		bool has_normal, bool has_texcoord) const;
+	void DrawVAO(unsigned int vao, size_t indices_n,
+		bool has_normal, bool has_texcoord) const;
 
 private:
 	void InitCurrStatus();
@@ -73,6 +75,8 @@ private:
 	void InitGouraudShadingProg(const std::shared_ptr<RenderBuffer>& idx_buf);
 	void InitTextureMapProg(const std::shared_ptr<RenderBuffer>& idx_buf);
 	void InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& idx_buf);
+
+	void ApplyUniform() const;
 
 private:
 	enum PROG_IDX {

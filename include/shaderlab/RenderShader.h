@@ -42,6 +42,7 @@ public:
 	bool Commit();
 
 	void SetDrawMode(DRAW_MODE_TYPE dm);
+	DRAW_MODE_TYPE GetDrawMode() const { return m_draw_mode; }
 
 	bool IsUniformChanged() const { return m_uniform_changed; }
 
@@ -50,9 +51,11 @@ public:
 
 	void Draw(const void* vb, int vb_n, const void* ib = nullptr, int ib_n = 0);
 
-private:
+	int GetPropID() const { return m_prog; }
+
 	void ApplyUniform();
 
+private:
 	static int GetUniformSize(UNIFORM_FORMAT_TYPE t);
 
 private:
