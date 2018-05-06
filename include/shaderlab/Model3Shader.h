@@ -63,7 +63,7 @@ public:
 	void Draw(const float* vertices, size_t vertices_n, 
 		const uint16_t* indices, size_t indices_n,
 		bool has_normal, bool has_texcoord) const;
-	void DrawVAO(unsigned int vao, size_t indices_n,
+	void DrawVAO(unsigned int vao, size_t index_count, size_t index_offset,
 		bool has_normal, bool has_texcoord) const;
 
 private:

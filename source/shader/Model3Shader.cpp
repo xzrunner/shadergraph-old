@@ -74,9 +74,6 @@ bool Model3Shader::Commit() const
 
 void Model3Shader::SetMaterial(const Material& material)
 {
-	if (m_curr_material == material) {
-		return;
-	}	
 	Commit();
 	m_curr_material = material;
 	
@@ -169,7 +166,7 @@ void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 	shader->Draw(vertices, vn, indices, in);
 }
 
-void Model3Shader::DrawVAO(unsigned int vao, size_t indices_n,
+void Model3Shader::DrawVAO(unsigned int vao, size_t index_count, size_t index_offset,
 	                       bool has_normal, bool has_texcoord) const
 {
 	ApplyUniform();
@@ -189,7 +186,7 @@ void Model3Shader::DrawVAO(unsigned int vao, size_t indices_n,
 
 	auto mode = m_programs[m_curr_shader]->GetShader()->GetDrawMode();
 	ur::Blackboard::Instance()->GetRenderContext().DrawElementsVAO(
-		(ur::DRAW_MODE)mode, 0, indices_n, vao);
+		(ur::DRAW_MODE)mode, index_offset, index_count, vao);
 }
 
 void Model3Shader::InitCurrStatus()
@@ -294,8 +291,8 @@ void Model3Shader::InitGouraudTextureProg(const std::shared_ptr<RenderBuffer>& i
 
 	CU_VEC<VA_TYPE> va_types;
 	va_types.push_back(POSITION);
-	va_types.push_back(TEXCOORD);
 	va_types.push_back(NORMAL);
+	va_types.push_back(TEXCOORD);
 	m_programs[PI_GOURAUD_TEXTURE] = CreateProg(vert, frag, va_types, idx_buf);
 
 	m_shading_uniforms.Init(m_programs[PI_GOURAUD_TEXTURE]->GetShader());
