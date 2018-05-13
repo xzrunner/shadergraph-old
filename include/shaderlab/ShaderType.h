@@ -4,8 +4,7 @@
 namespace sl
 {
 
-enum ShaderType
-{
+enum ShaderType{
 	SHAPE2 = 0,
 	SHAPE3,
 	SPRITE2,
@@ -14,6 +13,8 @@ enum ShaderType
 	FILTER,
 	MODEL3,
 	MASK,
+
+	EXTERN_SHADER,
 
 	MAX_SHADER
 };

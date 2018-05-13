@@ -89,7 +89,9 @@ void ShaderMgr::BindRenderShader(RenderShader* shader, int type)
 	}
 
 	m_curr_render_shader = shader;
-	m_curr_render_shader->Bind();
+	if (m_curr_render_shader) {
+		m_curr_render_shader->Bind();
+	}
 }
 
 void ShaderMgr::FlushShader()
