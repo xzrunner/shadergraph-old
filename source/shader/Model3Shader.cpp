@@ -1,5 +1,4 @@
 #include "shaderlab/Model3Shader.h"
-#include "shaderlab/SubjectMVP3.h"
 //#include "shaderlab/ObserverMVP.h"
 #include "shaderlab/ShaderProgram.h"
 #include "shaderlab/Utility.h"
@@ -76,10 +75,10 @@ void Model3Shader::SetMaterial(const Material& material)
 {
 	Commit();
 	m_curr_material = material;
-	
-	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(), 
+
+	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_SHADING]->GetShader(),
 		material.ambient, material.diffuse, material.specular, material.shininess);
-	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(), 
+	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(),
 		material.ambient, material.diffuse, material.specular, material.shininess);
 	if (material.tex_id >= 0) {
 		//m_rc.GetContext().EnableDepth(true);
@@ -126,7 +125,7 @@ void Model3Shader::SetModelview(const sm::mat4& mat)
 	}
 }
 
-void Model3Shader::Draw(const float* vertices, size_t vertices_n, 
+void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 	                    const uint16_t* indices, size_t indices_n,
 	                    bool has_normal, bool has_texcoord) const
 {
@@ -138,7 +137,7 @@ void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 		stride += 2;
 	}
 	assert(vertices_n % stride == 0);
-	
+
 	PROG_IDX idx = PI_STATIC_COLOR;
 	if (!has_normal && !has_texcoord) idx = PI_STATIC_COLOR;
 	if ( has_normal && !has_texcoord) idx = PI_GOURAUD_SHADING;
@@ -155,7 +154,7 @@ void Model3Shader::Draw(const float* vertices, size_t vertices_n,
 	auto& ib = shader->GetIndexBuffer();
 	int vn = vertices_n / stride,
 		in = indices_n;
-	if (vb->Size() + vn > vb->Capacity() || 
+	if (vb->Size() + vn > vb->Capacity() ||
 		ib->Size() + in > ib->Capacity()) {
 		Commit();
 	}
@@ -210,7 +209,7 @@ void Model3Shader::InitVAList()
 {
 	m_va_list[POSITION].Assign("position", 3, sizeof(float));
 	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[NORMAL].Assign("normal", 3, sizeof(float));	
+	m_va_list[NORMAL].Assign("normal", 3, sizeof(float));
 }
 
 void Model3Shader::InitProgs()
@@ -309,7 +308,7 @@ void Model3Shader::ApplyUniform() const
 	shader->ApplyUniform();
 }
 
-ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag, 
+ShaderProgram* Model3Shader::CreateProg(parser::Node* vert, parser::Node* frag,
 										const CU_VEC<VA_TYPE>& va_types,
 										const std::shared_ptr<RenderBuffer>& ib) const
 {
@@ -346,8 +345,8 @@ Init(RenderShader* shader)
 }
 
 void Model3Shader::GouraudUniforms::
-SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
-			const sm::vec3& specular, float shininess) 
+SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse,
+			const sm::vec3& specular, float shininess)
 {
 	shader->SetUniform(this->ambient, ur::UNIFORM_FLOAT3, &ambient.x);
 	shader->SetUniform(this->diffuse, ur::UNIFORM_FLOAT3, &diffuse.x);

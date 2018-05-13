@@ -1,6 +1,5 @@
 #include "shaderlab/Shape3Shader.h"
 #include "shaderlab/ShaderProgram.h"
-#include "shaderlab/SubjectMVP3.h"
 #include "shaderlab/RenderShader.h"
 #include "shaderlab/StackAllocator.h"
 #include "shaderlab/ShaderMgr.h"
@@ -47,7 +46,7 @@ void Shape3Shader::Draw(const float* positions, int count) const
 	alloc->Reserve(sz);
 	void* buf = alloc->Alloc(sz);
 	uint8_t* ptr = (uint8_t*)buf;
- 	for (int i = 0; i < count; ++i) 
+ 	for (int i = 0; i < count; ++i)
  	{
  		memcpy(ptr, &positions[i * 3], sizeof(float));
  		ptr += sizeof(float);

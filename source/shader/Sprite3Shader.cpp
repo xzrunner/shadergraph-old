@@ -1,5 +1,4 @@
 #include "shaderlab/Sprite3Shader.h"
-#include "shaderlab/SubjectMVP3.h"
 #include "shaderlab/ShaderProgram.h"
 #include "shaderlab/ShaderType.h"
 #include "shaderlab/ShaderMgr.h"
@@ -99,7 +98,7 @@ void Sprite3Shader::Draw(const float* positions, const float* texcoords, int tex
 		m_prog_type |= PT_MAP_COLOR;
 	}
 
-	for (int i = 0; i < 6; ++i) 
+	for (int i = 0; i < 6; ++i)
 	{
 		Vertex* v = &m_vertex_buf[m_quad_sz * 6 + i];
 		v->vx = positions[i * 3];

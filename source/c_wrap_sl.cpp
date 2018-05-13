@@ -8,8 +8,6 @@
 #include "shaderlab/FilterShader.h"
 #include "shaderlab/Model3Shader.h"
 #include "shaderlab/MaskShader.h"
-#include "shaderlab/SubjectMVP2.h"
-#include "shaderlab/SubjectMVP3.h"
 #include "shaderlab/HeatHazeProg.h"
 #include "shaderlab/BurningMapProg.h"
 #include "shaderlab/ColGradingProg.h"
@@ -115,7 +113,7 @@ int  sl_is_shader(enum SHADER_TYPE type) {
 		return SHADER_TYPE(Blackboard::Instance()->GetRenderContext().GetShaderMgr().GetShaderType()) == type ? 1 : 0;
 	} else {
 		return 0;
-	}	
+	}
 }
 
 extern "C"
@@ -194,7 +192,7 @@ void sl_set_viewport(int x, int y, int w, int h) {
 }
 
 extern "C"
-void sl_flush() 
+void sl_flush()
 {
 	Shader* shader = Blackboard::Instance()->GetRenderContext().GetShaderMgr().GetShader();
 	if (shader) {
@@ -214,7 +212,7 @@ void* sl_get_render_context()
  */
 
 extern "C"
-void sl_shape2_color(uint32_t color) 
+void sl_shape2_color(uint32_t color)
 {
 	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr.GetShader(SHAPE2))) {
@@ -245,7 +243,7 @@ void sl_shape2_draw_with_color(const float* positions, const uint32_t* colors, i
 	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr.GetShader(SHAPE2))) {
 		shader->Draw(positions, colors, count);
-	}	
+	}
 }
 
 extern "C"
@@ -263,7 +261,7 @@ void sl_shape2_draw_node(float x, float y, int dummy)
  */
 
 extern "C"
-void sl_shape3_color(uint32_t color) 
+void sl_shape3_color(uint32_t color)
 {
 	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (Shape3Shader* shader = static_cast<Shape3Shader*>(mgr.GetShader(SHAPE3))) {
@@ -493,7 +491,7 @@ void sl_filter_draw(const float* positions, const float* texcoords, int texid) {
 
 extern "C"
 void sl_blend_set_mode(int mode) {
-	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();	
+	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr.GetShader(BLEND))) {
 		shader->SetMode(mode);
 	}
@@ -508,7 +506,7 @@ void sl_blend_set_color(uint32_t color, uint32_t additive) {
 }
 
 extern "C"
-void sl_blend_draw(const float* positions, const float* texcoords_blend, 
+void sl_blend_draw(const float* positions, const float* texcoords_blend,
 				   const float* texcoords_base, int tex_blend, int tex_base) {
 	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (BlendShader* shader = static_cast<BlendShader*>(mgr.GetShader(BLEND))) {
@@ -522,7 +520,7 @@ void sl_blend_draw(const float* positions, const float* texcoords_blend,
  */
 
 extern "C"
-void sl_mask_draw(const float* positions, const float* texcoords, 
+void sl_mask_draw(const float* positions, const float* texcoords,
 				  const float* texcoords_mask, int tex, int tex_mask) {
 	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (MaskShader* shader = static_cast<MaskShader*>(mgr.GetShader(MASK))) {
