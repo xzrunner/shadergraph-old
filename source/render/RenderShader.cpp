@@ -53,7 +53,8 @@ void RenderShader::Load(const char* vs, const char* fs)
 #endif // SHADER_LOG
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	m_prog = ur_rc.CreateShader(vs, fs);
+	std::vector<std::string> textures;
+	m_prog = ur_rc.CreateShader(vs, fs, textures);
 	ur_rc.BindShader(m_prog);
 //	render_shader_bind(m_ej_render, 0);	// ??
 	//	S->curr_shader = -1;
@@ -79,7 +80,7 @@ bool RenderShader::Commit()
 	if (!m_vb || m_vb->IsEmpty()) {
 		return false;
 	}
-	
+
 	#ifdef DEBUG_RENDER
 		// 关闭渲染
 		bool b = Statistics::Instance()->GetRender();
@@ -108,8 +109,8 @@ bool RenderShader::Commit()
 	return true;
 }
 
-void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm) 
-{ 
+void RenderShader::SetDrawMode(DRAW_MODE_TYPE dm)
+{
 	if (m_draw_mode != dm) {
 		bool changed = Commit();
 #ifndef SL_DISABLE_STATISTICS
@@ -182,7 +183,7 @@ void RenderShader::Draw(const void* vb, int vb_n, const void* ib, int ib_n)
 void RenderShader::ApplyUniform()
 {
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	for (int i = 0; i < m_uniform_number; ++i) 
+	for (int i = 0; i < m_uniform_number; ++i)
 	{
 		bool changed = m_uniform[i].Apply(ur_rc);
 		if (changed) {
@@ -227,8 +228,8 @@ int RenderShader::GetUniformSize(UNIFORM_FORMAT_TYPE t)
 /* RenderShader::Uniform                                                */
 /************************************************************************/
 
-RenderShader::Uniform::Uniform() 
-	: m_loc(0), m_type(0), m_changed(false) 
+RenderShader::Uniform::Uniform()
+	: m_loc(0), m_type(0), m_changed(false)
 {
 	memset(m_value, 0, sizeof(m_value));
 }
@@ -245,7 +246,7 @@ bool RenderShader::Uniform::Same(UNIFORM_FORMAT_TYPE t, const float* v)
 	}
 }
 
-void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type) 
+void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type)
 {
 	this->m_loc = loc;
 	this->m_type = type;
@@ -253,7 +254,7 @@ void RenderShader::Uniform::Assign(int loc, UNIFORM_FORMAT_TYPE type)
 	memset(m_value, 0, sizeof(m_value));
 }
 
-void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v) 
+void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v)
 {
 	assert(t == m_type);
 	int n = GetUniformSize(t);
@@ -261,7 +262,7 @@ void RenderShader::Uniform::Assign(UNIFORM_FORMAT_TYPE t, const float* v)
 	m_changed = true;
 }
 
-bool RenderShader::Uniform::Apply(ur::RenderContext& rc) 
+bool RenderShader::Uniform::Apply(ur::RenderContext& rc)
 {
 	if (m_changed && m_loc >= 0) {
 		rc.SetShaderUniform(m_loc, (ur::UNIFORM_FORMAT)m_type, m_value);
