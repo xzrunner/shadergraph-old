@@ -64,10 +64,10 @@ bool MaskShader::Commit() const
 	return shader->Commit();
 }
 
-void MaskShader::Draw(const float* positions, const float* texcoords, 
+void MaskShader::Draw(const float* positions, const float* texcoords,
 					  const float* texcoords_mask, int tex, int tex_mask) const
 {
-	if (m_quad_sz >= MAX_COMMBINE || 
+	if (m_quad_sz >= MAX_COMMBINE ||
 		(m_tex != tex && m_tex != 0) ||
 		(m_tex_mask != tex_mask && m_tex_mask != 0)) {
 		Commit();
@@ -75,7 +75,7 @@ void MaskShader::Draw(const float* positions, const float* texcoords,
 	m_tex = tex;
 	m_tex_mask = tex_mask;
 
-	for (int i = 0; i < 4; ++i) 
+	for (int i = 0; i < 4; ++i)
 	{
 		Vertex* v	= &m_vertex_buf[m_quad_sz * 4 + i];
 		v->vx		= positions[i * 2];
@@ -90,9 +90,9 @@ void MaskShader::Draw(const float* positions, const float* texcoords,
 
 void MaskShader::InitVAList()
 {
-	m_va_list[POSITION].Assign("position", 2, sizeof(float));
-	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[TEXCOORD_MASK].Assign("texcoord_mask", 2, sizeof(float));
+	m_va_list[POSITION].Assign("position", 2, sizeof(float), 24, 0);
+	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float), 24, 8);
+	m_va_list[TEXCOORD_MASK].Assign("texcoord_mask", 2, sizeof(float), 24, 16);
 }
 
 void MaskShader::InitProg()

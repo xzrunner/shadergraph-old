@@ -64,12 +64,13 @@ void ShapeShader::InitProg(int position_sz, int max_vertex)
 	frag->Connect(new parser::FragColor());
 
 	CU_VEC<ur::VertexAttrib> va_list;
-	va_list.push_back(ur::VertexAttrib("position", position_sz, sizeof(float)));
-	va_list.push_back(ur::VertexAttrib("color", 4, sizeof(uint8_t)));
+	int sz = position_sz * sizeof(float) + 4;
+	va_list.push_back(ur::VertexAttrib("position", position_sz, sizeof(float), sz, 0));
+	va_list.push_back(ur::VertexAttrib("color", 4, sizeof(uint8_t), sz, position_sz * sizeof(float)));
 
 	m_prog->Load(vert, frag, va_list, nullptr, true);
 
 	InitMVP(m_prog->GetMVP());
 }
 
-} 
+}

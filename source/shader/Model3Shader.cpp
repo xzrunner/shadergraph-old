@@ -207,9 +207,9 @@ void Model3Shader::InitCurrStatus()
 
 void Model3Shader::InitVAList()
 {
-	m_va_list[POSITION].Assign("position", 3, sizeof(float));
-	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[NORMAL].Assign("normal", 3, sizeof(float));
+	m_va_list[POSITION].Assign("position", 3, sizeof(float), 32, 0);
+	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float), 32, 12);
+	m_va_list[NORMAL].Assign("normal", 3, sizeof(float), 32, 20);
 }
 
 void Model3Shader::InitProgs()

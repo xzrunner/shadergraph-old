@@ -65,7 +65,7 @@ bool BlendShader::Commit() const
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.BindTexture(m_tex_blend, 0);
 	ur_rc.BindTexture(m_tex_base, 1);
-	
+
 	RenderShader* shader = m_prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader);
 	shader->Draw(m_vertex_buf, m_quad_sz * 4, nullptr, m_quad_sz * 6);
@@ -89,10 +89,10 @@ void BlendShader::SetMode(int mode)
 	m_prog->SetMode(mode);
 }
 
-void BlendShader::Draw(const float* positions, const float* texcoords_blend, 
+void BlendShader::Draw(const float* positions, const float* texcoords_blend,
 					   const float* texcoords_base, int tex_blend, int tex_base) const
 {
-	if (m_quad_sz >= MAX_COMMBINE || 
+	if (m_quad_sz >= MAX_COMMBINE ||
 		(m_tex_blend != tex_blend && m_tex_blend != 0) ||
 		(m_tex_base != tex_base && m_tex_base != 0)) {
 		Commit();
@@ -100,7 +100,7 @@ void BlendShader::Draw(const float* positions, const float* texcoords_blend,
 	m_tex_blend = tex_blend;
 	m_tex_base = tex_base;
 
-	for (int i = 0; i < 4; ++i) 
+	for (int i = 0; i < 4; ++i)
 	{
 		Vertex* v	= &m_vertex_buf[m_quad_sz * 4 + i];
 		v->vx		= positions[i * 2];
@@ -117,11 +117,11 @@ void BlendShader::Draw(const float* positions, const float* texcoords_blend,
 
 void BlendShader::InitVAList()
 {
-	m_va_list[POSITION].Assign("position", 2, sizeof(float));
-	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[TEXCOORD_BASE].Assign("texcoord_base", 2, sizeof(float));
-	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t));
-	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t));	
+	m_va_list[POSITION].Assign("position", 2, sizeof(float), 32, 0);
+	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float), 32, 8);
+	m_va_list[TEXCOORD_BASE].Assign("texcoord_base", 2, sizeof(float), 32, 16);
+	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t), 32, 24);
+	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t), 32, 28);
 }
 
 void BlendShader::InitProg()
@@ -143,7 +143,7 @@ void BlendShader::InitProg()
 /************************************************************************/
 
 BlendShader::Program::Program(RenderContext& rc,
-	                          const CU_VEC<ur::VertexAttrib>& va_list, 
+	                          const CU_VEC<ur::VertexAttrib>& va_list,
 	                          const std::shared_ptr<RenderBuffer>& ib)
 	: ShaderProgram(rc, MAX_COMMBINE * 4)
 {
@@ -172,7 +172,7 @@ void BlendShader::Program::SetMode(int mode)
 	m_shader->SetUniform(m_mode, ur::UNIFORM_INT1, &m);
 }
 
-void BlendShader::Program::Init(const CU_VEC<ur::VertexAttrib>& va_list, 
+void BlendShader::Program::Init(const CU_VEC<ur::VertexAttrib>& va_list,
 	                            const std::shared_ptr<RenderBuffer>& ib)
 {
 	parser::Node* vert = new parser::PositionTrans();

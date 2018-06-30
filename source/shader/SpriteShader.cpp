@@ -25,7 +25,7 @@
 namespace sl
 {
 
-SpriteShader::SpriteShader(RenderContext& rc, int position_sz, 
+SpriteShader::SpriteShader(RenderContext& rc, int position_sz,
                            int max_vertex, bool vertex_index)
 	: Shader(rc)
 	, m_max_vertex(max_vertex)
@@ -57,7 +57,7 @@ SpriteShader::~SpriteShader()
 
 void SpriteShader::Bind() const
 {
-	// todo bind PT_NO_COLOR ? 
+	// todo bind PT_NO_COLOR ?
 }
 
 void SpriteShader::UnBind() const
@@ -96,23 +96,37 @@ void SpriteShader::InitProgs()
 
 void SpriteShader::InitVAList(int position_sz)
 {
-	m_va_list[POSITION].Assign("position", position_sz, sizeof(float));
-	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t));
-	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t));
-	m_va_list[RMAP].Assign("rmap", 4, sizeof(uint8_t));
-	m_va_list[GMAP].Assign("gmap", 4, sizeof(uint8_t));
-	m_va_list[BMAP].Assign("bmap", 4, sizeof(uint8_t));
+	int sz = (position_sz + 2) * 4 + 20;
+	int offset = 0;
+	m_va_list[POSITION].Assign("position", position_sz, sizeof(float), sz, 0);
+	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float), sz, position_sz * 4);
+	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t), sz, position_sz * 4 + 8);
+	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t), sz, position_sz * 4 + 12);
+	m_va_list[RMAP].Assign("rmap", 4, sizeof(uint8_t), sz, position_sz * 4 + 16);
+	m_va_list[GMAP].Assign("gmap", 4, sizeof(uint8_t), sz, position_sz * 4 + 20);
+	m_va_list[BMAP].Assign("bmap", 4, sizeof(uint8_t), sz, position_sz * 4 + 24);
 }
 
-ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag, 
+ShaderProgram* SpriteShader::CreateProg(parser::Node* vert, parser::Node* frag,
 										const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const
 {
 	ShaderProgram* prog = new ShaderProgram(m_rc, m_max_vertex);
 
 	CU_VEC<ur::VertexAttrib> va_list;
-	for (int i = 0, n = va_types.size(); i < n; ++i) {
-		va_list.push_back(m_va_list[va_types[i]]);
+	for (auto type : va_types) {
+		va_list.push_back(m_va_list[type]);
+	}
+
+	int stride = 0;
+	for (auto type : va_types) {
+		stride += m_va_list[type].n * m_va_list[type].size;
+	}
+	int offset = 0;
+	for (int i = 0, n = va_list.size(); i < n; ++i) {
+		va_list[i].stride = stride;
+		va_list[i].offset = offset;
+		auto& type = m_va_list[va_types[i]];
+		offset += type.n * type.size;
 	}
 
 	prog->Load(vert, frag, va_list, ib, true);

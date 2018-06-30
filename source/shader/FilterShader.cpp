@@ -188,7 +188,7 @@ void FilterShader::Draw(const float* positions, const float* texcoords, int texi
 		m_prog_type |= PT_MULTI_ADD_COLOR;
 	}
 
-	for (int i = 0; i < 4; ++i) 
+	for (int i = 0; i < 4; ++i)
 	{
 		Vertex* v = &m_vertex_buf[m_quad_sz * 4 + i];
 		v->vx = positions[i * 2];
@@ -203,10 +203,10 @@ void FilterShader::Draw(const float* positions, const float* texcoords, int texi
 
 void FilterShader::InitVAList()
 {
-	m_va_list[POSITION].Assign("position", 2, sizeof(float));
-	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float));
-	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t));
-	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t));
+	m_va_list[POSITION].Assign("position", 2, sizeof(float), 24, 0);
+	m_va_list[TEXCOORD].Assign("texcoord", 2, sizeof(float), 24, 8);
+	m_va_list[COLOR].Assign("color", 4, sizeof(uint8_t), 24, 16);
+	m_va_list[ADDITIVE].Assign("additive", 4, sizeof(uint8_t), 24, 20);
 }
 
 void FilterShader::InitProgs()
@@ -268,7 +268,7 @@ void FilterShader::InitProgs()
 		swirl->SetCenter(center);
 		swirl->SetAngle(0.8f);
 		swirl->SetRadius(200);
-	}	
+	}
 	m_programs[PI_SWIRL]				= swirl;
 #endif // HAS_TEXTURE_SIZE
 	// burning map
@@ -339,7 +339,7 @@ FilterProgram* FilterShader::InitProgWithColor(int idx) const
 
 void FilterShader::UpdateTime()
 {
-	for (int i = 0; i < PROG_COUNT; ++i) 
+	for (int i = 0; i < PROG_COUNT; ++i)
 	{
 		FilterProgram* prog = m_programs[i];
 		if (prog) {
