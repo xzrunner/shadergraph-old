@@ -72,7 +72,7 @@ void RenderShader::Bind()
 	if (m_ib) {
 		m_ib->Bind();
 	}
-//	m_layout->Bind();
+	m_layout->Bind();
 }
 
 bool RenderShader::Commit()
