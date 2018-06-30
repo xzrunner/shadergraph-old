@@ -29,14 +29,14 @@ ShaderProgram::~ShaderProgram()
 	Release();
 }
 
-void ShaderProgram::Load(parser::Node* vert, parser::Node* frag, 
+void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 						 const CU_VEC<ur::VertexAttrib>& va_list,
 	                     const std::shared_ptr<RenderBuffer>& ib, bool has_mvp)
 {
 	// shader
 	m_parser = new parser::Shader(vert, frag);
 	m_shader = m_rc.GetShaderMgr().CreateRenderShader(m_rc);
-	
+
 	// vertex layout
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	auto lo = std::make_shared<RenderLayout>(ur_rc, va_list);
@@ -45,10 +45,10 @@ void ShaderProgram::Load(parser::Node* vert, parser::Node* frag,
 	// vertex buffer
 	m_vertex_sz = 0;
 	for (int i = 0, n = va_list.size(); i < n; ++i) {
-		m_vertex_sz += va_list[i].tot_size;
+		m_vertex_sz += va_list[i].n * va_list[i].size;
 	}
 	Buffer* buf = new Buffer(m_vertex_sz, m_max_vertex);
-	auto vb = std::make_shared<RenderBuffer>(ur_rc, ur::VERTEXBUFFER, m_vertex_sz, m_max_vertex, buf);
+	auto vb = std::make_shared<RenderBuffer>(ur_rc, ur::VERTEXBUFFER, m_vertex_sz * m_max_vertex, buf);
 	m_shader->SetVertexBuffer(vb);
 
 	// index buffer

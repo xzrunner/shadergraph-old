@@ -18,10 +18,10 @@ std::shared_ptr<RenderBuffer> Utility::CreateIndexBuffer(ur::RenderContext& rc, 
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), count);
 	index_buf->Add(buf, count);
 	alloc->Free(buf);
-	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t), count, index_buf);
+	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t) * count, index_buf);
 	ret->Update();
     ret->Clear();
-	return ret;	
+	return ret;
 }
 
 std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext& rc, int quad_count)
@@ -35,7 +35,7 @@ std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext& 
 	Buffer* index_buf = new Buffer(sizeof(uint16_t), 6 * quad_count);
 	index_buf->Add(buf, 6 * quad_count);
 	alloc->Free(buf);
-	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t), 6 * quad_count, index_buf);
+	auto ret = std::make_shared<RenderBuffer>(rc, ur::INDEXBUFFER, sizeof(uint16_t) * 6 * quad_count, index_buf);
 	ret->Update();
     ret->Clear();
 	return ret;
@@ -43,7 +43,7 @@ std::shared_ptr<RenderBuffer> Utility::CreateQuadIndexBuffer(ur::RenderContext& 
 
 void Utility::FillingQuadIndexBuffer(uint16_t* buf, int quad_count)
 {
-	for (int i = 0; i < quad_count; ++i) 
+	for (int i = 0; i < quad_count; ++i)
 	{
 		buf[i*6]   = i*4;
 		buf[i*6+1] = i*4+1;

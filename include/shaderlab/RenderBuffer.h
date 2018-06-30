@@ -14,7 +14,7 @@ class Buffer;
 class RenderBuffer
 {
 public:
-	RenderBuffer(ur::RenderContext& rc, RENDER_OBJ_TYPE type, int stride, int n, Buffer* buf);
+	RenderBuffer(ur::RenderContext& rc, RENDER_OBJ_TYPE type, int size, Buffer* buf);
 	virtual ~RenderBuffer();
 
 	void Bind();
@@ -34,7 +34,7 @@ private:
 	RID m_id;
 
 	Buffer* m_buf;
-	
+
 }; // RenderBuffer
 
 }
