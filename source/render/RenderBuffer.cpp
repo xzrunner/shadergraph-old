@@ -34,7 +34,8 @@ void RenderBuffer::Bind()
 void RenderBuffer::Update() 
 {
 	if (m_buf->IsDirty()) {
-		m_rc.UpdateBuffer(m_id, m_buf->Data(), m_buf->Size());
+		m_rc.UpdateBuffer(m_id, m_buf->Data(), 
+			m_buf->Size() * m_buf->Stride());
 		m_buf->ResetDirty();
 	}
 }

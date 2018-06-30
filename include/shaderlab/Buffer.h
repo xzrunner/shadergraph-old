@@ -21,6 +21,8 @@ public:
 	int Size() const { return m_count; }
 	int Capacity() const { return m_capacity; }
 
+	int Stride() const { return m_stride; }
+
 	const unsigned char* Data() const { return m_buffer; }
 
 	bool Add(const void* data, int n) {
