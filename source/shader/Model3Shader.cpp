@@ -48,16 +48,16 @@ Model3Shader::~Model3Shader()
 
 void Model3Shader::Bind() const
 {
-	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-//	ur_rc.EnableDepth(true);
-	ur_rc.SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+	//auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	//ur_rc.EnableDepthMask(true);
+	//ur_rc.SetDepthTest(ur::DEPTH_LESS_EQUAL);
 }
 
 void Model3Shader::UnBind() const
 {
-	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-//	ur_rc.EnableDepth(false);
-	ur_rc.SetDepthFormat(ur::DEPTH_DISABLE);
+	//auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	//ur_rc.EnableDepthMask(false);
+	//ur_rc.SetDepthTest(ur::DEPTH_DISABLE);
 }
 
 bool Model3Shader::Commit() const
@@ -81,8 +81,8 @@ void Model3Shader::SetMaterial(const Material& material)
 	m_shading_uniforms.SetMaterial(m_programs[PI_GOURAUD_TEXTURE]->GetShader(),
 		material.ambient, material.diffuse, material.specular, material.shininess);
 	if (material.tex_id >= 0) {
-		//m_rc.GetContext().EnableDepth(true);
-		//m_rc.GetContext().SetDepthFormat(ur::DEPTH_LESS_EQUAL);
+		//m_rc.GetContext().EnableDepthMask(true);
+		//m_rc.GetContext().SetDepthTest(ur::DEPTH_LESS_EQUAL);
 		ur::Blackboard::Instance()->GetRenderContext().BindTexture(material.tex_id, 0);
 	}
 }
