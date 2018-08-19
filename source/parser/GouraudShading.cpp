@@ -27,7 +27,7 @@ GouraudShading::GouraudShading()
 CU_STR& GouraudShading::ToStatements(CU_STR& str) const
 {
 	CU_STR s = "\
-		vec3 eye_normal = u_normal_matrix * normal;\n \
+		vec3 eye_normal = normalize(u_normal_matrix * normal);\n \
 		\
 		vec4 pos4 = u_modelview * position;\n \
 		vec3 pos3 = pos4.xyz / pos4.w;\n \
