@@ -1,9 +1,10 @@
 #include "shaderlab/Mask.h"
-#include "shaderlab/StringHelper.h"
 #include "shaderlab/ParserUniform.h"
 
 #define STRINGIFY(A)  #A
-#include <shaderlab/mask.frag>
+#include "shaderlab/mask.frag"
+
+#include <cpputil/StringHelper.h>
 
 namespace sl
 {
@@ -26,15 +27,15 @@ CU_STR& Mask::ToStatements(CU_STR& str) const
 	CheckType(m_input->GetOutput(), VT_FLOAT4);
 
 	CU_STR s = mask_body;
-	StringHelper::ReplaceAll(s, "_SRC_COL_", m_input->GetOutput().GetName());
-	StringHelper::ReplaceAll(s, "_DST_COL_", OUTPUT_NAME);
+	cpputil::StringHelper::ReplaceAll(s, "_SRC_COL_", m_input->GetOutput().GetName());
+	cpputil::StringHelper::ReplaceAll(s, "_DST_COL_", OUTPUT_NAME);
 	str += s;
 	return str;
 }
 
 Variable Mask::GetOutput() const
 {
-	return Variable(VT_FLOAT4, OUTPUT_NAME); 
+	return Variable(VT_FLOAT4, OUTPUT_NAME);
 }
 
 }

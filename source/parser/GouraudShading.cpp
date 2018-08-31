@@ -2,7 +2,8 @@
 #include "shaderlab/Attribute.h"
 #include "shaderlab/ParserUniform.h"
 #include "shaderlab/Varying.h"
-#include "shaderlab/StringHelper.h"
+
+#include <cpputil/StringHelper.h>
 
 namespace sl
 {
@@ -43,7 +44,7 @@ CU_STR& GouraudShading::ToStatements(CU_STR& str) const
 		float spec = max(0.0, dot(eye_normal, reflection));\n \
 		spec = pow(spec, u_shininess);\n \
 		_TMP_.rgb += spec * u_specular_material;\n ";
-	StringHelper::ReplaceAll(s, "_TMP_", OUTPUT_NAME);
+	cpputil::StringHelper::ReplaceAll(s, "_TMP_", OUTPUT_NAME);
 	str += s;
 	return str;
 }

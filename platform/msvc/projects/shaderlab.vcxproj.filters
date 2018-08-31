@@ -88,9 +88,6 @@
     <Filter Include="parser">
       <UniqueIdentifier>{e1c05760-47cb-4d31-9634-44db29b5baf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="parser\utility">
-      <UniqueIdentifier>{ba929a23-b4ab-4efd-8a03-abd92d5e3cb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="parser\nodes">
       <UniqueIdentifier>{9507357c-79d9-43da-ad27-cd73bc886cab}</UniqueIdentifier>
     </Filter>
@@ -405,9 +402,6 @@
       <Filter>utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\Facade.h" />
-    <ClInclude Include="..\..\..\include\shaderlab\StringHelper.h">
-      <Filter>parser\utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\shaderlab\Blackboard.h">
       <Filter>utility</Filter>
     </ClInclude>
@@ -584,9 +578,6 @@
       <Filter>render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Facade.cpp" />
-    <ClCompile Include="..\..\..\source\parser\StringHelper.cpp">
-      <Filter>parser\utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\utility\Blackboard.cpp">
       <Filter>utility</Filter>
     </ClCompile>

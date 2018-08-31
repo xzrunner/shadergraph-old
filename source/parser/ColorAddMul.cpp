@@ -1,7 +1,8 @@
 #include "shaderlab/ColorAddMul.h"
 #include "shaderlab/Attribute.h"
 #include "shaderlab/Varying.h"
-#include "shaderlab/StringHelper.h"
+
+#include <cpputil/StringHelper.h>
 
 namespace sl
 {
@@ -33,7 +34,7 @@ CU_STR& ColorAddMul::ToStatements(CU_STR& str) const
 		_col_add_multi_.xyz += v_additive.xyz * _TMP_.w * v_color.w;\n \
 		_col_add_multi_.xyzw += v_additive.w * 10.0 * _col_add_multi_.xyzw;\n ";
 
-	StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
+	cpputil::StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
 	str += s;
 	return str;
 }

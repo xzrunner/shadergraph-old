@@ -1,7 +1,8 @@
 #include "shaderlab/ColorMap.h"
 #include "shaderlab/Attribute.h"
 #include "shaderlab/Varying.h"
-#include "shaderlab/StringHelper.h"
+
+#include <cpputil/StringHelper.h>
 
 namespace sl
 {
@@ -56,7 +57,7 @@ CU_STR& ColorMap::ToStatements(CU_STR& str) const
 		\
 		vec4 _col_map_ = vec4(dr + dg + db + _TMP_.rgb, _TMP_.a);\n \
 		";
-	StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
+	cpputil::StringHelper::ReplaceAll(s, "_TMP_", m_input->GetOutput().GetName());
 	str += s;
 	return str;
 }
