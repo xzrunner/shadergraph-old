@@ -29,7 +29,7 @@ void Shape2Shader::Draw(const float* positions, int count) const
 	alloc->Reserve(sz);
 	void* buf = alloc->Alloc(sz);
 	uint8_t* ptr = (uint8_t*)buf;
- 	for (int i = 0; i < count; ++i) 
+ 	for (int i = 0; i < count; ++i)
  	{
  		memcpy(ptr, &positions[i * 2], sizeof(float));
  		ptr += sizeof(float);
@@ -49,7 +49,7 @@ void Shape2Shader::Draw(const float* positions, const uint32_t* colors, int coun
 	alloc->Reserve(sz);
 	void* buf = alloc->Alloc(sz);
 	uint8_t* ptr = (uint8_t*)buf;
-	for (int i = 0; i < count; ++i) 
+	for (int i = 0; i < count; ++i)
 	{
 		memcpy(ptr, &positions[i * 2], sizeof(float));
 		ptr += sizeof(float);
@@ -64,6 +64,11 @@ void Shape2Shader::Draw(const float* positions, const uint32_t* colors, int coun
 
 void Shape2Shader::Draw(float x, float y, bool dummy) const
 {
+	Draw(x, y, m_color, dummy);
+}
+
+void Shape2Shader::Draw(float x, float y, uint32_t color, bool dummy) const
+{
 	uint8_t buf[sizeof(float) * 2 + sizeof(int)];
 	uint8_t* ptr = buf;
 	memcpy(ptr, &x, sizeof(float));
@@ -73,7 +78,7 @@ void Shape2Shader::Draw(float x, float y, bool dummy) const
 	if (dummy) {
 		memset(ptr, 0, sizeof(uint32_t));
 	} else {
-		memcpy(ptr, &m_color, sizeof(uint32_t));
+		memcpy(ptr, &color, sizeof(uint32_t));
 	}
 	ptr += sizeof(uint32_t);
 	m_prog->GetShader()->Draw(buf, 1);

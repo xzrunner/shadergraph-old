@@ -255,6 +255,14 @@ void sl_shape2_draw_node(float x, float y, int dummy)
 	}
 }
 
+extern "C"
+void sl_shape2_draw_node_with_color(float x, float y, uint32_t color, int dummy) {
+	auto& mgr = Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	if (Shape2Shader* shader = static_cast<Shape2Shader*>(mgr.GetShader(SHAPE2))) {
+		shader->Draw(x, y, color, dummy != 0);
+	}
+}
+
 /**
  *  @brief
  *    shape3 shader

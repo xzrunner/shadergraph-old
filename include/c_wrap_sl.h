@@ -75,6 +75,7 @@ void sl_shape2_type(int type);
 void sl_shape2_draw(const float* positions, int count);
 void sl_shape2_draw_with_color(const float* positions, const uint32_t* colors, int count);
 void sl_shape2_draw_node(float x, float y, int dummy);
+void sl_shape2_draw_node_with_color(float x, float y, uint32_t color, int dummy);
 
 /**
  *  @brief
