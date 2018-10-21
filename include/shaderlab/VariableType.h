@@ -32,20 +32,20 @@ struct VariableInfo
 //	int size;
 };
 
-static const VariableInfo VAR_INFOS[VT_MAX_COUNT] = 
+static const VariableInfo VAR_INFOS[VT_MAX_COUNT] =
 {
 // 	{ "unknown", 0 },
-// 
+//
 // 	{ "float", 1 },
 // 	{ "vec2", 2 },
 // 	{ "vec3", 3 },
 // 	{ "vec4", 4 },
-// 
+//
 // 	{ "int", 1 },
-// 
+//
 // 	{ "mat3", 9 },
 // 	{ "mat4", 16 },
-// 
+//
 // 	{ "sampler2D", 0 },
 
 	//////////////////////////////////////////////////////////////////////////
@@ -65,9 +65,9 @@ static const VariableInfo VAR_INFOS[VT_MAX_COUNT] =
 	{ "sampler2D" },
 };
 
-static const int VT_SIZE[VT_MAX_COUNT] = 
+static const int VT_SIZE[VT_MAX_COUNT] =
 {
-	
+
 };
 
 }

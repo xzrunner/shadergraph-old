@@ -26,7 +26,7 @@ public:
 
 	void SetMode(int mode);
 
-	void Draw(const float* positions, const float* texcoords_blend, 
+	void Draw(const float* positions, const float* texcoords_blend,
 		const float* texcoords_base, int tex_blend, int tex_base) const;
 
 private:
@@ -56,7 +56,7 @@ private:
 	public:
 		Program(RenderContext& rc, const CU_VEC<ur::VertexAttrib>& va_list,
 			const std::shared_ptr<RenderBuffer>& ib);
-		
+
 		void SetMode(int mode);
 
 	private:
@@ -73,7 +73,7 @@ private:
 	Program* m_prog;
 
 	uint32_t m_color, m_additive;
-	
+
 	SL_BLEND_MODE m_curr_mode;
 
 	mutable int m_tex_blend, m_tex_base;

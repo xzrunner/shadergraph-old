@@ -4,7 +4,7 @@ static const char* gaussian_blur_hori_header = STRINGIFY(
 
 	float offset[3];
 	float weight[3];
-	
+
 );
 
 static const char* gaussian_blur_hori_body = STRINGIFY(
@@ -18,7 +18,7 @@ static const char* gaussian_blur_hori_body = STRINGIFY(
 
 	vec4 tmp = texture2D(u_texture0, v_texcoord);
 	vec3 tc = tmp.rgb * weight[0];
-	for (int i = 1; i < 3; i++) 
+	for (int i = 1; i < 3; i++)
 	{
 		vec2 offset = vec2(offset[i], 0.0) / u_tex_width;
 		tc += texture2D(u_texture0, v_texcoord + offset).rgb * weight[i];

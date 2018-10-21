@@ -10,7 +10,7 @@ namespace sl
 {
 
 BurningMapProg::BurningMapProg(RenderContext& rc, int max_vertex,
-							   const CU_VEC<ur::VertexAttrib>& va_list, 
+							   const CU_VEC<ur::VertexAttrib>& va_list,
 							   const std::shared_ptr<RenderBuffer>& ib)
 	: FilterProgram(rc, max_vertex)
 	, m_height_map_tex(0)
@@ -54,7 +54,7 @@ void BurningMapProg::UpdateTime(float time)
 
 void BurningMapProg::SetLifeTime(float lifetime)
 {
-	m_shader->SetUniform(m_lifetime, ur::UNIFORM_FLOAT1, &lifetime);	
+	m_shader->SetUniform(m_lifetime, ur::UNIFORM_FLOAT1, &lifetime);
 }
 
 void BurningMapProg::SetUpperTex(int tex)

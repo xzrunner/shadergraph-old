@@ -8,7 +8,7 @@ namespace sl
 
 CU_SINGLETON_DEFINITION(Statistics);
 
-Statistics::Statistics() 
+Statistics::Statistics()
 	: m_drawcall(0)
 	, m_max_drawcall(0)
 	, m_last_drawcall(0)
@@ -34,7 +34,7 @@ void Statistics::Reset()
 void Statistics::Print(CU_STR& str) const
 {
 	static char buf[512];
-	sprintf(buf, "DC: %d, vertices: %d, max DC %d, max vert %d", 
+	sprintf(buf, "DC: %d, vertices: %d, max DC %d, max vert %d",
 		m_drawcall, m_vertices, m_max_drawcall, m_max_vertices);
 	str += buf;
 }

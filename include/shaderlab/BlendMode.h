@@ -4,7 +4,7 @@
 namespace sl
 {
 
-enum SL_BLEND_MODE 
+enum SL_BLEND_MODE
 {
 	// normal
 	BM_NULL				= 0,
@@ -37,7 +37,7 @@ enum SL_BLEND_MODE
 	BM_DIFFERENCE		= 40,
 	BM_EXCLUSION,
 
-	// color modes 
+	// color modes
 	BM_HUE				= 50,	// todo
 	BM_SATURATION,				// todo
 	BM_COLOR,					// todo

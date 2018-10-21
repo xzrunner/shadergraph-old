@@ -19,7 +19,7 @@ class Relief : public Filter
 {
 public:
 	Relief() : Filter("_col_relief_") {}
-	
+
 protected:
 	virtual CU_STR GetBody() const override {
 		return relief_body;

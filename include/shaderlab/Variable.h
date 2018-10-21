@@ -13,9 +13,9 @@ namespace parser
 class Variable
 {
 public:
-	Variable(VariableType type) 
+	Variable(VariableType type)
 		: m_type(type) {}
-	Variable(VariableType type, CU_STR name) 
+	Variable(VariableType type, CU_STR name)
 		: m_type(type), m_name(name) {}
 	Variable(const Variable& var)
 		: m_type(var.m_type), m_name(var.m_name) {}

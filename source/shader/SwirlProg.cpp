@@ -8,7 +8,7 @@ namespace sl
 {
 
 SwirlProg::SwirlProg(RenderContext& rc, int max_vertex,
-					 const CU_VEC<ur::VertexAttrib>& va_list, 
+					 const CU_VEC<ur::VertexAttrib>& va_list,
 	                 const std::shared_ptr<RenderBuffer>& ib)
 	: FilterProgram(rc, max_vertex)
 {

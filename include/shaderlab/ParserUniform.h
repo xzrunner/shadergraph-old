@@ -15,7 +15,7 @@ public:
 	Uniform(VariableType type, CU_STR name);
 
 	virtual CU_STR& ToStatement(CU_STR& str) const override;
-	
+
 private:
 	float m_value[16];
 

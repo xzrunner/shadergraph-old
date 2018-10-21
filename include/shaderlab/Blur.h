@@ -25,7 +25,7 @@ public:
 	Blur() : Filter("_col_blur_") {
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "radius"));
 	}
-	
+
 protected:
 	virtual CU_STR GetBody() const override {
 		return blur_body;

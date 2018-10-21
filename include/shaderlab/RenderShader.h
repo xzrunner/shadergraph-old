@@ -61,7 +61,7 @@ private:
 private:
 	static const int MAX_UNIFORM = 16;
 
-	class Uniform 
+	class Uniform
 	{
 	public:
 		Uniform();

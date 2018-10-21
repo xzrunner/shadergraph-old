@@ -60,7 +60,7 @@ public:
 	void SetNormalMatrix(const sm::mat4& mat);
 	void SetModelview(const sm::mat4& mat);
 
-	void Draw(const float* vertices, size_t vertices_n, 
+	void Draw(const float* vertices, size_t vertices_n,
 		const uint16_t* indices, size_t indices_n,
 		bool has_normal, bool has_texcoord) const;
 	void DrawVAO(unsigned int vao, size_t index_count, size_t index_offset,
@@ -94,7 +94,7 @@ private:
 		VA_MAX_COUNT
 	};
 
-	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
+	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag,
 		const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 	struct GouraudUniforms
@@ -103,7 +103,7 @@ private:
 		int normal_matrix, light_position;
 
 		void Init(RenderShader* shader);
-		void SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse, 
+		void SetMaterial(RenderShader* shader, const sm::vec3& ambient, const sm::vec3& diffuse,
 			const sm::vec3& specular, float shininess);
 	};
 

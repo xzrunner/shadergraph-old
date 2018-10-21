@@ -23,8 +23,8 @@ class ShaderProgram;
 class SpriteShader : public Shader
 {
 public:
-	SpriteShader(RenderContext& rc, int position_sz, 
-		int max_vertex, bool vertex_index);	
+	SpriteShader(RenderContext& rc, int position_sz,
+		int max_vertex, bool vertex_index);
 	virtual ~SpriteShader();
 
 	virtual void Bind() const override;
@@ -66,7 +66,7 @@ protected:
 		VA_MAX_COUNT
 	};
 
-	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag, 
+	ShaderProgram* CreateProg(parser::Node* vert, parser::Node* frag,
 		const CU_VEC<VA_TYPE>& va_types, const std::shared_ptr<RenderBuffer>& ib) const;
 
 private:

@@ -13,7 +13,7 @@ public:
 	void NotifyProjection(const sm::mat4& mat);
 
 };	// SubjectMVP3
-	
+
 }
 
 #endif // _SHADERLAB_SUBJECT_MVP3_H_

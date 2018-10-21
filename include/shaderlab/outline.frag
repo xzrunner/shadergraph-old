@@ -10,12 +10,12 @@ static const char* outline_body = STRINGIFY(
 	float ResS = float(ires.s);
 	float ResT = float(ires.t);
 	vec3 irgb = texture2D(u_texture0, v_texcoord).rgb;
-	
+
 	vec2 stp0 = vec2(1.0/ResS, 0.0);
 	vec2 st0p = vec2(0.0, 1.0/ResT);
 	vec2 stpp = vec2(1.0/ResS, 1.0/ResT);
 	vec2 stpm = vec2(1.0/ResS, -1.0/ResT);
-	
+
 	float w_multi = texture2D(u_texture0, v_texcoord).w *
 					texture2D(u_texture0, v_texcoord - stp0).w *
 					texture2D(u_texture0, v_texcoord + stp0).w *
@@ -38,7 +38,7 @@ static const char* outline_body = STRINGIFY(
 	float red = 1.0f * (1 - sign(w_multi)) * sign(w_add);
 //	float w = red * texture2D(u_texture0, v_texcoord).w;
 	float w = red;
-		
+
 	vec4 _DST_COL_ = vec4(red, 0, 0, w);
 
 );

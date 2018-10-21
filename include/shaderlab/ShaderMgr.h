@@ -41,7 +41,7 @@ public:
 
 	void FlushShader();
 	void FlushRenderShader();
-	
+
 private:
 	Shader* m_shaders[MAX_SHADER];
 	int m_curr_shader;

@@ -29,7 +29,7 @@ public:
 		m_uniforms.push_back(new Uniform(VT_FLOAT2, "center"));
 		m_uniforms.push_back(new Uniform(VT_FLOAT3, "params"));
 	}
-	
+
 protected:
 	virtual CU_STR GetBody() const override {
 		return shock_wave_body;

@@ -18,7 +18,7 @@ static const char* swirl_body = STRINGIFY(
 		float theta = percent * percent * u_angle * 8.0;
 		float s = sin(theta);
 		float c = cos(theta);
-		tc = vec2(dot(tc, vec2(c, -s)), dot(tc, vec2(s, c)));		
+		tc = vec2(dot(tc, vec2(c, -s)), dot(tc, vec2(s, c)));
 	}
 	tc += u_center;
 	vec4 _DST_COL_ = texture2D(u_texture0, tc / tex_size);

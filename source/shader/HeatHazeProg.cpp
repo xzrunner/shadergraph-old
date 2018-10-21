@@ -11,7 +11,7 @@ namespace sl
 {
 
 HeatHazeProg::HeatHazeProg(RenderContext& rc, int max_vertex,
-						   const CU_VEC<ur::VertexAttrib>& va_list, 
+						   const CU_VEC<ur::VertexAttrib>& va_list,
 						   const std::shared_ptr<RenderBuffer>& ib)
 	: FilterProgram(rc, max_vertex)
 	, m_distortion_map_tex(0)

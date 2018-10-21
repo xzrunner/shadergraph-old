@@ -17,12 +17,12 @@ public:
 private:
 	// mv
 	float m_x, m_y, m_sx, m_sy;
-	
+
 	// proj
 	int m_width, m_height;
 
 };	// SubjectMVP2
-	
+
 }
 
 #endif // _SHADERLAB_SUBJECT_MVP2_H_

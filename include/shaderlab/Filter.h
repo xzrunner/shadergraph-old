@@ -23,7 +23,7 @@ class Filter : public Node
 {
 public:
 	Filter(const CU_STR& output) : m_output(output) {}
-	
+
 	virtual CU_STR& ToStatements(CU_STR& str) const override;
 
 	virtual Variable GetOutput() const override {

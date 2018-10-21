@@ -17,7 +17,7 @@ static const char* heat_haze_body = STRINGIFY(
     // Basically performing a "floating point modulo 1"
     // 1.1 = 0.1, 2.4 = 0.4, 10.3 = 0.3 etc.
 	distortion_map_coord.t = fract(distortion_map_coord.t - u_time * u_rise_factor);
-	
+
     vec4 distortion_map_value = texture2D(u_distortion_map_tex, distortion_map_coord);
 
     // The values are normalized by OpenGL to lie in the range [0, 1]

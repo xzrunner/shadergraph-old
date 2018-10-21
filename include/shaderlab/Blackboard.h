@@ -14,7 +14,7 @@ class Blackboard
 {
 public:
 	void SetRenderContext(const std::shared_ptr<RenderContext>& rc) {
-		m_rc = rc; 
+		m_rc = rc;
 	}
 	RenderContext& GetRenderContext() {
 		GD_ASSERT(m_rc, "null rc");

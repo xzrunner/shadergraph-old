@@ -14,7 +14,7 @@
 //public:
 //	virtual void Run();
 //	virtual void Flush();
-//	
+//
 //	static RenderTask* Create(cooking::RecordedOp* op);
 //
 //	static cooking::DisplayList& GetDisplayList() { return m_dlist; }

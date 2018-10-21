@@ -29,7 +29,7 @@ public:
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "angle"));
 		m_uniforms.push_back(new Uniform(VT_FLOAT2, "center"));
 	}
-	
+
 protected:
 	virtual CU_STR GetBody() const override {
 		return swirl_body;

@@ -21,7 +21,7 @@ class FilterShader : public Shader
 public:
 	FilterShader(RenderContext& rc);
 	virtual ~FilterShader();
-	
+
 	virtual void Bind() const override;
 	virtual void UnBind() const override;
 	virtual bool Commit() const override;
@@ -30,7 +30,7 @@ public:
 
 	void UpdateTime(float dt);
 	void ClearTime();
-	
+
 	void SetMode(FILTER_MODE mode);
 	FilterProgram* GetProgram(FILTER_MODE mode);
 	FilterProgram* GetProgramWithColor(FILTER_MODE mode);

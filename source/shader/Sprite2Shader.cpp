@@ -112,7 +112,7 @@ void Sprite2Shader::DrawQuad(const float* positions, const float* texcoords, int
 		m_prog_type |= PT_MAP_COLOR;
 	}
 
-	for (int i = 0; i < 4; ++i) 
+	for (int i = 0; i < 4; ++i)
 	{
 		Vertex* v	= &m_vertex_buf[m_quad_sz * 4 + i];
 		v->vx		= positions[i * 2];

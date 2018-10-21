@@ -24,8 +24,8 @@ public:
 
 	virtual void Bind() {}
 
-	void Load(parser::Node* vert, parser::Node* frag, 
-		const CU_VEC<ur::VertexAttrib>& va_list, 
+	void Load(parser::Node* vert, parser::Node* frag,
+		const CU_VEC<ur::VertexAttrib>& va_list,
 		const std::shared_ptr<RenderBuffer>& ib, bool has_mvp);
 
 	RenderShader* GetShader() { return m_shader; }

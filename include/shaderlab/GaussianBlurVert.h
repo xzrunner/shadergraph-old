@@ -19,15 +19,15 @@ namespace parser
 class GaussianBlurVert : public Filter
 {
 public:
-	GaussianBlurVert() 
-		: Filter("_col_gaussian_blur_") 
+	GaussianBlurVert()
+		: Filter("_col_gaussian_blur_")
 	{
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "tex_height"));
 	}
-	
-	virtual CU_STR& GetHeader(CU_STR& str) const override { 
+
+	virtual CU_STR& GetHeader(CU_STR& str) const override {
 		str += gaussian_blur_vert_header;
-		return str; 
+		return str;
 	}
 
 protected:

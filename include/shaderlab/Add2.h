@@ -13,7 +13,7 @@ namespace parser
 class Add2 : public Node
 {
 public:
-	Add2(Variable left, Variable right0, Variable right1) 
+	Add2(Variable left, Variable right0, Variable right1)
 		: m_left(left), m_right0(right0), m_right1(right1) {}
 
 	virtual CU_STR& ToStatements(CU_STR& str) const override {
@@ -32,7 +32,7 @@ public:
 private:
 	Variable m_left;
 	Variable m_right0, m_right1;
-	
+
 }; // Add2
 
 }

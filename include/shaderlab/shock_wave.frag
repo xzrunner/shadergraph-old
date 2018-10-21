@@ -15,7 +15,7 @@ static const char* shock_wave_body = STRINGIFY(
 		float diff_time = diff * pow_diff;
 		vec2 diff_uv = normalize(v_texcoord - u_center);
 		texcoord = v_texcoord + diff_uv * diff_time;
-	}	
+	}
 	vec4 _DST_COL_ = texture2D(u_texture0, texcoord);
 
 );

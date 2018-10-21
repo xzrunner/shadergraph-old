@@ -13,7 +13,7 @@ FilterProgram::FilterProgram(RenderContext& rc, int max_vertex)
 {
 }
 
-void FilterProgram::Init(const CU_VEC<ur::VertexAttrib>& va_list, 
+void FilterProgram::Init(const CU_VEC<ur::VertexAttrib>& va_list,
 						 const std::shared_ptr<RenderBuffer>& ib, parser::Node* pn, parser::Node* pre_pn/* = nullptr*/)
 {
 	parser::Node* vert = new parser::PositionTrans();

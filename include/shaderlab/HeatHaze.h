@@ -32,7 +32,7 @@ public:
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "distortion_factor"));
 		m_uniforms.push_back(new Uniform(VT_FLOAT1, "rise_factor"));
 	}
-	
+
 protected:
 	virtual CU_STR GetBody() const override {
 		return heat_haze_body;

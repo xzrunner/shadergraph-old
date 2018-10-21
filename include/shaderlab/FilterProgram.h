@@ -10,11 +10,11 @@ class FilterProgram : public ShaderProgram
 {
 public:
 	FilterProgram(RenderContext& rc, int max_vertex);
-	
+
 	virtual void UpdateTime(float time) {}
 
 protected:
-	void Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib, 
+	void Init(const CU_VEC<ur::VertexAttrib>& va_list, const std::shared_ptr<RenderBuffer>& ib,
 		parser::Node* pn, parser::Node* pre_pn = nullptr);
 
 }; // FilterProgram

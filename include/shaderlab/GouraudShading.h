@@ -19,7 +19,7 @@ namespace parser
  *           uniform vec3 u_specular_material;
  *           uniform float u_shininess;
  *           varying vec4 v_gouraud_col;
- *    
+ *
  *    output: gl_Position
  */
 class GouraudShading : public Node

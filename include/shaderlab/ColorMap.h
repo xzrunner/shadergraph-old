@@ -16,7 +16,7 @@ namespace parser
  *    input: varying vec4 v_rmap;
  *           varying vec4 v_gmap;
  *           varying vec4 v_bmap;
- *    
+ *
  *    output: gl_Position
  */
 class ColorMap : public Node
@@ -26,7 +26,7 @@ public:
 
 	virtual CU_STR& GetHeader(CU_STR& str) const override;
 	virtual CU_STR& ToStatements(CU_STR& str) const override;
-	
+
 	virtual Variable GetOutput() const override;
 
 }; // ColorMap

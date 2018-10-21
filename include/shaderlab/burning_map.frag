@@ -14,10 +14,10 @@ static const char* burning_map_header = STRINGIFY(
  *  @remarks
  *    v_texcoord			varying vec2
  *    u_texture0			uniform sampler2D
- *    u_texture1			uniform sampler2D 
- *    u_height_map_tex		uniform sampler2D  
- *    u_border_gradient_tex	uniform sampler2D  
- *	  u_lifetime			float  
+ *    u_texture1			uniform sampler2D
+ *    u_height_map_tex		uniform sampler2D
+ *    u_border_gradient_tex	uniform sampler2D
+ *	  u_lifetime			float
  *	  u_time				float
  *    _DST_COL_				vec4
  */
@@ -26,7 +26,7 @@ static const char* burning_map_body = STRINGIFY(
 	vec4 _bm_lower_ = texture2D(u_texture0, v_texcoord);
 	vec4 _bm_upper_ = texture2D(u_texture1, v_texcoord);
 	vec4 _bm_height_ = texture2D(u_height_map_tex, v_texcoord);
-	
+
 	float _bm_blend_ = _bm_height_.x;
 
 	float _bm_edge_ = 1.0 - min(1.0, u_time / u_lifetime);

@@ -149,14 +149,14 @@ void sl_filter_draw(const float* positions, const float* texcoords, int texid);
  */
 void sl_blend_set_mode(int mode);
 void sl_blend_set_color(uint32_t color, uint32_t additive);
-void sl_blend_draw(const float* positions, const float* texcoords_blend, 
+void sl_blend_draw(const float* positions, const float* texcoords_blend,
 				   const float* texcoords_base, int tex_blend, int tex_base);
 
 /**
  *  @brief
  *    mask shader
  */
-void sl_mask_draw(const float* positions, const float* texcoords, 
+void sl_mask_draw(const float* positions, const float* texcoords,
 				  const float* texcoords_mask, int tex, int tex_mask);
 
 /**

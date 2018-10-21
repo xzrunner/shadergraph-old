@@ -15,7 +15,7 @@ public:
 	Assign(Variable left, float r, float g, float b, float a);
 
 	virtual CU_STR& ToStatements(CU_STR& str) const override;
-	
+
 	virtual Variable GetOutput() const override;
 
 private:

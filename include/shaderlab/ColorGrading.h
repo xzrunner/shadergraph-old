@@ -25,7 +25,7 @@ public:
 	ColorGrading() : Filter("_col_grading_") {
 		m_uniforms.push_back(new Uniform(VT_SAMPLER2D, "col_lut"));
 	}
-	
+
 	virtual CU_STR& GetHeader(CU_STR& str) const override {
 		str += color_grading_header;
 		return str;

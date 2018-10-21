@@ -27,7 +27,7 @@ static const char* blend_header = STRINGIFY(
 
 // Component wise blending
 \n#define Blend(base, blend, funcf) 		vec3(funcf(base.r, blend.r), funcf(base.g, blend.g), funcf(base.b, blend.b)) \n
- 
+
 \n#define BlendNormal(base, blend) 			(blend) \n
 \n#define BlendLighten(base, blend)			Blend(base, blend, BlendLightenf) \n
 \n#define BlendDarken(base, blend)			Blend(base, blend, BlendDarkenf) \n
@@ -63,7 +63,7 @@ static const char* blend_body = STRINGIFY(
 
 	vec4 base = texture2D(u_texture1, v_texcoord_base);
 	base.rgb = base.rgb / base.a;
-	
+
 	_SRC_COL_.rgb = _SRC_COL_.rgb / _SRC_COL_.a;
 
 	vec3 _blend_;
@@ -120,13 +120,13 @@ static const char* blend_body = STRINGIFY(
 	} else if (u_mode == 42) {
 		_blend_ = BlendExclusion(base.rgb, _SRC_COL_.rgb);
 	}
-	// color modes 
-	
+	// color modes
+
 	// others
 	else {
 		_blend_ = BlendNormal(base.rgb, _SRC_COL_.rgb);
 	}
-	
+
 	vec4 _DST_COL_ = vec4(_blend_ * _SRC_COL_.w, _SRC_COL_.w);
 
 );

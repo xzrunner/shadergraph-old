@@ -20,7 +20,7 @@ static const char* blur_body = STRINGIFY(
     hori_texcoords[10] = v_texcoord + vec2( 0.016, 0.0) * u_radius;
     hori_texcoords[11] = v_texcoord + vec2( 0.020, 0.0) * u_radius;
     hori_texcoords[12] = v_texcoord + vec2( 0.024, 0.0) * u_radius;
-    hori_texcoords[13] = v_texcoord + vec2( 0.028, 0.0) * u_radius;	
+    hori_texcoords[13] = v_texcoord + vec2( 0.028, 0.0) * u_radius;
 
     vec2 vert_texcoords[14];
     vert_texcoords[ 0] = v_texcoord + vec2(0.0, -0.028) * u_radius;
@@ -37,7 +37,7 @@ static const char* blur_body = STRINGIFY(
     vert_texcoords[11] = v_texcoord + vec2(0.0,  0.020) * u_radius;
     vert_texcoords[12] = v_texcoord + vec2(0.0,  0.024) * u_radius;
     vert_texcoords[13] = v_texcoord + vec2(0.0,  0.028) * u_radius;
-    
+
  	vec4 _DST_COL_;
 
     _DST_COL_ += texture2D(u_texture0, hori_texcoords[ 0])*0.0044299121055113265;
