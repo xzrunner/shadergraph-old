@@ -63,8 +63,8 @@ bool BlendShader::Commit() const
 	}
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	ur_rc.BindTexture(m_tex_blend, 0);
-	ur_rc.BindTexture(m_tex_base, 1);
+	ur_rc.BindTexture(m_tex_blend, 0, false);
+	ur_rc.BindTexture(m_tex_base, 1, false);
 
 	RenderShader* shader = m_prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader);

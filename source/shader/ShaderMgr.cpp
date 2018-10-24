@@ -102,11 +102,4 @@ void ShaderMgr::FlushShader()
 	}
 }
 
-void ShaderMgr::FlushRenderShader()
-{
-	if (m_curr_render_shader) {
-		m_curr_render_shader->Commit();
-	}
-}
-
 }

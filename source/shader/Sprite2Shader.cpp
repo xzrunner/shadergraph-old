@@ -35,7 +35,7 @@ bool Sprite2Shader::Commit() const
 		return false;
 	}
 
-	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0, false);
 
 	ShaderProgram* prog = nullptr;
 	switch (m_prog_type)

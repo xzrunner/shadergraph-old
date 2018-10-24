@@ -40,7 +40,6 @@ public:
 	void BindRenderShader(RenderShader* shader, int type = -1);
 
 	void FlushShader();
-	void FlushRenderShader();
 
 private:
 	Shader* m_shaders[MAX_SHADER];

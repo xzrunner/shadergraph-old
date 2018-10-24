@@ -102,7 +102,7 @@ bool FilterShader::Commit() const
 		return false;
 	}
 
-	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0);
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(m_texid, 0, false);
 	RenderShader* shader = prog->GetShader();
 	m_rc.GetShaderMgr().BindRenderShader(shader, FILTER);
 
